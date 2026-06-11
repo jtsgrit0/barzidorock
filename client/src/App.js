@@ -14,7 +14,7 @@ const libraries = ["places"];
 function App() {
   const [venues, setVenues] = useState([]);
   const [filteredVenues, setFilteredVenues] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5550354, lng: 126.929 }); // 초기 중심 (홍대/이태원 중간)
   const [mapZoom, setMapZoom] = useState(13); // 초기 줌 레벨
 
