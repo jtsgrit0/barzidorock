@@ -6,12 +6,7 @@ const containerStyle = {
   height: 'calc(100vh - 60px)'
 };
 
-const initialCenter = {
-  lat: 37.5550354, // Center of Hongdae/Itaewon area
-  lng: 126.929
-};
-
-function MapComponent({ venues }) {
+function MapComponent({ venues, center, zoom }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -38,8 +33,8 @@ function MapComponent({ venues }) {
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={initialCenter}
-      zoom={13}
+      center={center}
+      zoom={zoom}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >

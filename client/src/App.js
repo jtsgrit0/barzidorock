@@ -15,6 +15,8 @@ function App() {
   const [venues, setVenues] = useState([]);
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [mapCenter, setMapCenter] = useState({ lat: 37.5550354, lng: 126.929 }); // 초기 중심 (홍대/이태원 중간)
+  const [mapZoom, setMapZoom] = useState(13); // 초기 줌 레벨
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -32,16 +34,32 @@ function App() {
       .then(data => {
         setVenues(data);
         setFilteredVenues(data);
+        // 초기 로드 시 'all' 카테고리에 맞춰 맵 중심과 줌 설정
+        setMapCenter({ lat: 37.5550354, lng: 126.929 });
+        setMapZoom(13);
       })
       .catch(error => console.error("Error fetching venues:", error));
   }, []);
 
   useEffect(() => {
+    let newCenter = { lat: 37.5550354, lng: 126.929 }; // 전체 초기 중심
+    let newZoom = 13; // 전체 초기 줌
+
     if (selectedCategory === 'all') {
       setFilteredVenues(venues);
-    } else {
-      setFilteredVenues(venues.filter(venue => venue.area === selectedCategory));
+      newCenter = { lat: 37.5550354, lng: 126.929 }; // 전체
+      newZoom = 13;
+    } else if (selectedCategory === 'hongdae') {
+      setFilteredVenues(venues.filter(venue => venue.area === 'hongdae'));
+      newCenter = { lat: 37.5576, lng: 126.921 }; // 홍대 중심
+      newZoom = 15;
+    } else if (selectedCategory === 'itaewon') {
+      setFilteredVenues(venues.filter(venue => venue.area === 'itaewon'));
+      newCenter = { lat: 37.5345, lng: 126.990 }; // 이태원 중심
+      newZoom = 15;
     }
+    setMapCenter(newCenter);
+    setMapZoom(newZoom);
   }, [selectedCategory, venues]);
 
   const handleCategoryChange = (category) => {
@@ -56,7 +74,7 @@ function App() {
       <div className="App">
         <HeaderAndCategories onCategoryChange={handleCategoryChange} />
         <Routes>
-          <Route path="/" element={<MapComponent venues={filteredVenues} />} />
+          <Route path="/" element={<MapComponent venues={filteredVenues} center={mapCenter} zoom={mapZoom} />} />
           <Route path="/venue/:id" element={<VenueDetail />} />
         </Routes>
       </div>
