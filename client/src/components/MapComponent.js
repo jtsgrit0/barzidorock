@@ -12,14 +12,14 @@ const center = {
 };
 
 function MapComponent({ venues }) {
-  const [map, setMap] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
 
-  const onLoad = useCallback(function callback(map) {
-    setMap(map);
+  const onLoad = useCallback(function callback(mapInstance) {
+    // mapInstance를 직접 사용하지 않고 setMap에 전달만 함
+    setMap(mapInstance);
   }, []);
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback(mapInstance) {
     setMap(null);
   }, []);
 
