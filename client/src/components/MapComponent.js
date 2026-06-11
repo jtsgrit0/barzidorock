@@ -12,6 +12,7 @@ const center = {
 };
 
 function MapComponent({ venues }) {
+  const [map, setMap] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
 
   const onLoad = useCallback(function callback(mapInstance) {
