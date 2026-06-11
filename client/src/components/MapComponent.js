@@ -21,13 +21,16 @@ function MapComponent({ venues, center, zoom }) {
   const handleMarkerClick = (venue) => {
     setSelectedVenue(venue);
     if (map) {
-      map.panTo({ lat: venue.latitude - 0.08, lng: venue.longitude });
       map.setZoom(16);
+      map.setPadding({ top: 100 }); // 상단에 100px 패딩 추가
     }
   };
 
   const handleInfoWindowClose = () => {
     setSelectedVenue(null);
+    if (map) {
+      map.setPadding({ top: 0 }); // 패딩 초기화
+    }
   };
 
   return (
