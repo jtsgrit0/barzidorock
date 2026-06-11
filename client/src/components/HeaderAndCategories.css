@@ -1,0 +1,66 @@
+.floating-header {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+  width: 90%; /* 반응형을 위해 너비 조정 */
+  max-width: 600px; /* 최대 너비 설정 */
+}
+
+.floating-header h1 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.8em;
+}
+
+.categories button {
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.categories button:hover {
+  background-color: #21a1f1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .floating-header {
+    width: 95%;
+    padding: 8px 15px;
+  }
+
+  .floating-header h1 {
+    font-size: 1.5em;
+  }
+
+  .categories button {
+    padding: 6px 10px;
+    font-size: 0.9em;
+    margin: 0 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-header h1 {
+    font-size: 1.2em;
+  }
+
+  .categories button {
+    display: block; /* 작은 화면에서 버튼을 세로로 정렬 */
+    width: calc(100% - 10px); /* 패딩 고려 */
+    margin: 5px auto;
+  }
+}
