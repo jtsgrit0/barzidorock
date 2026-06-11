@@ -26,7 +26,7 @@ function MapComponent({ venues }) {
   const handleMarkerClick = (venue) => {
     setSelectedVenue(venue);
     if (map) {
-      const offsetLat = venue.latitude - 0.015;
+      const offsetLat = venue.latitude - 0.02;
       map.panTo({ lat: offsetLat, lng: venue.longitude });
       map.setZoom(16);
     }
