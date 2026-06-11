@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -6,32 +6,56 @@ const containerStyle = {
   height: 'calc(100vh - 60px)'
 };
 
-const center = {
+const initialCenter = {
   lat: 37.5550354, // Center of Hongdae/Itaewon area
   lng: 126.929
 };
 
 function MapComponent({ venues }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
+  const [map, setMap] = useState(null);
+
+  const onLoad = useCallback(function callback(mapInstance) {
+    setMap(mapInstance);
+  }, []);
+
+  const onUnmount = useCallback(function callback(mapInstance) {
+    setMap(null);
+  }, []);
+
+  const handleMarkerClick = (venue) => {
+    setSelectedVenue(venue);
+    if (map) {
+      const offsetLat = venue.latitude - 0.005;
+      map.panTo({ lat: offsetLat, lng: venue.longitude });
+      map.setZoom(16);
+    }
+  };
+
+  const handleInfoWindowClose = () => {
+    setSelectedVenue(null);
+  };
 
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
+      center={initialCenter}
       zoom={13}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
     >
       {venues.map(venue => (
         <Marker
           key={venue.id}
           position={{ lat: venue.latitude, lng: venue.longitude }}
-          onClick={() => setSelectedVenue(venue)}
+          onClick={() => handleMarkerClick(venue)}
         />
       ))}
 
       {selectedVenue && (
         <InfoWindow
           position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
-          onCloseClick={() => setSelectedVenue(null)}
+          onCloseClick={handleInfoWindowClose}
         >
           <div>
             <h2>{selectedVenue.name}</h2>
