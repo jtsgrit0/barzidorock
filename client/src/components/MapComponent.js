@@ -26,8 +26,7 @@ function MapComponent({ venues }) {
   const handleMarkerClick = (venue) => {
     setSelectedVenue(venue);
     if (map) {
-      const offsetLat = venue.latitude - 0.05;
-      map.panTo({ lat: offsetLat, lng: venue.longitude });
+      map.panTo({ lat: venue.latitude, lng: venue.longitude });
       map.setZoom(16);
     }
   };
@@ -55,6 +54,7 @@ function MapComponent({ venues }) {
       {selectedVenue && (
         <InfoWindow
           position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
+          pixelOffset={{ width: 0, height: -70 }} // 정보창을 위로 70px 이동
           onCloseClick={handleInfoWindowClose}
         >
           <div>
