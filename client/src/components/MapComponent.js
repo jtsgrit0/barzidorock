@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -16,10 +16,10 @@ function MapComponent({ venues }) {
 
   return (
     <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={center}
-              zoom={13}
-            >
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={13}
+    >
       {venues.map(venue => (
         <Marker
           key={venue.id}
