@@ -26,12 +26,10 @@ function MapComponent({ venues }) {
 
   return (
     <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={13}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={13}
+            >
       {venues.map(venue => (
         <Marker
           key={venue.id}
