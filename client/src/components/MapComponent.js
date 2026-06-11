@@ -54,7 +54,7 @@ function MapComponent({ venues }) {
       {selectedVenue && (
         <InfoWindow
           position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
-          pixelOffset={{ width: 0, height: -70 }} // 정보창을 위로 70px 이동
+          pixelOffset={{ width: 0, height: -120 }} // 정보창을 위로 120px 이동
           onCloseClick={handleInfoWindowClose}
         >
           <div>
