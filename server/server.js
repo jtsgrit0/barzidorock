@@ -50,9 +50,9 @@ app.post('/api/fetch-schedule', async (req, res) => {
     console.log('Cleaned Text Content Length:', cleanedTextContent.length);
     console.log('Cleaned Text Content (first 500 chars):', cleanedTextContent.substring(0, 500));
 
-    // Extract all image URLs from the page
+    // Extract all image URLs from the page, prioritizing images within <article> tags (Instagram posts)
     const imageUrls = [];
-    $('img').each((index, element) => {
+    $('article img').each((index, element) => {
       const imgSrc = $(element).attr('src');
       if (imgSrc) {
         try {
@@ -64,7 +64,23 @@ app.post('/api/fetch-schedule', async (req, res) => {
         }
       }
     });
-    console.log('Found Image URLs:', imageUrls.length > 0 ? imageUrls.join(', ') : 'No images found');
+    console.log('Found Image URLs within <article> tags:', imageUrls.length > 0 ? imageUrls.join(', ') : 'No images found in articles');
+
+    // If no images found in articles, try to get general images (fallback)
+    if (imageUrls.length === 0) {
+      $('img').each((index, element) => {
+        const imgSrc = $(element).attr('src');
+        if (imgSrc) {
+          try {
+            const absoluteUrl = new URL(imgSrc, url).href;
+            imageUrls.push(absoluteUrl);
+          } catch (e) {
+            console.log(`Skipping invalid image URL: ${imgSrc}`, e.message);
+          }
+        }
+      });
+      console.log('Found general Image URLs (fallback):', imageUrls.length > 0 ? imageUrls.join(', ') : 'No general images found');
+    }
 
     // Perform OCR on the first 3 images (to avoid excessive processing)
     let ocrText = '\n\n--- OCR Text from Images ---\n';
