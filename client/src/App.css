@@ -36,3 +36,92 @@
     transform: rotate(360deg);
   }
 }
+
+/* Location Consent Popup Styles */
+.location-consent-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Ensure it's above other elements */
+}
+
+.location-consent-popup {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.location-consent-popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.location-consent-popup p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.popup-actions button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 0 10px;
+  transition: background-color 0.3s ease;
+}
+
+.popup-actions button:hover {
+  background-color: #0056b3;
+}
+
+.popup-actions button:last-child {
+  background-color: #6c757d;
+}
+
+.popup-actions button:last-child:hover {
+  background-color: #5a6268;
+}
+
+/* My Location Button Styles */
+.my-location-button-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000; /* Ensure it's above the map */
+}
+
+.my-location-button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-location-button:hover {
+  background-color: #f5f5f5;
+}
+
+.my-location-button img {
+  width: 24px;
+  height: 24px;
+}

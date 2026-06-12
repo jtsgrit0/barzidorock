@@ -24,7 +24,7 @@ const scheduleContainerStyle = {
   textAlign: 'left', // Ensure text is left-aligned
 };
 
-function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }) {
+function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -123,6 +123,14 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }
               {selectedVenue.opening_hours && <p>Hours: {JSON.parse(selectedVenue.opening_hours).join(', ')}</p>}
             </div>
           </InfoWindow>
+        )}
+
+        {userLocation && (
+          <div className="my-location-button-container">
+            <button onClick={centerMapToUserLocation} className="my-location-button">
+              <img src="https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-2x.png" alt="My Location" />
+            </button>
+          </div>
         )}
       </GoogleMap>
 
