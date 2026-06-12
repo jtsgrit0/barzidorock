@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -18,6 +18,10 @@ const scheduleContainerStyle = {
   overflowY: 'auto', // Scroll if content is long
   whiteSpace: 'pre-wrap', // Preserve whitespace and wrap text
   wordBreak: 'break-word', // Break long words
+  fontSize: '0.95em', // Slightly larger font
+  lineHeight: '1.6', // Improved line spacing
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)', // Subtle shadow
+  textAlign: 'left', // Ensure text is left-aligned
 };
 
 function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }) {
@@ -42,7 +46,6 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }
     setSelectedVenue(venue);
     if (map) {
       map.setZoom(16);
-      map.setPadding({ top: 100 }); // 상단에 100px 패딩 추가
       // websiteUrl이 있는 경우에만 스케줄 가져오기를 요청합니다.
       if (onFetchSchedule) {
         onFetchSchedule(venue.websiteUrl, venue.id);
@@ -52,9 +55,6 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }
 
   const handleInfoWindowClose = () => {
     setSelectedVenue(null);
-    if (map) {
-      map.setPadding({ top: 0 }); // 패딩 초기화
-    }
     // InfoWindow가 닫히면 스케줄 콘텐츠도 지웁니다.
     if (onFetchSchedule) {
         onFetchSchedule(null, null);

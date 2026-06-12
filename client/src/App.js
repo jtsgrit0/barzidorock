@@ -12,7 +12,6 @@ function App() {
   const [mapCenter, setMapCenter] = useState({ lat: 37.5550354, lng: 126.929 });
   const [mapZoom, setMapZoom] = useState(13);
   const [fetchedScheduleContent, setFetchedScheduleContent] = useState(null); // State for fetched content
-  const [isLoadingSchedule, setIsLoadingSchedule] = useState(false); // State for loading indicator
 
   useEffect(() => {
     setVenues(venuesData);
@@ -38,7 +37,6 @@ function App() {
       setFetchedScheduleContent(null);
       return;
     }
-    setIsLoadingSchedule(true);
     setFetchedScheduleContent('<p>Loading schedule...</p>'); // Show loading message
     try {
       const response = await fetch('http://localhost:3001/api/fetch-schedule', {
@@ -59,7 +57,7 @@ function App() {
       console.error("Failed to fetch schedule:", error);
       setFetchedScheduleContent('<p>Could not load schedule. The website might be down or blocking requests.</p>');
     } finally {
-      setIsLoadingSchedule(false);
+      // setIsLoadingSchedule(false); // Removed as isLoadingSchedule state is no longer used
     }
   };
 
