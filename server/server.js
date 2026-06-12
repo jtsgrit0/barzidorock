@@ -47,6 +47,8 @@ app.post('/api/fetch-schedule', async (req, res) => {
       .map(line => line.trim()) // Trim each line
       .filter(line => line.length > 0) // Remove empty lines
       .join('\n'); // Join back with single newlines
+    console.log('Cleaned Text Content Length:', cleanedTextContent.length);
+    console.log('Cleaned Text Content (first 500 chars):', cleanedTextContent.substring(0, 500));
 
     // Extract all image URLs from the page
     const imageUrls = [];
@@ -62,6 +64,7 @@ app.post('/api/fetch-schedule', async (req, res) => {
         }
       }
     });
+    console.log('Found Image URLs:', imageUrls.length > 0 ? imageUrls.join(', ') : 'No images found');
 
     // Perform OCR on the first 3 images (to avoid excessive processing)
     let ocrText = '\n\n--- OCR Text from Images ---\n';
