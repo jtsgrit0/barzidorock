@@ -46,10 +46,21 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }
     setSelectedVenue(venue);
     if (map) {
       map.setZoom(16);
+
       // 기존 스케줄 콘텐츠를 즉시 지웁니다.
       if (onFetchSchedule) {
         onFetchSchedule(null, null); // Clear previous schedule content
       }
+
+      // 맵의 중심을 마커 위치보다 약간 남쪽으로 이동시켜 팝업이 앱 제목에 가려지지 않도록 합니다.
+      // 이 값은 실제 UI에 따라 조정이 필요할 수 있는 추정치입니다.
+      const offsetLat = -0.005; // 위도를 약간 감소시켜 맵 중심을 남쪽으로 이동
+      const newCenter = {
+        lat: venue.latitude + offsetLat,
+        lng: venue.longitude,
+      };
+      map.panTo(newCenter); // 새로운 중심으로 맵 이동
+
       // websiteUrl이 있는 경우에만 새로운 스케줄 가져오기를 요청합니다.
       if (onFetchSchedule) {
         onFetchSchedule(venue.websiteUrl, venue.id);
