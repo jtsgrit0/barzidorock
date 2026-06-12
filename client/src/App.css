@@ -111,21 +111,37 @@
   border-radius: 50%; /* 원형 버튼 */
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  padding: 8px; /* 패딩 증가 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 40px; /* 버튼 크기 고정 */
   height: 40px; /* 버튼 크기 고정 */
+  position: relative; /* 십자 모양을 위한 기준점 */
 }
 
 .my-location-button:hover {
   background-color: #f5f5f5;
 }
 
-.my-location-button img {
-  width: 24px;
-  height: 24px;
+/* 십자 모양 (가로선) */
+.my-location-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  background-color: #555;
+  transform: translate(-50%, -50%);
+}
+
+/* 십자 모양 (세로선) */
+.my-location-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 18px;
+  background-color: #555;
+  transform: translate(-50%, -50%);
 }
 
 /* User Location Marker Styles */

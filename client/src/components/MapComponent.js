@@ -154,9 +154,7 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
 
         {userLocation && (
           <div className="my-location-button-container">
-            <button onClick={centerMapToUserLocation} className="my-location-button">
-              <img src="https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-2x.png" alt="My Location" />
-            </button>
+            <button onClick={centerMapToUserLocation} className="my-location-button"></button>
           </div>
         )}
       </GoogleMap>
