@@ -93,7 +93,11 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
         zoom={zoom}
         onLoad={onLoad}
         onUnmount={onUnmount}
-        options={{ styles: mapStyles }} // 커스텀 스타일 적용
+        options={{
+          styles: mapStyles,
+          streetViewControl: false, // '이동' 버튼 제거
+          mapTypeControl: false,    // '라이브 뷰' 버튼 제거
+        }} // 커스텀 스타일 적용
       >
         {venues.map(venue => (
           <Marker
