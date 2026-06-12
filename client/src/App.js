@@ -36,6 +36,36 @@ function App() {
     setMapZoom(newZoom);
   }, [selectedCategory, venues]);
 
+  // Function to fetch website content from the backend
+  const handleFetchSchedule = async (url) => {
+    if (!url) {
+      setFetchedScheduleContent(null);
+      return;
+    }
+    setFetchedScheduleContent('<p>Loading schedule...</p>'); // Show loading message
+    try {
+      const response = await fetch('http://localhost:3001/api/fetch-schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setFetchedScheduleContent(data.content);
+    } catch (error) {
+      console.error("Failed to fetch schedule:", error);
+      setFetchedScheduleContent('<p>Could not load schedule. The website might be down or blocking requests.</p>');
+    } finally {
+      // setIsLoadingSchedule(false); // Removed as isLoadingSchedule state is no longer used
+    }
+  };
+
   const filteredVenues = selectedCategory === 'all'
     ? venues
     : venues.filter(v => v.area === selectedCategory);
