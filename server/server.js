@@ -14,7 +14,7 @@ const cheerio = require('cheerio');
 
 // Endpoint to fetch website content
 app.post('/api/fetch-schedule', async (req, res) => {
-  const { url } = req.body;
+  const { websiteUrl: url } = req.body;
   console.log(`Received request to fetch schedule for URL: ${url}`); // Log incoming request
 
   if (!url) {
