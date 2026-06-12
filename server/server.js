@@ -8,33 +8,29 @@ const fs = require('fs').promises; // Add this line for file system operations
 const puppeteer = require('puppeteer'); // Add this line
 
 // Function to fetch Instagram images using Puppeteer
-async function fetchInstagramImages(username, password, targetUrl) {
+async function fetchInstagramImages(targetUrl) {
   let browser;
   try {
     browser = await puppeteer.launch({ headless: true }); // Set to false for visual debugging
     const page = await browser.newPage();
 
-    // Navigate to Instagram login page
-    await page.goto('https://www.instagram.com/accounts/login/', { waitUntil: 'networkidle2' });
+    // Navigate to the target Instagram page
+    await page.goto(targetUrl, { waitUntil: 'networkidle2' });
 
-    // Fill in login credentials
-    await page.type('input[name="username"]', username);
-    await page.type('input[name="password"]', password);
-    await page.click('button[type="submit"]');
-
-    // Wait for navigation after login
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
-
-    // Check if login was successful (e.g., by checking for a known element on the home page)
-    // This is a basic check, more robust checks might be needed
-    const isLoggedIn = await page.$('a[href="/"]'); // Check for home button
-    if (!isLoggedIn) {
-      console.error('Instagram login failed. Check credentials or Instagram\'s login flow.');
-      return [];
+    // Try to close any login/signup pop-up that might appear
+    // Instagram's pop-up selectors can change, so this might need adjustment
+    try {
+      // Look for a common "Not Now" or "Close" button on pop-ups
+      const closeButtonSelector = 'button._a9--._a9_1'; // Example selector for "Not Now" or "Close"
+      await page.waitForSelector(closeButtonSelector, { timeout: 5000 });
+      await page.click(closeButtonSelector);
+      console.log('Instagram login/signup pop-up closed.');
+    } catch (e) {
+      console.log('No Instagram login/signup pop-up found or could not close it.');
     }
 
-    // Navigate to the target Instagram page (BAR UNION)
-    await page.goto(targetUrl, { waitUntil: 'networkidle2' });
+    // Wait a bit for the page to settle after closing the pop-up
+    await page.waitForTimeout(2000); // Wait for 2 seconds
 
     // Extract image URLs
     const imageUrls = await page.evaluate(() => {
@@ -76,15 +72,7 @@ app.post('/api/fetch-schedule', async (req, res) => {
     let cleanedTextContent = '';
 
     if (url.includes('instagram.com')) {
-      const instagramUsername = process.env.INSTAGRAM_USERNAME;
-      const instagramPassword = process.env.INSTAGRAM_PASSWORD;
-
-      if (!instagramUsername || !instagramPassword) {
-        console.error('Instagram username and password environment variables are not set.');
-        return res.status(400).json({ error: 'Instagram credentials are required for Instagram URLs' });
-      }
-
-      imageUrls = await fetchInstagramImages(instagramUsername, instagramPassword, url);
+      imageUrls = await fetchInstagramImages(url);
       console.log('Image URLs from Puppeteer:', imageUrls);
 
       // For Instagram, we might not get much text content directly, so we'll rely on OCR

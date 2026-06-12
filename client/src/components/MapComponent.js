@@ -46,7 +46,11 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent }
     setSelectedVenue(venue);
     if (map) {
       map.setZoom(16);
-      // websiteUrl이 있는 경우에만 스케줄 가져오기를 요청합니다.
+      // 기존 스케줄 콘텐츠를 즉시 지웁니다.
+      if (onFetchSchedule) {
+        onFetchSchedule(null, null); // Clear previous schedule content
+      }
+      // websiteUrl이 있는 경우에만 새로운 스케줄 가져오기를 요청합니다.
       if (onFetchSchedule) {
         onFetchSchedule(venue.websiteUrl, venue.id);
       }
