@@ -95,8 +95,9 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
         onUnmount={onUnmount}
         options={{
           styles: mapStyles,
-          streetViewControl: false, // '이동' 버튼 제거
-          mapTypeControl: false,    // '라이브 뷰' 버튼 제거
+          streetViewControl: false, // '이동' 버튼 제거 (스트리트 뷰)
+          mapTypeControl: false,    // '라이브 뷰' 버튼 제거 (지도 유형)
+          fullscreenControl: false, // '전체 화면' 버튼 제거
         }} // 커스텀 스타일 적용
       >
         {venues.map(venue => (
