@@ -10,8 +10,8 @@
   z-index: 1000;
   display: flex; /* 제목과 버튼을 가로로 정렬 */
   align-items: center;
-  justify-content: center;
-  gap: 20px; /* 제목과 버튼 사이 간격 */
+  justify-content: space-between; /* 제목과 버튼 그룹을 양 끝으로 정렬 */
+  gap: 15px; /* 제목과 버튼 사이 간격 */
   width: 90%; /* 반응형을 위해 너비 조정 */
   max-width: 700px; /* 최대 너비를 늘려 가로 공간 확보 */
 }
@@ -21,12 +21,13 @@
   color: #333;
   font-size: 1.8em;
   white-space: nowrap; /* 제목이 줄바꿈되지 않도록 */
+  flex-shrink: 0; /* 제목이 줄어들지 않도록 */
 }
 
 .categories {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex: 1; /* 사용 가능한 공간을 채우도록 */
+  justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
   gap: 10px; /* 버튼 사이 간격 약간 확보 */
 }
 
@@ -38,6 +39,9 @@
   cursor: pointer;
   font-size: 1em;
   transition: opacity 0.3s ease;
+  flex: 1; /* 버튼들이 동일한 너비를 가지도록 */
+  min-width: 80px; /* 버튼 최소 너비 설정 */
+  white-space: nowrap; /* 버튼 텍스트가 줄바꿈되지 않도록 */
 }
 
 /* 기본 "전체" 버튼 */
@@ -69,6 +73,7 @@
   .floating-header {
     width: 95%;
     padding: 8px 15px;
+    gap: 10px;
   }
 
   .floating-header h1 {
@@ -78,18 +83,30 @@
   .categories button {
     padding: 6px 10px;
     font-size: 0.9em;
-    margin: 0 3px;
+    min-width: 60px;
   }
 }
 
 @media (max-width: 480px) {
+  .floating-header {
+    flex-direction: column; /* 작은 화면에서 세로로 정렬 */
+    align-items: stretch;
+  }
+
   .floating-header h1 {
     font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .categories {
+    justify-content: space-around; /* 버튼들을 균등하게 분배 */
+    width: 100%;
   }
 
   .categories button {
-    display: block; /* 작은 화면에서 버튼을 세로로 정렬 */
-    width: calc(100% - 10px); /* 패딩 고려 */
-    margin: 5px auto;
+    flex: 1; /* 버튼들이 동일한 너비를 가지도록 */
+    margin: 0 5px; /* 버튼 사이 간격 */
+    min-width: unset; /* 최소 너비 제한 해제 */
   }
 }
