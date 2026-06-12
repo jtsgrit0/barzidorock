@@ -65,8 +65,7 @@ function App() {
     <div className="App">
       <LoadScript googleMapsApiKey={API_KEY}>
         <HeaderAndCategories
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
+          onCategoryChange={setSelectedCategory}
         />
         <MapComponent
           venues={venues.filter(v => v.area === selectedCategory)}
