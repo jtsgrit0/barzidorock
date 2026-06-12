@@ -26,11 +26,48 @@ function App() {
     const consent = localStorage.getItem('locationConsent');
     if (consent === 'granted') {
       setLocationAccessGranted(true);
-      getUserCurrentLocation();
     } else if (consent === null) {
       setShowLocationConsent(true);
     }
   }, []);
+
+  // Start or stop watching location based on consent
+  useEffect(() => {
+    let watchId = null;
+    if (locationAccessGranted) {
+      if (navigator.geolocation) {
+        watchId = navigator.geolocation.watchPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setUserLocation({ lat: latitude, lng: longitude });
+          },
+          (error) => {
+            console.error("Error watching user location:", error);
+            if (error.code === error.PERMISSION_DENIED) {
+              alert("위치 정보 접근이 거부되었습니다. 설정을 확인해주세요.");
+              setLocationAccessGranted(false); // This will trigger the effect to re-run and clean up
+              localStorage.setItem('locationConsent', 'denied');
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      } else {
+        alert("이 브라우저에서는 위치 정보 기능을 지원하지 않습니다.");
+        setLocationAccessGranted(false);
+        localStorage.setItem('locationConsent', 'denied');
+      }
+    } else {
+      // If consent is revoked or not granted, clear the location
+      setUserLocation(null);
+    }
+
+    // Cleanup function to clear the watch
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
+  }, [locationAccessGranted]);
 
   useEffect(() => {
     let newCenter = { lat: 37.5550354, lng: 126.929 }; // Default center for 'all'
@@ -83,35 +120,6 @@ function App() {
     localStorage.setItem('locationConsent', granted ? 'granted' : 'denied');
     setLocationAccessGranted(granted);
     setShowLocationConsent(false);
-    if (granted) {
-      getUserCurrentLocation();
-    }
-  };
-
-  // Get user's current location
-  const getUserCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-          // Optionally, center map to user's location immediately after getting it
-          // setMapCenter({ lat: latitude, lng: longitude });
-          // setMapZoom(15);
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-          alert("위치 정보를 가져오는 데 실패했습니다. 브라우저 설정에서 위치 정보 접근을 허용해주세요.");
-          setLocationAccessGranted(false); // Revoke access if error
-          localStorage.setItem('locationConsent', 'denied'); // Store as denied
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    } else {
-      alert("이 브라우저에서는 위치 정보 기능을 지원하지 않습니다.");
-      setLocationAccessGranted(false); // Revoke access if not supported
-      localStorage.setItem('locationConsent', 'denied'); // Store as denied
-    }
   };
 
   // Function to center map to user's location, to be passed to MapComponent
@@ -120,8 +128,7 @@ function App() {
       setMapCenter(userLocation);
       setMapZoom(15); // Zoom in when centering to user's location
     } else if (locationAccessGranted) {
-      // If access was granted but location not yet fetched, try again
-      getUserCurrentLocation();
+      alert("현재 위치를 파악 중입니다. 잠시 후 다시 시도해주세요.");
     } else {
       // If access was denied or not yet granted, show consent popup again
       setShowLocationConsent(true);

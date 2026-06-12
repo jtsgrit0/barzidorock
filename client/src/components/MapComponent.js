@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
@@ -23,6 +23,12 @@ const scheduleContainerStyle = {
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)', // Subtle shadow
   textAlign: 'left', // Ensure text is left-aligned
 };
+
+// Function to get the correct pane for the OverlayView
+const getPixelPositionOffset = (width, height) => ({
+  x: -(width / 2),
+  y: -(height / 2),
+});
 
 function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
@@ -132,6 +138,18 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
               {selectedVenue.opening_hours && <p>Hours: {JSON.parse(selectedVenue.opening_hours).join(', ')}</p>}
             </div>
           </InfoWindow>
+        )}
+
+        {userLocation && (
+          <OverlayView
+            position={userLocation}
+            mapPaneName={OverlayView.MAP_PANE}
+            getPixelPositionOffset={getPixelPositionOffset}
+          >
+            <div className="user-location-marker">
+              <div className="pulse"></div>
+            </div>
+          </OverlayView>
         )}
 
         {userLocation && (
