@@ -99,6 +99,8 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
           mapTypeControl: false,    // '라이브 뷰' 버튼 제거 (지도 유형)
           fullscreenControl: false, // '전체 화면' 버튼 제거
           zoomControl: false,       // '확대/축소' 버튼 제거
+          rotateControl: false,     // '회전' 버튼 제거
+          scaleControl: false,      // '스케일' 버튼 제거
         }} // 커스텀 스타일 적용
       >
         {venues.map(venue => (
