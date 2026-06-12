@@ -13,7 +13,9 @@
     "cheerio": "^1.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jimp": "^0.22.12",
     "node-fetch": "^2.6.1",
+    "puppeteer": "^25.1.0",
     "tesseract.js": "^7.0.0"
   }
 }
