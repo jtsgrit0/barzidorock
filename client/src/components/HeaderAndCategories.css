@@ -38,6 +38,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
+  font-weight: bold; /* 글꼴을 진하게 설정 */
   transition: opacity 0.3s ease;
   flex: 1; /* 버튼들이 동일한 너비를 가지도록 */
   min-width: 80px; /* 버튼 최소 너비 설정 */
