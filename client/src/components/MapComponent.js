@@ -101,6 +101,7 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
           zoomControl: false,       // '확대/축소' 버튼 제거
           rotateControl: false,     // '회전' 버튼 제거
           scaleControl: false,      // '스케일' 버튼 제거
+          disableDefaultUI: true,   // 모든 기본 UI 컨트롤 제거
         }} // 커스텀 스타일 적용
       >
         {venues.map(venue => (

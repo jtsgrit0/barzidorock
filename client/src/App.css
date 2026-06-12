@@ -100,21 +100,23 @@
 /* My Location Button Styles */
 .my-location-button-container {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: 60px; /* 구글 맵 기본 컨트롤 위치에 맞춤 */
+  right: 12px; /* 구글 맵 기본 컨트롤 위치에 맞춤 */
   z-index: 1000; /* Ensure it's above the map */
 }
 
 .my-location-button {
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 2px;
+  border-radius: 50%; /* 원형 버튼 */
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  padding: 6px;
+  padding: 8px; /* 패딩 증가 */
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px; /* 버튼 크기 고정 */
+  height: 40px; /* 버튼 크기 고정 */
 }
 
 .my-location-button:hover {
