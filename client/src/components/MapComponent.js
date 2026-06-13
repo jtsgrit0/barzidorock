@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 const containerStyle = {
   width: '100%',
@@ -123,19 +125,24 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
             onCloseClick={handleInfoWindowClose}
           >
-            <div>
-              <h2>{selectedVenue.name}</h2>
+            <div style={{ width: '250px' }}>
+              <h2>
+                {selectedVenue.name}
+                {selectedVenue.websiteUrl && (
+                  <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ marginLeft: '10px', color: 'black' }}>
+                    <FontAwesomeIcon icon={faHome} />
+                  </a>
+                )}
+              </h2>
               {selectedVenue.image_urls && selectedVenue.image_urls.length > 0 && (
-                <img src={selectedVenue.image_urls[0]} alt={selectedVenue.name} style={{ maxWidth: '200px', maxHeight: '150px', marginBottom: '10px' }} />
+                <img src={selectedVenue.image_urls[0]} alt={selectedVenue.name} style={{ maxWidth: '230px', maxHeight: '130px', marginBottom: '10px' }} />
               )}
               <p>{selectedVenue.address}</p>
               {selectedVenue.phoneNumber && <p>Phone: {selectedVenue.phoneNumber}</p>}
-              {selectedVenue.websiteUrl && (
-                <p>
-                  <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer">Website</a>
-                </p>
-              )}
               {selectedVenue.opening_hours && <p>Hours: {JSON.parse(selectedVenue.opening_hours).join(', ')}</p>}
+              <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                <span>🇰🇷</span> <span>🇬🇧</span> <span>🇨🇳</span> <span>🇯🇵</span>
+              </div>
             </div>
           </InfoWindow>
         )}
