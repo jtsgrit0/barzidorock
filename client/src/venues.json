@@ -1,9 +1,15 @@
 [
   {
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
-    "name": "프리즘홀",
+    "name": {
+      "ko": "프리즘홀",
+      "en": "Prism Hall"
+    },
     "type": "live_venue",
-    "address": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "서울 마포구 양화로12길 6",
+      "en": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea"
+    },
     "latitude": 37.5516578,
     "longitude": 126.9175086,
     "phoneNumber": null,
@@ -22,7 +28,10 @@
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3kdbDixw2R00--pygZ6QlZFJxbL99KxKRNRnjhTMfbUMcf1qnpbEJrg_-u0djnA6akAhOCWegSQ2zJzlQnrTibd8eUhOc8rNuvQCWj8migkXIj-jcTsKXEaYyeFgzNQYszNd3UrH77a96EhapAs6K0RqylAaos5XOLwC1oNldqMIa63aQ7WOxVkldvQl8jSXdASMl8yeiCXj7uSydBkyEVpvh49JDWwWwdoUelpYRzqjPY-JV5F2dCNn4Ecab-Fh9zFjr7pCJmAfHGz304C-AnDiWFlypJaqfh7uuRNtPU89pO9qcbGxnSe8BZ5oNIVEG8zjEkltgBFFjAvJb14gDHLevc706QUz5Ed3x9sSyVzpcS_DFHs0vci1lUNczCdrFN3G6EWJgzM_LgT-27CH9uAFXZeIyHlGafN9vWuu9OMppk&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nDkdJZuYllTzNVw9cF_T0fGB5w6ZcHgQpxH8603QXnomBCnhMTYeIjTnz30JkvgJpveJb3eU3jv6lSTA1SRrk9wS3nNSCteWXnpzSTszWfAce5yMgwYTT3bQ156oOlLLNj5RxQMNovyIPJHKgC4lUoo_GdYUq5oGrC4BzpYRkBaBKOdGA7d7J6UyEEF0LRWuK4fL-RzAKOD5oAHPK-UveRkYmOq_rpaWHtCZiI6V-EDcm4fpBWq_I25FcW0QlzJ0udM1_1wmBK9ZwMpeJKbIQHQFJAp6O4MVVrvHl0kBLzu5p27gE7plsly7_9HrBH7lgxqEa2GkA9rhyv8FRcYxKDgCGiDUIQOYyYC6TyQBIJo_6M86sjxVMxqkP1RH0bJURC56ZpVy7ZSLLrX_5Za3zgZ-bqcIaFXwwtYAEO2y_3mSo&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
     ],
-    "opening_hours": "[\"월요일: 휴무\",\"화요일: 24시간 영업\",\"수요일: 24시간 영업\",\"목요일: 24시간 영업\",\"금요일: 24시간 영업\",\"토요일: 24시간 영업\",\"일요일: 24시간 영업\"]",
+    "opening_hours": {
+      "ko": "[\"월요일: 휴무\",\"화요일: 24시간 영업\",\"수요일: 24시간 영업\",\"목요일: 24시간 영업\",\"금요일: 24시간 영업\",\"토요일: 24시간 영업\",\"일요일: 24시간 영업\"]",
+      "en": "[\"Monday: Closed\",\"Tuesday: Open 24 hours\",\"Wednesday: Open 24 hours\",\"Thursday: Open 24 hours\",\"Friday: Open 24 hours\",\"Saturday: Open 24 hours\",\"Sunday: Open 24 hours\"]"
+    },
     "area": "hongdae",
     "created_at": "2026-06-11T02:40:08.511Z"
   },

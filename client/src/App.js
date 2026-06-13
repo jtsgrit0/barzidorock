@@ -16,6 +16,7 @@ function App() {
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
+  const [language, setLanguage] = useState('ko');
 
   useEffect(() => {
     setVenues(venuesData);
@@ -148,6 +149,8 @@ function App() {
         <HeaderAndCategories
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
+          language={language}
+          setLanguage={setLanguage}
         />
         <MapComponent
           venues={filteredVenues}
@@ -157,6 +160,8 @@ function App() {
           scheduleContent={fetchedScheduleContent}
           userLocation={userLocation}
           centerMapToUserLocation={centerMapToUserLocation}
+          language={language}
+          setLanguage={setLanguage}
         />
 
         {showLocationConsent && (

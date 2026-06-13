@@ -32,7 +32,7 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation }) {
+function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation, language, setLanguage }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -127,7 +127,7 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
           >
             <div style={{ width: '250px' }}>
               <h2>
-                {selectedVenue.name}
+                {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}
                 {selectedVenue.websiteUrl && (
                   <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ marginLeft: '10px', color: 'black' }}>
                     <FontAwesomeIcon icon={faHome} />
@@ -135,13 +135,13 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
                 )}
               </h2>
               {selectedVenue.image_urls && selectedVenue.image_urls.length > 0 && (
-                <img src={selectedVenue.image_urls[0]} alt={selectedVenue.name} style={{ maxWidth: '230px', maxHeight: '130px', marginBottom: '10px' }} />
+                <img src={selectedVenue.image_urls[0]} alt={selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name} style={{ maxWidth: '230px', maxHeight: '130px', marginBottom: '10px' }} />
               )}
-              <p>{selectedVenue.address}</p>
+              <p>{selectedVenue.address[language] || selectedVenue.address['en'] || selectedVenue.address}</p>
               {selectedVenue.phoneNumber && <p>Phone: {selectedVenue.phoneNumber}</p>}
-              {selectedVenue.opening_hours && <p>Hours: {JSON.parse(selectedVenue.opening_hours).join(', ')}</p>}
-              <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                <span>🇰🇷</span> <span>🇬🇧</span> <span>🇨🇳</span> <span>🇯🇵</span>
+              {selectedVenue.opening_hours && selectedVenue.opening_hours[language] && <p>Hours: {JSON.parse(selectedVenue.opening_hours[language]).join(', ')}</p>}
+              <div style={{ marginTop: '10px', textAlign: 'center', cursor: 'pointer' }}>
+                <span onClick={() => setLanguage('ko')}>🇰🇷</span> <span onClick={() => setLanguage('en')}>🇬🇧</span> <span onClick={() => setLanguage('zh')}>🇨🇳</span> <span onClick={() => setLanguage('ja')}>🇯🇵</span>
               </div>
             </div>
           </InfoWindow>
