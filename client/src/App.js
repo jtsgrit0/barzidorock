@@ -143,7 +143,7 @@ function App() {
     <div className="App">
       <LoadScript googleMapsApiKey={API_KEY}>
         <HeaderAndCategories
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={handleCategoryChange}
         />
         <MapComponent
           venues={filteredVenues}
