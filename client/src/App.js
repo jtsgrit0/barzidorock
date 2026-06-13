@@ -69,23 +69,29 @@ function App() {
     };
   }, [locationAccessGranted]);
 
-  useEffect(() => {
-    let newCenter = { lat: 37.5550354, lng: 126.929 }; // Default center for 'all'
-    let newZoom = 13; // Default zoom for 'all'
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    let newCenter;
+    let newZoom;
 
-    if (selectedCategory === 'hongdae') {
+    if (category === 'hongdae') {
       newCenter = { lat: 37.5576, lng: 126.921 };
       newZoom = 15;
-    } else if (selectedCategory === 'itaewon') {
+    } else if (category === 'itaewon') {
       newCenter = { lat: 37.5345, lng: 126.990 };
       newZoom = 15;
-    } else if (selectedCategory === 'all') {
+    } else { // 'all'
       newCenter = { lat: 37.5550354, lng: 126.929 };
       newZoom = 12;
     }
     setMapCenter(newCenter);
     setMapZoom(newZoom);
-  }, [selectedCategory, venues]);
+  };
+
+  useEffect(() => {
+    // Set initial map center based on the default selected category
+    handleCategoryChange(selectedCategory);
+  }, []); // Runs only once on initial load
 
   // Function to fetch website content from the backend
   const handleFetchSchedule = async (url) => {
@@ -143,6 +149,7 @@ function App() {
     <div className="App">
       <LoadScript googleMapsApiKey={API_KEY}>
         <HeaderAndCategories
+          selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
         />
         <MapComponent
