@@ -10,8 +10,8 @@ const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 function App() {
   const [venues, setVenues] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
-  const [mapCenter, setMapCenter] = useState({ lat: 37.5550354, lng: 126.929 });
-  const [mapZoom, setMapZoom] = useState(13);
+  const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
+  const [mapZoom, setMapZoom] = useState(15);
   const [fetchedScheduleContent, setFetchedScheduleContent] = useState(null);
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
@@ -88,10 +88,7 @@ function App() {
     setMapZoom(newZoom);
   };
 
-  useEffect(() => {
-    // Set initial map center based on the default selected category
-    handleCategoryChange(selectedCategory);
-  }, []); // Runs only once on initial load
+
 
   // Function to fetch website content from the backend
   const handleFetchSchedule = async (url) => {
