@@ -160,24 +160,26 @@ function App() {
             language={language}
             setLanguage={setLanguage}
           />
-          <Routes>
-            <Route path="/" element={
-              <MapComponent
-                venues={filteredVenues}
-                center={mapCenter}
-                zoom={mapZoom}
-                onFetchSchedule={handleFetchSchedule}
-                scheduleContent={fetchedScheduleContent}
-                userLocation={userLocation}
-                centerMapToUserLocation={centerMapToUserLocation}
-                language={language}
-                setLanguage={setLanguage}
-              />
-            } />
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/options" element={<Options />} />
-          </Routes>
+          <div className="main-content">
+            <Routes>
+              <Route path="/" element={
+                <MapComponent
+                  venues={filteredVenues}
+                  center={mapCenter}
+                  zoom={mapZoom}
+                  onFetchSchedule={handleFetchSchedule}
+                  scheduleContent={fetchedScheduleContent}
+                  userLocation={userLocation}
+                  centerMapToUserLocation={centerMapToUserLocation}
+                  language={language}
+                  setLanguage={setLanguage}
+                />
+              } />
+              <Route path="/tickets" element={<Tickets />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/options" element={<Options />} />
+            </Routes>
+          </div>
           <TabBar />
 
           {showLocationConsent && (

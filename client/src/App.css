@@ -1,5 +1,14 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto; /* Allows scrolling within the content area if needed */
+  position: relative; /* Needed for positioning child elements like the map */
 }
 
 .App-logo {
