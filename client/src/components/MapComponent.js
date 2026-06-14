@@ -5,7 +5,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 const containerStyle = {
   width: '100%',
-  height: 'calc(100vh - 60px)'
+  height: '100%'
 };
 
 const scheduleContainerStyle = {
