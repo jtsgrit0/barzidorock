@@ -159,13 +159,11 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
           </OverlayView>
         )}
 
-        {userLocation && (
           <div className="my-location-button-container">
             <button onClick={centerMapToUserLocation} className="my-location-button">
               <span></span>
             </button>
           </div>
-        )}
       </GoogleMap>
 
       {scheduleContent && ( // 스케줄 콘텐츠가 있는 경우에만 표시합니다.
