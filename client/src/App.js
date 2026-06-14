@@ -4,15 +4,11 @@ import { LoadScript } from '@react-google-maps/api';
 import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
 import TabBar from './components/TabBar';
+import NotReadyPopup from './components/NotReadyPopup';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-// Placeholder components for the new tabs
-const Tickets = () => <div><h1>티켓</h1></div>;
-const Schedule = () => <div><h1>스케줄</h1></div>;
-const Options = () => <div><h1>옵션</h1></div>;
 
 function App() {
   const [venues, setVenues] = useState([]);
