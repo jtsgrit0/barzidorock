@@ -109,9 +109,9 @@
 /* My Location Button Styles */
 .my-location-button-container {
   position: absolute;
-  bottom: 60px; /* 구글 맵 기본 컨트롤 위치에 맞춤 */
-  right: 12px; /* 구글 맵 기본 컨트롤 위치에 맞춤 */
-  z-index: 1000; /* Ensure it's above the map */
+  bottom: 70px; /* Adjust to be above the tab bar */
+  right: 15px;
+  z-index: 10; /* Ensure it's above map tiles */
 }
 
 .my-location-button {
