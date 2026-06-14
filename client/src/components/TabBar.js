@@ -7,25 +7,23 @@ import './TabBar.css';
 const TabBar = ({ centerMapToUserLocation }) => {
   return (
     <div className="tab-bar">
-      <div className="tab-items">
-        <NavLink to="/" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")} end>
-          <FontAwesomeIcon icon={faHome} />
-          <span>홈</span>
-        </NavLink>
-        <NavLink to="/tickets" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
-          <FontAwesomeIcon icon={faTicket} />
-          <span>티켓</span>
-        </NavLink>
-        <NavLink to="/schedule" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
-          <FontAwesomeIcon icon={faCalendarAlt} />
-          <span>스케줄</span>
-        </NavLink>
-        <NavLink to="/options" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
-          <FontAwesomeIcon icon={faCog} />
-          <span>옵션</span>
-        </NavLink>
-      </div>
-      <div className="my-location-button-container-tab">
+      <NavLink to="/" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")} end>
+        <FontAwesomeIcon icon={faHome} />
+        <span>홈</span>
+      </NavLink>
+      <NavLink to="/tickets" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
+        <FontAwesomeIcon icon={faTicket} />
+        <span>티켓</span>
+      </NavLink>
+      <NavLink to="/schedule" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
+        <FontAwesomeIcon icon={faCalendarAlt} />
+        <span>스케줄</span>
+      </NavLink>
+      <NavLink to="/options" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
+        <FontAwesomeIcon icon={faCog} />
+        <span>옵션</span>
+      </NavLink>
+      <div className="tab-item my-location-button-container-tab">
         <button onClick={centerMapToUserLocation} className="my-location-button">
           <span></span>
         </button>
