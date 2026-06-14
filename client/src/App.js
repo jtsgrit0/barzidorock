@@ -151,7 +151,7 @@ function App() {
     : venues.filter(v => v.area === selectedCategory);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <LoadScript googleMapsApiKey={API_KEY}>
           <HeaderAndCategories
