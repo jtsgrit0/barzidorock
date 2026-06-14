@@ -175,9 +175,9 @@ function App() {
                   setLanguage={setLanguage}
                 />
               } />
-              <Route path="/tickets" element={<Tickets />} />
-              <Route path="/schedule" element={<Schedule />} />
-              <Route path="/options" element={<Options />} />
+              <Route path="/tickets" element={<NotReadyPopup />} />
+              <Route path="/schedule" element={<NotReadyPopup />} />
+              <Route path="/options" element={<NotReadyPopup />} />
             </Routes>
           </div>
           <TabBar />
