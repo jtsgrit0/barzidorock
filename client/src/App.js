@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoadScript } from '@react-google-maps/api';
 import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
+import TabBar from './components/TabBar';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
+// Placeholder components for the new tabs
+const Tickets = () => <div><h1>티켓</h1></div>;
+const Schedule = () => <div><h1>스케줄</h1></div>;
+const Options = () => <div><h1>옵션</h1></div>;
 
 function App() {
   const [venues, setVenues] = useState([]);
@@ -144,44 +151,54 @@ function App() {
     : venues.filter(v => v.area === selectedCategory);
 
   return (
-    <div className="App">
-      <LoadScript googleMapsApiKey={API_KEY}>
-        <HeaderAndCategories
-          selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-          language={language}
-          setLanguage={setLanguage}
-        />
-        <MapComponent
-          venues={filteredVenues}
-          center={mapCenter}
-          zoom={mapZoom}
-          onFetchSchedule={handleFetchSchedule}
-          scheduleContent={fetchedScheduleContent}
-          userLocation={userLocation}
-          centerMapToUserLocation={centerMapToUserLocation}
-          language={language}
-          setLanguage={setLanguage}
-        />
+    <Router>
+      <div className="App">
+        <LoadScript googleMapsApiKey={API_KEY}>
+          <HeaderAndCategories
+            selectedCategory={selectedCategory}
+            onCategoryChange={handleCategoryChange}
+            language={language}
+            setLanguage={setLanguage}
+          />
+          <Routes>
+            <Route path="/" element={
+              <MapComponent
+                venues={filteredVenues}
+                center={mapCenter}
+                zoom={mapZoom}
+                onFetchSchedule={handleFetchSchedule}
+                scheduleContent={fetchedScheduleContent}
+                userLocation={userLocation}
+                centerMapToUserLocation={centerMapToUserLocation}
+                language={language}
+                setLanguage={setLanguage}
+              />
+            } />
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/options" element={<Options />} />
+          </Routes>
+          <TabBar />
 
-        {showLocationConsent && (
-          <div className="location-consent-popup-overlay">
-            <div className="location-consent-popup">
-              <h2>위치 정보 사용 동의</h2>
-              <p>
-                현재 위치 정보를 사용하여 주변 BAR UNION을 찾고,
-                선택하신 BAR UNION까지의 경로를 안내해 드릴 수 있습니다.
-                동의하시겠습니까?
-              </p>
-              <div className="popup-actions">
-                <button onClick={() => handleLocationConsent(true)}>동의</button>
-                <button onClick={() => handleLocationConsent(false)}>거부</button>
+          {showLocationConsent && (
+            <div className="location-consent-popup-overlay">
+              <div className="location-consent-popup">
+                <h2>위치 정보 사용 동의</h2>
+                <p>
+                  현재 위치 정보를 사용하여 주변 BAR UNION을 찾고,
+                  선택하신 BAR UNION까지의 경로를 안내해 드릴 수 있습니다.
+                  동의하시겠습니까?
+                </p>
+                <div className="popup-actions">
+                  <button onClick={() => handleLocationConsent(true)}>동의</button>
+                  <button onClick={() => handleLocationConsent(false)}>거부</button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </LoadScript>
-    </div>
+          )}
+        </LoadScript>
+      </div>
+    </Router>
   );
 }
 
