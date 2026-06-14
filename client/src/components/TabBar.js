@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTicket, faCalendarAlt, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTicket, faCalendarAlt, faCog, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import './TabBar.css';
 
 const TabBar = ({ centerMapToUserLocation }) => {
@@ -23,10 +23,9 @@ const TabBar = ({ centerMapToUserLocation }) => {
         <FontAwesomeIcon icon={faCog} />
         <span>옵션</span>
       </NavLink>
-      <div className="tab-item my-location-button-container-tab">
-        <button onClick={centerMapToUserLocation} className="my-location-button">
-          <span></span>
-        </button>
+      <div className="tab-item" onClick={centerMapToUserLocation} style={{ cursor: 'pointer' }}>
+        <FontAwesomeIcon icon={faCrosshairs} />
+        <span>내 위치</span>
       </div>
     </div>
   );
