@@ -176,7 +176,7 @@ function App() {
               <Route path="/options" element={<NotReadyPopup />} />
             </Routes>
           </div>
-          <TabBar />
+          <TabBar centerMapToUserLocation={centerMapToUserLocation} />
 
           {showLocationConsent && (
             <div className="location-consent-popup-overlay">
