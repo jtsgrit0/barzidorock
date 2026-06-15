@@ -59,7 +59,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
                 {venue.opening_hours && (venue.opening_hours[language] || venue.opening_hours['en']) && (
                   <p style={{ margin: '8px 0' }}>
                     <FontAwesomeIcon icon={faClock} style={{ marginRight: '12px', color: '#e00' }} /> 
-                    {(venue.opening_hours[language] || venue.opening_hours['en']).join(', ')}
+                    {(Array.isArray(venue.opening_hours[language]) ? venue.opening_hours[language] : (Array.isArray(venue.opening_hours['en']) ? venue.opening_hours['en'] : [])).join(', ')}
                   </p>
                 )}
               </div>
