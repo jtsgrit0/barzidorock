@@ -172,7 +172,7 @@ function App() {
                 />
               } />
               <Route path="/tickets" element={<NotReadyPopup />} />
-              <Route path="/schedule" element={<NotReadyPopup />} />
+              <Route path="/schedule" element={<SchedulePage />} />
               <Route path="/options" element={<NotReadyPopup />} />
             </Routes>
           </div>
