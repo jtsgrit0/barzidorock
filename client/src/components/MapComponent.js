@@ -8,13 +8,31 @@ const containerStyle = {
   height: '100%'
 };
 
+const scheduleContainerStyle = {
+  backgroundColor: '#222', // Dark background
+  color: '#eee', // Light text
+  padding: '20px',
+  marginTop: '10px',
+  border: '2px solid #e00', // Red border for rock feel
+  borderRadius: '8px',
+  fontFamily: 'monospace, sans-serif', // Edgy font
+  maxHeight: '300px', // Limit height
+  overflowY: 'auto', // Scroll if content is long
+  whiteSpace: 'pre-wrap', // Preserve whitespace and wrap text
+  wordBreak: 'break-word', // Break long words
+  fontSize: '0.95em', // Slightly larger font
+  lineHeight: '1.6', // Improved line spacing
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)', // Subtle shadow
+  textAlign: 'left', // Ensure text is left-aligned
+};
+
 // Function to get the correct pane for the OverlayView
 const getPixelPositionOffset = (width, height) => ({
   x: -(width / 2),
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations }) {
+function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -31,6 +49,11 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     if (map) {
       map.setZoom(16);
 
+      // 기존 스케줄 콘텐츠를 즉시 지웁니다.
+      if (onFetchSchedule) {
+        onFetchSchedule(null, null); // Clear previous schedule content
+      }
+
       // 맵의 중심을 마커 위치보다 약간 남쪽으로 이동시켜 팝업이 앱 제목에 가려지지 않도록 합니다.
       // 이 값은 실제 UI에 따라 조정이 필요할 수 있는 추정치입니다.
       const offsetLat = -0.005; // 위도를 약간 감소시켜 맵 중심을 남쪽으로 이동
@@ -39,11 +62,20 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         lng: venue.longitude,
       };
       map.panTo(newCenter); // 새로운 중심으로 맵 이동
+
+      // websiteUrl이 있는 경우에만 새로운 스케줄 가져오기를 요청합니다.
+      if (venue.websiteUrl && onFetchSchedule) {
+        onFetchSchedule(venue.websiteUrl, venue.id);
+      }
     }
   };
 
   const handleInfoWindowClose = () => {
     setSelectedVenue(null);
+    // InfoWindow가 닫히면 스케줄 콘텐츠도 지웁니다.
+    if (onFetchSchedule) {
+        onFetchSchedule(null, null);
+    }
   };
 
   // 구글맵 기본 POI(관심 지점) 라벨을 숨기는 스타일
@@ -173,6 +205,17 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           </OverlayView>
         )}
       </GoogleMap>
+
+      {scheduleContent && ( // 스케줄 콘텐츠가 있는 경우에만 표시합니다.
+        <div style={scheduleContainerStyle}>
+          <h3>Concert Schedule (from {selectedVenue?.name}'s website)</h3>
+          <div dangerouslySetInnerHTML={{ __html: scheduleContent }} />
+          <p style={{ fontSize: '0.8em', color: '#aaa' }}>
+            *참고: 다양한 웹사이트 구조에서 특정 공연 일정을 자동으로 추출하는 것은 복잡합니다.
+            이 내용은 원시 웹사이트 데이터이며 완벽하게 포맷되지 않을 수 있습니다.
+          </p>
+        </div>
+      )}
     </>
   );
 }

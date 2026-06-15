@@ -5,6 +5,7 @@ import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
 import TabBar from './components/TabBar';
 import NotReadyPopup from './components/NotReadyPopup';
+import SchedulePage from './components/SchedulePage';
 import FavoritesPage from './components/FavoritesPage';
 import OptionsPage from './components/OptionsPage';
 import venuesData from './venues.json';
@@ -17,6 +18,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
   const [mapZoom, setMapZoom] = useState(15);
+  const [fetchedScheduleContent, setFetchedScheduleContent] = useState(null);
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
@@ -120,6 +122,34 @@ function App() {
 
 
 
+  // Function to fetch website content from the backend
+  const handleFetchSchedule = async (url) => {
+    if (!url) {
+      setFetchedScheduleContent(null);
+      return;
+    }
+    setFetchedScheduleContent('<p>Loading schedule...</p>');
+    try {
+      const response = await fetch('http://localhost:3001/api/fetch-schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setFetchedScheduleContent(data.content);
+    } catch (error) {
+      console.error("Failed to fetch schedule:", error);
+      setFetchedScheduleContent('<p>Could not load schedule. The website might be down or blocking requests.</p>');
+    }
+  };
+
   // Handle user's location consent
   const handleLocationConsent = (granted) => {
     localStorage.setItem('locationConsent', granted ? 'granted' : 'denied');
@@ -172,6 +202,8 @@ function App() {
                   venues={filteredVenues}
                   center={mapCenter}
                   zoom={mapZoom}
+                  onFetchSchedule={handleFetchSchedule}
+                  scheduleContent={fetchedScheduleContent}
                   userLocation={userLocation}
                   centerMapToUserLocation={centerMapToUserLocation}
                   language={language}
@@ -182,6 +214,7 @@ function App() {
                 />
               } />
               <Route path="/tickets" element={<NotReadyPopup />} />
+              <Route path="/schedule" element={<SchedulePage language={language} />} />
               <Route path="/favorites" element={
                 <FavoritesPage 
                   venues={venues} 
