@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoadScript } from '@react-google-maps/api';
 import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
@@ -185,7 +185,7 @@ function App() {
     : venues.filter(v => v.area === selectedCategory);
 
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <div className="App">
         <LoadScript googleMapsApiKey={API_KEY}>
           <HeaderAndCategories
