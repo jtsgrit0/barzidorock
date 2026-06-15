@@ -45,12 +45,6 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
   }, []);
 
   const handleMarkerClick = (venue) => {
-    // websiteUrl이 없는 마커는 아무런 반응을 하지 않도록 합니다.
-    if (!venue.websiteUrl) {
-      console.log(`Venue ${venue.name} does not have a website URL. Skipping interaction.`);
-      return;
-    }
-
     setSelectedVenue(venue);
     if (map) {
       map.setZoom(16);
@@ -70,7 +64,7 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
       map.panTo(newCenter); // 새로운 중심으로 맵 이동
 
       // websiteUrl이 있는 경우에만 새로운 스케줄 가져오기를 요청합니다.
-      if (onFetchSchedule) {
+      if (venue.websiteUrl && onFetchSchedule) {
         onFetchSchedule(venue.websiteUrl, venue.id);
       }
     }
