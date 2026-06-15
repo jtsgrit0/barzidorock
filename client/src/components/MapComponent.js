@@ -117,6 +117,11 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
             key={venue.id}
             position={{ lat: venue.latitude, lng: venue.longitude }}
             onClick={() => handleMarkerClick(venue)}
+            icon={{
+              url: venue.type === 'live_venue' 
+                ? 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png' 
+                : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            }}
           />
         ))}
 
