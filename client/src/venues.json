@@ -37,9 +37,15 @@
   },
   {
     "id": "ChIJUVRrTNCYfDURTjrzSja3Tgs",
-    "name": "Rolling Hall",
+    "name": {
+      "ko": "롤링홀",
+      "en": "Rolling Hall"
+    },
     "type": "live_venue",
-    "address": "35 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "서울 마포구 어울마당로 35",
+      "en": "35 Eoulmadang-ro, Mapo-gu, Seoul, South Korea"
+    },
     "latitude": 37.5483606,
     "longitude": 126.9200362,
     "phoneNumber": "+82 2-325-6071",
@@ -64,9 +70,15 @@
   },
   {
     "id": "ChIJQ0JZJdeYfDURSd6zc_ugmPI",
-    "name": "Dream Hall",
+    "name": {
+      "ko": "드림홀",
+      "en": "Dream Hall"
+    },
     "type": "live_venue",
-    "address": "64 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "서울 마포구 양화로 64",
+      "en": "64 Yanghwa-ro, Mapo-gu, Seoul, South Korea"
+    },
     "latitude": 37.5503331,
     "longitude": 126.9157927,
     "phoneNumber": null,
@@ -91,9 +103,15 @@
   },
   {
     "id": "ChIJG417WOeZfDUR858nkAd-y_U",
-    "name": "홍대 우주정거장",
+    "name": {
+      "ko": "홍대 우주정거장",
+      "en": "Hongdae Wuju Jeonggeojang"
+    },
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Wausan-ro 29-gil, 16 지하 1층",
+    "address": {
+      "ko": "서울 마포구 와우산로29길 16 지하 1층",
+      "en": "16 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea"
+    },
     "latitude": 37.5550354,
     "longitude": 126.929,
     "phoneNumber": "+82 70-8692-8277",
