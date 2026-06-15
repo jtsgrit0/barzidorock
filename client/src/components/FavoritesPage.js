@@ -11,13 +11,21 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
         <div>
           {favoriteVenues.map(venue => (
             <div key={venue.id} style={{ backgroundColor: '#222', color: '#eee', padding: '20px', margin: '15px 0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                <h2 style={{ margin: 0, fontSize: '1.8em', color: '#eee' }}>
+              <div style={{ position: 'relative', alignItems: 'center', marginBottom: '15px' }}>
+                <h2 style={{ margin: 0, fontSize: '1.8em', color: '#eee', textAlign: 'center' }}>
                   {venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name}
                 </h2>
                 <FontAwesomeIcon 
                   icon={faHeart} 
-                  style={{ cursor: 'pointer', color: 'red', fontSize: '1.8em' }} 
+                  style={{ 
+                    position: 'absolute', 
+                    right: 0, 
+                    top: '50%', 
+                    transform: 'translateY(-50%)', 
+                    cursor: 'pointer', 
+                    color: 'red', 
+                    fontSize: '1.8em' 
+                  }} 
                   onClick={() => toggleFavorite(venue.id)} 
                 />
               </div>
