@@ -11,9 +11,16 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
 
   const flags = {
     ko: '🇰🇷',
-    en: '🇬🇧',
+    en: '🇺🇸', // 미국 국기로 변경
     zh: '🇨🇳',
     ja: '🇯🇵',
+  };
+
+  const languageOptions = {
+    ko: '한국어',
+    en: 'English',
+    zh: '中文',
+    ja: '日本語',
   };
 
   return (
@@ -43,10 +50,10 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
       </div>
       <div className="language-switcher">
         <div className="languages desktop-languages">
-          <span onClick={() => setLanguage('ko')} style={{ cursor: 'pointer', opacity: language === 'ko' ? 1 : 0.5 }}>🇰🇷</span>
-          <span onClick={() => setLanguage('en')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'en' ? 1 : 0.5 }}>🇬🇧</span>
-          <span onClick={() => setLanguage('zh')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'zh' ? 1 : 0.5 }}>🇨🇳</span>
-          <span onClick={() => setLanguage('ja')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'ja' ? 1 : 0.5 }}>🇯🇵</span>
+          <span onClick={() => setLanguage('ko')} style={{ cursor: 'pointer', opacity: language === 'ko' ? 1 : 0.5 }}>{flags.ko}</span>
+          <span onClick={() => setLanguage('en')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'en' ? 1 : 0.5 }}>{flags.en}</span>
+          <span onClick={() => setLanguage('zh')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'zh' ? 1 : 0.5 }}>{flags.zh}</span>
+          <span onClick={() => setLanguage('ja')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'ja' ? 1 : 0.5 }}>{flags.ja}</span>
         </div>
         <div className="mobile-menu">
           <span className="current-flag" onClick={() => setMenuOpen(!menuOpen)}>
@@ -54,10 +61,13 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
           </span>
           {menuOpen && (
             <div className="menu-dropdown">
-              <div onClick={() => handleLanguageChange('ko')} style={{ opacity: language === 'ko' ? 1 : 0.7 }}>🇰🇷 한국어</div>
-              <div onClick={() => handleLanguageChange('en')} style={{ opacity: language === 'en' ? 1 : 0.7 }}>🇬🇧 English</div>
-              <div onClick={() => handleLanguageChange('zh')} style={{ opacity: language === 'zh' ? 1 : 0.7 }}>🇨🇳 中文</div>
-              <div onClick={() => handleLanguageChange('ja')} style={{ opacity: language === 'ja' ? 1 : 0.7 }}>🇯🇵 日本語</div>
+              {Object.keys(flags)
+                .filter(lang => lang !== language)
+                .map(lang => (
+                  <div key={lang} onClick={() => handleLanguageChange(lang)}>
+                    {flags[lang]} {languageOptions[lang]}
+                  </div>
+                ))}
             </div>
           )}
         </div>
