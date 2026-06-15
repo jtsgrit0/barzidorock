@@ -6,6 +6,7 @@ import HeaderAndCategories from './components/HeaderAndCategories';
 import TabBar from './components/TabBar';
 import NotReadyPopup from './components/NotReadyPopup';
 import SchedulePage from './components/SchedulePage';
+import FavoritesPage from './components/FavoritesPage';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
 
@@ -21,6 +22,7 @@ function App() {
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [language, setLanguage] = useState('ko');
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     setVenues(venuesData);
@@ -143,6 +145,16 @@ function App() {
     }
   }, [userLocation, locationAccessGranted]);
 
+  const toggleFavorite = (venueId) => {
+    setFavorites(prevFavorites => {
+      if (prevFavorites.includes(venueId)) {
+        return prevFavorites.filter(id => id !== venueId);
+      } else {
+        return [...prevFavorites, venueId];
+      }
+    });
+  };
+
   const filteredVenues = selectedCategory === 'all'
     ? venues
     : venues.filter(v => v.area === selectedCategory);
@@ -170,10 +182,20 @@ function App() {
                   centerMapToUserLocation={centerMapToUserLocation}
                   language={language}
                   setLanguage={setLanguage}
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
                 />
               } />
               <Route path="/tickets" element={<NotReadyPopup />} />
               <Route path="/schedule" element={<SchedulePage />} />
+              <Route path="/favorites" element={
+                <FavoritesPage 
+                  venues={venues} 
+                  favorites={favorites} 
+                  language={language} 
+                  toggleFavorite={toggleFavorite} 
+                />
+              } />
               <Route path="/options" element={<NotReadyPopup />} />
             </Routes>
           </div>

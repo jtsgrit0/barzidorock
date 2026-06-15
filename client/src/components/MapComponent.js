@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPhone, faMapMarkerAlt, faClock, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const containerStyle = {
   width: '100%',
@@ -32,7 +32,7 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation, language, setLanguage }) {
+function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -130,23 +130,67 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
             onCloseClick={handleInfoWindowClose}
           >
-            <div style={{ width: '250px' }}>
-              <h2>
-                {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}
+            <div style={{ width: '300px', padding: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2 style={{ margin: 0, fontSize: '1.5em' }}>
+                  {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}
+                </h2>
+                <FontAwesomeIcon 
+                  icon={faHeart} 
+                  style={{ cursor: 'pointer', color: favorites.includes(selectedVenue.id) ? 'red' : 'grey', fontSize: '1.5em' }} 
+                  onClick={() => toggleFavorite(selectedVenue.id)} 
+                />
+              </div>
+
+              {selectedVenue.image_urls && selectedVenue.image_urls.length > 0 && (
+                <img 
+                  src={selectedVenue.image_urls[0]} 
+                  alt={selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name} 
+                  style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '8px', margin: '10px 0' }} 
+                />
+              )}
+
+              <div style={{ fontSize: '1em', color: '#333' }}>
+                <p style={{ margin: '5px 0' }}>
+                  <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '10px' }} /> 
+                  {selectedVenue.address[language] || selectedVenue.address['en'] || selectedVenue.address}
+                </p>
+                {selectedVenue.phoneNumber && (
+                  <p style={{ margin: '5px 0' }}>
+                    <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px' }} /> 
+                    {selectedVenue.phoneNumber}
+                  </p>
+                )}
+                {selectedVenue.opening_hours && selectedVenue.opening_hours[language] && (
+                  <p style={{ margin: '5px 0' }}>
+                    <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} /> 
+                    {JSON.parse(selectedVenue.opening_hours[language]).join(', ')}
+                  </p>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
+                <a href={`tel:${selectedVenue.phoneNumber}`} style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
+                  <FontAwesomeIcon icon={faPhone} size="2x" />
+                  <p style={{ margin: '5px 0' }}>전화걸기</p>
+                </a>
+                <a href={`https://www.google.com/maps/dir/?api=1&destination=${selectedVenue.latitude},${selectedVenue.longitude}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
+                  <FontAwesomeIcon icon={faMapMarkerAlt} size="2x" />
+                  <p style={{ margin: '5px 0' }}>길찾기</p>
+                </a>
                 {selectedVenue.websiteUrl && (
-                  <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ marginLeft: '10px', color: 'black' }}>
-                    <FontAwesomeIcon icon={faHome} />
+                  <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
+                    <FontAwesomeIcon icon={faHome} size="2x" />
+                    <p style={{ margin: '5px 0' }}>홈페이지</p>
                   </a>
                 )}
-              </h2>
-              {selectedVenue.image_urls && selectedVenue.image_urls.length > 0 && (
-                <img src={selectedVenue.image_urls[0]} alt={selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name} style={{ maxWidth: '230px', maxHeight: '130px', marginBottom: '10px' }} />
-              )}
-              <p>{selectedVenue.address[language] || selectedVenue.address['en'] || selectedVenue.address}</p>
-              {selectedVenue.phoneNumber && <p>Phone: {selectedVenue.phoneNumber}</p>}
-              {selectedVenue.opening_hours && selectedVenue.opening_hours[language] && <p>Hours: {JSON.parse(selectedVenue.opening_hours[language]).join(', ')}</p>}
-              <div style={{ marginTop: '10px', textAlign: 'center', cursor: 'pointer' }}>
-                <span onClick={() => setLanguage('ko')}>🇰🇷</span> <span onClick={() => setLanguage('en')}>🇬🇧</span> <span onClick={() => setLanguage('zh')}>🇨🇳</span> <span onClick={() => setLanguage('ja')}>🇯🇵</span>
+              </div>
+
+              <div style={{ marginTop: '15px', textAlign: 'center', cursor: 'pointer', borderTop: '1px solid #eee', paddingTop: '10px' }}>
+                <span onClick={() => setLanguage('ko')}>🇰🇷</span> 
+                <span onClick={() => setLanguage('en')} style={{ marginLeft: '10px' }}>🇬🇧</span> 
+                <span onClick={() => setLanguage('zh')} style={{ marginLeft: '10px' }}>🇨🇳</span> 
+                <span onClick={() => setLanguage('ja')} style={{ marginLeft: '10px' }}>🇯🇵</span>
               </div>
             </div>
           </InfoWindow>
