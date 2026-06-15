@@ -17,7 +17,7 @@ const TabBar = ({ centerMapToUserLocation }) => {
       </NavLink>
       <NavLink to="/schedule" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
         <FontAwesomeIcon icon={faCalendarAlt} />
-        <span>스케줄</span>
+        <span>공연일정</span>
       </NavLink>
       <NavLink to="/options" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
         <FontAwesomeIcon icon={faCog} />
