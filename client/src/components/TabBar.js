@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTicket, faCalendarAlt, faCog, faCrosshairs, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTicket, faCog, faCrosshairs, faHeart } from '@fortawesome/free-solid-svg-icons';
 import './TabBar.css';
 
 const TabBar = ({ centerMapToUserLocation }) => {
@@ -14,10 +14,6 @@ const TabBar = ({ centerMapToUserLocation }) => {
       <NavLink to="/tickets" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
         <FontAwesomeIcon icon={faTicket} />
         <span>티켓</span>
-      </NavLink>
-      <NavLink to="/schedule" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
-        <FontAwesomeIcon icon={faCalendarAlt} />
-        <span>공연일정</span>
       </NavLink>
       <NavLink to="/favorites" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")}>
         <FontAwesomeIcon icon={faHeart} />
