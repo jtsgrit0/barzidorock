@@ -11,7 +11,10 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
         <div>
           {favoriteVenues.map(venue => (
             <div key={venue.id} style={{ backgroundColor: '#222', color: '#eee', padding: '20px', margin: '15px 0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)' }}>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '15px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                <h2 style={{ margin: 0, fontSize: '1.8em', color: '#eee' }}>
+                  {venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name}
+                </h2>
                 <FontAwesomeIcon 
                   icon={faHeart} 
                   style={{ cursor: 'pointer', color: 'red', fontSize: '1.8em' }} 
@@ -26,22 +29,6 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
                     alt={venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name} 
                     style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }} 
                   />
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '8px'
-                  }}>
-                    <h2 style={{ margin: 0, fontSize: '1.8em', color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', textAlign: 'center', padding: '10px' }}>
-                      {venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name}
-                    </h2>
-                  </div>
                 </div>
               )}
 
