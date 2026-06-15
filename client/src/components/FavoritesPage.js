@@ -28,14 +28,17 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
                   />
                   <div style={{
                     position: 'absolute',
+                    top: 0,
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
-                    padding: '20px 10px 10px 10px',
-                    borderRadius: '0 0 8px 8px'
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '8px'
                   }}>
-                    <h2 style={{ margin: 0, fontSize: '1.5em', color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+                    <h2 style={{ margin: 0, fontSize: '1.8em', color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', textAlign: 'center', padding: '10px' }}>
                       {venue.name[language] || venue.name['en']}
                     </h2>
                   </div>
