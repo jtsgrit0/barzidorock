@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './HeaderAndCategories.css';
 
 function HeaderAndCategories({ selectedCategory, onCategoryChange, language, setLanguage, translations }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
-    setMenuOpen(false); // Close the menu after selection
+    setMenuOpen(false);
+  };
+
+  const handleCategoryClick = (category) => {
+    onCategoryChange(category);
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
   };
 
   const flags = {
@@ -30,19 +40,19 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
         <div className="categories">
           <button 
             className={selectedCategory === 'all' ? 'active' : ''}
-            onClick={() => onCategoryChange('all')}
+            onClick={() => handleCategoryClick('all')}
           >
             {translations.category_all || '전체'}
           </button>
           <button 
             className={selectedCategory === 'hongdae' ? 'active' : ''}
-            onClick={() => onCategoryChange('hongdae')}
+            onClick={() => handleCategoryClick('hongdae')}
           >
             {translations.category_hongdae || '홍대'}
           </button>
           <button 
             className={selectedCategory === 'itaewon' ? 'active' : ''}
-            onClick={() => onCategoryChange('itaewon')}
+            onClick={() => handleCategoryClick('itaewon')}
           >
             {translations.category_itaewon || '이태원'}
           </button>
