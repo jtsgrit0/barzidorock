@@ -29,8 +29,24 @@
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nDkdJZuYllTzNVw9cF_T0fGB5w6ZcHgQpxH8603QXnomBCnhMTYeIjTnz30JkvgJpveJb3eU3jv6lSTA1SRrk9wS3nNSCteWXnpzSTszWfAce5yMgwYTT3bQ156oOlLLNj5RxQMNovyIPJHKgC4lUoo_GdYUq5oGrC4BzpYRkBaBKOdGA7d7J6UyEEF0LRWuK4fL-RzAKOD5oAHPK-UveRkYmOq_rpaWHtCZiI6V-EDcm4fpBWq_I25FcW0QlzJ0udM1_1wmBK9ZwMpeJKbIQHQFJAp6O4MVVrvHl0kBLzu5p27gE7plsly7_9HrBH7lgxqEa2GkA9rhyv8FRcYxKDgCGiDUIQOYyYC6TyQBIJo_6M86sjxVMxqkP1RH0bJURC56ZpVy7ZSLLrX_5Za3zgZ-bqcIaFXwwtYAEO2y_3mSo&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
     ],
     "opening_hours": {
-      "ko": "[\"월요일: 휴무\",\"화요일: 24시간 영업\",\"수요일: 24시간 영업\",\"목요일: 24시간 영업\",\"금요일: 24시간 영업\",\"토요일: 24시간 영업\",\"일요일: 24시간 영업\"]",
-      "en": "[\"Monday: Closed\",\"Tuesday: Open 24 hours\",\"Wednesday: Open 24 hours\",\"Thursday: Open 24 hours\",\"Friday: Open 24 hours\",\"Saturday: Open 24 hours\",\"Sunday: Open 24 hours\"]"
+      "ko": [
+        "월요일: 휴무",
+        "화요일: 24시간 영업",
+        "수요일: 24시간 영업",
+        "목요일: 24시간 영업",
+        "금요일: 24시간 영업",
+        "토요일: 24시간 영업",
+        "일요일: 24시간 영업"
+      ],
+      "en": [
+        "Monday: Closed",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ]
     },
     "area": "hongdae",
     "created_at": "2026-06-11T02:40:08.511Z"
@@ -64,7 +80,26 @@
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3lPPVDlwswxIFxU7w61hBE3E24xPmrz8xUS6h9TD9scVt0cUGHt9wC4tkmpIBC7STQFsbqO78y78nSCLewBusMn3gwxzfQSWY_cJNfm_PEFq9M0ifFAbDwU0xlq_m-hBm7Y3gG4NsFDLFt7iwDzNTTia1v4sPaArZ5Qa0y7-JSwptedPFEsTPW_B7QZl93rTJrC0feRlwj5XX_fvj0OzcRTA-5Km3xOQlMtzqQetT7FmDryMyt0wq1P6mgwOwL1qUEkxvoGEwP9W8E6XYeh4UT-wBCeRNsHTh6dsAH3NHcacr3iVES33Pgkdhi3qhP3gMgPH6rkN7eThptOkGX-0nXbZzZO9mcVrmLsKVzZRuzYPF_eWrm_oczFw4ndUT9wsulzy611FYrU92JwO8fySdah-Pqyu1bs6WN0ujWruhS8UQ&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nvkY9aW3tKY8WCkkGt7gTJwDtZO1g4dfYzmwsv1NIBQ1ocNg-K5LNcggMPTAj1fBx-aBJzgcWVdqaMfb_OWLI32Q5Mq2P_Zn7UW_PEMb8hBp8IRWrRSGhVdq2oQAHANT2Nwf2d97djspqbuZKmhI8C3DRkZP8e6iJpFehVVRSB4CRSJXItWoYlPL0rOtNOYrPZN3FXAEVhmprp0dUsr1cF2slHfSKTF4OEMznaLs7U2OUTfKKokCPyhy3UsJivjsrlC2l_1BJQ1Jd1KW0vzXp1Lafop9639mqauBd6NyCtL2zmlosif5WRhOzsmwuTU2ZY5LUPbFlxX_CZjtpo6ineGw6G-LIBTj5PWw8GegmxIDArs9DLFTyvxMqGjhcPgyxDjO_tDVInXIs595AHYYuR3OicwKiLRXsld2d3hLw&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
     ],
-    "opening_hours": "[\"월요일: 오전 10:00 – 오후 11:00\",\"화요일: 오전 10:00 – 오후 11:00\",\"수요일: 오전 10:00 – 오후 11:00\",\"목요일: 오전 10:00 – 오후 11:00\",\"금요일: 오전 10:00 – 오후 11:00\",\"토요일: 오전 10:00 – 오후 11:00\",\"일요일: 오전 10:00 – 오후 11:00\"]",
+    "opening_hours": {
+      "ko": [
+        "월요일: 오전 10:00 – 오후 11:00",
+        "화요일: 오전 10:00 – 오후 11:00",
+        "수요일: 오전 10:00 – 오후 11:00",
+        "목요일: 오전 10:00 – 오후 11:00",
+        "금요일: 오전 10:00 – 오후 11:00",
+        "토요일: 오전 10:00 – 오후 11:00",
+        "일요일: 오전 10:00 – 오후 11:00"
+      ],
+      "en": [
+        "Monday: 10:00 AM – 11:00 PM",
+        "Tuesday: 10:00 AM – 11:00 PM",
+        "Wednesday: 10:00 AM – 11:00 PM",
+        "Thursday: 10:00 AM – 11:00 PM",
+        "Friday: 10:00 AM – 11:00 PM",
+        "Saturday: 10:00 AM – 11:00 PM",
+        "Sunday: 10:00 AM – 11:00 PM"
+      ]
+    },
     "area": "hongdae",
     "created_at": "2026-06-11T02:40:08.671Z"
   },
