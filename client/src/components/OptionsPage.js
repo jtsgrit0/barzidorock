@@ -14,7 +14,7 @@ const OptionsPage = () => {
 
   return (
     <div 
-      style={{ padding: '20px', color: '#eee', backgroundColor: '#333', height: '100vh', overflowY: 'auto' }}
+      className="options-page-content"
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
   );
