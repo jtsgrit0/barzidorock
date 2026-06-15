@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import readmePath from '../../README.md'; // Adjust path as necessary
 
 const OptionsPage = () => {
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
-    fetch(readmePath)
+    fetch('/README.md') // Fetches from the public folder
       .then(response => response.text())
       .then(text => setMarkdown(text));
   }, []);
