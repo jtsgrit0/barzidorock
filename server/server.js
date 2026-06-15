@@ -171,6 +171,51 @@ app.post('/api/fetch-schedule', async (req, res) => {
   }
 });
 
+const knexConfig = require('./knexfile');
+const knex = require('knex')(knexConfig.development);
+
+app.get('/api/schedules', async (req, res) => {
+  try {
+    const schedules = await knex('schedules')
+      .join('venues', 'schedules.venue_id', 'venues.id')
+      .select(
+        'schedules.id',
+        'schedules.event_date',
+        'schedules.event_name',
+        'schedules.description',
+        'venues.name as venue_name'
+      )
+      .orderBy('schedules.event_date', 'asc');
+    res.json(schedules);
+  } catch (error) {
+    console.error('Error fetching schedules:', error);
+    res.status(500).json({ error: 'Failed to fetch schedules' });
+  }
+});
+
+app.post('/api/schedules', async (req, res) => {
+  const { venue_id, event_date, event_name, description } = req.body;
+
+  if (!venue_id || !event_date || !event_name) {
+    return res.status(400).json({ error: 'venue_id, event_date, and event_name are required' });
+  }
+
+  try {
+    const [newSchedule] = await knex('schedules')
+      .insert({
+        venue_id,
+        event_date,
+        event_name,
+        description,
+      })
+      .returning('*');
+    res.status(201).json(newSchedule);
+  } catch (error) {
+    console.error('Error creating schedule:', error);
+    res.status(500).json({ error: 'Failed to create schedule' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
