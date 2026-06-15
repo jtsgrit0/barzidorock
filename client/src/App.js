@@ -5,6 +5,7 @@ import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
 import TabBar from './components/TabBar';
 import NotReadyPopup from './components/NotReadyPopup';
+import SchedulePage from './components/SchedulePage';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
 
