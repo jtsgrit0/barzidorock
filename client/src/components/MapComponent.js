@@ -130,7 +130,7 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
             onCloseClick={handleInfoWindowClose}
           >
-            <div style={{ width: '300px', padding: '10px' }}>
+            <div style={{ maxWidth: '300px', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all' }}>
               <div style={{ position: 'relative', alignItems: 'center' }}>
                 <h2 style={{ margin: 0, fontSize: '1.5em', textAlign: 'center' }}>
                   {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}

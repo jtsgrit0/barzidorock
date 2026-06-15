@@ -8,7 +8,9 @@
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 양화로12길 6",
-      "en": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea"
+      "en": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区杨花路12街6",
+      "ja": "ソウル特別市麻浦区楊花路12キル6"
     },
     "latitude": 37.5516578,
     "longitude": 126.9175086,
@@ -60,7 +62,9 @@
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 어울마당로 35",
-      "en": "35 Eoulmadang-ro, Mapo-gu, Seoul, South Korea"
+      "en": "35 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区和睦广场路35号",
+      "ja": "ソウル特別市麻浦区オウルマダン路35"
     },
     "latitude": 37.5483606,
     "longitude": 126.9200362,
@@ -112,7 +116,9 @@
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 양화로 64",
-      "en": "64 Yanghwa-ro, Mapo-gu, Seoul, South Korea"
+      "en": "64 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区杨花路64",
+      "ja": "ソウル特別市麻浦区楊花路64"
     },
     "latitude": 37.5503331,
     "longitude": 126.9157927,
@@ -145,7 +151,9 @@
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로29길 16 지하 1층",
-      "en": "16 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea"
+      "en": "16 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路29街16",
+      "ja": "ソウル特別市麻浦区臥牛山路29キル16"
     },
     "latitude": 37.5550354,
     "longitude": 126.929,
