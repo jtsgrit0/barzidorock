@@ -7,6 +7,7 @@ import TabBar from './components/TabBar';
 import NotReadyPopup from './components/NotReadyPopup';
 import SchedulePage from './components/SchedulePage';
 import FavoritesPage from './components/FavoritesPage';
+import OptionsPage from './components/OptionsPage';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
 
@@ -223,6 +224,7 @@ function App() {
                   translations={translations}
                 />} 
               />
+              <Route path="/options" element={<OptionsPage />} />
             </Routes>
           </div>
           <TabBar centerMapToUserLocation={centerMapToUserLocation} />
