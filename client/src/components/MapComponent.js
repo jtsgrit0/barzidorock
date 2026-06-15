@@ -131,13 +131,21 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
             onCloseClick={handleInfoWindowClose}
           >
             <div style={{ width: '300px', padding: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 style={{ margin: 0, fontSize: '1.5em' }}>
+              <div style={{ position: 'relative', alignItems: 'center' }}>
+                <h2 style={{ margin: 0, fontSize: '1.5em', textAlign: 'center' }}>
                   {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}
                 </h2>
                 <FontAwesomeIcon 
                   icon={faHeart} 
-                  style={{ cursor: 'pointer', color: favorites.includes(selectedVenue.id) ? 'red' : 'grey', fontSize: '1.5em' }} 
+                  style={{ 
+                    position: 'absolute', 
+                    right: 0, 
+                    top: '50%', 
+                    transform: 'translateY(-50%)', 
+                    cursor: 'pointer', 
+                    color: favorites.includes(selectedVenue.id) ? 'red' : 'grey', 
+                    fontSize: '1.5em' 
+                  }} 
                   onClick={() => toggleFavorite(selectedVenue.id)} 
                 />
               </div>
