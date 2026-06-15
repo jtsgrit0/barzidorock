@@ -202,8 +202,6 @@ function App() {
                   venues={filteredVenues}
                   center={mapCenter}
                   zoom={mapZoom}
-                  onFetchSchedule={handleFetchSchedule}
-                  scheduleContent={fetchedScheduleContent}
                   userLocation={userLocation}
                   centerMapToUserLocation={centerMapToUserLocation}
                   language={language}
