@@ -181,7 +181,12 @@
     "id": "ChIJ6cYrXNqYfDURly0vyvWEHH0",
     "name": "Veloso Hongdae",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Jandari-ro, 46 서교 스튜디오 지하 1층",
+    "address": {
+      "ko": "서울 마포구 잔다리로 46",
+      "en": "46 Jandari-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区Jandari路 46",
+      "ja": "ソウル特別市麻浦区Jandari路 46"
+    },
     "latitude": 37.5524282,
     "longitude": 126.9188166,
     "phoneNumber": "+82 2-336-9943",
@@ -208,7 +213,12 @@
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
     "name": "Cafe Unplugged",
     "type": "live_venue",
-    "address": "26 Wausan-ro 33-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "서울특별시 마포구 와우산로33길 26",
+      "en": "26 Wausan-ro 33-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路33街26",
+      "ja": "ソウル特別市麻浦区臥牛山路33ギル26"
+    },
     "latitude": 37.5554289,
     "longitude": 126.929198,
     "phoneNumber": "+82 70-4200-9251",
@@ -235,7 +245,12 @@
     "id": "ChIJrelcVdCYfDURiaHkye8F2Pg",
     "name": "Alive Hall",
     "type": "live_venue",
-    "address": "20 지하 Dongmak-ro 7-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "서울특별시 마포구 독막로7길 20 지하",
+      "en": "20 Dongmak-ro 7-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区独幕路7街20 地下",
+      "ja": "ソウル特別市麻浦区トク막路7ギル20 地下"
+    },
     "latitude": 37.5487062,
     "longitude": 126.9191557,
     "phoneNumber": "+82 10-3769-5949",
@@ -262,7 +277,12 @@
     "id": "ChIJb7N7NMCYfDURUawPN2TKHWk",
     "name": "CLUBAOR(ALL OF ROCK)",
     "type": "live_venue",
-    "address": "156 지하 Wausan-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 와우산로 156 지하",
+        "en": "156 Wausan-ro, B1, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区卧牛山路156号地下一层",
+        "ja": "ソウル特別市麻浦区臥牛山路156 地下1階"
+      },
     "latitude": 37.5548473,
     "longitude": 126.9304103,
     "phoneNumber": "+82 10-5500-8711",
@@ -289,7 +309,12 @@
     "id": "ChIJk17byMKYfDURZjqOQVXjDL4",
     "name": "클럽 라이브앤라우드",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Donggyo-ro, 191 디비엠빌딩 지하 2층",
+    "address": {
+        "ko": "서울 마포구 동교로 191 디비엠빌딩 지하 2층",
+        "en": "191 Donggyo-ro, B2, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区东桥路191号DVM大厦地下2层",
+        "ja": "ソウル特別市麻浦区東橋路191 DVMビル 地下2階"
+    },
     "latitude": 37.5574516,
     "longitude": 126.9223086,
     "phoneNumber": "+82 2-336-9399",
@@ -316,7 +341,12 @@
     "id": "ChIJrfP8jdqYfDUR68Wxa44PDXU",
     "name": "MUV-Hall",
     "type": "live_venue",
-    "address": "32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 잔다리로 32",
+        "en": "32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区Jandari路 32",
+        "ja": "ソウル特別市麻浦区Jandari路 32"
+    },
     "latitude": 37.5516113,
     "longitude": 126.9198371,
     "phoneNumber": "+82 10-3692-6082",
@@ -343,7 +373,12 @@
     "id": "ChIJ5ZkPq8SYfDURUgbbNVkIe8c",
     "name": "Hanatour V-Hall",
     "type": "live_venue",
-    "address": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 홍익로 25",
+        "en": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区弘益路25",
+        "ja": "ソウル特別市麻浦区弘益路25"
+    },
     "latitude": 37.5543874,
     "longitude": 126.9219519,
     "phoneNumber": "+82 2-338-0958",
@@ -370,7 +405,12 @@
     "id": "ChIJz7WjUcWYfDURLQpMqR1EfhI",
     "name": "Club FF",
     "type": "live_venue",
-    "address": "407-8 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 서교동 407-8",
+        "en": "407-8 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区西桥洞 407-8",
+        "ja": "ソウル特別市麻浦区西橋洞 407-8"
+    },
     "latitude": 37.5502152,
     "longitude": 126.9222892,
     "phoneNumber": "+82 10-9025-3407",
@@ -397,7 +437,12 @@
     "id": "ChIJD8JrWo6ZfDURQS1q52BpO30",
     "name": "Watcha Hall",
     "type": "live_venue",
-    "address": "B1, 32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 잔다리로 32 지하1층",
+        "en": "B1, 32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区Jandari路 32 地下一层",
+        "ja": "ソウル特別市麻浦区Jandari路 32 地下1階"
+    },
     "latitude": 37.5515437,
     "longitude": 126.9197803,
     "phoneNumber": "+82 2-3144-0409",
@@ -423,7 +468,12 @@
     "id": "ChIJq-BtxCyZfDURacqRwCnbCDI",
     "name": "Flex lounge",
     "type": "live_venue",
-    "address": "100-10 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 양화로 100-10",
+        "en": "100-10 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区杨花路 100-10",
+        "ja": "ソウル特別市麻浦区楊花路 100-10"
+    },
     "latitude": 37.5525552,
     "longitude": 126.9189906,
     "phoneNumber": null,
@@ -449,7 +499,12 @@
     "id": "ChIJ3VeTqXKZfDURa84IUjrVGxU",
     "name": "라이브홀 롤러코스터",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Donggyo-ro, 147 청람빌딩 지하",
+    "address": {
+        "ko": "서울 마포구 동교로 147 청람빌딩 지하",
+        "en": "Cheongnam Building B1, 147 Donggyo-ro, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区东桥路 147 青蓝大厦 地下",
+        "ja": "ソウル特別市麻浦区東橋路 147 青藍ビル 地下"
+    },
     "latitude": 37.5555485,
     "longitude": 126.9183198,
     "phoneNumber": "+82 70-8281-4612",
@@ -476,7 +531,12 @@
     "id": "ChIJ84N-zN2ZfDURik0Ls-yU7cE",
     "name": "BRST STUDIO & LIVE HOUSE",
     "type": "live_venue",
-    "address": "30 Wausan-ro 18-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 와우산로18길 30",
+        "en": "30 Wausan-ro 18-gil, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区卧牛山路18街 30",
+        "ja": "ソウル特別市麻浦区臥牛山路18キル 30"
+    },
     "latitude": 37.551465,
     "longitude": 126.9240704,
     "phoneNumber": "+82 10-4876-4091",
@@ -502,7 +562,12 @@
     "id": "ChIJdfv_OM6ZfDURUwSL4gD9o00",
     "name": "Bendeo",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Wausan-ro 14-gil, 4 지하 1층",
+    "address": {
+        "ko": "서울 마포구 와우산로14길 4 지하 1층",
+        "en": "B1, 4 Wausan-ro 14-gil, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区卧牛山路14街 4 地下一层",
+        "ja": "ソウル特別市麻浦区臥牛山路14キル 4 地下1階"
+    },
     "latitude": 37.5500175,
     "longitude": 126.9233548,
     "phoneNumber": "+82 2-6406-5646",
@@ -529,7 +594,12 @@
     "id": "ChIJIwVrgcSYfDURgLhsDKTq0lo",
     "name": "사운드홀릭시티",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, 서교동 344-6",
+    "address": {
+        "ko": "서울 마포구 서교동 344-6",
+        "en": "344-6 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区西桥洞 344-6",
+        "ja": "ソウル特別市麻浦区西橋洞 344-6"
+    },
     "latitude": 37.553341,
     "longitude": 126.924364,
     "phoneNumber": "+82 2-3142-4203",
@@ -545,7 +615,12 @@
     "id": "ChIJZdCBRMWYfDURZInohdaixpg",
     "name": "Club Evans",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Wausan-ro, 63 2층",
+    "address": {
+        "ko": "서울 마포구 와우산로 63 2층",
+        "en": "2F, 63 Wausan-ro, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区卧牛山路 63 2层",
+        "ja": "ソウル特別市麻浦区臥牛山路 63 2階"
+    },
     "latitude": 37.55030319999999,
     "longitude": 126.9229644,
     "phoneNumber": "+82 2-337-8361",
@@ -572,7 +647,12 @@
     "id": "ChIJ7x57usGYfDURVYMF-xdvxdo",
     "name": "BBang",
     "type": "live_venue",
-    "address": "12 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 와우산로29길 12",
+        "en": "12 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区卧牛山路29街 12",
+        "ja": "ソウル特別市麻浦区臥牛山路29キル 12"
+    },
     "latitude": 37.5548142,
     "longitude": 126.929257,
     "phoneNumber": "+82 2-6081-1089",
@@ -599,7 +679,12 @@
     "id": "ChIJZyHbscSYfDUR4y92H3FQfZc",
     "name": "BAR다",
     "type": "rock_bar",
-    "address": "7 Hongik-ro 3-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+        "ko": "서울 마포구 홍익로3길 7",
+        "en": "7 Hongik-ro 3-gil, Mapo-gu, Seoul, South Korea",
+        "zh": "首尔特别市麻浦区弘益路3街 7",
+        "ja": "ソウル特別市麻浦区弘益路3キル 7"
+    },
     "latitude": 37.5539574,
     "longitude": 126.9222305,
     "phoneNumber": "+82 2-337-1818",
@@ -626,7 +711,12 @@
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
     "name": "UNDERSTAGE",
     "type": "live_venue",
-    "address": "246 Itaewon-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 이태원로 246",
+        "en": "246 Itaewon-ro, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院路246",
+        "ja": "ソウル特別市龍山区梨泰院路246"
+    },
     "latitude": 37.5366084,
     "longitude": 127.0006901,
     "phoneNumber": "+82 2-331-6301",
@@ -653,7 +743,12 @@
     "id": "ChIJ_yDW1E6ifDURjtTAd-xUeOg",
     "name": "Petsounds 펫사운즈",
     "type": "live_venue",
-    "address": "278-8 Itaewon-dong, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 이태원동 278-8",
+        "en": "278-8 Itaewon-dong, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院洞278-8",
+        "ja": "ソウル特別市龍山区梨泰院洞278-8"
+    },
     "latitude": 37.5391661,
     "longitude": 126.9889974,
     "phoneNumber": "+82 10-2396-3050",
@@ -680,7 +775,12 @@
     "id": "ChIJu5zS90mifDURl1MmzCKDnhY",
     "name": "All That Jazz",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-ro, 216 2층",
+    "address": {
+        "ko": "서울 용산구 이태원로 216 2층",
+        "en": "South Korea, Seoul, Yongsan District, Itaewon-ro, 216 2층",
+        "zh": "首尔特别市龙山区梨泰院路216 2层",
+        "ja": "ソウル特別市龍山区梨泰院路216 2階"
+    },
     "latitude": 37.5347544,
     "longitude": 126.9981662,
     "phoneNumber": "+82 2-795-5701",
@@ -707,7 +807,12 @@
     "id": "ChIJY4nZpr-ffDUR9x3jyF5DWqQ",
     "name": "Boogie Woogie",
     "type": "live_venue",
-    "address": "21 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 회나무로 21",
+        "en": "21 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区槐树路21",
+        "ja": "ソウル特別市龍山区槐樹路21"
+    },
     "latitude": 37.5391916,
     "longitude": 126.9890037,
     "phoneNumber": "+82 10-2396-3050",
@@ -734,7 +839,12 @@
     "id": "ChIJZ_-M46SjfDURp0aitQyyjLI",
     "name": "O Passage Jimmy's Bar",
     "type": "live_venue",
-    "address": "54-6 Itaewon-ro 27ga-gil, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 이태원로27가길 54-6",
+        "en": "54-6 Itaewon-ro 27ga-gil, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院路27ga-gil 54-6",
+        "ja": "ソウル特別市龍山区梨泰院路27ga-gil 54-6"
+    },
     "latitude": 37.5351837,
     "longitude": 126.9921516,
     "phoneNumber": "+82 10-2647-9777",
@@ -761,7 +871,12 @@
     "id": "ChIJizYwvLGjfDUREfOx1W-s9Xs",
     "name": "서브라이엇 해방촌",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Sinheung-ro 7-gil, 1 지하 1층",
+    "address": {
+        "ko": "서울 용산구 신흥로7길 1 지하1층",
+        "en": "1 Sinheung-ro 7-gil, Yongsan District, Seoul, South Korea, B1",
+        "zh": "首尔特别市龙山区新兴路7街 1 地下1层",
+        "ja": "ソウル特別市龍山区新興路7キル 1 地下1階"
+    },
     "latitude": 37.5419221,
     "longitude": 126.9871708,
     "phoneNumber": "+82 10-8018-5546",
@@ -788,7 +903,12 @@
     "id": "ChIJC7LRVACjfDURvBApmPbjwng",
     "name": "Sunday Salt",
     "type": "live_venue",
-    "address": "33 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 회나무로 33",
+        "en": "33 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区槐南无路 33",
+        "ja": "ソウル特別市龍山区槐南無路 33"
+    },
     "latitude": 37.539822,
     "longitude": 126.9903789,
     "phoneNumber": null,
@@ -810,7 +930,12 @@
     "id": "ChIJK1JOih6jfDUR5TbCO_pe93M",
     "name": "MZK Muzik Bar 뮤지크 바",
     "type": "live_venue",
-    "address": "1 Fl, 2-10 Itaewon-ro 20-gil, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 이태원로20길 2-10 1층",
+        "en": "1 Fl, 2-10 Itaewon-ro 20-gil, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院路20街 2-10 1层",
+        "ja": "ソウル特別市龍山区梨泰院路20キル 2-10 1階"
+    },
     "latitude": 37.5340439,
     "longitude": 126.9915207,
     "phoneNumber": null,
@@ -836,7 +961,12 @@
     "id": "ChIJdUZXm4ejfDURt4uTvN2p9y8",
     "name": "Flac Seoul",
     "type": "live_venue",
-    "address": "South Korea, Seoul, 2F Itaewon-dong, 123-3 KR 서울특별시 용산구",
+    "address": {
+        "ko": "서울 용산구 이태원동 123-3 2층",
+        "en": "2F, 123-3 Itaewon-dong, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院洞 123-3 2层",
+        "ja": "ソウル特別市龍山区梨泰院洞 123-3 2階"
+    },
     "latitude": 37.5349664,
     "longitude": 126.9949832,
     "phoneNumber": null,
@@ -854,7 +984,12 @@
     "id": "ChIJu2Z3JEqifDURp1fcG9iChRY",
     "name": "THE SOUL",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Hannam-dong, 지하1층 78-2",
+    "address": {
+        "ko": "서울 용산구 한남동 78-2 지하1층",
+        "en": "B1, 78-2 Hannam-dong, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区汉南洞 78-2 地下1层",
+        "ja": "ソウル特別市龍山区漢南洞 78-2 地下1階"
+    },
     "latitude": 37.53328310000001,
     "longitude": 127.0067917,
     "phoneNumber": "+82 10-5339-5193",
@@ -881,7 +1016,12 @@
     "id": "ChIJSQyz70qifDURXds2EiDQMgQ",
     "name": "BBCB: Beton Brut + Concrete Bar",
     "type": "live_venue",
-    "address": "22 Bogwang-ro 60-gil, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 보광로60길 22",
+        "en": "22 Bogwang-ro 60-gil, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区普光路60街 22",
+        "ja": "ソウル特別市龍山区普光路60キル 22"
+    },
     "latitude": 37.5338907,
     "longitude": 126.9954772,
     "phoneNumber": "+82 10-4321-4123",
@@ -908,7 +1048,12 @@
     "id": "ChIJfdZbMbCjfDURuafv8kKi8Ls",
     "name": "공연장 일신홀",
     "type": "live_venue",
-    "address": "98 Hannam-daero, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 한남대로 98",
+        "en": "98 Hannam-daero, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区汉南大路 98",
+        "ja": "ソウル特別市龍山区漢南大路 98"
+    },
     "latitude": 37.5371732,
     "longitude": 127.005468,
     "phoneNumber": "+82 2-790-3364",
@@ -935,7 +1080,12 @@
     "id": "ChIJe7JXCkqifDURSfB3BCVnHPc",
     "name": "바우슈텔러",
     "type": "live_venue",
-    "address": "73-2 Itaewon-dong, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 이태원동 73-2",
+        "en": "73-2 Itaewon-dong, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院洞 73-2",
+        "ja": "ソウル特別市龍山区梨泰院洞 73-2"
+    },
     "latitude": 37.5334894,
     "longitude": 126.99289,
     "phoneNumber": null,
@@ -962,7 +1112,12 @@
     "id": "ChIJWc_5Iv2jfDURtLk0d9MYrKI",
     "name": "BAR UNION",
     "type": "live_venue",
-    "address": "South Korea, Seoul, 2f Itaewon-dong, 74-1 KR 서울특별시 용산구",
+    "address": {
+        "ko": "서울 용산구 이태원동 74-1 2층",
+        "en": "2f, 74-1 Itaewon-dong, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院洞 74-1 2层",
+        "ja": "ソウル特別市龍山区梨泰院洞 74-1 2階"
+    },
     "latitude": 37.5338115,
     "longitude": 126.9923248,
     "phoneNumber": "+82 10-3395-0209",
@@ -989,7 +1144,12 @@
     "id": "ChIJOcccIq2jfDURnOnJgHsW-2o",
     "name": "FREAX | 프릭스 이태원 바",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-ro, 143-13 프릭스 (FREAX 1층",
+    "address": {
+        "ko": "서울 용산구 이태원로 143-13 1층",
+        "en": "1f, 143-13 Itaewon-ro, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院路 143-13 1层",
+        "ja": "ソウル特別市龍山区梨泰院路 143-13 1階"
+      },
     "latitude": 37.53454869999999,
     "longitude": 126.9892328,
     "phoneNumber": "+82 10-2780-8363",
@@ -1016,7 +1176,12 @@
     "id": "ChIJZQZCNZmjfDURpXRZ1mv_ubM",
     "name": "Idenhouse",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Dokseodang-ro, 73 지하 1층",
+    "address": {
+        "ko": "서울 용산구 독서당로 73 지하1층",
+        "en": "B1, 73 Dokseodang-ro, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区读书堂路73 地下1层",
+        "ja": "ソウル特別市龍山区読書堂路73 地下1階"
+      },
     "latitude": 37.53421,
     "longitude": 127.008636,
     "phoneNumber": "+82 2-732-0012",
@@ -1070,7 +1235,12 @@
     "id": "ChIJIQ1y2-ajfDURVM8ZrT3mQ3Y",
     "name": "Billion Bar Itaewon 빌리언바 이태원",
     "type": "live_venue",
-    "address": "1st Floor, 136-4 Itaewon-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+        "ko": "서울 용산구 이태원로 136-4 1층",
+        "en": "1st Floor, 136-4 Itaewon-ro, Yongsan District, Seoul, South Korea",
+        "zh": "首尔特别市龙山区梨泰院路 136-4 1层",
+        "ja": "ソウル特別市龍山区梨泰院路 136-4 1階"
+      },
     "latitude": 37.5338531,
     "longitude": 126.9888896,
     "phoneNumber": null,
@@ -1097,7 +1267,12 @@
     "id": "ChIJ77vDo5SjfDURafOB_MCS9AA",
     "name": "코튼클럽 사운즈한남 (Cotton Club Sounds Hannam)",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Daesagwan-ro, 35 5층",
+    "address": {
+      "ko": "서울 용산구 대사관로 35 5층",
+      "en": "5th floor, 35 Daesagwan-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区大使馆路35 5层",
+      "ja": "ソウル特別市龍山区大使館路35 5階"
+    },
     "latitude": 37.533779,
     "longitude": 127.0019166,
     "phoneNumber": "+82 2-794-8435",
@@ -1124,7 +1299,12 @@
     "id": "ChIJ1dEffcejfDURgPA8JKx07h0",
     "name": "더 비틀즈 라이브 펍",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-ro, 243 B1층",
+    "address": {
+      "ko": "서울 용산구 이태원로 243 지하1층",
+      "en": "B1 floor, 243 Itaewon-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路243 地下1层",
+      "ja": "ソウル特別市龍山区梨泰院路243 地下1階"
+    },
     "latitude": 37.5367633,
     "longitude": 127.0000019,
     "phoneNumber": null,
@@ -1151,7 +1331,12 @@
     "id": "ChIJUw8zwEiifDURaoU2HZwO8w0",
     "name": "ROXY LP Pub",
     "type": "rock_bar",
-    "address": "9 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "서울 용산구 회나무로 9",
+      "en": "9 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区槐树路9",
+      "ja": "ソウル特別市龍山区槐樹路9"
+    },
     "latitude": 37.53870939999999,
     "longitude": 126.9878498,
     "phoneNumber": "+82 70-8836-1969",
