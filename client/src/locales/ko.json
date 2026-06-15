@@ -2,5 +2,8 @@
   "call": "전화걸기",
   "directions": "길찾기",
   "website": "홈페이지",
-  "no_favorites": "찜한 장소가 없습니다."
+  "no_favorites": "찜한 장소가 없습니다.",
+  "category_all": "전체",
+  "category_hongdae": "홍대",
+  "category_itaewon": "이태원"
 }

@@ -186,12 +186,7 @@ function MapComponent({ venues, center, zoom, onFetchSchedule, scheduleContent, 
                 )}
               </div>
 
-              <div style={{ marginTop: '15px', textAlign: 'center', cursor: 'pointer', borderTop: '1px solid #eee', paddingTop: '10px' }}>
-                <span onClick={() => setLanguage('ko')}>🇰🇷</span> 
-                <span onClick={() => setLanguage('en')} style={{ marginLeft: '10px' }}>🇬🇧</span> 
-                <span onClick={() => setLanguage('zh')} style={{ marginLeft: '10px' }}>🇨🇳</span> 
-                <span onClick={() => setLanguage('ja')} style={{ marginLeft: '10px' }}>🇯🇵</span>
-              </div>
+
             </div>
           </InfoWindow>
         )}

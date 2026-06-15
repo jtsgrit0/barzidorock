@@ -9,27 +9,37 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  display: flex; /* 제목과 버튼을 가로로 정렬 */
+  display: flex;
   align-items: center;
-  justify-content: space-between; /* 제목과 버튼 그룹을 양 끝으로 정렬 */
-  gap: 15px; /* 제목과 버튼 사이 간격 */
-  width: 90%; /* 반응형을 위해 너비 조정 */
-  max-width: 700px; /* 최대 너비를 늘려 가로 공간 확보 */
+  justify-content: space-between;
+  gap: 15px;
+  width: 90%;
+  max-width: 800px; /* 최대 너비를 늘려 언어 아이콘 공간 확보 */
+}
+
+.title-and-categories {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .floating-header h1 {
-  margin: 0; /* 아래 마진 제거 */
+  margin: 0;
   color: #333;
   font-size: 1.8em;
-  white-space: nowrap; /* 제목이 줄바꿈되지 않도록 */
-  flex-shrink: 0; /* 제목이 줄어들지 않도록 */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .categories {
   display: flex;
-  flex: 1; /* 사용 가능한 공간을 채우도록 */
-  justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
-  gap: 10px; /* 버튼 사이 간격 약간 확보 */
+  gap: 10px;
+}
+
+.languages {
+  display: flex;
+  align-items: center;
+  font-size: 1.5em; /* 국기 아이콘 크기 조정 */
 }
 
 .categories button {

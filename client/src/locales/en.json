@@ -2,5 +2,8 @@
   "call": "Call",
   "directions": "Directions",
   "website": "Website",
-  "no_favorites": "No favorite places."
+  "no_favorites": "No favorite places.",
+  "category_all": "All",
+  "category_hongdae": "Hongdae",
+  "category_itaewon": "Itaewon"
 }

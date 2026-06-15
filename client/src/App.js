@@ -192,6 +192,7 @@ function App() {
             onCategoryChange={handleCategoryChange}
             language={language}
             setLanguage={setLanguage}
+            translations={translations}
           />
           <div className="main-content">
             <Routes>
