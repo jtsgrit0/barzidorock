@@ -18,7 +18,6 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
   const [mapZoom, setMapZoom] = useState(15);
-  const [fetchedScheduleContent, setFetchedScheduleContent] = useState(null);
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
@@ -118,36 +117,6 @@ function App() {
     }
     setMapCenter(newCenter);
     setMapZoom(newZoom);
-  };
-
-
-
-  // Function to fetch website content from the backend
-  const handleFetchSchedule = async (url) => {
-    if (!url) {
-      setFetchedScheduleContent(null);
-      return;
-    }
-    setFetchedScheduleContent('<p>Loading schedule...</p>');
-    try {
-      const response = await fetch('http://localhost:3001/api/fetch-schedule', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setFetchedScheduleContent(data.content);
-    } catch (error) {
-      console.error("Failed to fetch schedule:", error);
-      setFetchedScheduleContent('<p>Could not load schedule. The website might be down or blocking requests.</p>');
-    }
   };
 
   // Handle user's location consent
