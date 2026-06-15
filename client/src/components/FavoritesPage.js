@@ -23,7 +23,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
                 <div style={{ position: 'relative', margin: '15px 0' }}>
                   <img 
                     src={venue.image_urls[0]} 
-                    alt={venue.name[language] || venue.name['en']} 
+                    alt={venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name} 
                     style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }} 
                   />
                   <div style={{
@@ -39,7 +39,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
                     borderRadius: '8px'
                   }}>
                     <h2 style={{ margin: 0, fontSize: '1.8em', color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', textAlign: 'center', padding: '10px' }}>
-                      {venue.name[language] || venue.name['en']}
+                      {venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name}
                     </h2>
                   </div>
                 </div>
@@ -48,7 +48,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
               <div style={{ fontSize: '1.1em', lineHeight: '1.6' }}>
                 <p style={{ margin: '8px 0' }}>
                   <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '12px', color: '#e00' }} /> 
-                  {venue.address[language] || venue.address['en']}
+                  {venue.address && typeof venue.address === 'object' ? (venue.address[language] || venue.address['en']) : venue.address}
                 </p>
                 {venue.phoneNumber && (
                   <p style={{ margin: '8px 0' }}>
