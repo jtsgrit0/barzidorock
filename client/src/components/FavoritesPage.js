@@ -11,10 +11,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
         <div>
           {favoriteVenues.map(venue => (
             <div key={venue.id} style={{ backgroundColor: '#222', color: '#eee', padding: '20px', margin: '15px 0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 style={{ margin: 0, fontSize: '1.8em', color: '#e00' }}>
-                  {venue.name[language] || venue.name['en']}
-                </h2>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '15px' }}>
                 <FontAwesomeIcon 
                   icon={faHeart} 
                   style={{ cursor: 'pointer', color: 'red', fontSize: '1.8em' }} 
@@ -23,11 +20,26 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
               </div>
 
               {venue.image_urls && venue.image_urls.length > 0 && (
-                <img 
-                  src={venue.image_urls[0]} 
-                  alt={venue.name[language] || venue.name['en']} 
-                  style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', margin: '15px 0' }} 
-                />
+                <div style={{ position: 'relative', margin: '15px 0' }}>
+                  <img 
+                    src={venue.image_urls[0]} 
+                    alt={venue.name[language] || venue.name['en']} 
+                    style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }} 
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                    padding: '20px 10px 10px 10px',
+                    borderRadius: '0 0 8px 8px'
+                  }}>
+                    <h2 style={{ margin: 0, fontSize: '1.5em', color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+                      {venue.name[language] || venue.name['en']}
+                    </h2>
+                  </div>
+                </div>
               )}
 
               <div style={{ fontSize: '1.1em', lineHeight: '1.6' }}>
