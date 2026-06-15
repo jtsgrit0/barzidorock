@@ -23,6 +23,19 @@ function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [language, setLanguage] = useState('ko');
   const [favorites, setFavorites] = useState([]);
+  const [translations, setTranslations] = useState({});
+
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const localeData = await import(`./locales/${language}.json`);
+        setTranslations(localeData.default);
+      } catch (error) {
+        console.error("Could not load translations for the selected language.", error);
+      }
+    };
+    loadTranslations();
+  }, [language]);
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites');
@@ -195,19 +208,20 @@ function App() {
                   setLanguage={setLanguage}
                   favorites={favorites}
                   toggleFavorite={toggleFavorite}
+                  translations={translations}
                 />
               } />
               <Route path="/tickets" element={<NotReadyPopup />} />
-              <Route path="/schedule" element={<SchedulePage />} />
+              <Route path="/schedule" element={<SchedulePage language={language} />} />
               <Route path="/favorites" element={
                 <FavoritesPage 
                   venues={venues} 
                   favorites={favorites} 
                   language={language} 
-                  toggleFavorite={toggleFavorite} 
-                />
-              } />
-              <Route path="/options" element={<NotReadyPopup />} />
+                  toggleFavorite={toggleFavorite}
+                  translations={translations}
+                />} 
+              />
             </Routes>
           </div>
           <TabBar centerMapToUserLocation={centerMapToUserLocation} />
