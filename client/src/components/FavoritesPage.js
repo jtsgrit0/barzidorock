@@ -6,8 +6,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite }) => {
   const favoriteVenues = venues.filter(venue => favorites.includes(venue.id));
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#111', minHeight: '100vh' }}>
-      <h1 style={{ color: '#eee', textAlign: 'center', marginBottom: '30px' }}>내가 찜한 장소</h1>
+    <div style={{ padding: '20px', paddingTop: '120px', backgroundColor: '#111', minHeight: '100vh' }}>
       {favoriteVenues.length > 0 ? (
         <div>
           {favoriteVenues.map(venue => (
