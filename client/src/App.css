@@ -160,4 +160,5 @@
   height: calc(100vh - 120px); /* Adjust height considering header and tab bar */
   overflow-y: auto;
   text-align: left;
+  padding-top: 70px; /* Add top padding to avoid overlap with the header */
 }

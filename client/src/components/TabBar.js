@@ -1,10 +1,18 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faTicket, faCalendarAlt, faCog, faCrosshairs, faHeart } from '@fortawesome/free-solid-svg-icons';
 import './TabBar.css';
 
 const TabBar = ({ centerMapToUserLocation }) => {
+  const navigate = useNavigate();
+
+  const handleMyLocationClick = () => {
+    navigate('/');
+    // Use a short delay to ensure navigation completes before centering the map
+    setTimeout(centerMapToUserLocation, 100);
+  };
+
   return (
     <div className="tab-bar">
       <NavLink to="/" className={({ isActive }) => "tab-item" + (isActive ? " active" : "")} end>
@@ -27,7 +35,7 @@ const TabBar = ({ centerMapToUserLocation }) => {
         <FontAwesomeIcon icon={faCog} />
         <span>옵션</span>
       </NavLink>
-      <div className="tab-item" onClick={centerMapToUserLocation} style={{ cursor: 'pointer' }}>
+      <div className="tab-item" onClick={handleMyLocationClick} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faCrosshairs} />
         <span>내 위치</span>
       </div>
