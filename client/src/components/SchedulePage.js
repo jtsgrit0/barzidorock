@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './SchedulePage.css';
 import venues from '../venues.json'; // 공연장 목록을 직접 import
 
@@ -11,12 +11,7 @@ const SchedulePage = ({ language }) => {
     description: '',
   });
 
-  // 페이지 로드 시 저장된 스케줄을 불러옵니다.
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
-
-  const fetchSchedules = async () => {
+  const fetchSchedules = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/api/schedules');
       if (!response.ok) {
@@ -35,7 +30,12 @@ const SchedulePage = ({ language }) => {
     } catch (error) {
       console.error('Error fetching schedules:', error);
     }
-  };
+  }, [language]);
+
+  // 페이지 로드 시 저장된 스케줄을 불러옵니다.
+  useEffect(() => {
+    fetchSchedules();
+  }, [fetchSchedules]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
