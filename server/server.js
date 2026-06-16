@@ -194,7 +194,7 @@ app.get('/api/schedules', async (req, res) => {
 });
 
 // IMPORTANT: Replace with your actual secret key and store it securely (e.g., environment variable)
-const RECAPTCHA_SECRET_KEY = 'YOUR_SECRET_KEY';
+const RECAPTCHA_SECRET_KEY = '6LfFviEtAAAAADfPFhv2KPq3oPIADahPzOqeJ1OL';
 
 app.post('/api/schedules', async (req, res) => {
   const { venue_id, event_date, event_name, description, captcha } = req.body;
