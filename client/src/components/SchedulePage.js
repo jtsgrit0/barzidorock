@@ -104,6 +104,10 @@ const SchedulePage = ({ language }) => {
 
 
   const areas = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
+  const areaNames = {
+    hongdae: '홍대',
+    itaewon: '이태원',
+  };
 
   return (
     <div className="schedule-page">
@@ -119,7 +123,7 @@ const SchedulePage = ({ language }) => {
             <option value="">지역을 먼저 선택하세요</option>
             {areas.map((area) => (
               <option key={area} value={area}>
-                {area}
+                {areaNames[area] || area}
               </option>
             ))}
           </select>
