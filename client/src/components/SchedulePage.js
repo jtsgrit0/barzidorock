@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import './SchedulePage.css';
 import venues from '../venues.json';
 
@@ -113,7 +113,7 @@ const SchedulePage = ({ language }) => {
         description: '',
       });
       setSelectedArea('');
-      fetchSchedules();
+      await fetchSchedules(); // 저장 후 바로 일정 새로고침
       alert('공연일정이 저장되었습니다!');
     } catch (error) {
       console.error('Error creating schedule:', error);
@@ -211,4 +211,13 @@ const SchedulePage = ({ language }) => {
   );
 };
 
-export default SchedulePage;
+export default function SchedulePageWithCaptcha({ language }) {
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey="6LfFviEtAAAAADfPFhv2KPq3oPIADahPzOqeJ1OL"
+      language="ko"
+    >
+      <SchedulePage language={language} />
+    </GoogleReCaptchaProvider>
+  );
+}
