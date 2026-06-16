@@ -61,8 +61,6 @@ const SchedulePage = ({ language }) => {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (!executeRecaptcha) {
-      console.log('Execute recaptcha not yet available');
-      alert('reCAPTCHA가 준비되지 않았습니다. 잠시 후 다시 시도해주세요.');
       return;
     }
 
@@ -162,7 +160,7 @@ const SchedulePage = ({ language }) => {
             value={newEvent.description}
             onChange={handleInputChange}
           />
-          <button type="submit" className="save-button">
+          <button type="submit" className="save-button" disabled={!executeRecaptcha}>
             저장
           </button>
         </form>
