@@ -95,7 +95,7 @@ const SchedulePage = ({ language }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/schedules', {
+      const response = await fetch(`${API_BASE_URL}/api/schedules`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
