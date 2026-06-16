@@ -56,10 +56,19 @@ async function fetchInstagramImages(targetUrl) {
 const app = express();
 const port = process.env.PORT || 3001; // Railway에서 할당하는 PORT 환경변수 사용, 기본값 3001
 
-app.use(cors({
-  origin: ['https://jtsgrit0.github.io', 'http://localhost:3000'],
-  credentials: true
-})); // GitHub Pages와 로컬 개발 환경에서의 CORS 허용
+// CORS 설정 - 모든 preflight 요청 처리
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  // OPTIONS 메서드는 200으로 응답
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 app.use(express.json()); // For parsing application/json
 
 const cheerio = require('cheerio');
