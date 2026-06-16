@@ -163,7 +163,7 @@ const SchedulePage = ({ language }) => {
           />
           <ReCAPTCHA
             ref={recaptchaRef}
-            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZTTI" // This is a test key for localhost
+            sitekey="6LfFviEtAAAAAOOrpFvkk_gEFTU0Xyeg1wi0lw8Z"
             onChange={handleCaptchaChange}
           />
           <button type="submit" className="save-button">
