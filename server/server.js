@@ -52,7 +52,11 @@ async function fetchInstagramImages(targetUrl) {
 const app = express();
 const port = 3001; // Or any other port you prefer
 
-app.use(cors()); // Enable CORS for all routes
+// CORS 설정 구체화 - 깃허브 페이지에서의 요청 허용
+app.use(cors({
+  origin: ['https://jtsgrit0.github.io', 'http://localhost:3000'],
+  credentials: true
+}));
 app.use(express.json()); // For parsing application/json
 
 const cheerio = require('cheerio');
@@ -194,7 +198,7 @@ app.get('/api/schedules', async (req, res) => {
 });
 
 // IMPORTANT: Replace with your actual secret key and store it securely (e.g., environment variable)
-const RECAPTCHA_SECRET_KEY = '6LfFviEtAAAAAOOrpFvkk_gEFTU0Xyeg1wi0lw8Z';
+const RECAPTCHA_SECRET_KEY = '6LfFviEtAAAAADfPFhv2KPq3oPIADahPzOqeJ1OL';
 
 app.post('/api/schedules', async (req, res) => {
   const { venue_id, event_date, event_name, description, captcha } = req.body;
@@ -205,13 +209,19 @@ app.post('/api/schedules', async (req, res) => {
   }
 
   try {
+    // Render 서버가 sleep에서 깨어나는 시간을 위해 30초 타임아웃 설정
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    
     const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: `secret=${RECAPTCHA_SECRET_KEY}&response=${captcha}`,
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
     const recaptchaData = await recaptchaResponse.json();
     console.log('reCAPTCHA full response data:', recaptchaData); // 모든 응답 데이터 로깅
 
