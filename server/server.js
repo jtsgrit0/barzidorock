@@ -52,11 +52,7 @@ async function fetchInstagramImages(targetUrl) {
 const app = express();
 const port = 3001; // Or any other port you prefer
 
-// CORS 설정 구체화 - 깃허브 페이지에서의 요청 허용
-app.use(cors({
-  origin: ['https://jtsgrit0.github.io', 'http://localhost:3000'],
-  credentials: true
-}));
+app.use(cors()); // 모든 도메인에서의 CORS 요청 허용
 app.use(express.json()); // For parsing application/json
 
 const cheerio = require('cheerio');
