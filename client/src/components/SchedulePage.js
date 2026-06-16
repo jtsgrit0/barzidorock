@@ -22,7 +22,7 @@ const SchedulePage = ({ language }) => {
   useEffect(() => {
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
     console.log('Current API URL:', API_BASE_URL);
-  }, [executeRecaptcha]);
+  }, [executeRecaptcha, API_BASE_URL]);
 
   const fetchSchedules = useCallback(async () => {
     try {
@@ -42,7 +42,7 @@ const SchedulePage = ({ language }) => {
     } catch (error) {
       console.error('Error fetching schedules:', error);
     }
-  }, [language]);
+  }, [language, API_BASE_URL]);
 
   useEffect(() => {
     fetchSchedules();
