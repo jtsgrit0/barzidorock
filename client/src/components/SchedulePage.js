@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import './SchedulePage.css';
 import venues from '../venues.json';
 
@@ -13,8 +13,7 @@ const SchedulePage = ({ language }) => {
     event_name: '',
     description: '',
   });
-  const [captchaValue, setCaptchaValue] = useState(null);
-  const recaptchaRef = useRef();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const fetchSchedules = useCallback(async () => {
     try {
@@ -59,20 +58,20 @@ const SchedulePage = ({ language }) => {
     setSelectedArea(e.target.value);
   };
 
-  const handleCaptchaChange = (value) => {
-    setCaptchaValue(value);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    if (!captchaValue) {
-      alert('캡챠를 확인해주세요.');
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available');
+      alert('reCAPTCHA가 준비되지 않았습니다. 잠시 후 다시 시도해주세요.');
       return;
     }
+
     if (!newEvent.venue_id || !newEvent.event_date || !newEvent.event_name) {
       alert('공연장, 날짜/시간, 공연명은 필수 항목입니다.');
       return;
     }
+
+    const token = await executeRecaptcha('scheduleSubmit');
 
     try {
       const response = await fetch('http://localhost:3001/api/schedules', {
@@ -80,11 +79,12 @@ const SchedulePage = ({ language }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...newEvent, captcha: captchaValue }),
+        body: JSON.stringify({ ...newEvent, captcha: token }),
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Network response was not ok');
       }
 
       setNewEvent({
@@ -95,16 +95,13 @@ const SchedulePage = ({ language }) => {
       });
       setSelectedArea('');
       fetchSchedules();
-      if (recaptchaRef.current) {
-        recaptchaRef.current.reset();
-      }
-      setCaptchaValue(null);
       alert('공연일정이 저장되었습니다!');
     } catch (error) {
       console.error('Error creating schedule:', error);
-      alert('저장에 실패했습니다.');
+      alert(`저장에 실패했습니다: ${error.message}`);
     }
-  };
+  }, [executeRecaptcha, newEvent, fetchSchedules]);
+
 
   const areas = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
 
@@ -160,11 +157,6 @@ const SchedulePage = ({ language }) => {
             placeholder="추가 정보 (선택 사항)"
             value={newEvent.description}
             onChange={handleInputChange}
-          />
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey="6LfFviEtAAAAAOOrpFvkk_gEFTU0Xyeg1wi0lw8Z"
-            onChange={handleCaptchaChange}
           />
           <button type="submit" className="save-button">
             저장

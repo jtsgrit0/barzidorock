@@ -214,8 +214,15 @@ app.post('/api/schedules', async (req, res) => {
     });
     const recaptchaData = await recaptchaResponse.json();
 
-    if (!recaptchaData.success) {
-      return res.status(400).json({ error: 'reCAPTCHA verification failed', 'error-codes': recaptchaData['error-codes'] });
+    // v3: Check for success and score
+    if (!recaptchaData.success || recaptchaData.score < 0.5) {
+      console.log('reCAPTCHA verification failed:', recaptchaData);
+      return res.status(400).json({ error: 'reCAPTCHA verification failed. Are you a robot?' });
+    }
+    
+    // v3: Check for the correct action
+    if (recaptchaData.action !== 'scheduleSubmit') {
+      return res.status(400).json({ error: 'Invalid reCAPTCHA action.' });
     }
 
     // 2. Proceed with creating schedule if reCAPTCHA is valid
