@@ -56,7 +56,10 @@ async function fetchInstagramImages(targetUrl) {
 const app = express();
 const port = process.env.PORT || 3001; // Railway에서 할당하는 PORT 환경변수 사용, 기본값 3001
 
-app.use(cors()); // 모든 도메인에서의 CORS 요청 허용
+app.use(cors({
+  origin: ['https://jtsgrit0.github.io', 'http://localhost:3000'],
+  credentials: true
+})); // GitHub Pages와 로컬 개발 환경에서의 CORS 허용
 app.use(express.json()); // For parsing application/json
 
 const cheerio = require('cheerio');
