@@ -15,6 +15,10 @@ const SchedulePage = ({ language }) => {
   });
   const { executeRecaptcha } = useGoogleReCaptcha();
 
+  useEffect(() => {
+    console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
+  }, [executeRecaptcha]);
+
   const fetchSchedules = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/api/schedules');
