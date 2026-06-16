@@ -1,30 +1,129 @@
 .schedule-page {
-  padding: 120px 20px 20px;
-  text-align: center;
+  padding: 100px 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.schedule-textarea {
+.schedule-form-container,
+.schedule-list-container {
+  background-color: #1a1a1a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.schedule-form-container h2,
+.schedule-list-container h2 {
+  color: #f0e68c; /* Khaki color for a vintage feel */
+  text-align: center;
+  margin-bottom: 25px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.schedule-form select,
+.schedule-form input,
+.schedule-form textarea {
   width: 100%;
-  height: 300px;
-  padding: 10px;
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 15px;
   font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.schedule-form select:focus,
+.schedule-form input:focus,
+.schedule-form textarea:focus {
+  outline: none;
+  border-color: #ff4500; /* OrangeRed for a fiery look */
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+.schedule-form textarea {
+  min-height: 120px;
   resize: vertical;
 }
 
 .save-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  padding: 15px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a1a;
+  background: linear-gradient(45deg, #ff8c00, #ff4500);
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .save-button:hover {
-  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 69, 0, 0.6);
+}
+
+.save-button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.schedule-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.schedule-item {
+  background-color: #2a2a2a;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border-left: 5px solid #ff4500;
+  transition: transform 0.2s ease;
+}
+
+.schedule-item:hover {
+    transform: scale(1.02);
+}
+
+.schedule-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.schedule-item-header strong {
+  color: #f0e68c;
+  font-size: 1.1em;
+}
+
+.schedule-item-body span {
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+.schedule-item-body p {
+  color: #ddd;
+  margin-top: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
