@@ -65,6 +65,7 @@ const SchedulePage = ({ language }) => {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (!executeRecaptcha) {
+      console.log('reCAPTCHA is not ready yet. Cannot submit.');
       return;
     }
 
@@ -73,7 +74,15 @@ const SchedulePage = ({ language }) => {
       return;
     }
 
-    const token = await executeRecaptcha('scheduleSubmit');
+    let token;
+    try {
+      token = await executeRecaptcha('scheduleSubmit');
+      console.log('reCAPTCHA token generated:', token); // 토큰 생성 성공 시 로그 추가
+    } catch (error) {
+      console.error('Error executing reCAPTCHA on client side:', error); // 클라이언트 측 오류 로깅
+      alert('reCAPTCHA 실행 중 오류가 발생했습니다. 네트워크 연결을 확인하거나 다시 시도해주세요.');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:3001/api/schedules', {
