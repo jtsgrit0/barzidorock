@@ -145,6 +145,9 @@
   {
     "id": "ChIJG417WOeZfDUR858nkAd-y_U",
     "name": {
+      "ko": "사운드마인드",
+      "en": "Soundmind"
+    },
       "ko": "홍대 우주정거장",
       "en": "Hongdae Wuju Jeonggeojang"
     },
@@ -403,7 +406,10 @@
   },
   {
     "id": "ChIJz7WjUcWYfDURLQpMqR1EfhI",
-    "name": "Club FF",
+    "name": {
+      "ko": "클럽 FF",
+      "en": "Club FF"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 마포구 서교동 407-8",
@@ -497,7 +503,10 @@
   },
   {
     "id": "ChIJ3VeTqXKZfDURa84IUjrVGxU",
-    "name": "라이브홀 롤러코스터",
+    "name": {
+      "ko": "라이브홀 롤러코스터",
+      "en": "Live Hall Roller Coaster"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 마포구 동교로 147 청람빌딩 지하",
@@ -529,7 +538,10 @@
   },
   {
     "id": "ChIJ84N-zN2ZfDURik0Ls-yU7cE",
-    "name": "BRST STUDIO & LIVE HOUSE",
+    "name": {
+      "ko": "BRST STUDIO & LIVE HOUSE",
+      "en": "BRST STUDIO & LIVE HOUSE"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 마포구 와우산로18길 30",
@@ -560,7 +572,10 @@
   },
   {
     "id": "ChIJdfv_OM6ZfDURUwSL4gD9o00",
-    "name": "Bendeo",
+    "name": {
+      "ko": "Bendeo",
+      "en": "Bendeo"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 마포구 와우산로14길 4 지하 1층",
@@ -592,7 +607,10 @@
   },
   {
     "id": "ChIJIwVrgcSYfDURgLhsDKTq0lo",
-    "name": "사운드홀릭시티",
+    "name": {
+      "ko": "사운드홀릭시티",
+      "en": "Soundholic City"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 마포구 서교동 344-6",
@@ -613,7 +631,10 @@
   },
   {
     "id": "ChIJZdCBRMWYfDURZInohdaixpg",
-    "name": "Club Evans",
+    "name": {
+      "ko": "클럽 에반스",
+      "en": "Club Evans"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 마포구 와우산로 63 2층",
