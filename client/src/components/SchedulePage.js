@@ -14,14 +14,19 @@ const SchedulePage = ({ language }) => {
     description: '',
   });
   const { executeRecaptcha } = useGoogleReCaptcha();
+  // GitHub Pages(프로덕션)와 로컬 개발 환경 구분
+  const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3001' 
+    : 'https://your-server-domain.com'; // ← 여기에 실제 서버가 배포된 주소를 넣으세요!
 
   useEffect(() => {
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
+    console.log('Current API URL:', API_BASE_URL);
   }, [executeRecaptcha]);
 
   const fetchSchedules = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/schedules');
+      const response = await fetch(`${API_BASE_URL}/api/schedules`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
