@@ -51,7 +51,7 @@ const SchedulePage = ({ language }) => {
       fetch(`${API_BASE_URL}/api/schedules`).catch(() => {});
     }, 10 * 60 * 1000); // 10분마다
     return () => clearInterval(pingInterval);
-  }, [fetchSchedules]);
+  }, [fetchSchedules, API_BASE_URL]);
 
   useEffect(() => {
     if (selectedArea) {
