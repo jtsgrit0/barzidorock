@@ -222,6 +222,7 @@ app.post('/api/schedules', async (req, res) => {
     
     // v3: Check for the correct action
     if (recaptchaData.action !== 'scheduleSubmit') {
+      console.log('reCAPTCHA action mismatch:', recaptchaData);
       return res.status(400).json({ error: 'Invalid reCAPTCHA action.' });
     }
 
