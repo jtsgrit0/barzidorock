@@ -17,7 +17,7 @@ const SchedulePage = ({ language }) => {
   // GitHub Pages(프로덕션)와 로컬 개발 환경 구분
   const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3001' 
-    : 'https://your-server-domain.com'; // ← 여기에 실제 서버가 배포된 주소를 넣으세요!
+    : 'https://barzidorock.onrender.com';
 
   useEffect(() => {
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
