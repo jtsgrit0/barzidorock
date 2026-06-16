@@ -205,28 +205,27 @@ app.post('/api/schedules', async (req, res) => {
   }
 
   try {
-    // reCAPTCHA 검증 로직 임시 비활성화 (키 문제 해결 후 주석 해제 필요)
-    // const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //   },
-    //   body: `secret=${RECAPTCHA_SECRET_KEY}&response=${captcha}`,
-    // });
-    // const recaptchaData = await recaptchaResponse.json();
+    const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${RECAPTCHA_SECRET_KEY}&response=${captcha}`,
+    });
+    const recaptchaData = await recaptchaResponse.json();
+    console.log('reCAPTCHA full response data:', recaptchaData); // 모든 응답 데이터 로깅
 
-    // // v3: Check for success and score
-    // if (!recaptchaData.success || recaptchaData.score < 0.5) {
-    //   console.log('reCAPTCHA verification failed:', recaptchaData);
-    //   return res.status(400).json({ error: 'reCAPTCHA verification failed. Are you a robot?' });
-    // }
+    // v3: Check for success and score
+    if (!recaptchaData.success || recaptchaData.score < 0.5) {
+      console.log('reCAPTCHA verification failed:', recaptchaData);
+      return res.status(400).json({ error: 'reCAPTCHA verification failed. Are you a robot?' });
+    }
     
-    // // v3: Check for the correct action
-    // if (recaptchaData.action !== 'scheduleSubmit') {
-    //   console.log('reCAPTCHA action mismatch:', recaptchaData);
-    //   return res.status(400).json({ error: 'Invalid reCAPTCHA action.' });
-    // }
-    console.log('reCAPTCHA 검증이 임시로 비활성화되었습니다.');
+    // v3: Check for the correct action
+    if (recaptchaData.action !== 'scheduleSubmit') {
+      console.log('reCAPTCHA action mismatch:', recaptchaData);
+      return res.status(400).json({ error: 'Invalid reCAPTCHA action.' });
+    }
 
     // 2. Proceed with creating schedule if reCAPTCHA is valid
     if (!venue_id || !event_date || !event_name) {
