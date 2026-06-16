@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import './SchedulePage.css';
 import venues from '../venues.json';
 
@@ -12,6 +13,8 @@ const SchedulePage = ({ language }) => {
     event_name: '',
     description: '',
   });
+  const [captchaValue, setCaptchaValue] = useState(null);
+  const recaptchaRef = useRef();
 
   const fetchSchedules = useCallback(async () => {
     try {
@@ -56,8 +59,16 @@ const SchedulePage = ({ language }) => {
     setSelectedArea(e.target.value);
   };
 
+  const handleCaptchaChange = (value) => {
+    setCaptchaValue(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!captchaValue) {
+      alert('캡챠를 확인해주세요.');
+      return;
+    }
     if (!newEvent.venue_id || !newEvent.event_date || !newEvent.event_name) {
       alert('공연장, 날짜/시간, 공연명은 필수 항목입니다.');
       return;
@@ -69,7 +80,7 @@ const SchedulePage = ({ language }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newEvent),
+        body: JSON.stringify({ ...newEvent, captcha: captchaValue }),
       });
 
       if (!response.ok) {
@@ -84,6 +95,10 @@ const SchedulePage = ({ language }) => {
       });
       setSelectedArea('');
       fetchSchedules();
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+      }
+      setCaptchaValue(null);
       alert('공연일정이 저장되었습니다!');
     } catch (error) {
       console.error('Error creating schedule:', error);
@@ -145,6 +160,11 @@ const SchedulePage = ({ language }) => {
             placeholder="추가 정보 (선택 사항)"
             value={newEvent.description}
             onChange={handleInputChange}
+          />
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZTTI" // This is a test key for localhost
+            onChange={handleCaptchaChange}
           />
           <button type="submit" className="save-button">
             저장

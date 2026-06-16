@@ -193,14 +193,36 @@ app.get('/api/schedules', async (req, res) => {
   }
 });
 
-app.post('/api/schedules', async (req, res) => {
-  const { venue_id, event_date, event_name, description } = req.body;
+// IMPORTANT: Replace with your actual secret key and store it securely (e.g., environment variable)
+const RECAPTCHA_SECRET_KEY = 'YOUR_SECRET_KEY';
 
-  if (!venue_id || !event_date || !event_name) {
-    return res.status(400).json({ error: 'venue_id, event_date, and event_name are required' });
+app.post('/api/schedules', async (req, res) => {
+  const { venue_id, event_date, event_name, description, captcha } = req.body;
+
+  // 1. Verify reCAPTCHA
+  if (!captcha) {
+    return res.status(400).json({ error: 'reCAPTCHA token is missing' });
   }
 
   try {
+    const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${RECAPTCHA_SECRET_KEY}&response=${captcha}`,
+    });
+    const recaptchaData = await recaptchaResponse.json();
+
+    if (!recaptchaData.success) {
+      return res.status(400).json({ error: 'reCAPTCHA verification failed', 'error-codes': recaptchaData['error-codes'] });
+    }
+
+    // 2. Proceed with creating schedule if reCAPTCHA is valid
+    if (!venue_id || !event_date || !event_name) {
+      return res.status(400).json({ error: 'venue_id, event_date, and event_name are required' });
+    }
+
     const [newSchedule] = await knex('schedules')
       .insert({
         venue_id,
