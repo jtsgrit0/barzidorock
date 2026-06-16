@@ -14,10 +14,10 @@ const SchedulePage = ({ language }) => {
     description: '',
   });
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // GitHub Pages(프로덕션)와 로컬 개발 환경 구분
+  // GitHub Pages(프로덕션)와 로컬 개발 환경 구분 (Railway 도메인으로 변경)
   const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3001' 
-    : 'https://barzidorock.onrender.com';
+    : 'https://barzidorock.up.railway.app';
 
   useEffect(() => {
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
