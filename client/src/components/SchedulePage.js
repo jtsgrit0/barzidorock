@@ -44,7 +44,7 @@ const SchedulePage = ({ language }) => {
       const venuesInArea = venues.filter(venue => venue.area === selectedArea);
       setFilteredVenues(venuesInArea);
     } else {
-      setFilteredVenues(venues);
+      setFilteredVenues([]);
     }
     setNewEvent(prev => ({ ...prev, venue_id: '' }));
   }, [selectedArea]);
