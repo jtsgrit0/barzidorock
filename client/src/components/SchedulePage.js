@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './SchedulePage.css';
-import venues from '../venues.json'; // 공연장 목록을 직접 import
+import venues from '../venues.json';
 
 const SchedulePage = ({ language }) => {
   const [schedules, setSchedules] = useState([]);
+  const [selectedArea, setSelectedArea] = useState('');
+  const [filteredVenues, setFilteredVenues] = useState([]);
   const [newEvent, setNewEvent] = useState({
     venue_id: '',
     event_date: '',
@@ -18,7 +20,6 @@ const SchedulePage = ({ language }) => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      // 다국어 지원을 위해 venue_name을 변환합니다.
       const formattedData = data.map(item => {
         const venue = venues.find(v => v.id === item.venue_id);
         return {
@@ -32,14 +33,27 @@ const SchedulePage = ({ language }) => {
     }
   }, [language]);
 
-  // 페이지 로드 시 저장된 스케줄을 불러옵니다.
   useEffect(() => {
     fetchSchedules();
   }, [fetchSchedules]);
 
+  useEffect(() => {
+    if (selectedArea) {
+      const venuesInArea = venues.filter(venue => venue.area === selectedArea);
+      setFilteredVenues(venuesInArea);
+    } else {
+      setFilteredVenues(venues);
+    }
+    setNewEvent(prev => ({ ...prev, venue_id: '' }));
+  }, [selectedArea]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewEvent({ ...newEvent, [name]: value });
+  };
+
+  const handleAreaChange = (e) => {
+    setSelectedArea(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -62,13 +76,13 @@ const SchedulePage = ({ language }) => {
         throw new Error('Network response was not ok');
       }
 
-      // 성공적으로 저장 후, 입력 폼을 초기화하고 스케줄 목록을 다시 불러옵니다.
       setNewEvent({
         venue_id: '',
         event_date: '',
         event_name: '',
         description: '',
       });
+      setSelectedArea('');
       fetchSchedules();
       alert('공연일정이 저장되었습니다!');
     } catch (error) {
@@ -77,19 +91,35 @@ const SchedulePage = ({ language }) => {
     }
   };
 
+  const areas = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
+
   return (
     <div className="schedule-page">
       <div className="schedule-form-container">
         <h2>새 공연일정 등록</h2>
         <form onSubmit={handleSubmit} className="schedule-form">
           <select
+            name="area"
+            value={selectedArea}
+            onChange={handleAreaChange}
+            required
+          >
+            <option value="">지역을 먼저 선택하세요</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
+          <select
             name="venue_id"
             value={newEvent.venue_id}
             onChange={handleInputChange}
             required
+            disabled={!selectedArea}
           >
             <option value="">공연장을 선택하세요</option>
-            {venues.map((venue) => (
+            {filteredVenues.map((venue) => (
               <option key={venue.id} value={venue.id}>
                 {venue.name[language] || venue.name['en']}
               </option>
