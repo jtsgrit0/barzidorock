@@ -1003,7 +1003,10 @@
   },
   {
     "id": "ChIJu2Z3JEqifDURp1fcG9iChRY",
-    "name": "THE SOUL",
+    "name": {
+      "ko": "더 소울",
+      "en": "THE SOUL"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 용산구 한남동 78-2 지하1층",
@@ -1035,7 +1038,10 @@
   },
   {
     "id": "ChIJSQyz70qifDURXds2EiDQMgQ",
-    "name": "BBCB: Beton Brut + Concrete Bar",
+    "name": {
+      "ko": "BBCB: 베톤 브뤼 + 콘크리트 바",
+      "en": "BBCB: Beton Brut + Concrete Bar"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 용산구 보광로60길 22",
@@ -1067,7 +1073,10 @@
   },
   {
     "id": "ChIJfdZbMbCjfDURuafv8kKi8Ls",
-    "name": "공연장 일신홀",
+    "name": {
+      "ko": "공연장 일신홀",
+      "en": "Ilshin Hall"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 용산구 한남대로 98",
@@ -1099,7 +1108,10 @@
   },
   {
     "id": "ChIJe7JXCkqifDURSfB3BCVnHPc",
-    "name": "바우슈텔러",
+    "name": {
+      "ko": "바우슈텔러",
+      "en": "Baustelle"
+    },
     "type": "live_venue",
     "address": {
         "ko": "서울 용산구 이태원동 73-2",
