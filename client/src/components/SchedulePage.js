@@ -121,7 +121,7 @@ const SchedulePage = ({ language }) => {
       console.error('Error creating schedule:', error);
       alert(`저장에 실패했습니다: ${error.message}`);
     }
-  }, [executeRecaptcha, newEvent, fetchSchedules]);
+  }, [executeRecaptcha, newEvent, fetchSchedules, API_BASE_URL]);
 
 
   const areas = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
