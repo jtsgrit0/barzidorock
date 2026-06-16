@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <GoogleReCaptchaProvider
-      reCaptchaKey="6LfFviEtAAAAAOOrpFvkk_gEFTU0Xyeg1wi0lw8Z"
+      reCaptchaKey="6LfFviEtAAAAADfPFhv2KPq3oPIADahPzOqeJ1OL"
     >
       <App />
     </GoogleReCaptchaProvider>
