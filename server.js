@@ -11,7 +11,11 @@ const puppeteer = require('puppeteer'); // Add this line
 async function fetchInstagramImages(targetUrl) {
   let browser;
   try {
-    browser = await puppeteer.launch({ headless: true }); // Set to false for visual debugging
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+      executablePath: process.env.NODE_ENV === 'production' ? '/usr/bin/chromium' : puppeteer.executablePath()
+    });
     const page = await browser.newPage();
 
     // Navigate to the target Instagram page
