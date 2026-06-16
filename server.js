@@ -179,7 +179,8 @@ app.post('/api/fetch-schedule', async (req, res) => {
 });
 
 const knexConfig = require('./knexfile');
-const knex = require('knex')(knexConfig.development);
+const environment = process.env.NODE_ENV || 'development';
+const knex = require('knex')(knexConfig[environment]);
 
 app.get('/api/schedules', async (req, res) => {
   try {
