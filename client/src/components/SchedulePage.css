@@ -127,3 +127,20 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* reCAPTCHA 배지 위치 조정 - 모바일에서 잘리지 않게 */
+.grecaptcha-badge {
+  bottom: 30px !important;
+  right: 15px !important;
+  transform: scale(0.9);
+  transform-origin: bottom right;
+  z-index: 9999 !important;
+}
+
+/* 모바일에서 더 작은 화면일 때 배지 크기 조정 */
+@media (max-width: 480px) {
+  .grecaptcha-badge {
+    transform: scale(0.8) !important;
+    bottom: 20px !important;
+  }
+}
