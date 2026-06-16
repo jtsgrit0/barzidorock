@@ -74,11 +74,6 @@ const SchedulePage = ({ language }) => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    if (!executeRecaptcha) {
-      console.log('reCAPTCHA is not ready yet. Cannot submit.');
-      return;
-    }
-
     if (!newEvent.venue_id || !newEvent.event_date || !newEvent.event_name) {
       alert('공연장, 날짜/시간, 공연명은 필수 항목입니다.');
       return;
@@ -86,11 +81,14 @@ const SchedulePage = ({ language }) => {
 
     let token;
     try {
+      if (!executeRecaptcha) {
+        throw new Error('reCAPTCHA is still loading. Please wait a moment and try again.');
+      }
       token = await executeRecaptcha('scheduleSubmit');
       console.log('reCAPTCHA token generated:', token); // 토큰 생성 성공 시 로그 추가
     } catch (error) {
       console.error('Error executing reCAPTCHA on client side:', error); // 클라이언트 측 오류 로깅
-      alert('reCAPTCHA 실행 중 오류가 발생했습니다. 네트워크 연결을 확인하거나 다시 시도해주세요.');
+      alert(`reCAPTCHA 실행 중 오류가 발생했습니다: ${error.message}. 잠시 후 다시 시도해주세요.`);
       return;
     }
 
@@ -183,8 +181,8 @@ const SchedulePage = ({ language }) => {
             value={newEvent.description}
             onChange={handleInputChange}
           />
-          <button type="submit" className="save-button" disabled={!executeRecaptcha}>
-            저장
+          <button type="submit" className="save-button">
+            {!executeRecaptcha ? 'reCAPTCHA 로딩중...' : '저장'}
           </button>
         </form>
       </div>
