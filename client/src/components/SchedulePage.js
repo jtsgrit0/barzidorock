@@ -93,6 +93,9 @@ const SchedulePage = ({ language }) => {
     }
 
     try {
+      console.log('Sending POST to:', `${API_BASE_URL}/api/schedules`);
+      console.log('Payload:', { ...newEvent, captcha: token });
+      
       const response = await fetch(`${API_BASE_URL}/api/schedules`, {
         method: 'POST',
         headers: {
@@ -101,11 +104,17 @@ const SchedulePage = ({ language }) => {
         body: JSON.stringify({ ...newEvent, captcha: token }),
       });
 
+      console.log('Response status:', response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Server error:', errorData);
         throw new Error(errorData.error || 'Network response was not ok');
       }
 
+      const result = await response.json();
+      console.log('Server success:', result);
+      
       setNewEvent({
         venue_id: '',
         event_date: '',
@@ -114,6 +123,7 @@ const SchedulePage = ({ language }) => {
       });
       setSelectedArea('');
       await fetchSchedules(); // 저장 후 바로 일정 새로고침
+      console.log('Schedules re-fetched, calling alert');
       alert('공연일정이 저장되었습니다!');
     } catch (error) {
       console.error('Error creating schedule:', error);
