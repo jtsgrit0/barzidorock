@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   
   if (req.method === 'GET') {
     try {
-      const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date DESC;`;
+      const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date ASC;`;
       res.status(200).json(rows);
     } catch (error) {
       console.error('Error fetching schedules:', error);

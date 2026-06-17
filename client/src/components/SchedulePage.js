@@ -42,6 +42,8 @@ const SchedulePage = ({ language }) => {
           venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue'
         };
       });
+      // 시작 시간이 빠른 순서대로 정렬
+      formattedData.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
       setSchedules(formattedData);
     } catch (error) {
       console.error('Error fetching schedules:', error);
