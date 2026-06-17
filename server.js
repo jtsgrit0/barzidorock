@@ -56,7 +56,19 @@ async function fetchInstagramImages(targetUrl) {
 const app = express();
 const port = process.env.PORT || 3001; // Railway에서 할당하는 PORT 환경변수 사용, 기본값 3001
 
-app.use(cors()); // 모든 origin에서의 CORS 요청 허용
+// CORS 설정을 명확하게 preflight까지 완벽 처리
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  
+  // OPTIONS preflight 요청 즉시 200으로 응답
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(express.json()); // For parsing application/json
 
 const cheerio = require('cheerio');
