@@ -46,12 +46,7 @@ const SchedulePage = ({ language }) => {
 
   useEffect(() => {
     fetchSchedules();
-    // Render 서버가 잠들지 않게 10분마다 핑 전송
-    const pingInterval = setInterval(() => {
-      fetch(`${API_BASE_URL}/api/schedules`).catch(() => {});
-    }, 10 * 60 * 1000); // 10분마다
-    return () => clearInterval(pingInterval);
-  }, [fetchSchedules, API_BASE_URL]);
+  }, [fetchSchedules]);
 
   useEffect(() => {
     if (selectedArea) {
