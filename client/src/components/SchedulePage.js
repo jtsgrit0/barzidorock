@@ -185,10 +185,14 @@ const SchedulePage = ({ language }) => {
       setSelectedArea(venue.area);
       setFilteredVenues(venues.filter(v => v.area === venue.area));
     }
+    // UTC 시간을 로컬 시간대로 변환하여 datetime-local 형식에 맞춤
+    const eventDate = new Date(schedule.event_date);
+    const localISODate = new Date(eventDate.getTime() - (eventDate.getTimezoneOffset() * 60000)).toISOString().substring(0, 16);
+    
     setEditingSchedule({
       id: schedule.id,
       venue_id: schedule.venue_id,
-      event_date: schedule.event_date.substring(0, 16), // datetime-local 형식에 맞춤
+      event_date: localISODate,
       event_name: schedule.event_name,
       description: schedule.description,
       poster_image: schedule.poster_image, // 이미지 데이터 로드
