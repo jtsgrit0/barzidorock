@@ -10,13 +10,11 @@ module.exports = {
     }
   },
   production: {
-    client: 'better-sqlite3',
-    connection: {
-      filename: '/app/data/database.db'
-    },
-    useNullAsDefault: true,
+    client: 'pg',
+    connection: process.env.DATABASE_URL + "?ssl=true",
     migrations: {
       directory: './migrations'
-    }
+    },
+    useNullAsDefault: true
   }
 };

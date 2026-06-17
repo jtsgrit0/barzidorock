@@ -7,7 +7,7 @@ exports.up = function(knex) {
     table.increments('id').primary();
     table.string('venue_id').notNullable();
     table.foreign('venue_id').references('id').inTable('venues').onDelete('CASCADE');
-    table.datetime('event_date').notNullable();
+    table.timestamp('event_date').notNullable();
     table.string('event_name').notNullable();
     table.text('description');
     table.timestamps(true, true);
