@@ -13,6 +13,11 @@ module.exports = async (req, res) => {
   // Set CORS headers for all other requests
   res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  // 비밀번호 검증 함수
+  const verifyPassword = (password) => {
+    return password === process.env.ADMIN_PASSWORD;
+  };
   
   if (req.method === 'GET') {
     try {
@@ -24,7 +29,12 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'POST') {
     try {
-      const { venue_id, event_date, event_name, description, poster_image, captcha } = req.body;
+      const { venue_id, event_date, event_name, description, poster_image, captcha, password } = req.body;
+
+      // 비밀번호 검증
+      if (!verifyPassword(password)) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
 
       if (!venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -55,7 +65,13 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'DELETE') {
     try {
-      const { id } = req.query;
+      const { id, password } = req.query;
+      
+      // 비밀번호 검증
+      if (!verifyPassword(password)) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+
       if (!id) {
         return res.status(400).json({ error: 'Missing schedule ID' });
       }
@@ -67,7 +83,13 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'PUT') {
     try {
-      const { id, venue_id, event_date, event_name, description, poster_image } = req.body;
+      const { id, venue_id, event_date, event_name, description, poster_image, password } = req.body;
+      
+      // 비밀번호 검증
+      if (!verifyPassword(password)) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+
       if (!id || !venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields for update' });
       }

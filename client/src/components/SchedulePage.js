@@ -14,7 +14,9 @@ const SchedulePage = ({ language }) => {
     event_date: '',
     event_name: '',
     description: '',
-    poster_image: '', // 이미지 데이터를 저장할 필드 추가
+    poster_image: '',
+    password: '',
+  });// 이미지 데이터를 저장할 필드 추가
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
@@ -105,6 +107,7 @@ const SchedulePage = ({ language }) => {
       event_name: '',
       description: '',
       poster_image: '', // 이미지 데이터 초기화
+      password: '', // 비밀번호 초기화
     });
     setSelectedArea('');
     setEditingSchedule(null);
@@ -113,6 +116,11 @@ const SchedulePage = ({ language }) => {
     const fileInput = document.querySelector('input[name="poster_image"]');
     if (fileInput) {
       fileInput.value = '';
+    }
+    // 비밀번호 입력 필드도 초기화
+    const passwordInput = document.querySelector('input[name="password"]');
+    if (passwordInput) {
+      passwordInput.value = '';
     }
   };
 
@@ -198,6 +206,7 @@ const SchedulePage = ({ language }) => {
       event_name: schedule.event_name,
       description: schedule.description,
       poster_image: schedule.poster_image, // 이미지 데이터 로드
+      password: '',
     });
     setIsEditing(true);
   };
@@ -206,9 +215,14 @@ const SchedulePage = ({ language }) => {
     if (!window.confirm('정말로 이 일정을 삭제하시겠습니까?')) {
       return;
     }
+    // 삭제 전 비밀번호 입력받기
+    const password = window.prompt('삭제를 위한 관리자 비밀번호를 입력하세요:');
+    if (!password) {
+      return;
+    }
     try {
-      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}`);
-      const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}`, {
+      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}&password=${encodeURIComponent(password)}`);
+      const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}&password=${encodeURIComponent(password)}`, {
         method: 'DELETE',
       });
 
@@ -324,6 +338,14 @@ const SchedulePage = ({ language }) => {
               }}>이미지 제거</button>
             </div>
           ) : null }
+          <input
+            type="password"
+            name="password"
+            placeholder="관리자 비밀번호"
+            value={isEditing ? editingSchedule?.password || '' : newEvent.password}
+            onChange={handleInputChange}
+            required
+          />
           <div className="form-buttons">
             <button type="submit" className="save-button" disabled={!executeRecaptcha && !isEditing}>
               {isEditing ? '수정' : (!executeRecaptcha ? 'reCAPTCHA 로딩중...' : '저장')}
