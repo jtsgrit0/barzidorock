@@ -107,6 +107,11 @@ const SchedulePage = ({ language }) => {
     setSelectedArea('');
     setEditingSchedule(null);
     setIsEditing(false);
+    // 파일 입력 필드 초기화
+    const fileInput = document.querySelector('input[name="poster_image"]');
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const handleSubmit = useCallback(async (e) => {
@@ -304,6 +309,11 @@ const SchedulePage = ({ language }) => {
                   setEditingSchedule(prev => ({ ...prev, poster_image: '' }));
                 } else {
                   setNewEvent(prev => ({ ...prev, poster_image: '' }));
+                }
+                // 파일 입력 필드 초기화
+                const fileInput = document.querySelector('input[name="poster_image"]');
+                if (fileInput) {
+                  fileInput.value = '';
                 }
               }}>이미지 제거</button>
             </div>
