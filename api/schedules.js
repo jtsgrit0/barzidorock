@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
       res.status(201).json({ message: 'Schedule created successfully' });
     } catch (error) {
       console.error('Error creating schedule:', error);
-      res.status(500).json({ error: 'Failed to create schedule' });
+      res.status(500).json({ error: 'Failed to create schedule', details: error.message });
     }
   } else {
     res.setHeader('Allow', ['GET', 'POST']);
