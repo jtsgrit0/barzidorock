@@ -11,8 +11,8 @@ module.exports = {
   },
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL 
-      ? process.env.DATABASE_URL + "?ssl=true"
+    connection: process.env.POSTGRES_CONNECTION_STRING
+      ? process.env.POSTGRES_CONNECTION_STRING + "?ssl=true"
       : {
           host: process.env.PGHOST,
           port: process.env.PGPORT,

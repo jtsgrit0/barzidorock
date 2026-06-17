@@ -194,6 +194,7 @@ const knex = require('knex')(knexConfig[environment]);
 console.log(`[DEBUG] Running in '${environment}' environment.`);
 if (environment === 'production') {
   console.log(`[DEBUG] DATABASE_URL: ${process.env.DATABASE_URL ? 'Found' : 'Not Found'}`);
+  console.log(`[DEBUG] POSTGRES_CONNECTION_STRING: ${process.env.POSTGRES_CONNECTION_STRING ? 'Found' : 'Not Found'}`);
   console.log(`[DEBUG] PGHOST: ${process.env.PGHOST ? 'Found' : 'Not Found'}`);
   console.log(`[DEBUG] PGUSER: ${process.env.PGUSER ? 'Found' : 'Not Found'}`);
   console.log(`[DEBUG] PGDATABASE: ${process.env.PGDATABASE ? 'Found' : 'Not Found'}`);
