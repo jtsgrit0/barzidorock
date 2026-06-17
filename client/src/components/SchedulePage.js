@@ -137,7 +137,15 @@ const SchedulePage = ({ language }) => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    const dataToSubmit = isEditing ? editingSchedule : newEvent;
+    const rawData = isEditing ? editingSchedule : newEvent;
+    
+    // 로컬 시간을 UTC로 변환하여 DB에 저장
+    const localDate = new Date(rawData.event_date);
+    const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
+    const dataToSubmit = {
+      ...rawData,
+      event_date: utcDate.toISOString()
+    };
 
     if (!dataToSubmit.venue_id || !dataToSubmit.event_date || !dataToSubmit.event_name) {
       alert('공연장, 날짜/시간, 공연명은 필수 항목입니다.');
