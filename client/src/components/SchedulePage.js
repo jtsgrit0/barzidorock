@@ -28,7 +28,7 @@ const SchedulePage = ({ language }) => {
   // eslint-disable-next-line no-undef
   const { executeRecaptcha } = useGoogleReCaptcha();
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
-  const API_BASE_URL = 'https://barzidorock-2akv.vercel.app';
+  const API_BASE_URL = 'https://barzidorock.vercel.app';
 
   useEffect(() => {
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');

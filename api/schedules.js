@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     // 공연장 관리자인 경우
     if (cookies.venueManagerLoggedIn) {
       const userResult = await sql`
-        SELECT venue_id FROM venue_managers WHERE id = ${cookies.venueManagerLoggedIn} AND is_approved = true AND phone_verified = true
+        SELECT venue_id FROM venue_managers WHERE id = ${cookies.venueManagerLoggedIn} AND is_approved = true AND email_verified = true
       `;
       if (userResult.rows.length > 0) {
         return { is_admin: false, venue_id: userResult.rows[0].venue_id, user_id: cookies.venueManagerLoggedIn };

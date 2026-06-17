@@ -45,13 +45,13 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: '아직 관리자 승인이 완료되지 않았습니다.' });
     }
 
-    // 전화번호 인증 여부 확인
-    if (!user.phone_verified) {
-      return res.status(403).json({ error: '전화번호 인증이 완료되지 않았습니다.' });
+    // 이메일 인증 여부 확인
+    if (!user.email_verified) {
+      return res.status(403).json({ error: '이메일 인증이 완료되지 않았습니다.' });
     }
 
     // 로그인 세션 쿠키 설정
-    res.setHeader('Set-Cookie', `venueManagerLoggedIn=${user.id}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=86400`);
+    res.setHeader('Set-Cookie', `venueManagerLoggedIn=${user.id}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=86400`);
     
     return res.status(200).json({ 
       success: true, 
