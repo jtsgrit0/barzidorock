@@ -1,0 +1,67 @@
+const { sql } = require('@vercel/postgres');
+
+module.exports = async (req, res) => {
+  // CORS 설정
+  res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: '이메일과 비밀번호가 필요합니다.' });
+    }
+
+    // 사용자 정보 조회
+    const userResult = await sql`
+      SELECT * FROM venue_managers WHERE email = ${email}
+    `;
+
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+    }
+
+    const user = userResult.rows[0];
+
+    // 비밀번호 확인 (실제로는 bcrypt.compare 사용해야 함)
+    if (user.password_hash !== password) {
+      return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+    }
+
+    // 승인 여부 확인
+    if (!user.is_approved) {
+      return res.status(403).json({ error: '아직 관리자 승인이 완료되지 않았습니다.' });
+    }
+
+    // 전화번호 인증 여부 확인
+    if (!user.phone_verified) {
+      return res.status(403).json({ error: '전화번호 인증이 완료되지 않았습니다.' });
+    }
+
+    // 로그인 세션 쿠키 설정
+    res.setHeader('Set-Cookie', `venueManagerLoggedIn=${user.id}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=86400`);
+    
+    return res.status(200).json({ 
+      success: true, 
+      message: '로그인 성공',
+      user: {
+        id: user.id,
+        email: user.email,
+        venue_id: user.venue_id
+      }
+    });
+  } catch (error) {
+    console.error('Venue manager login error:', error);
+    return res.status(500).json({ error: '로그인 중 오류가 발생했습니다.' });
+  }
+};

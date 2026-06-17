@@ -14,15 +14,29 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // 로그인 상태 검증 함수 (쿠키 확인)
-  const isAuthenticated = (cookieHeader) => {
-    if (!cookieHeader) return false;
+  // 로그인 상태 및 사용자 정보 검증 함수 (쿠키 확인)
+  const getAuthenticatedUser = async (cookieHeader) => {
+    if (!cookieHeader) return null;
     const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
       const [key, value] = cookie.trim().split('=');
       acc[key] = value;
       return acc;
     }, {});
-    return cookies.adminLoggedIn === 'true';
+    
+    // 최고 관리자(바 CTO)인 경우
+    if (cookies.adminLoggedIn === 'true') {
+      return { is_admin: true, venue_id: null };
+    }
+    // 공연장 관리자인 경우
+    if (cookies.venueManagerLoggedIn) {
+      const userResult = await sql`
+        SELECT venue_id FROM venue_managers WHERE id = ${cookies.venueManagerLoggedIn} AND is_approved = true AND phone_verified = true
+      `;
+      if (userResult.rows.length > 0) {
+        return { is_admin: false, venue_id: userResult.rows[0].venue_id, user_id: cookies.venueManagerLoggedIn };
+      }
+    }
+    return null;
   };
   
   if (req.method === 'GET') {
@@ -35,12 +49,18 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'POST') {
     try {
-      // 로그인 상태 검증
-      if (!isAuthenticated(req.headers.cookie)) {
+      // 로그인 상태 및 사용자 정보 검증
+      const user = await getAuthenticatedUser(req.headers.cookie);
+      if (!user) {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
 
       const { venue_id, event_date, event_name, description, poster_image, captcha } = req.body;
+
+      // 공연장 관리자의 경우 자신의 공연장에만 일정 등록 가능
+      if (!user.is_admin && user.venue_id !== venue_id) {
+        return res.status(403).json({ error: 'Forbidden: You can only create schedules for your own venue' });
+      }
 
       if (!venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -71,8 +91,9 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'DELETE') {
     try {
-      // 로그인 상태 검증
-      if (!isAuthenticated(req.headers.cookie)) {
+      // 로그인 상태 및 사용자 정보 검증
+      const user = await getAuthenticatedUser(req.headers.cookie);
+      if (!user) {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
 
@@ -81,6 +102,15 @@ module.exports = async (req, res) => {
       if (!id) {
         return res.status(400).json({ error: 'Missing schedule ID' });
       }
+
+      // 공연장 관리자의 경우 삭제하려는 일정이 자신의 공연장 일정인지 확인
+      if (!user.is_admin) {
+        const schedule = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
+        if (schedule.rows.length === 0 || schedule.rows[0].venue_id !== user.venue_id) {
+          return res.status(403).json({ error: 'Forbidden: You can only delete schedules for your own venue' });
+        }
+      }
+
       await sql`DELETE FROM schedules WHERE id = ${id};`;
       res.status(200).json({ message: 'Schedule deleted successfully' });
     } catch (error) {
@@ -89,8 +119,9 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'PUT') {
     try {
-      // 로그인 상태 검증
-      if (!isAuthenticated(req.headers.cookie)) {
+      // 로그인 상태 및 사용자 정보 검증
+      const user = await getAuthenticatedUser(req.headers.cookie);
+      if (!user) {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
 
@@ -99,8 +130,21 @@ module.exports = async (req, res) => {
       if (!id || !venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields for update' });
       }
+
+      // 공연장 관리자의 경우 수정하려는 일정이 자신의 공연장 일정인지 확인
+      if (!user.is_admin) {
+        const schedule = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
+        if (schedule.rows.length === 0 || schedule.rows[0].venue_id !== user.venue_id) {
+          return res.status(403).json({ error: 'Forbidden: You can only update schedules for your own venue' });
+        }
+        // 수정하려는 공연장 ID도 자신의 공연장과 일치하는지 확인
+        if (venue_id !== user.venue_id) {
+          return res.status(403).json({ error: 'Forbidden: You cannot change the venue ID' });
+        }
+      }
+
       await sql`
-        UPDATE schedules
+        UPDATE schedules 
         SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}, poster_image = ${poster_image}
         WHERE id = ${id};
       `;
