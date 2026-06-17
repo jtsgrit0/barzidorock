@@ -17,7 +17,7 @@ const SchedulePage = ({ language }) => {
   // GitHub Pages(프로덕션)와 로컬 개발 환경 구분 (Railway 도메인으로 변경)
   const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3001' 
-    : 'https://barzidorock-production.up.railway.app';
+    : 'https://barzidorock-2akv.vercel.app';
 
   useEffect(() => {
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
