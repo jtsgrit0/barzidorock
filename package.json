@@ -10,14 +10,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vercel/postgres": "^0.10.0",
     "cheerio": "^1.2.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "chrome-aws-lambda": "^10.1.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.2",
     "jimp": "^0.22.12",
     "knex": "^3.2.10",
     "node-fetch": "^2.6.1",
     "pg": "^8.21.0",
     "puppeteer": "^25.1.0",
+    "puppeteer-core": "^25.1.0",
     "tesseract.js": "^7.0.0"
   }
 }
