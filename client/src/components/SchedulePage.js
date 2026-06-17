@@ -7,6 +7,10 @@ import venues from '../venues.json';
 
 const SchedulePage = ({ language }) => {
   const [schedules, setSchedules] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+  const [loginEmail, setLoginEmail] = useState(''); // 로그인 이메일
+  const [loginPassword, setLoginPassword] = useState(''); // 로그인 비밀번호
+  const [loginError, setLoginError] = useState(''); // 로그인 에러 메시지
   const [selectedArea, setSelectedArea] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [newEvent, setNewEvent] = useState({
@@ -15,8 +19,6 @@ const SchedulePage = ({ language }) => {
     event_name: '',
     description: '',
     poster_image: '',
-    password: '',
-  });// 이미지 데이터를 저장할 필드 추가
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
@@ -166,6 +168,7 @@ const SchedulePage = ({ language }) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // 쿠키 포함하여 요청 전송
         body: body,
       });
 
@@ -211,19 +214,58 @@ const SchedulePage = ({ language }) => {
     setIsEditing(true);
   };
 
+  // 로그인 처리 함수
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      // 백엔드에 로그인 요청 (이메일과 비밀번호 검증)
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // 쿠키 포함하여 요청 전송
+        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+      });
+
+      if (response.ok) {
+        setIsLoggedIn(true);
+        setLoginError('');
+        // 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
+        localStorage.setItem('isAdminLoggedIn', 'true');
+      } else {
+        setLoginError('이메일 또는 비밀번호가 올바르지 않습니다.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setLoginError('로그인 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 로그아웃 처리 함수
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setLoginEmail('');
+    setLoginPassword('');
+    localStorage.removeItem('isAdminLoggedIn');
+    resetForm();
+  };
+
+  // 컴포넌트 마운트 시 로그인 상태 확인
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
+  }, []);
+
   const handleDelete = useCallback(async (id) => {
     if (!window.confirm('정말로 이 일정을 삭제하시겠습니까?')) {
       return;
     }
-    // 삭제 전 비밀번호 입력받기
-    const password = window.prompt('삭제를 위한 관리자 비밀번호를 입력하세요:');
-    if (!password) {
-      return;
-    }
     try {
-      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}&password=${encodeURIComponent(password)}`);
-      const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}&password=${encodeURIComponent(password)}`, {
+      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -263,9 +305,39 @@ const SchedulePage = ({ language }) => {
 
   return (
     <div className="schedule-page">
-      <div className="schedule-form-container">
-        <h2>{isEditing ? '공연일정 수정' : '새 공연일정 등록'}</h2>
-        <form onSubmit={handleSubmit} className="schedule-form">
+      {/* 관리자 로그인이 필요한 경우 로그인 폼 표시 */}
+      {!isLoggedIn && (
+        <div className="login-form-container">
+          <h2>관리자 로그인</h2>
+          <form onSubmit={handleLogin} className="login-form">
+            {loginError && <p className="login-error">{loginError}</p>}
+            <input
+              type="email"
+              placeholder="이메일"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className="login-button">로그인</button>
+          </form>
+        </div>
+      )}
+
+      {/* 로그인된 사용자에게만 일정 관리 폼 표시 */}
+      {isLoggedIn && (
+        <div className="schedule-form-container">
+          <div className="admin-header">
+            <h2>{isEditing ? '공연일정 수정' : '새 공연일정 등록'}</h2>
+            <button onClick={handleLogout} className="logout-button">로그아웃</button>
+          </div>
+          <form onSubmit={handleSubmit} className="schedule-form">
           <select
             name="area"
             value={selectedArea}
@@ -338,14 +410,6 @@ const SchedulePage = ({ language }) => {
               }}>이미지 제거</button>
             </div>
           ) : null }
-          <input
-            type="password"
-            name="password"
-            placeholder="관리자 비밀번호"
-            value={isEditing ? editingSchedule?.password || '' : newEvent.password}
-            onChange={handleInputChange}
-            required
-          />
           <div className="form-buttons">
             <button type="submit" className="save-button" disabled={!executeRecaptcha && !isEditing}>
               {isEditing ? '수정' : (!executeRecaptcha ? 'reCAPTCHA 로딩중...' : '저장')}
@@ -358,6 +422,7 @@ const SchedulePage = ({ language }) => {
           </div>
         </form>
       </div>
+      )}
 
       <div className="schedule-list-container">
         <h2>등록된 공연일정</h2>
@@ -379,10 +444,12 @@ const SchedulePage = ({ language }) => {
                     )}
                   </div>
                 </div>
-                <div className="schedule-item-actions">
-                  <button onClick={() => handleEditClick(schedule)} className="edit-button">수정</button>
-                  <button onClick={() => handleDelete(schedule.id)} className="delete-button">삭제</button>
-                </div>
+                {isLoggedIn && (
+                  <div className="schedule-item-actions">
+                    <button onClick={() => handleEditClick(schedule)} className="edit-button">수정</button>
+                    <button onClick={() => handleDelete(schedule.id)} className="delete-button">삭제</button>
+                  </div>
+                )}
               </li>
             ))
           ) : (

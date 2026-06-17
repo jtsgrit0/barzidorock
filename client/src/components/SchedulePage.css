@@ -274,3 +274,90 @@
   border-radius: 5px;
   border: 1px solid #444;
 }
+
+/* 로그인 폼 스타일 */
+.login-form-container {
+  background-color: #1a1a1a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.login-form-container h2 {
+  color: #f0e68c;
+  text-align: center;
+  margin-bottom: 25px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.login-button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #43a047;
+}
+
+.login-error {
+  color: #f44336;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  background-color: rgba(244, 67, 54, 0.1);
+  border-radius: 5px;
+}
+
+/* 관리자 헤더 스타일 */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #da190b;
+}

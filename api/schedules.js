@@ -14,9 +14,15 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // 비밀번호 검증 함수
-  const verifyPassword = (password) => {
-    return password === process.env.ADMIN_PASSWORD;
+  // 로그인 상태 검증 함수 (쿠키 확인)
+  const isAuthenticated = (cookieHeader) => {
+    if (!cookieHeader) return false;
+    const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split('=');
+      acc[key] = value;
+      return acc;
+    }, {});
+    return cookies.adminLoggedIn === 'true';
   };
   
   if (req.method === 'GET') {
@@ -29,12 +35,12 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'POST') {
     try {
-      const { venue_id, event_date, event_name, description, poster_image, captcha, password } = req.body;
-
-      // 비밀번호 검증
-      if (!verifyPassword(password)) {
-        return res.status(401).json({ error: 'Invalid password' });
+      // 로그인 상태 검증
+      if (!isAuthenticated(req.headers.cookie)) {
+        return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
+
+      const { venue_id, event_date, event_name, description, poster_image, captcha } = req.body;
 
       if (!venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -65,12 +71,12 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'DELETE') {
     try {
-      const { id, password } = req.query;
-      
-      // 비밀번호 검증
-      if (!verifyPassword(password)) {
-        return res.status(401).json({ error: 'Invalid password' });
+      // 로그인 상태 검증
+      if (!isAuthenticated(req.headers.cookie)) {
+        return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
+
+      const { id } = req.query;
 
       if (!id) {
         return res.status(400).json({ error: 'Missing schedule ID' });
@@ -83,12 +89,12 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'PUT') {
     try {
-      const { id, venue_id, event_date, event_name, description, poster_image, password } = req.body;
-      
-      // 비밀번호 검증
-      if (!verifyPassword(password)) {
-        return res.status(401).json({ error: 'Invalid password' });
+      // 로그인 상태 검증
+      if (!isAuthenticated(req.headers.cookie)) {
+        return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
+
+      const { id, venue_id, event_date, event_name, description, poster_image } = req.body;
 
       if (!id || !venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields for update' });
