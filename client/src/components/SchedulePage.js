@@ -378,6 +378,9 @@ const SchedulePage = ({ language }) => {
             />
             <button type="submit" className="login-button">로그인</button>
           </form>
+          <p className="register-link">
+            공연장 관리자이신가요? <a href="#/venue-register">회원가입 신청하기</a>
+          </p>
         </div>
       )}
 

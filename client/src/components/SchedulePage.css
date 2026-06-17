@@ -462,6 +462,24 @@
   background-color: #da190b;
 }
 
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.register-link a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .manager-card {
     flex-direction: column;
