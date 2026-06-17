@@ -23,9 +23,9 @@ module.exports = async (req, res) => {
     const adminPassword = process.env.ADMIN_PASSWORD;
 
     if (email === adminEmail && password === adminPassword) {
-      // 로그인 성공 - 세션 쿠키 설정 (간단한 구현)
-      res.setHeader('Set-Cookie', `adminLoggedIn=true; HttpOnly; Secure; SameSite=None; Domain=barzidorock-2akv.vercel.app; Path=/; Max-Age=86400`);
-      return res.status(200).json({ success: true, message: 'Login successful' });
+      // 로그인 성공 - 토큰 반환
+      const adminToken = 'admin-secret-token-2026'; // 간단한 하드코딩 토큰
+      return res.status(200).json({ success: true, message: 'Login successful', token: adminToken });
     } else {
       return res.status(401).json({ error: 'Invalid credentials' });
     }

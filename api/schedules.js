@@ -14,26 +14,30 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // 로그인 상태 및 사용자 정보 검증 함수 (쿠키 확인)
-  const getAuthenticatedUser = async (cookieHeader) => {
-    if (!cookieHeader) return null;
-    const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
-      const [key, value] = cookie.trim().split('=');
-      acc[key] = value;
-      return acc;
-    }, {});
-    
-    // 최고 관리자(바 CTO)인 경우
-    if (cookies.adminLoggedIn === 'true') {
-      return { is_admin: true, venue_id: null };
+  // 로그인 상태 및 사용자 정보 검증 함수 (Authorization 헤더의 토큰 확인)
+  const getAuthenticatedUser = async (authHeader) => {
+    // 관리자 토큰 검증
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      if (token === 'admin-secret-token-2026') {
+        return { is_admin: true, venue_id: null };
+      }
     }
-    // 공연장 관리자인 경우
-    if (cookies.venueManagerLoggedIn) {
-      const userResult = await sql`
-        SELECT venue_id FROM venue_managers WHERE id = ${cookies.venueManagerLoggedIn} AND is_approved = true AND email_verified = true
-      `;
-      if (userResult.rows.length > 0) {
-        return { is_admin: false, venue_id: userResult.rows[0].venue_id, user_id: cookies.venueManagerLoggedIn };
+    // 공연장 관리자 쿠키 검증 (기존 로직 유지)
+    const cookieHeader = req.headers.cookie;
+    if (cookieHeader) {
+      const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+        const [key, value] = cookie.trim().split('=');
+        acc[key] = value;
+        return acc;
+      }, {});
+      if (cookies.venueManagerLoggedIn) {
+        const userResult = await sql`
+          SELECT venue_id FROM venue_managers WHERE id = ${cookies.venueManagerLoggedIn} AND is_approved = true AND email_verified = true
+        `;
+        if (userResult.rows.length > 0) {
+          return { is_admin: false, venue_id: userResult.rows[0].venue_id, user_id: cookies.venueManagerLoggedIn };
+        }
       }
     }
     return null;
@@ -50,7 +54,7 @@ module.exports = async (req, res) => {
   } else if (req.method === 'POST') {
     try {
       // 로그인 상태 및 사용자 정보 검증
-      const user = await getAuthenticatedUser(req.headers.cookie);
+      const user = await getAuthenticatedUser(req.headers.authorization);
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
@@ -92,7 +96,7 @@ module.exports = async (req, res) => {
   } else if (req.method === 'DELETE') {
     try {
       // 로그인 상태 및 사용자 정보 검증
-      const user = await getAuthenticatedUser(req.headers.cookie);
+      const user = await getAuthenticatedUser(req.headers.authorization);
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
@@ -120,7 +124,7 @@ module.exports = async (req, res) => {
   } else if (req.method === 'PUT') {
     try {
       // 로그인 상태 및 사용자 정보 검증
-      const user = await getAuthenticatedUser(req.headers.cookie);
+      const user = await getAuthenticatedUser(req.headers.authorization);
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }

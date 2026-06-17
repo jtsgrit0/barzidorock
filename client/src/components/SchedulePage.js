@@ -31,6 +31,12 @@ const SchedulePage = ({ language }) => {
   const API_BASE_URL = 'https://barzidorock-2akv.vercel.app';
 
   useEffect(() => {
+    // 페이지 로드 시 로컬스토리지에서 로그인 상태 복원
+    const savedLoginState = localStorage.getItem('isAdminLoggedIn');
+    const savedToken = localStorage.getItem('adminToken');
+    if (savedLoginState === 'true' && savedToken) {
+      setIsLoggedIn(true);
+    }
     console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
     console.log('Current API URL:', API_BASE_URL);
   }, [executeRecaptcha, API_BASE_URL]);
@@ -166,12 +172,13 @@ const SchedulePage = ({ language }) => {
       console.log(`Sending ${method} to:`, url);
       console.log('Payload:', dataToSubmit);
       
+      const adminToken = localStorage.getItem('adminToken');
       const response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`,
         },
-        credentials: 'include', // 쿠키 포함하여 요청 전송
         body: body,
       });
 
@@ -232,9 +239,11 @@ const SchedulePage = ({ language }) => {
       });
 
       if (response.ok) {
+        const data = await response.json();
         setIsLoggedIn(true);
         setLoginError('');
-        // 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
+        // 토큰을 로컬스토리지에 저장하여 새로고침해도 유지
+        localStorage.setItem('adminToken', data.token);
         localStorage.setItem('isAdminLoggedIn', 'true');
       } else {
         setLoginError('이메일 또는 비밀번호가 올바르지 않습니다.');
@@ -251,6 +260,7 @@ const SchedulePage = ({ language }) => {
     setLoginEmail('');
     setLoginPassword('');
     localStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('adminToken');
     resetForm();
   };
 
