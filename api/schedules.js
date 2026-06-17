@@ -1,18 +1,10 @@
 const { sql } = require('@vercel/postgres');
 
-const allowCors = fn => async (req, res) => {
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
-  return await fn(req, res);
-};
 
-const handler = async (req, res) => {
   if (req.method === 'GET') {
     try {
       const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date DESC;`;
@@ -57,5 +49,3 @@ const handler = async (req, res) => {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
-
-module.exports = allowCors(handler);

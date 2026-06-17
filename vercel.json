@@ -1,11 +1,20 @@
 {
   "version": 2,
   "builds": [
-    { "src": "/api/schedules.js", "use": "@vercel/node" },
-    { "src": "/api/scrape.js", "use": "@vercel/node" }
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
   ],
-  "routes": [
-    { "src": "/api/schedules", "dest": "/api/schedules.js" },
-    { "src": "/api/scrape", "dest": "/api/scrape.js" }
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "https://jtsgrit0.github.io" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,POST" },
+        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
+      ]
+    }
   ]
 }
