@@ -4,7 +4,7 @@
   "description": "Backend for Barzidorock application",
   "main": "server.js",
   "scripts": {
-    "start": "knex migrate:latest --knexfile knexfile.js && node server.js"
+    "start": "knex migrate:latest --knexfile knexfile.js --env production && node server.js"
   },
   "keywords": [],
   "author": "",

@@ -191,6 +191,11 @@ const knexConfig = require('./knexfile');
 const environment = process.env.NODE_ENV || 'development';
 const knex = require('knex')(knexConfig[environment]);
 
+console.log(`[DEBUG] Running in '${environment}' environment.`);
+if (environment === 'production') {
+  console.log(`[DEBUG] DATABASE_URL: ${process.env.DATABASE_URL ? 'Found' : 'Not Found'}`);
+}
+
 app.get('/api/schedules', async (req, res) => {
   try {
     const schedules = await knex('schedules')
