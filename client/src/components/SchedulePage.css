@@ -497,4 +497,11 @@
   .admin-controls {
     flex-direction: column;
   }
+  
+  /* 모바일에서 datetime-local 입력필드가 삐져나오지 않도록 설정 */
+  .schedule-form input[type="datetime-local"] {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
 }
