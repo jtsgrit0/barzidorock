@@ -4,7 +4,7 @@ import './VenueManagerRegister.css';
 const API_BASE_URL = 'https://barzidorock.vercel.app';
 
 const VenueManagerRegister = () => {
-  const [step, setStep] = useState(1); // 1: 기본정보 입력, 2: 전화번호인증, 3: 사업자등록증 업로드, 4: 완료
+  const [step, setStep] = useState(1); // 1: 기본정보 입력, 2: 이메일인증, 3: 사업자등록증 업로드, 4: 완료
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -44,27 +44,28 @@ const VenueManagerRegister = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // 1단계: 기본정보 제출
+  // 1단계: 기본정보 제출 및 이메일 인증 코드 발송
   const handleSubmitStep1 = async (e) => {
     e.preventDefault();
     if (!validateStep1()) return;
     
     setIsLoading(true);
     try {
-      // 먼저 인증 코드 전송 API 호출
-      const response = await fetch(`${API_BASE_URL}/api/venue-managers/send-verification`, {
+      // 이메일 인증 코드 발송 API 호출
+      const response = await fetch(`${API_BASE_URL}/api/venue-managers/send-email-verification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({
-          email: formData.email,
-          phone_number: formData.phone_number
+          email: formData.email
         })
       });
 
-      if (!response.ok) throw new Error('인증 코드 전송에 실패했습니다');
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || '인증 코드 발송에 실패했습니다');
+      }
       
-      setStep(2); // 전화번호 인증 단계로 이동
+      setStep(2); // 이메일 인증 단계로 이동
     } catch (error) {
       setErrors({ general: error.message });
     } finally {
@@ -72,23 +73,27 @@ const VenueManagerRegister = () => {
     }
   };
 
-  // 2단계: 전화번호 인증 코드 확인
-  const handleVerifyPhone = async (e) => {
+  // 2단계: 이메일 인증 코드 확인
+  const handleVerifyEmail = async (e) => {
     e.preventDefault();
     if (!verificationCode) {
       setErrors({ verificationCode: '인증 코드를 입력해주세요' });
       return;
     }
+    if (verificationCode.length !== 6) {
+      setErrors({ verificationCode: '6자리 인증 코드를 입력해주세요' });
+      return;
+    }
 
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/venue-managers/verify-phone`, {
+      // 이메일 인증 확인 API 호출
+      const response = await fetch(`${API_BASE_URL}/api/venue-managers/verify-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({
           email: formData.email,
-          verification_code: verificationCode
+          code: verificationCode
         })
       });
 
@@ -156,7 +161,7 @@ const VenueManagerRegister = () => {
       {/* 진행 단계 표시 */}
       <div className="step-indicator">
         <div className={`step ${step >= 1 ? 'active' : ''}`}>기본정보</div>
-        <div className={`step ${step >= 2 ? 'active' : ''}`}>전화번호인증</div>
+        <div className={`step ${step >= 2 ? 'active' : ''}`}>이메일인증</div>
         <div className={`step ${step >= 3 ? 'active' : ''}`}>서류업로드</div>
         <div className={`step ${step >= 4 ? 'active' : ''}`}>완료</div>
       </div>
@@ -243,9 +248,9 @@ const VenueManagerRegister = () => {
         </form>
       )}
 
-      {/* 2단계: 전화번호 인증 */}
+      {/* 2단계: 이메일 인증 */}
       {step === 2 && (
-        <form onSubmit={handleVerifyPhone} className="register-form">
+        <form onSubmit={handleVerifyEmail} className="register-form">
           <div className="form-group">
             <label>인증 코드</label>
             <input
@@ -257,7 +262,7 @@ const VenueManagerRegister = () => {
             />
             {errors.verificationCode && <span className="error">{errors.verificationCode}</span>}
             <p className="helper-text">
-              입력하신 휴대폰 번호({formData.phone_number})로 인증 코드가 전송되었습니다.
+              입력하신 이메일({formData.email})로 인증 코드가 전송되었습니다.
               10분 내에 입력해주세요.
             </p>
           </div>
