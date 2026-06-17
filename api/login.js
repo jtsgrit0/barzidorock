@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
 
     if (email === adminEmail && password === adminPassword) {
       // 로그인 성공 - 세션 쿠키 설정 (간단한 구현)
-      res.setHeader('Set-Cookie', `adminLoggedIn=true; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=86400`);
+      res.setHeader('Set-Cookie', `adminLoggedIn=true; HttpOnly; Secure; SameSite=None; Domain=barzidorock-2akv.vercel.app; Path=/; Max-Age=86400`);
       return res.status(200).json({ success: true, message: 'Login successful' });
     } else {
       return res.status(401).json({ error: 'Invalid credentials' });
