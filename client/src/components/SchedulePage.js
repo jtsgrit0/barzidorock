@@ -12,10 +12,11 @@ const SchedulePage = ({ language }) => {
     event_date: '',
     event_name: '',
     description: '',
+    poster_image: '', // 이미지 데이터를 저장할 필드 추가
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleRecaptcha();
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = 'https://barzidorock-2akv.vercel.app';
 
@@ -67,6 +68,27 @@ const SchedulePage = ({ language }) => {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (isEditing) {
+          setEditingSchedule(prev => ({ ...prev, poster_image: reader.result }));
+        } else {
+          setNewEvent(prev => ({ ...prev, poster_image: reader.result }));
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      if (isEditing) {
+        setEditingSchedule(prev => ({ ...prev, poster_image: '' }));
+      } else {
+        setNewEvent(prev => ({ ...prev, poster_image: '' }));
+      }
+    }
+  };
+
   const handleAreaChange = (e) => {
     setSelectedArea(e.target.value);
   };
@@ -77,6 +99,7 @@ const SchedulePage = ({ language }) => {
       event_date: '',
       event_name: '',
       description: '',
+      poster_image: '', // 이미지 데이터 초기화
     });
     setSelectedArea('');
     setEditingSchedule(null);
@@ -160,6 +183,7 @@ const SchedulePage = ({ language }) => {
       event_date: schedule.event_date.substring(0, 16), // datetime-local 형식에 맞춤
       event_name: schedule.event_name,
       description: schedule.description,
+      poster_image: schedule.poster_image, // 이미지 데이터 로드
     });
     setIsEditing(true);
   };
@@ -262,6 +286,25 @@ const SchedulePage = ({ language }) => {
             value={isEditing ? editingSchedule?.description || '' : newEvent.description}
             onChange={handleInputChange}
           />
+          <input
+            type="file"
+            name="poster_image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="poster-image-input"
+          />
+          { (isEditing && editingSchedule?.poster_image) || (!isEditing && newEvent.poster_image) ? (
+            <div className="poster-image-preview">
+              <img src={isEditing ? editingSchedule.poster_image : newEvent.poster_image} alt="Poster Preview" />
+              <button type="button" onClick={() => {
+                if (isEditing) {
+                  setEditingSchedule(prev => ({ ...prev, poster_image: '' }));
+                } else {
+                  setNewEvent(prev => ({ ...prev, poster_image: '' }));
+                }
+              }}>이미지 제거</button>
+            </div>
+          ) : null }
           <div className="form-buttons">
             <button type="submit" className="save-button" disabled={!executeRecaptcha && !isEditing}>
               {isEditing ? '수정' : (!executeRecaptcha ? 'reCAPTCHA 로딩중...' : '저장')}
@@ -288,6 +331,11 @@ const SchedulePage = ({ language }) => {
                   <div className="schedule-item-body">
                     <span>{new Date(schedule.event_date).toLocaleString(language === 'ko' ? 'ko-KR' : 'en-US')}</span>
                     {schedule.description && <p>{schedule.description}</p>}
+                    {schedule.poster_image && (
+                      <div className="schedule-item-poster">
+                        <img src={schedule.poster_image} alt="Poster" />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="schedule-item-actions">

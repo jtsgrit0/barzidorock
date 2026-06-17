@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'POST') {
     try {
-      const { venue_id, event_date, event_name, description, captcha } = req.body;
+      const { venue_id, event_date, event_name, description, poster_image, captcha } = req.body;
 
       if (!venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -32,8 +32,8 @@ module.exports = async (req, res) => {
       }
 
       await sql`
-        INSERT INTO schedules (venue_id, event_date, event_name, description)
-        VALUES (${venue_id}, ${event_date}, ${event_name}, ${description});
+        INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image)
+        VALUES (${venue_id}, ${event_date}, ${event_name}, ${description}, ${poster_image});
       `;
       res.status(201).json({ message: 'Schedule created successfully' });
     } catch (error) {
@@ -54,13 +54,13 @@ module.exports = async (req, res) => {
     }
   } else if (req.method === 'PUT') {
     try {
-      const { id, venue_id, event_date, event_name, description } = req.body;
+      const { id, venue_id, event_date, event_name, description, poster_image } = req.body;
       if (!id || !venue_id || !event_date || !event_name) {
         return res.status(400).json({ error: 'Missing required fields for update' });
       }
       await sql`
         UPDATE schedules
-        SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}
+        SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}, poster_image = ${poster_image}
         WHERE id = ${id};
       `;
       res.status(200).json({ message: 'Schedule updated successfully' });
