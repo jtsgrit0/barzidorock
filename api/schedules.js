@@ -3,13 +3,15 @@ const { sql } = require('@vercel/postgres');
 module.exports = async (req, res) => {
   // Set CORS headers for all responses
   res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io'); // GitHub Pages 도메인 허용
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
     // Preflight request. Reply successfully:
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     return res.status(200).end();
   }
+  // For actual requests, also set the methods header
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   if (req.method === 'GET') {
     try {
       const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date DESC;`;
