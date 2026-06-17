@@ -43,8 +43,36 @@ module.exports = async (req, res) => {
       console.error('Error creating schedule:', error);
       res.status(500).json({ error: 'Failed to create schedule', details: error.message });
     }
+  } else if (req.method === 'DELETE') {
+    try {
+      const { id } = req.query;
+      if (!id) {
+        return res.status(400).json({ error: 'Missing schedule ID' });
+      }
+      await sql`DELETE FROM schedules WHERE id = ${id};`;
+      res.status(200).json({ message: 'Schedule deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting schedule:', error);
+      res.status(500).json({ error: 'Failed to delete schedule', details: error.message });
+    }
+  } else if (req.method === 'PUT') {
+    try {
+      const { id, venue_id, event_date, event_name, description } = req.body;
+      if (!id || !venue_id || !event_date || !event_name) {
+        return res.status(400).json({ error: 'Missing required fields for update' });
+      }
+      await sql`
+        UPDATE schedules
+        SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}
+        WHERE id = ${id};
+      `;
+      res.status(200).json({ message: 'Schedule updated successfully' });
+    } catch (error) {
+      console.error('Error updating schedule:', error);
+      res.status(500).json({ error: 'Failed to update schedule', details: error.message });
+    }
   } else {
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', ['GET', 'POST', 'DELETE', 'PUT']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
