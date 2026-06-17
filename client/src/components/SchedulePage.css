@@ -35,6 +35,7 @@
 
 .schedule-form select,
 .schedule-form input,
+.schedule-form input[type="datetime-local"],
 .schedule-form textarea {
   width: 100%;
   padding: 15px;
