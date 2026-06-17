@@ -11,6 +11,9 @@ const SchedulePage = ({ language }) => {
   const [loginEmail, setLoginEmail] = useState(''); // 로그인 이메일
   const [loginPassword, setLoginPassword] = useState(''); // 로그인 비밀번호
   const [loginError, setLoginError] = useState(''); // 로그인 에러 메시지
+  // 승인 대기 공연장 관리자 목록 상태
+  const [pendingManagers, setPendingManagers] = useState([]);
+  const [showPendingList, setShowPendingList] = useState(false);
   const [selectedArea, setSelectedArea] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [newEvent, setNewEvent] = useState({
@@ -251,11 +254,59 @@ const SchedulePage = ({ language }) => {
     resetForm();
   };
 
+  // 승인 대기 공연장 관리자 목록 조회 함수
+  const fetchPendingManagers = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPendingManagers(data.pending_managers);
+      }
+    } catch (error) {
+      console.error('Error fetching pending managers:', error);
+    }
+  }, [API_BASE_URL]);
+
+  // 공연장 관리자 승인/거절 처리 함수
+  const handleApproveManager = async (userId, approve) => {
+    const message = approve ? '이 관리자를 승인하시겠습니까?' : '이 관리자 가입을 거절하시겠습니까?';
+    if (!window.confirm(message)) return;
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/approve-venue-manager`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ user_id: userId, approve: approve })
+      });
+      
+      if (response.ok) {
+        alert(approve ? '관리자가 승인되었습니다.' : '관리자 가입이 거절되었습니다.');
+        fetchPendingManagers(); // 목록 새로고침
+      } else {
+        const errorData = await response.json();
+        alert(`처리에 실패했습니다: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error approving manager:', error);
+      alert('처리 중 오류가 발생했습니다.');
+    }
+  };
+
   // 컴포넌트 마운트 시 로그인 상태 확인
   useEffect(() => {
     const loggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
     setIsLoggedIn(loggedIn);
   }, []);
+
+  // 로그인 상태일 때 승인 대기 관리자 목록 조회
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchPendingManagers();
+    }
+  }, [isLoggedIn, fetchPendingManagers]);
 
   const handleDelete = useCallback(async (id) => {
     if (!window.confirm('정말로 이 일정을 삭제하시겠습니까?')) {
@@ -335,8 +386,58 @@ const SchedulePage = ({ language }) => {
         <div className="schedule-form-container">
           <div className="admin-header">
             <h2>{isEditing ? '공연일정 수정' : '새 공연일정 등록'}</h2>
-            <button onClick={handleLogout} className="logout-button">로그아웃</button>
+            <div className="admin-controls">
+              <button 
+                onClick={() => setShowPendingList(!showPendingList)} 
+                className="pending-button"
+              >
+                승인대기 관리자 {pendingManagers.length > 0 && `(${pendingManagers.length})`}
+              </button>
+              <button onClick={handleLogout} className="logout-button">로그아웃</button>
+            </div>
           </div>
+          
+          {/* 승인 대기 공연장 관리자 목록 */}
+          {showPendingList && pendingManagers.length > 0 && (
+            <div className="pending-managers-container">
+              <h3>승인 대기 중인 공연장 관리자 ({pendingManagers.length}명)</h3>
+              <div className="pending-managers-list">
+                {pendingManagers.map(manager => (
+                  <div key={manager.id} className="manager-card">
+                    <div className="manager-info">
+                      <p><strong>이메일:</strong> {manager.email}</p>
+                      <p><strong>전화번호:</strong> {manager.phone_number}</p>
+                      <p><strong>공연장ID:</strong> {manager.venue_id}</p>
+                      <p><strong>사업자번호:</strong> {manager.business_registration_number}</p>
+                      <p><strong>전화번호인증:</strong> {manager.phone_verified ? '✅ 완료' : '❌ 미완료'}</p>
+                      <p><strong>가입일:</strong> {new Date(manager.created_at).toLocaleString('ko-KR')}</p>
+                    </div>
+                    <div className="manager-actions">
+                      <button 
+                        onClick={() => handleApproveManager(manager.id, true)}
+                        className="approve-button"
+                      >
+                        승인
+                      </button>
+                      <button 
+                        onClick={() => handleApproveManager(manager.id, false)}
+                        className="reject-button"
+                      >
+                        거절
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* 승인 대기 관리자가 없을 때 */}
+          {showPendingList && pendingManagers.length === 0 && (
+            <div className="pending-managers-container">
+              <p>승인 대기 중인 공연장 관리자가 없습니다.</p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="schedule-form">
           <select
             name="area"

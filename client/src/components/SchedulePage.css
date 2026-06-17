@@ -361,3 +361,122 @@
 .logout-button:hover {
   background-color: #da190b;
 }
+
+/* 관리자 컨트롤 버튼 그룹 */
+.admin-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* 승인대기 관리자 버튼 */
+.pending-button {
+  background-color: #ff9800;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.pending-button:hover {
+  background-color: #fb8c00;
+}
+
+/* 승인 대기 공연장 관리자 목록 스타일 */
+.pending-managers-container {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  margin-bottom: 25px;
+}
+
+.pending-managers-container h3 {
+  color: #f0e68c;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.pending-managers-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.manager-card {
+  background-color: #333;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.manager-info p {
+  color: #fff;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.manager-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 100px;
+}
+
+.approve-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.approve-button:hover {
+  background-color: #43a047;
+}
+
+.reject-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.reject-button:hover {
+  background-color: #da190b;
+}
+
+@media (max-width: 768px) {
+  .manager-card {
+    flex-direction: column;
+  }
+  
+  .manager-actions {
+    flex-direction: row;
+    width: 100%;
+  }
+  
+  .approve-button, .reject-button {
+    flex: 1;
+  }
+  
+  .admin-controls {
+    flex-direction: column;
+  }
+}
