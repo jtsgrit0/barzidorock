@@ -12,7 +12,7 @@ module.exports = {
   production: {
     client: 'better-sqlite3',
     connection: {
-      filename: '/app/database.db'
+      filename: '/app/data/database.db'
     },
     useNullAsDefault: true,
     migrations: {
