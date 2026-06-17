@@ -1,4 +1,6 @@
+// eslint-disable-next-line no-undef
 import React, { useState, useEffect, useCallback } from 'react';
+// eslint-disable-next-line no-undef
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import './SchedulePage.css';
 import venues from '../venues.json';
@@ -16,7 +18,8 @@ const SchedulePage = ({ language }) => {
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
-  const { executeRecaptcha } = useGoogleRecaptcha();
+  // eslint-disable-next-line no-undef
+  const { executeRecaptcha } = useGoogleReCaptcha();
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = 'https://barzidorock-2akv.vercel.app';
 
