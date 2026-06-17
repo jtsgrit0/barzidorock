@@ -1,6 +1,19 @@
 const { sql } = require('@vercel/postgres');
 
 module.exports = async (req, res) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    return res.status(200).end();
+  }
+  
+  // Set CORS headers for all other requests
+  res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
   if (req.method === 'GET') {
     try {
       const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date DESC;`;
