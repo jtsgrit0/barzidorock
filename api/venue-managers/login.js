@@ -1,4 +1,5 @@
 const { sql } = require('@vercel/postgres');
+const bcrypt = require('bcrypt');
 
 module.exports = async (req, res) => {
   // CORS 설정
@@ -33,8 +34,9 @@ module.exports = async (req, res) => {
 
     const user = userResult.rows[0];
 
-    // 비밀번호 확인 (실제로는 bcrypt.compare 사용해야 함)
-    if (user.password_hash !== password) {
+    // 비밀번호 bcrypt로 비교
+    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    if (!passwordMatch) {
       return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
     }
 

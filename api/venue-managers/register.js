@@ -1,4 +1,5 @@
 const { sql } = require('@vercel/postgres');
+const bcrypt = require('bcrypt');
 
 module.exports = async (req, res) => {
   // CORS 설정
@@ -39,6 +40,10 @@ module.exports = async (req, res) => {
       return res.status(409).json({ error: '이미 가입된 이메일입니다.' });
     }
 
+    // 비밀번호 bcrypt로 해싱
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
     // 관리자 승인 대기 상태로 회원가입 처리
     const result = await sql`
       INSERT INTO venue_managers (
@@ -52,7 +57,7 @@ module.exports = async (req, res) => {
         created_at
       ) VALUES (
         ${email},
-        ${password}, // 추후 bcrypt로 해싱해야 함
+        ${passwordHash},
         ${phone_number},
         ${venue_id},
         ${business_registration_number},
