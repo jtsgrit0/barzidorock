@@ -14,7 +14,7 @@ const SchedulePage = ({ language }) => {
     description: '',
   });
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // GitHub Pages(프로덕션)와 로컬 개발 환경 구분 (Railway 도메인으로 변경)
+  // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3001' 
     : 'https://barzidorock-2akv.vercel.app';
