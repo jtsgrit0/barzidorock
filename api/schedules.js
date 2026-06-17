@@ -1,6 +1,9 @@
 const { sql } = require('@vercel/postgres');
 
 module.exports = async (req, res) => {
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send('');
+  }
   if (req.method === 'GET') {
     try {
       const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date DESC;`;
