@@ -16,8 +16,8 @@
     "knex": "^3.2.10",
     "node-fetch": "^2.6.1",
     "pg": "^8.21.0",
-    "puppeteer": "^25.1.0",
-    "puppeteer-core": "^25.1.0",
+    "puppeteer": "10.4.0",
+    "puppeteer-core": "10.4.0",
     "tesseract.js": "^7.0.0"
   }
 }
