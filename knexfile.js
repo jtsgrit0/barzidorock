@@ -2,7 +2,7 @@ module.exports = {
   development: {
     client: 'better-sqlite3',
     connection: {
-      filename: process.env.NODE_ENV === 'production' ? '/app/database.db' : './database.db'
+      filename: './database.db'
     },
     useNullAsDefault: true,
     migrations: {
@@ -12,8 +12,11 @@ module.exports = {
   production: {
     client: 'better-sqlite3',
     connection: {
-      filename: './database.db'
+      filename: '/app/database.db'
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
+    migrations: {
+      directory: './migrations'
+    }
   }
 };
