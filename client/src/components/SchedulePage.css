@@ -497,11 +497,23 @@
   .admin-controls {
     flex-direction: column;
   }
-  
-  /* 모바일에서 datetime-local 입력필드가 삐져나오지 않도록 설정 */
-  .schedule-form input[type="datetime-local"] {
-    min-width: 0;
-    width: 100%;
-    max-width: 100%;
+
+  /* 모든 폼 입력필드 모바일 너비 고정 */
+  .schedule-form input,
+  .schedule-form select,
+  .schedule-form textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
   }
+  
+  /* datetime-local 특별 처리 */
+  .schedule-form input[type="datetime-local"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+  }
+  
 }
