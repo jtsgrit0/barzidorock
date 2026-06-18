@@ -16,6 +16,8 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     return res.status(200).end();
