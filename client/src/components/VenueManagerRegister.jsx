@@ -22,10 +22,9 @@ const VenueManagerRegister = () => {
   const regions = ['홍대', '강남', '이태원'];
   // 공연장 목록 (지역별로 분류)
   const allVenues = [
-    { id: 1, name: '홍대 1호점', region: '홍대' },
-    { id: 2, name: '홍대 2호점', region: '홍대' },
-    { id: 3, name: '강남 1호점', region: '강남' },
-    { id: 4, name: '이태원 1호점', region: '이태원' }
+    { id: 1, name: '홍대', region: '홍대' },
+    { id: 2, name: '강남', region: '강남' },
+    { id: 3, name: '이태원', region: '이태원' }
   ];
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
