@@ -34,13 +34,17 @@ const VenueManagerRegister = () => {
 
   // 고유한 지역 목록 추출
   const regions = [...new Set(processedVenues.map(venue => venue.region))];
+  console.log('regions:', regions);
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   // 선택된 지역에 따라 공연장 목록 필터링
   useEffect(() => {
+    console.log('processedVenues:', processedVenues);
+    console.log('selectedRegion:', selectedRegion);
     if (selectedRegion) {
       const filtered = processedVenues.filter(venue => venue.region === selectedRegion);
+      console.log('filteredVenues:', filtered);
       setFilteredVenues(filtered);
     } else {
       setFilteredVenues([]);
