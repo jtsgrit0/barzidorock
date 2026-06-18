@@ -14,7 +14,7 @@ const createTransporter = () => {
 
 module.exports = async (req, res) => {
   // CORS 설정
-  res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+  const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app']; const origin = req.headers.origin; if (allowedOrigins.includes(origin)) { res.setHeader('Access-Control-Allow-Origin', origin); }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   
   if (req.method === 'OPTIONS') {

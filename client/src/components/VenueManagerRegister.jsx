@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import venuesData from '../venues.json';
 import './VenueManagerRegister.css';
 
-// 환경에 따라 API_BASE_URL 자동 설정
-const API_BASE_URL = window.location.hostname === 'localhost' 
-  ? 'http://localhost:3000' 
-  : 'https://barzidorock.vercel.app';
+const API_BASE_URL = 'https://barzidorock.vercel.app';
 
 const VenueManagerRegister = () => {
   const [step, setStep] = useState(1); // 1: 기본정보 입력, 2: 이메일인증, 3: 사업자등록증 업로드, 4: 완료
