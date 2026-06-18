@@ -18,16 +18,33 @@ const VenueManagerRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [venues, setVenues] = useState([]); // 공연장 목록 상태 추가
 
-  // 공연장 목록 초기화 (하드코딩)
+  // 지역 목록
+  const regions = ['홍대', '강남', '이태원'];
+  // 공연장 목록 (지역별로 분류)
+  const allVenues = [
+    { id: 1, name: '홍대 1호점', region: '홍대' },
+    { id: 2, name: '홍대 2호점', region: '홍대' },
+    { id: 3, name: '강남 1호점', region: '강남' },
+    { id: 4, name: '이태원 1호점', region: '이태원' }
+  ];
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [filteredVenues, setFilteredVenues] = useState([]);
+
+  // 선택된 지역에 따라 공연장 목록 필터링
   useEffect(() => {
-    const hardcodedVenues = [
-      { id: 1, name: '바지도락 홍대' },
-      { id: 2, name: '바지도락 강남' },
-      { id: 3, name: '바지도락 홍대 2호점' },
-      { id: 4, name: '바지도락 이태원' }
-    ];
-    setVenues(hardcodedVenues);
-  }, []);
+    if (selectedRegion) {
+      const filtered = allVenues.filter(venue => venue.region === selectedRegion);
+      setFilteredVenues(filtered);
+    } else {
+      setFilteredVenues([]);
+      setFormData(prev => ({ ...prev, venue_id: '' }));
+    }
+  }, [selectedRegion]);
+
+  // 지역 선택 핸들러
+  const handleRegionChange = (e) => {
+    setSelectedRegion(e.target.value);
+  };
 
   // 입력값 변경 핸들러
   const handleChange = (e) => {
@@ -228,10 +245,20 @@ const VenueManagerRegister = () => {
           </div>
 
           <div className="form-group">
+            <label>지역 선택</label>
+            <select name="region" value={selectedRegion} onChange={handleRegionChange}>
+              <option value="">지역을 선택해주세요</option>
+              {regions.map(region => (
+                <option key={region} value={region}>{region}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
             <label>공연장 선택</label>
-            <select name="venue_id" value={formData.venue_id} onChange={handleChange}>
+            <select name="venue_id" value={formData.venue_id} onChange={handleChange} disabled={!selectedRegion}>
               <option value="">공연장을 선택해주세요</option>
-              {venues.map(venue => (
+              {filteredVenues.map(venue => (
                 <option key={venue.id} value={venue.id}>{venue.name}</option>
               ))}
             </select>
