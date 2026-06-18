@@ -11,12 +11,18 @@ function generateVerificationCode() {
 }
 
 module.exports = async (req, res) => {
-  // CORS 설정
-  res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+  // CORS 설정 - 로컬 개발, GitHub Pages, Vercel 모두 허용
+  const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', 'https://jtsgrit0.github.io');
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
