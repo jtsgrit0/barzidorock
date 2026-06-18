@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import venuesData from '../venues.json';
 import './VenueManagerRegister.css';
 
 const API_BASE_URL = 'https://barzidorock.vercel.app';
@@ -16,23 +17,30 @@ const VenueManagerRegister = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [venues, setVenues] = useState([]); // 공연장 목록 상태 추가
 
-  // 지역 목록
-  const regions = ['홍대', '강남', '이태원'];
-  // 공연장 목록 (지역별로 분류)
-  const allVenues = [
-    { id: 1, name: '홍대', region: '홍대' },
-    { id: 2, name: '강남', region: '강남' },
-    { id: 3, name: '이태원', region: '이태원' }
-  ];
+  // area 영문명을 한국어 지역명으로 매핑
+  const areaToKorean = {
+    'hongdae': '홍대',
+    'gangnam': '강남',
+    'itaewon': '이태원'
+  };
+
+  // venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류
+  const processedVenues = venuesData.map(venue => ({
+    id: venue.id,
+    name: venue.name.ko, // 한국어 공연장 이름 사용
+    region: areaToKorean[venue.area] || venue.area // area를 한국어 지역명으로 변환
+  }));
+
+  // 고유한 지역 목록 추출
+  const regions = [...new Set(processedVenues.map(venue => venue.region))];
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   // 선택된 지역에 따라 공연장 목록 필터링
   useEffect(() => {
     if (selectedRegion) {
-      const filtered = allVenues.filter(venue => venue.region === selectedRegion);
+      const filtered = processedVenues.filter(venue => venue.region === selectedRegion);
       setFilteredVenues(filtered);
     } else {
       setFilteredVenues([]);
