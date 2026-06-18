@@ -26,15 +26,19 @@ const VenueManagerRegister = () => {
   };
 
   // venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류
-  const processedVenues = venuesData.map(venue => ({
-    id: venue.id,
-    name: venue.name.ko, // 한국어 공연장 이름 사용
-    region: areaToKorean[venue.area] || venue.area // area를 한국어 지역명으로 변환
-  }));
+  const processedVenues = venuesData.map(venue => {
+    const region = areaToKorean[venue.area] || venue.area;
+    console.log(`Venue: ${venue.name.ko}, area: ${venue.area}, region: ${region}`);
+    return {
+      id: venue.id,
+      name: venue.name.ko, // 한국어 공연장 이름 사용
+      region: region // area를 한국어 지역명으로 변환
+    };
+  });
 
   // 고유한 지역 목록 추출
   const regions = [...new Set(processedVenues.map(venue => venue.region))];
-  console.log('regions:', regions);
+  console.log('최종 지역 목록:', regions);
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
