@@ -24,12 +24,11 @@ module.exports = async (req, res) => {
       password, 
       phone_number, 
       venue_id, 
-      business_registration_number,
       business_registration_file 
     } = req.body;
 
     // 필수 필드 검증
-    if (!email || !password || !phone_number || !venue_id || !business_registration_number) {
+    if (!email || !password || !phone_number || !venue_id) {
       return res.status(400).json({ error: '필수 입력값이 누락되었습니다.' });
     }
 
@@ -53,7 +52,6 @@ module.exports = async (req, res) => {
         password_hash, 
         phone_number, 
         venue_id, 
-        business_registration_number,
         business_registration_file,
         is_approved,
         created_at
@@ -62,7 +60,6 @@ module.exports = async (req, res) => {
         ${passwordHash},
         ${phone_number},
         ${venue_id},
-        ${business_registration_number},
         ${business_registration_file},
         false,
         NOW()

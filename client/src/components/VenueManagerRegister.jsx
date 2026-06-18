@@ -11,7 +11,6 @@ const VenueManagerRegister = () => {
     confirmPassword: '',
     phone_number: '',
     venue_id: '',
-    business_registration_number: '',
     business_registration_file: null
   });
   const [verificationCode, setVerificationCode] = useState('');
@@ -38,7 +37,6 @@ const VenueManagerRegister = () => {
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = '비밀번호가 일치하지 않습니다';
     if (!formData.phone_number) newErrors.phone_number = '전화번호를 입력해주세요';
     if (!formData.venue_id) newErrors.venue_id = '공연장을 선택해주세요';
-    if (!formData.business_registration_number) newErrors.business_registration_number = '사업자등록번호를 입력해주세요';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -226,18 +224,6 @@ const VenueManagerRegister = () => {
               {/* 추가 공연장 목록 */}
             </select>
             {errors.venue_id && <span className="error">{errors.venue_id}</span>}
-          </div>
-
-          <div className="form-group">
-            <label>사업자등록번호</label>
-            <input
-              type="text"
-              name="business_registration_number"
-              value={formData.business_registration_number}
-              onChange={handleChange}
-              placeholder="'-' 없이 입력해주세요 (예: 1234567890)"
-            />
-            {errors.business_registration_number && <span className="error">{errors.business_registration_number}</span>}
           </div>
 
           {errors.general && <span className="error general">{errors.general}</span>}
