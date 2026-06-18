@@ -46,7 +46,7 @@ const VenueManagerRegister = () => {
       setFilteredVenues([]);
       setFormData(prev => ({ ...prev, venue_id: '' }));
     }
-  }, [selectedRegion]);
+  }, [selectedRegion, processedVenues]);
 
   // 지역 선택 핸들러
   const handleRegionChange = (e) => {
