@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './VenueManagerRegister.css';
 
 const API_BASE_URL = 'https://barzidorock.vercel.app';
@@ -16,6 +16,18 @@ const VenueManagerRegister = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [venues, setVenues] = useState([]); // 공연장 목록 상태 추가
+
+  // 공연장 목록 초기화 (하드코딩)
+  useEffect(() => {
+    const hardcodedVenues = [
+      { id: 1, name: '바지도락 홍대' },
+      { id: 2, name: '바지도락 강남' },
+      { id: 3, name: '바지도락 홍대 2호점' },
+      { id: 4, name: '바지도락 이태원' }
+    ];
+    setVenues(hardcodedVenues);
+  }, []);
 
   // 입력값 변경 핸들러
   const handleChange = (e) => {
@@ -219,9 +231,9 @@ const VenueManagerRegister = () => {
             <label>공연장 선택</label>
             <select name="venue_id" value={formData.venue_id} onChange={handleChange}>
               <option value="">공연장을 선택해주세요</option>
-              <option value="bar-001">바지도락 본점</option>
-              <option value="bar-002">바지도락 분점1</option>
-              {/* 추가 공연장 목록 */}
+              {venues.map(venue => (
+                <option key={venue.id} value={venue.id}>{venue.name}</option>
+              ))}
             </select>
             {errors.venue_id && <span className="error">{errors.venue_id}</span>}
           </div>
