@@ -12,28 +12,22 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     return res.status(200).end();
+const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app'];
+const origin = req.headers.origin;
+if (allowedOrigins.includes(origin)) {
+  res.setHeader('Access-Control-Allow-Origin', origin);
+}
+res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+if (req.method === 'OPTIONS') {
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: '이메일과 비밀번호가 필요합니다.' });
-    }
-
-    // 사용자 정보 조회
-    const userResult = await sql`
-      SELECT * FROM venue_managers WHERE email = ${email}
-    `;
-
-    if (userResult.rows.length === 0) {
-      return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
-    }
-
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  return res.status(200).end();
+}
     const user = userResult.rows[0];
 
     // 비밀번호 bcrypt로 비교

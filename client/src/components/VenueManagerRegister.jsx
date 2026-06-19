@@ -94,7 +94,7 @@ const VenueManagerRegister = () => {
     setIsLoading(true);
     try {
       // 이메일 인증 코드 발송 API 호출
-      const response = await fetch(`${API_BASE_URL}/venue-managers/send-email-verification`, {
+      const response = await fetch(`${API_BASE_URL}/api/venue-managers/send-email-verification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -130,7 +130,7 @@ const VenueManagerRegister = () => {
     setIsLoading(true);
     try {
       // 이메일 인증 확인 API 호출
-      const response = await fetch(`${API_BASE_URL}/venue-managers/verify-email`, {
+      const response = await fetch(`${API_BASE_URL}/api/venue-managers/verify-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -168,7 +168,7 @@ const VenueManagerRegister = () => {
       fileReader.onload = async () => {
         const base64File = fileReader.result;
         
-        const response = await fetch(`${API_BASE_URL}/venue-managers/register`, {
+        const response = await fetch(`${API_BASE_URL}/api/venue-managers/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

@@ -43,7 +43,7 @@ const SchedulePage = ({ language }) => {
 
   const fetchSchedules = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/schedules`);
+      const response = await fetch(`${API_BASE_URL}/api/schedules`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -171,8 +171,8 @@ const SchedulePage = ({ language }) => {
     try {
       const method = isEditing ? 'PUT' : 'POST';
       const url = isEditing 
-        ? `${API_BASE_URL}/schedules` 
-        : `${API_BASE_URL}/schedules`;
+        ? `${API_BASE_URL}/api/schedules` 
+        : `${API_BASE_URL}/api/schedules`;
       const body = isEditing 
         ? JSON.stringify(dataToSubmit) 
         : JSON.stringify({ ...dataToSubmit, captcha: token });
@@ -237,7 +237,7 @@ const SchedulePage = ({ language }) => {
     e.preventDefault();
     try {
       // 백엔드에 로그인 요청 (이메일과 비밀번호 검증)
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ const SchedulePage = ({ language }) => {
   // 승인 대기 공연장 관리자 목록 조회 함수
   const fetchPendingManagers = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/admin/pending-venue-managers`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
         credentials: 'include'
       });
       if (response.ok) {
@@ -293,7 +293,7 @@ const SchedulePage = ({ language }) => {
     if (!window.confirm(message)) return;
     
     try {
-      const response = await fetch(`${API_BASE_URL}/admin/approve-venue-manager`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/approve-venue-manager`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -331,8 +331,8 @@ const SchedulePage = ({ language }) => {
       return;
     }
     try {
-      console.log('Sending DELETE to:', `${API_BASE_URL}/schedules?id=${id}`);
-      const response = await fetch(`${API_BASE_URL}/schedules?id=${id}`, {
+      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });

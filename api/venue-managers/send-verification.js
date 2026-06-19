@@ -12,28 +12,22 @@ module.exports = async (req, res) => {
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app'];
+const origin = req.headers.origin;
+if (allowedOrigins.includes(origin)) {
+  res.setHeader('Access-Control-Allow-Origin', origin);
+}
+res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+if (req.method === 'OPTIONS') {
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
-
-  try {
-    const { email, phone_number } = req.body;
-
-    if (!email || !phone_number) {
-      return res.status(400).json({ error: '이메일과 전화번호가 필요합니다.' });
-    }
-
-    // 6자리 인증 코드 생성
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    // 인증 코드 만료시간 (10분 후)
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
-
-    // 사용자 정보에 인증 코드 저장
-    await sql`
-      UPDATE venue_managers 
-      SET verification_code = ${verificationCode}, 
-          verification_expires_at = ${expiresAt},
-          updated_at = NOW()
-      WHERE email = ${email}
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  return res.status(200).end();
+}      WHERE email = ${email}
     `;
 
     // TODO: 실제 SMS 서비스(Twilio, 알리고 등)로 인증 코드 전송
