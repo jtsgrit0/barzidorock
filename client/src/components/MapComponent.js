@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPhone, faMapMarkerAlt, faClock, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPhone, faMapMarkerAlt, faClock, faHeart, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 
 const containerStyle = {
   width: '100%',
@@ -139,7 +139,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                 )}
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px', flexWrap: 'wrap' }}>
                 <a href={`tel:${selectedVenue.phoneNumber}`} style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                   <FontAwesomeIcon icon={faPhone} size="2x" />
                   <p style={{ margin: '5px 0' }}>{translations.call || '전화걸기'}</p>
@@ -152,6 +152,12 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                   <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                     <FontAwesomeIcon icon={faHome} size="2x" />
                     <p style={{ margin: '5px 0' }}>{translations.website || '홈페이지'}</p>
+                  </a>
+                )}
+                {selectedVenue.websiteUrl && (
+                  <a href={`${selectedVenue.websiteUrl}ticket`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
+                    <FontAwesomeIcon icon={faTicketAlt} size="2x" />
+                    <p style={{ margin: '5px 0' }}>{translations.tickets || '티켓예매'}</p>
                   </a>
                 )}
               </div>
