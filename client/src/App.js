@@ -203,8 +203,8 @@ function App() {
               <div className="location-consent-popup">
                 <h2>위치 정보 사용 동의</h2>
                 <p>
-                  현재 위치 정보를 사용하여 주변 BAR UNION을 찾고,
-                  선택하신 BAR UNION까지의 경로를 안내해 드릴 수 있습니다.
+                  현재 위치 정보를 사용하여 주변 라이브 콘서트 스테이지를 찾고,
+                  선택하신 라이브 콘서트 스테이지까지의 경로를 안내해 드릴 수 있습니다.
                   동의하시겠습니까?
                 </p>
                 <div className="popup-actions">

@@ -5,7 +5,7 @@
       "ko": "프리즘홀",
       "en": "Prism Hall"
     },
-    "type": "live_venue",
+    "type": "live concert stage",
     "address": {
       "ko": "서울 마포구 양화로12길 6",
       "en": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea",
@@ -179,7 +179,10 @@
   },
   {
     "id": "ChIJ6cYrXNqYfDURly0vyvWEHH0",
-    "name": "Veloso Hongdae",
+    "name": {
+      "ko": "벨로소 홍대",
+      "en": "Veloso Hongdae"
+    },
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 잔다리로 46",
@@ -211,7 +214,10 @@
   },
   {
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
-    "name": "Cafe Unplugged",
+    "name": {
+      "ko": "카페 언플러그드",
+      "en": "Cafe Unplugged"
+    },
     "type": "live_venue",
     "address": {
       "ko": "서울특별시 마포구 와우산로33길 26",
@@ -243,7 +249,10 @@
   },
   {
     "id": "ChIJrelcVdCYfDURiaHkye8F2Pg",
-    "name": "Alive Hall",
+    "name": {
+      "ko": "얼라이브홀",
+      "en": "Alive Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "서울특별시 마포구 독막로7길 20 지하",
@@ -278,11 +287,11 @@
     "name": "CLUBAOR(ALL OF ROCK)",
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 와우산로 156 지하",
-        "en": "156 Wausan-ro, B1, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区卧牛山路156号地下一层",
-        "ja": "ソウル特別市麻浦区臥牛山路156 地下1階"
-      },
+      "ko": "서울 마포구 와우산로 156 지하",
+      "en": "156 Wausan-ro, B1, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路156号地下一层",
+      "ja": "ソウル特別市麻浦区臥牛山路156 地下1階"
+    },
     "latitude": 37.5548473,
     "longitude": 126.9304103,
     "phoneNumber": "+82 10-5500-8711",
@@ -310,10 +319,10 @@
     "name": "클럽 라이브앤라우드",
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 동교로 191 디비엠빌딩 지하 2층",
-        "en": "191 Donggyo-ro, B2, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区东桥路191号DVM大厦地下2层",
-        "ja": "ソウル特別市麻浦区東橋路191 DVMビル 地下2階"
+      "ko": "서울 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "en": "191 Donggyo-ro, B2, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区东桥路191号DVM大厦地下2层",
+      "ja": "ソウル特別市麻浦区東橋路191 DVMビル 地下2階"
     },
     "latitude": 37.5574516,
     "longitude": 126.9223086,
@@ -342,10 +351,10 @@
     "name": "MUV-Hall",
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 잔다리로 32",
-        "en": "32 Jandari-ro, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区Jandari路 32",
-        "ja": "ソウル特別市麻浦区Jandari路 32"
+      "ko": "서울 마포구 잔다리로 32",
+      "en": "32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区Jandari路 32",
+      "ja": "ソウル特別市麻浦区Jandari路 32"
     },
     "latitude": 37.5516113,
     "longitude": 126.9198371,
@@ -374,10 +383,10 @@
     "name": "Hanatour V-Hall",
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 홍익로 25",
-        "en": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区弘益路25",
-        "ja": "ソウル特別市麻浦区弘益路25"
+      "ko": "서울 마포구 홍익로 25",
+      "en": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区弘益路25",
+      "ja": "ソウル特別市麻浦区弘益路25"
     },
     "latitude": 37.5543874,
     "longitude": 126.9219519,
@@ -409,10 +418,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 서교동 407-8",
-        "en": "407-8 Seogyo-dong, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区西桥洞 407-8",
-        "ja": "ソウル特別市麻浦区西橋洞 407-8"
+      "ko": "서울 마포구 서교동 407-8",
+      "en": "407-8 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区西桥洞 407-8",
+      "ja": "ソウル特別市麻浦区西橋洞 407-8"
     },
     "latitude": 37.5502152,
     "longitude": 126.9222892,
@@ -438,13 +447,16 @@
   },
   {
     "id": "ChIJD8JrWo6ZfDURQS1q52BpO30",
-    "name": "Watcha Hall",
+    "name": {
+      "ko": "왓챠홀",
+      "en": "Watcha Hall"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 잔다리로 32 지하1층",
-        "en": "B1, 32 Jandari-ro, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区Jandari路 32 地下一层",
-        "ja": "ソウル特別市麻浦区Jandari路 32 地下1階"
+      "ko": "서울 마포구 잔다리로 32 지하1층",
+      "en": "B1, 32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区Jandari路 32 地下一层",
+      "ja": "ソウル特別市麻浦区Jandari路 32 地下1階"
     },
     "latitude": 37.5515437,
     "longitude": 126.9197803,
@@ -469,13 +481,16 @@
   },
   {
     "id": "ChIJq-BtxCyZfDURacqRwCnbCDI",
-    "name": "Flex lounge",
+    "name": {
+      "ko": "플렉스 라운지",
+      "en": "Flex lounge"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 양화로 100-10",
-        "en": "100-10 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区杨花路 100-10",
-        "ja": "ソウル特別市麻浦区楊花路 100-10"
+      "ko": "서울 마포구 양화로 100-10",
+      "en": "100-10 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区杨花路 100-10",
+      "ja": "ソウル特別市麻浦区楊花路 100-10"
     },
     "latitude": 37.5525552,
     "longitude": 126.9189906,
@@ -506,10 +521,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 동교로 147 청람빌딩 지하",
-        "en": "Cheongnam Building B1, 147 Donggyo-ro, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区东桥路 147 青蓝大厦 地下",
-        "ja": "ソウル特別市麻浦区東橋路 147 青藍ビル 地下"
+      "ko": "서울 마포구 동교로 147 청람빌딩 지하",
+      "en": "Cheongnam Building B1, 147 Donggyo-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区东桥路 147 青蓝大厦 地下",
+      "ja": "ソウル特別市麻浦区東橋路 147 青藍ビル 地下"
     },
     "latitude": 37.5555485,
     "longitude": 126.9183198,
@@ -541,10 +556,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 와우산로18길 30",
-        "en": "30 Wausan-ro 18-gil, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区卧牛山路18街 30",
-        "ja": "ソウル特別市麻浦区臥牛山路18キル 30"
+      "ko": "서울 마포구 와우산로18길 30",
+      "en": "30 Wausan-ro 18-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路18街 30",
+      "ja": "ソウル特別市麻浦区臥牛山路18キル 30"
     },
     "latitude": 37.551465,
     "longitude": 126.9240704,
@@ -575,10 +590,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 와우산로14길 4 지하 1층",
-        "en": "B1, 4 Wausan-ro 14-gil, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区卧牛山路14街 4 地下一层",
-        "ja": "ソウル特別市麻浦区臥牛山路14キル 4 地下1階"
+      "ko": "서울 마포구 와우산로14길 4 지하 1층",
+      "en": "B1, 4 Wausan-ro 14-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路14街 4 地下一层",
+      "ja": "ソウル特別市麻浦区臥牛山路14キル 4 地下1階"
     },
     "latitude": 37.5500175,
     "longitude": 126.9233548,
@@ -610,10 +625,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 서교동 344-6",
-        "en": "344-6 Seogyo-dong, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区西桥洞 344-6",
-        "ja": "ソウル特別市麻浦区西橋洞 344-6"
+      "ko": "서울 마포구 서교동 344-6",
+      "en": "344-6 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区西桥洞 344-6",
+      "ja": "ソウル特別市麻浦区西橋洞 344-6"
     },
     "latitude": 37.553341,
     "longitude": 126.924364,
@@ -634,10 +649,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 와우산로 63 2층",
-        "en": "2F, 63 Wausan-ro, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区卧牛山路 63 2层",
-        "ja": "ソウル特別市麻浦区臥牛山路 63 2階"
+      "ko": "서울 마포구 와우산로 63 2층",
+      "en": "2F, 63 Wausan-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路 63 2层",
+      "ja": "ソウル特別市麻浦区臥牛山路 63 2階"
     },
     "latitude": 37.55030319999999,
     "longitude": 126.9229644,
@@ -663,13 +678,16 @@
   },
   {
     "id": "ChIJ7x57usGYfDURVYMF-xdvxdo",
-    "name": "BBang",
+    "name": {
+      "ko": "빵",
+      "en": "BBang"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 마포구 와우산로29길 12",
-        "en": "12 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区卧牛山路29街 12",
-        "ja": "ソウル特別市麻浦区臥牛山路29キル 12"
+      "ko": "서울 마포구 와우산로29길 12",
+      "en": "12 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区卧牛山路29街 12",
+      "ja": "ソウル特別市麻浦区臥牛山路29キル 12"
     },
     "latitude": 37.5548142,
     "longitude": 126.929257,
@@ -698,10 +716,10 @@
     "name": "BAR다",
     "type": "rock_bar",
     "address": {
-        "ko": "서울 마포구 홍익로3길 7",
-        "en": "7 Hongik-ro 3-gil, Mapo-gu, Seoul, South Korea",
-        "zh": "首尔特别市麻浦区弘益路3街 7",
-        "ja": "ソウル特別市麻浦区弘益路3キル 7"
+      "ko": "서울 마포구 홍익로3길 7",
+      "en": "7 Hongik-ro 3-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "首尔特别市麻浦区弘益路3街 7",
+      "ja": "ソウル特別市麻浦区弘益路3キル 7"
     },
     "latitude": 37.5539574,
     "longitude": 126.9222305,
@@ -727,13 +745,16 @@
   },
   {
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
-    "name": "UNDERSTAGE",
+    "name": {
+      "ko": "언더스테이지",
+      "en": "UNDERSTAGE"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원로 246",
-        "en": "246 Itaewon-ro, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院路246",
-        "ja": "ソウル特別市龍山区梨泰院路246"
+      "ko": "서울 용산구 이태원로 246",
+      "en": "246 Itaewon-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路246",
+      "ja": "ソウル特別市龍山区梨泰院路246"
     },
     "latitude": 37.5366084,
     "longitude": 127.0006901,
@@ -762,10 +783,10 @@
     "name": "Petsounds 펫사운즈",
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원동 278-8",
-        "en": "278-8 Itaewon-dong, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院洞278-8",
-        "ja": "ソウル特別市龍山区梨泰院洞278-8"
+      "ko": "서울 용산구 이태원동 278-8",
+      "en": "278-8 Itaewon-dong, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院洞278-8",
+      "ja": "ソウル特別市龍山区梨泰院洞278-8"
     },
     "latitude": 37.5391661,
     "longitude": 126.9889974,
@@ -791,13 +812,16 @@
   },
   {
     "id": "ChIJu5zS90mifDURl1MmzCKDnhY",
-    "name": "All That Jazz",
+    "name": {
+      "ko": "올 댓 재즈",
+      "en": "All That Jazz"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원로 216 2층",
-        "en": "South Korea, Seoul, Yongsan District, Itaewon-ro, 216 2층",
-        "zh": "首尔特别市龙山区梨泰院路216 2层",
-        "ja": "ソウル特別市龍山区梨泰院路216 2階"
+      "ko": "서울 용산구 이태원로 216 2층",
+      "en": "South Korea, Seoul, Yongsan District, Itaewon-ro, 216 2층",
+      "zh": "首尔特别市龙山区梨泰院路216 2层",
+      "ja": "ソウル特別市龍山区梨泰院路216 2階"
     },
     "latitude": 37.5347544,
     "longitude": 126.9981662,
@@ -823,13 +847,16 @@
   },
   {
     "id": "ChIJY4nZpr-ffDUR9x3jyF5DWqQ",
-    "name": "Boogie Woogie",
+    "name": {
+      "ko": "부기우기",
+      "en": "Boogie Woogie"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 회나무로 21",
-        "en": "21 Hoenamu-ro, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区槐树路21",
-        "ja": "ソウル特別市龍山区槐樹路21"
+      "ko": "서울 용산구 회나무로 21",
+      "en": "21 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区槐树路21",
+      "ja": "ソウル特別市龍山区槐樹路21"
     },
     "latitude": 37.5391916,
     "longitude": 126.9890037,
@@ -858,10 +885,10 @@
     "name": "O Passage Jimmy's Bar",
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원로27가길 54-6",
-        "en": "54-6 Itaewon-ro 27ga-gil, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院路27ga-gil 54-6",
-        "ja": "ソウル特別市龍山区梨泰院路27ga-gil 54-6"
+      "ko": "서울 용산구 이태원로27가길 54-6",
+      "en": "54-6 Itaewon-ro 27ga-gil, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路27ga-gil 54-6",
+      "ja": "ソウル特別市龍山区梨泰院路27ga-gil 54-6"
     },
     "latitude": 37.5351837,
     "longitude": 126.9921516,
@@ -890,10 +917,10 @@
     "name": "서브라이엇 해방촌",
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 신흥로7길 1 지하1층",
-        "en": "1 Sinheung-ro 7-gil, Yongsan District, Seoul, South Korea, B1",
-        "zh": "首尔特别市龙山区新兴路7街 1 地下1层",
-        "ja": "ソウル特別市龍山区新興路7キル 1 地下1階"
+      "ko": "서울 용산구 신흥로7길 1 지하1층",
+      "en": "1 Sinheung-ro 7-gil, Yongsan District, Seoul, South Korea, B1",
+      "zh": "首尔特别市龙山区新兴路7街 1 地下1层",
+      "ja": "ソウル特別市龍山区新興路7キル 1 地下1階"
     },
     "latitude": 37.5419221,
     "longitude": 126.9871708,
@@ -919,13 +946,16 @@
   },
   {
     "id": "ChIJC7LRVACjfDURvBApmPbjwng",
-    "name": "Sunday Salt",
+    "name": {
+      "ko": "선데이솔트",
+      "en": "Sunday Salt"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 회나무로 33",
-        "en": "33 Hoenamu-ro, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区槐南无路 33",
-        "ja": "ソウル特別市龍山区槐南無路 33"
+      "ko": "서울 용산구 회나무로 33",
+      "en": "33 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区槐南无路 33",
+      "ja": "ソウル特別市龍山区槐南無路 33"
     },
     "latitude": 37.539822,
     "longitude": 126.9903789,
@@ -949,10 +979,10 @@
     "name": "MZK Muzik Bar 뮤지크 바",
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원로20길 2-10 1층",
-        "en": "1 Fl, 2-10 Itaewon-ro 20-gil, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院路20街 2-10 1层",
-        "ja": "ソウル特別市龍山区梨泰院路20キル 2-10 1階"
+      "ko": "서울 용산구 이태원로20길 2-10 1층",
+      "en": "1 Fl, 2-10 Itaewon-ro 20-gil, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路20街 2-10 1层",
+      "ja": "ソウル特別市龍山区梨泰院路20キル 2-10 1階"
     },
     "latitude": 37.5340439,
     "longitude": 126.9915207,
@@ -977,13 +1007,16 @@
   },
   {
     "id": "ChIJdUZXm4ejfDURt4uTvN2p9y8",
-    "name": "Flac Seoul",
+    "name": {
+      "ko": "플랙 서울",
+      "en": "Flac Seoul"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원동 123-3 2층",
-        "en": "2F, 123-3 Itaewon-dong, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院洞 123-3 2层",
-        "ja": "ソウル特別市龍山区梨泰院洞 123-3 2階"
+      "ko": "서울 용산구 이태원동 123-3 2층",
+      "en": "2F, 123-3 Itaewon-dong, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院洞 123-3 2层",
+      "ja": "ソウル特別市龍山区梨泰院洞 123-3 2階"
     },
     "latitude": 37.5349664,
     "longitude": 126.9949832,
@@ -1006,10 +1039,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 한남동 78-2 지하1층",
-        "en": "B1, 78-2 Hannam-dong, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区汉南洞 78-2 地下1层",
-        "ja": "ソウル特別市龍山区漢南洞 78-2 地下1階"
+      "ko": "서울 용산구 한남동 78-2 지하1층",
+      "en": "B1, 78-2 Hannam-dong, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区汉南洞 78-2 地下1层",
+      "ja": "ソウル特別市龍山区漢南洞 78-2 地下1階"
     },
     "latitude": 37.53328310000001,
     "longitude": 127.0067917,
@@ -1041,10 +1074,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 보광로60길 22",
-        "en": "22 Bogwang-ro 60-gil, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区普光路60街 22",
-        "ja": "ソウル特別市龍山区普光路60キル 22"
+      "ko": "서울 용산구 보광로60길 22",
+      "en": "22 Bogwang-ro 60-gil, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区普光路60街 22",
+      "ja": "ソウル特別市龍山区普光路60キル 22"
     },
     "latitude": 37.5338907,
     "longitude": 126.9954772,
@@ -1076,10 +1109,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 한남대로 98",
-        "en": "98 Hannam-daero, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区汉南大路 98",
-        "ja": "ソウル特別市龍山区漢南大路 98"
+      "ko": "서울 용산구 한남대로 98",
+      "en": "98 Hannam-daero, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区汉南大路 98",
+      "ja": "ソウル特別市龍山区漢南大路 98"
     },
     "latitude": 37.5371732,
     "longitude": 127.005468,
@@ -1111,10 +1144,10 @@
     },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원동 73-2",
-        "en": "73-2 Itaewon-dong, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院洞 73-2",
-        "ja": "ソウル特別市龍山区梨泰院洞 73-2"
+      "ko": "서울 용산구 이태원동 73-2",
+      "en": "73-2 Itaewon-dong, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院洞 73-2",
+      "ja": "ソウル特別市龍山区梨泰院洞 73-2"
     },
     "latitude": 37.5334894,
     "longitude": 126.99289,
@@ -1139,47 +1172,15 @@
     "created_at": "2026-06-11T02:40:15.435Z"
   },
   {
-    "id": "ChIJWc_5Iv2jfDURtLk0d9MYrKI",
-    "name": "BAR UNION",
-    "type": "live_venue",
-    "address": {
-        "ko": "서울 용산구 이태원동 74-1 2층",
-        "en": "2f, 74-1 Itaewon-dong, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院洞 74-1 2层",
-        "ja": "ソウル特別市龍山区梨泰院洞 74-1 2階"
-    },
-    "latitude": 37.5338115,
-    "longitude": 126.9923248,
-    "phoneNumber": "+82 10-3395-0209",
-    "websiteUrl": "https://www.instagram.com/unionseoul/",
-    "googlePlaceId": "ChIJWc_5Iv2jfDURtLk0d9MYrKI",
-    "description": null,
-    "image_urls": [
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nQfv0nbJb_9ZjoLeZD5aLe69aoJWzLlM1-RLhIUuV1uTZl_XKXAw3JikdJBes9yBOLS17ljhvqSnIS-7Y6sSaffN-qGY10hqkFEOb5mE_3ZRUcs8wz4aAhQ3NxZSxxa_7BwF0nmYdBOw7ccDCjyf9cM_NwR8DK4U-TNJDE2NxVNxxJ5f2xcN4ysPKcIsqItLdbjj39iwpFkAQg6xmntiupXdS7maTVPHzTsMMN-e3FmNT0OihgZpwUW6AGRA-Y3EASQG9L7SFw3s6Fn2a6ojjl4zpdWkW6jwyXwAdZRJoxn-ftMsQGa38vctBeyeGHrwMSJokDVeX0MJoujtK2IXU_1JuLxp3vyrsbZLHaYLh7Ai9Pb8JO3MwSMK9XO05MhlhTvpFTi9CzsHyymlz7Olo_tHldwz1h_pEbMjWeijmBb3R4IgkiIVdbFl97_QGI&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3mAa2d420mFJr4tVcilpkaAO1XD3Z8JuxsqVa3-ZXadgywY3B7vTpbhJ_dxUHk7imCqrtxq7SQEwbvSEiYYWuXJtAHKlSDjNTZ5I8xNJY8bRb3L7x3razmbuX8XLHhE5LQXAGWW8Y8fKyarZ9uNRiUbouRoIz-VEQG_QAB7otz4z120T9zOjApi0ri1jYRX55PE9O5pne6Ry48nOevUFkd_L8Gnx-pJlj3WDCI8sMIZo0znq2DrJLNEqG0kJ3w-8x-tSgLiJBhhwk23iWrUJlICLgBdLnYc-6LqjL7fYhCUfzk_bpkVveqPYaHDmthZuv6UUsTgVqzG1yZ5Pyxnb_cPphi6hoq_ONZK4nuMtUh03kknG3bDSs5H_wEDuo9Bzzc0FF-YtCfMhZDd7VYZghQCY_lGDQTJRFtOdEXwfNDI9FxlPUGILk4gnOHfUgrP&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3lyp_KN7zIQnyMfQnqlL4rjW5IkGRPcJcY7HFr1YFRpILj9Fvxo8a40lYt2e1mNq4wlpG1V8a0IwttdW3U361HIIMRvl6nI_dp-ZfqVnvammF9r4pjedUNVOfbs6tH4ANXyGz07YK00If6Uo08lOQZLQQLLiT4s6Uwnuj0p_mFl16AXvPsSCd6ETRhxVpkBEEBtbbeArkzFGa0OrLpKpcGg5GeZnEl_Mr0Mh4Gh6pH0YoDPwPHhlsqzWay7N9UinEWaTxZ7gd5pHZ470cT_NgR6BesAtymffw07GJS_Cyg3NdTbXeV30cYARPXJ2nzt1Ty2gvEvFqGrDwI0tpSTed25Ss4cl4GnoJ4Nuh_mLzluqFtylK5E8wTlb5ATUQXBfuytRA5QaQoemqKkNbmZ9s6FfW-IzvdwSc1jAF1jdy4PC2hq8mva-xGdsMz5aw&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3kZGUIkkg9gSQ23t49US8ZLOLRrX40XWFfGjBUBmYZR_PmMcEgWEQmH7mBn871el8rQALzOkntiWydgnz7dzZ8rTc6D2ntmE4MhE1j9S9bhkTxezHmT3N_udruEw_q_2A79qxy-YdpZT9QE0tEwLozcxT2ojQ_TLxVnxn2SWck4RtufbxNGe9p9T8th6zn5Wkenbeqj-HskjSw3qfZ2tDRbwYVGZF5fM9A86Mgru1v6nkPfLTSIBI3m1AXVszhcJsDA98DQ3GZyUqHc_3n6iyljwOG5fQLhgtOo_dqnm4PqUO5JtExirAE-fc9urao6Ho_tPNqLGTVVVdnqvhY6aY8kIOA-2KCwWnrIfeviGsla8SUBszjQ_RSQEUMz-PweQsnBWPd9hicVPJHpSG6IsSIBcb6rkSq8nPpU4mOoSTey3M3XdsUAnDwKX-IblNpr&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3kXzJ0YwOd2L5kpzLkxwCw2i5exnd2TLyWx_mh5IsufjTMZBHwEwgQRv_i6a_lYBEkD3j0zpUG6M7K7XBFC_zUGWJkE3TF6JxwXuYEqFTDHMoXY2M9Y3LN2T6mtzMTY3X0GN-VRhaARzq9GyBs3avEOJ7aFcK4F97zGCG5oCtOf3Uyq8yOw2kSYDefpbS34a1PpgBpCS5G_Ddjup8F9r2-98YiOK483n8XLl8m7MEjvfhTV0gxd0yCeAGU4A-D1WWnAkdAalIKDo9TmvFKQ9rwwlupbAoGYHGLYosuWaaE_bWDj_5dJVklVakA1tqUnS9k8B4jBjaUJytnPr3MR4tRrkX8ZdIFhXA_mVY15YehonsgeHmqS-OgW3T-ZUxyzFLTWVZxUBQR2pEw0waOEUqn7gH1und8bDuFH3e0ex9fF19Q-fznwhSY4q_ADSIO3&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3mC2xQ6MNBNppeILUey-aO3s6-_CGtfaS-QPFEr2YO3mekNvreyi-Uxr2QeZ62F5ilJviJm4p-iKXjk0Vim1_bieftDFIWojEI0uybQmVBV1jWXog1IsozRmloUTID58GeNJCJ67Drfl_b1h8MBmRuzMCmYIYaL2Xh9DfBej276cWVvLnRnbHwxf4F4vIp_uy_Fbdllcz1c_uxnfECKRGMKsqXJ65lNoGopJFxREP66vfxvHEr65js6SalUQ11okEcqE-OCK2YNly_cZ3enAJRmLNw4MAsr1-fceYMshk_D7rilnOs9H01qPYMXWKZF1Gj0gZACNt-Zs7CDovs7mWJN2MkO0P00cb8BgaYFywG71_q5QBidXahtn-cralWE0Q4mqFIgDt6TwTzFWakpmZFt1EVmHYhdCcFQlh6jS_Q7E6x31c6OMqPih3uXFw&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nmKejT04bLPmp7GgtkrNItShGLWOiRB93-zP1tdthqP0mTo7xS6n5G1f8VCI8JP3l-EB9ebC_PWibwGlaoDCRLtGmsBOFnNmhs4iljunOKLGAwSZtBR3gXU5Cc9UmA9GqY8sItHK301znxpT7RzDmj2e-8SfpMSIiUeoLRLb7onaYm8xqLNtZrUlghF_AX9gdIYr0hJPcxH9qef0ArzeXv9yfNJrmOtb42OdqQtYfapKUYuPeVHm_VqW8tx7cjHXul0HVNZYOGUu5a7VZqy2c1BMwSV7C11UDhdpVYBs8-ttHrGYVzDEBWZdZFXNEy-JL26ZNp-o-g3P1CJmWVeH1TAbbL9eiQSuBqJ6_iFtV_H5Z6l3mVCF6LciTCHAsQIZ0zJ0HUpImANJlrFftQMjrl45cdq8tWs6WMo4FHvaHP8wq6UjtbhStno1meQQqG&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3lw6ScnDYjkJKSS7yhINk84x477fJigjMgHi4fHT4Gt-mvlS3_j5MLcLCBjHsU7XEkMa1t92fz70DVaPo5SQ4nZvZYSlsYz_C0uspmwMkQerUYCU8ddQyAYieuiiHXb48R7OnR8ZzLJqWgVmbX9rgnc_UZuWE28w0a87QBU01VfCqX3-QrlFO82X1uVmznI3ISqbwuvZF72tUI1qMiigY_QpJBSrFraI4owtmr7awHWVhnr2wUGOKRr7_GMVdNM4ka_EV-FKNK7TcumIz3gEhBQ0-x3RurPV2yizzvpr4jbEomS0NE7T4aLfBnIep29f7qn6hKSdTXiKCPnRGLzkYTj1weC7f2Qfqx71xCX-C5j7sBNyI0Fs2eHFYTBOLXW_gIfp9poblFDa3BWShjOlnLt3QR94RVqp_X0AwZQ1ugITK0PIf2asMUBbQnzFlGx&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3mnLYZl0vi8L3CLe8UPl0MFH48cSIUW6xUdSO2mEsWE4MgEtpWZNrdrM_tIjxJv7dnbGiU6xQUkisZGlf8PtD_Si3Vo4OQXpAILd2Y8RW0jvzmhYypheSxLwpDTnBlgdJr8xBn9UR8Y6HsYySbpuLGsTYOAp0EcGaGKLphQS__5c-pIczMXxNn-88oMFW_ZRtGi163NwKJ6rCwphoJjovwSchdMYb1T7udoXBxhP9_cNrFmNL9m_chdWexULRyLuPCU6tE64StVEEey00mo7EGge6DrZk4v7ODNScYz7EdGf-qeTjCX_deSMgmxpm8FnAfQZDl1w2m0FsRZcOODJVsaGYYuoh3V6rfARfnTK3p_aZTBaei-q5Nhh_rm5W888DHYOSzE0gaqodMWtbryxO8ST9uVSOSNarLQWT40VjkaM0qM4FWYdV_drh1lTlhF&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3kR2w2QMtjpY5FG4zA1HdhubU3V9-ny1YBClnWUZyFy3cJHnzNwPB7JIEClz2x10ivNiUOqdAzFAgOXqY1Ff_eLgQcSiXDQNruIj67vbmDVhOajeD3m28KbJvSgGd6Vrl9xcxdxOuR9woUx3kvQiSVkSQkMnSr6E8UL84lsUnwaQaf9J5XLtRLKIxks1zTquIhof2HGMvQ-DhOedFliNYOQjeUSKflRAtujvXqQFjSg6wr8yCN2F4CgBBvfRZmhZchpWVWZrJmgjkrPsVcbWsOz52IhRdgINUjFs-jZrRi_JBrC3mrPiG7bJPFwV3UDMPoCg2zvMDPT9fSifwNmbzwUFqx2BB3Do72-hsubZETFNFKsijzkBHtgg_F3mtyTZSCwyMgjhQ36kJLM_GEP0SVPFMGn4cytxoSowV43-nU1BAIAETs_n4yD_6gWh66l&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
-    ],
-    "opening_hours": "[\"Monday: 9:00 PM – 1:00 AM\",\"Tuesday: 9:00 PM – 1:00 AM\",\"Wednesday: 9:00 PM – 1:00 AM\",\"Thursday: 8:00 PM – 2:00 AM\",\"Friday: 8:00 PM – 3:00 AM\",\"Saturday: 8:00 PM – 3:00 AM\",\"Sunday: 8:00 PM – 2:00 AM\"]",
-    "area": "itaewon",
-    "created_at": "2026-06-11T02:40:15.548Z"
-  },
-  {
     "id": "ChIJOcccIq2jfDURnOnJgHsW-2o",
     "name": "FREAX | 프릭스 이태원 바",
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원로 143-13 1층",
-        "en": "1f, 143-13 Itaewon-ro, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院路 143-13 1层",
-        "ja": "ソウル特別市龍山区梨泰院路 143-13 1階"
-      },
+      "ko": "서울 용산구 이태원로 143-13 1층",
+      "en": "1f, 143-13 Itaewon-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路 143-13 1层",
+      "ja": "ソウル特別市龍山区梨泰院路 143-13 1階"
+    },
     "latitude": 37.53454869999999,
     "longitude": 126.9892328,
     "phoneNumber": "+82 10-2780-8363",
@@ -1204,14 +1205,17 @@
   },
   {
     "id": "ChIJZQZCNZmjfDURpXRZ1mv_ubM",
-    "name": "Idenhouse",
+    "name": {
+      "ko": "이덴하우스",
+      "en": "Idenhouse"
+    },
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 독서당로 73 지하1층",
-        "en": "B1, 73 Dokseodang-ro, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区读书堂路73 地下1层",
-        "ja": "ソウル特別市龍山区読書堂路73 地下1階"
-      },
+      "ko": "서울 용산구 독서당로 73 지하1층",
+      "en": "B1, 73 Dokseodang-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区读书堂路73 地下1层",
+      "ja": "ソウル特別市龍山区読書堂路73 地下1階"
+    },
     "latitude": 37.53421,
     "longitude": 127.008636,
     "phoneNumber": "+82 2-732-0012",
@@ -1236,9 +1240,17 @@
   },
   {
     "id": "ChIJc6-1zDeifDUReiidmKAfVAc",
-    "name": "Club Volnost Seoul",
+    "name": {
+      "ko": "클럽 볼노스트 서울",
+      "en": "Club Volnost Seoul"
+    },
     "type": "live_venue",
-    "address": "142 Itaewon-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "서울 용산구 이태원로 142",
+      "en": "142 Itaewon-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路142",
+      "ja": "ソウル特別市龍山区梨泰院路142"
+    },
     "latitude": 37.534021,
     "longitude": 126.9893021,
     "phoneNumber": "+82 10-5004-4944",
@@ -1266,11 +1278,11 @@
     "name": "Billion Bar Itaewon 빌리언바 이태원",
     "type": "live_venue",
     "address": {
-        "ko": "서울 용산구 이태원로 136-4 1층",
-        "en": "1st Floor, 136-4 Itaewon-ro, Yongsan District, Seoul, South Korea",
-        "zh": "首尔特别市龙山区梨泰院路 136-4 1层",
-        "ja": "ソウル特別市龍山区梨泰院路 136-4 1階"
-      },
+      "ko": "서울 용산구 이태원로 136-4 1층",
+      "en": "1st Floor, 136-4 Itaewon-ro, Yongsan District, Seoul, South Korea",
+      "zh": "首尔特别市龙山区梨泰院路 136-4 1层",
+      "ja": "ソウル特別市龍山区梨泰院路 136-4 1階"
+    },
     "latitude": 37.5338531,
     "longitude": 126.9888896,
     "phoneNumber": null,
@@ -1359,7 +1371,10 @@
   },
   {
     "id": "ChIJUw8zwEiifDURaoU2HZwO8w0",
-    "name": "ROXY LP Pub",
+    "name": {
+      "ko": "록시 LP 펍",
+      "en": "ROXY LP Pub"
+    },
     "type": "rock_bar",
     "address": {
       "ko": "서울 용산구 회나무로 9",
