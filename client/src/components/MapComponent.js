@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPhone, faMapMarkerAlt, faClock, faHeart, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPhone, faMapMarkerAlt, faHeart, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 
 const containerStyle = {
   width: '100%',
