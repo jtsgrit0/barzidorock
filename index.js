@@ -37,19 +37,23 @@ async function fetchRollingHallEvents() {
     const $ = cheerio.load(html);
 
     const events = [];
-    const eventElements = $('.mp3_list_box');
-    console.log(`Found ${eventElements.length} event elements.`); // Log 1
+    // 새로운 셀렉터: 상세 페이지 링크를 포함하는 모든 <a> 태그를 찾습니다.
+    const eventLinks = $('a[href*="com_board_basic=read_form"]');
+    console.log(`Found ${eventLinks.length} potential event links.`); // Log 1
 
-    if (eventElements.length === 0) {
-      return { events: [], debug: "No .mp3_list_box elements found on the main page." };
+    if (eventLinks.length === 0) {
+      return { events: [], debug: "No event links with 'com_board_basic=read_form' found on the main page." };
     }
 
-    for (let i = 0; i < eventElements.length; i++) {
-      const element = eventElements[i];
-      const detailPageLink = $(element).find('a').attr('href');
-      const image = $(element).find('img').attr('src');
-      const title = $(element).find('a p:nth-of-type(1)').text().trim();
-      const date = $(element).find('a p:nth-of-type(2)').text().trim();
+    for (let i = 0; i < eventLinks.length; i++) {
+      const linkElement = eventLinks[i];
+      const title = $(linkElement).text().trim();
+      const detailPageLink = $(linkElement).attr('href');
+
+      // 부모 요소를 찾아서 이미지와 날짜를 추출합니다.
+      const parentElement = $(linkElement).parent();
+      const image = parentElement.find('img').attr('src');
+      const date = parentElement.find('p:contains("공연일")').text().trim(); // '공연일' 텍스트를 포함하는 p 태그
 
       console.log(`Processing event ${i + 1}:`); // Log 2
       console.log(`  detailPageLink: ${detailPageLink}`);
