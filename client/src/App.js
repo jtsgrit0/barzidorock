@@ -172,8 +172,7 @@ function App() {
                   translations={{
                     call: t('call'),
                     directions: t('directions'),
-                    website: t('website'),
-                    tickets: t('ticketsPage.title')
+                    website: t('website')
                   }}
                 />
               } />
