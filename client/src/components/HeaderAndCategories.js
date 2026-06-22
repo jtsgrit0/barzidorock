@@ -24,6 +24,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     en: '🇺🇸',
     zh: '🇨🇳',
     ja: '🇯🇵',
+    fr: '🇫🇷', // 프랑스어 추가
   };
 
   const languageOptions = {
@@ -31,6 +32,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     en: 'English',
     zh: '中文',
     ja: '日本語',
+    fr: 'Français', // 프랑스어 추가
   };
 
   return (

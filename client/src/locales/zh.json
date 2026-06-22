@@ -5,5 +5,16 @@
   "no_favorites": "没有收藏的地方。",
   "category_all": "全部",
   "category_hongdae": "弘大",
-  "category_itaewon": "梨泰院"
+  "category_itaewon": "梨泰院",
+  "ticketsPage": {
+    "title": "购票",
+    "description": "可预订的音乐厅列表。您将被重定向到每个音乐厅的预订页面。",
+    "venueDescription": "前往在线预订页面。",
+    "buyTickets": "购票",
+    "noTicketsAvailable": "目前没有可用的门票。"
+  },
+  "optionsPage": {
+    "title": "选项",
+    "content": "此应用程序提供各种音乐场所的信息。您可以在地图上查找场所，将其添加到收藏夹，并预订门票。更改语言以不同语言查看应用程序的内容。"
+  }
 }

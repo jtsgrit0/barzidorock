@@ -5,5 +5,16 @@
   "no_favorites": "No favorite places.",
   "category_all": "All",
   "category_hongdae": "Hongdae",
-  "category_itaewon": "Itaewon"
+  "category_itaewon": "Itaewon",
+  "ticketsPage": {
+    "title": "Ticket Booking",
+    "description": "List of available concert venues for booking. You will be redirected to the booking page of each venue.",
+    "venueDescription": "Go to online booking page.",
+    "buyTickets": "Book Tickets",
+    "noTicketsAvailable": "No tickets available at the moment."
+  },
+  "optionsPage": {
+    "title": "Options",
+    "content": "This app provides information on various music venues. You can find venues on the map, add them to your favorites, and book tickets. Change the language to view the app's content in different languages."
+  }
 }

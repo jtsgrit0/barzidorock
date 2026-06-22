@@ -1,0 +1,20 @@
+{
+  "call": "Appeler",
+  "directions": "Itinéraire",
+  "website": "Site web",
+  "no_favorites": "Aucun lieu favori.",
+  "category_all": "Tout",
+  "category_hongdae": "Hongdae",
+  "category_itaewon": "Itaewon",
+  "ticketsPage": {
+    "title": "Billetterie",
+    "description": "Liste des salles de concert disponibles pour la réservation. Vous serez redirigé vers la page de réservation de chaque salle.",
+    "venueDescription": "Accéder à la page de réservation en ligne.",
+    "buyTickets": "Réserver",
+    "noTicketsAvailable": "Aucun billet disponible pour le moment."
+  },
+  "optionsPage": {
+    "title": "Options",
+    "content": "Cette application fournit des informations sur diverses salles de concert. Vous pouvez trouver des salles sur la carte, les ajouter à vos favoris et réserver des billets. Changez la langue pour afficher le contenu de l'application dans différentes langues."
+  }
+}

@@ -5,5 +5,16 @@
   "no_favorites": "お気に入りの場所はありません。",
   "category_all": "すべて",
   "category_hongdae": "弘大",
-  "category_itaewon": "梨泰院"
+  "category_itaewon": "梨泰院",
+  "ticketsPage": {
+    "title": "チケット予約",
+    "description": "予約可能なコンサート会場のリストです。各会場の予約ページにリダイレクトされます。",
+    "venueDescription": "オンライン予約ページへ移動します。",
+    "buyTickets": "チケットを予約する",
+    "noTicketsAvailable": "現在、利用可能なチケットはありません。"
+  },
+  "optionsPage": {
+    "title": "オプション",
+    "content": "このアプリは、様々な音楽会場の情報を提供します。地図で会場を検索したり、お気に入りに追加したり、チケットを予約したりできます。言語を変更して、アプリのコンテンツを異なる言語で表示できます。"
+  }
 }
