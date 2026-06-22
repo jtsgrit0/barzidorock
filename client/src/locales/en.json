@@ -2,19 +2,33 @@
   "call": "Call",
   "directions": "Directions",
   "website": "Website",
-  "no_favorites": "No favorite places.",
+  "no_favorites": "No favorite venues yet.",
   "category_all": "All",
   "category_hongdae": "Hongdae",
   "category_itaewon": "Itaewon",
   "ticketsPage": {
     "title": "Ticket Booking",
-    "description": "List of available concert venues for booking. You will be redirected to the booking page of each venue.",
+    "description": "List of available concert venues for booking. You will be redirected to each venue's booking page.",
     "venueDescription": "Go to online booking page.",
-    "buyTickets": "Book Tickets",
-    "noTicketsAvailable": "No tickets available at the moment."
+    "buyTickets": "Book Now",
+    "noTicketsAvailable": "No tickets available at the moment.",
+    "event": {
+      "rh-001": {
+        "title": "Band Indie Live 2026",
+        "date": "2026.07.15 (Mon) ~ 2026.07.16 (Tue)"
+      },
+      "rh-002": {
+        "title": "Indie Festival @ Rolling Hall",
+        "date": "2026.07.20 (Sat) 18:00"
+      },
+      "rh-003": {
+        "title": "Rock Music Night",
+        "date": "2026.07.27 (Sat) 20:00"
+      }
+    }
   },
   "optionsPage": {
     "title": "Options",
-    "content": "This app provides information on various music venues. You can find venues on the map, add them to your favorites, and book tickets. Change the language to view the app's content in different languages."
+    "content": "This app provides information about various music venues. You can find venues on the map, add them to your favorites, and book tickets. Change the language to view app content in different languages."
   }
 }

@@ -11,7 +11,21 @@
     "description": "可预订的音乐厅列表。您将被重定向到每个音乐厅的预订页面。",
     "venueDescription": "前往在线预订页面。",
     "buyTickets": "购票",
-    "noTicketsAvailable": "目前没有可用的门票。"
+    "noTicketsAvailable": "目前没有可用的门票。",
+    "event": {
+      "rh-001": {
+        "title": "乐队独立现场 2026",
+        "date": "2026.07.15 (周一) ~ 2026.07.16 (周二)"
+      },
+      "rh-002": {
+        "title": "独立音乐节 @ Rolling Hall",
+        "date": "2026.07.20 (周六) 18:00"
+      },
+      "rh-003": {
+        "title": "摇滚音乐之夜",
+        "date": "2026.07.27 (周六) 20:00"
+      }
+    }
   },
   "optionsPage": {
     "title": "选项",

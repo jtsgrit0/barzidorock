@@ -6,22 +6,22 @@ import { useTranslation } from 'react-i18next';
 const rollingHallEvents = [
   {
     id: 'rh-001',
-    title: '밴드 인디 라이브 2026',
-    date: '2026.07.15 (월) ~ 2026.07.16 (화)',
+    titleKey: 'ticketsPage.event.rh-001.title', // 번역 키로 변경
+    dateKey: 'ticketsPage.event.rh-001.date',   // 번역 키로 변경
     image: 'https://picsum.photos/400/300?random=1', // 실제 공연 이미지로 교체
     ticketUrl: 'https://www.rollinghall.co.kr/ticket/001'
   },
   {
     id: 'rh-002',
-    title: '인디 페스티벌 @ 롤링홀',
-    date: '2026.07.20 (토) 18:00',
+    titleKey: 'ticketsPage.event.rh-002.title', // 번역 키로 변경
+    dateKey: 'ticketsPage.event.rh-002.date',   // 번역 키로 변경
     image: 'https://picsum.photos/400/300?random=2', // 실제 공연 이미지로 교체
     ticketUrl: 'https://www.rollinghall.co.kr/ticket/002'
   },
   {
     id: 'rh-003',
-    title: '록 음악 밤',
-    date: '2026.07.27 (토) 20:00',
+    titleKey: 'ticketsPage.event.rh-003.title', // 번역 키로 변경
+    dateKey: 'ticketsPage.event.rh-003.date',   // 번역 키로 변경
     image: 'https://picsum.photos/400/300?random=3', // 실제 공연 이미지로 교체
     ticketUrl: 'https://www.rollinghall.co.kr/ticket/003'
   }
@@ -39,10 +39,10 @@ const TicketsPage = () => {
         {rollingHallEvents.length > 0 ? (
           rollingHallEvents.map(event => (
             <div className="event-card" key={event.id}>
-              <img src={event.image} alt={event.title} className="event-image" />
+              <img src={event.image} alt={t(event.titleKey)} className="event-image" /> {/* 번역 키 사용 */}
               <div className="event-info">
-                <h2>{event.title}</h2>
-                <p className="event-date">{event.date}</p>
+                <h2>{t(event.titleKey)}</h2> {/* 번역 키 사용 */}
+                <p className="event-date">{t(event.dateKey)}</p> {/* 번역 키 사용 */}
                 <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer" className="ticket-button">
                   {t('ticketsPage.buyTickets', '예매하기')}
                 </a>
