@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './HeaderAndCategories.css';
+import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
 
-function HeaderAndCategories({ selectedCategory, onCategoryChange, language, setLanguage, translations }) {
+// translations prop 제거
+function HeaderAndCategories({ selectedCategory, onCategoryChange, language, setLanguage }) {
+  const { t } = useTranslation(); // t 함수 가져오기
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,19 +47,19 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
             className={selectedCategory === 'all' ? 'active' : ''}
             onClick={() => handleCategoryClick('all')}
           >
-            {translations.category_all || '전체'}
+            {t('category_all', '전체')} {/* t 함수 사용 */}
           </button>
           <button 
             className={selectedCategory === 'hongdae' ? 'active' : ''}
             onClick={() => handleCategoryClick('hongdae')}
           >
-            {translations.category_hongdae || '홍대'}
+            {t('category_hongdae', '홍대')} {/* t 함수 사용 */}
           </button>
           <button 
             className={selectedCategory === 'itaewon' ? 'active' : ''}
             onClick={() => handleCategoryClick('itaewon')}
           >
-            {translations.category_itaewon || '이태원'}
+            {t('category_itaewon', '이태원')} {/* t 함수 사용 */}
           </button>
         </div>
       </div>
@@ -66,6 +69,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
           <span onClick={() => setLanguage('en')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'en' ? 1 : 0.5 }}>{flags.en}</span>
           <span onClick={() => setLanguage('zh')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'zh' ? 1 : 0.5 }}>{flags.zh}</span>
           <span onClick={() => setLanguage('ja')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'ja' ? 1 : 0.5 }}>{flags.ja}</span>
+          <span onClick={() => setLanguage('fr')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'fr' ? 1 : 0.5 }}>{flags.fr}</span> {/* 프랑스어 추가 */}
         </div>
         <div className="mobile-menu">
           <span className="current-flag" onClick={() => setMenuOpen(!menuOpen)}>
