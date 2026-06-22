@@ -1,6 +1,7 @@
 import React from 'react';
 import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
+import venuesData from '../venues.json';
 
 // 롤링홀의 개별 공연 정적 데이터 (실제 스크래핑 데이터로 향후 교체 가능)
 const rollingHallEvents = [
