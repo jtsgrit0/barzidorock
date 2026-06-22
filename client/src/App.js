@@ -8,6 +8,7 @@ import NotReadyPopup from './components/NotReadyPopup';
 import SchedulePage from './components/SchedulePage';
 import FavoritesPage from './components/FavoritesPage';
 import OptionsPage from './components/OptionsPage';
+import TicketsPage from './components/TicketsPage';
 import VenueManagerRegister from './components/VenueManagerRegister';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
