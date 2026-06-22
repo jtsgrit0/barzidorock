@@ -181,7 +181,7 @@ function App() {
                   translations={translations}
                 />
               } />
-              <Route path="/tickets" element={<NotReadyPopup />} />
+              <Route path="/tickets" element={<TicketsPage />} />
               <Route path="/schedule" element={<SchedulePage language={language} />} />
               <Route path="/venue-register" element={<VenueManagerRegister />} />
               <Route path="/favorites" element={

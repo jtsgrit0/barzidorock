@@ -5,5 +5,12 @@
   "no_favorites": "찜한 장소가 없습니다.",
   "category_all": "전체",
   "category_hongdae": "홍대",
-  "category_itaewon": "이태원"
+  "category_itaewon": "이태원",
+  "ticketsPage": {
+    "title": "티켓 예매",
+    "description": "현재 예매 가능한 공연장 목록입니다. 각 공연장의 예매 페이지로 연결됩니다.",
+    "venueDescription": "온라인 예매 페이지로 이동합니다.",
+    "buyTickets": "예매하기",
+    "noTicketsAvailable": "현재 예매 가능한 공연이 없습니다."
+  }
 }
