@@ -162,3 +162,21 @@
   text-align: left;
   padding-top: 70px; /* Add top padding to avoid overlap with the header */
 }
+
+/* reCAPTCHA 배지 위치 조정 */
+.grecaptcha-badge {
+  top: 70px !important; /* 헤더 높이를 고려하여 조정 */
+  right: 15px !important;
+  bottom: auto !important; /* 기존 bottom 속성 무효화 */
+  transform: scale(0.9);
+  transform-origin: top right;
+  z-index: 9999 !important;
+}
+
+/* 모바일에서 더 작은 화면일 때 배지 크기 조정 */
+@media (max-width: 480px) {
+  .grecaptcha-badge {
+    transform: scale(0.8) !important;
+    top: 60px !important; /* 모바일 헤더 높이를 고려하여 조정 */
+  }
+}
