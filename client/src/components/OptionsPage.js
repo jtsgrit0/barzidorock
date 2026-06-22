@@ -1,13 +1,17 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
+import { useTranslation } from 'react-i18next';
+import { marked } from 'marked'; // marked 라이브러리 임포트
 
 const OptionsPage = () => {
-  const { t } = useTranslation(); // t 함수 가져오기
+  const { t } = useTranslation();
+
+  const optionsContent = t('optionsPage.content', '옵션 페이지 내용');
+  const renderedContent = marked(optionsContent); // 마크다운을 HTML로 변환
 
   return (
-    <div className="options-page-container"> {/* 컨테이너 클래스 추가 */}
-      <h1>{t('optionsPage.title', '옵션')}</h1> {/* 제목 번역 */}
-      <p>{t('optionsPage.content', '옵션 페이지 내용')}</p> {/* 내용 번역 */}
+    <div className="options-page-content">
+      <h1>{t('optionsPage.title', '옵션')}</h1>
+      <div className="markdown-content" dangerouslySetInnerHTML={{ __html: renderedContent }} />
     </div>
   );
 };

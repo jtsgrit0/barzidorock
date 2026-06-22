@@ -163,6 +163,111 @@
   padding-top: 70px; /* Add top padding to avoid overlap with the header */
 }
 
+/* Markdown Content Styling for OptionsPage */
+.options-page-content .markdown-content {
+  padding: 0 20px; /* 좌우 패딩 추가 */
+  line-height: 1.6;
+  color: #eee; /* 기본 텍스트 색상 */
+}
+
+.options-page-content .markdown-content h1,
+.options-page-content .markdown-content h2,
+.options-page-content .markdown-content h3,
+.options-page-content .markdown-content h4,
+.options-page-content .markdown-content h5,
+.options-page-content .markdown-content h6 {
+  color: #fff; /* 제목 색상 */
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.options-page-content .markdown-content h1 { font-size: 2em; }
+.options-page-content .markdown-content h2 { font-size: 1.75em; }
+.options-page-content .markdown-content h3 { font-size: 1.5em; }
+.options-page-content .markdown-content h4 { font-size: 1.25em; }
+.options-page-content .markdown-content h5 { font-size: 1.1em; }
+.options-page-content .markdown-content h6 { font-size: 1em; }
+
+.options-page-content .markdown-content p {
+  margin-bottom: 1em;
+}
+
+.options-page-content .markdown-content ul,
+.options-page-content .markdown-content ol {
+  margin-left: 20px;
+  margin-bottom: 1em;
+  text-align: left; /* 목록 정렬 */
+}
+
+.options-page-content .markdown-content li {
+  margin-bottom: 0.5em;
+}
+
+.options-page-content .markdown-content a {
+  color: #61dafb; /* 링크 색상 */
+  text-decoration: none;
+}
+
+.options-page-content .markdown-content a:hover {
+  text-decoration: underline;
+}
+
+.options-page-content .markdown-content blockquote {
+  border-left: 4px solid #61dafb;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #aaa;
+}
+
+.options-page-content .markdown-content code {
+  background-color: #444;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  color: #e06c75; /* 코드 색상 */
+}
+
+.options-page-content .markdown-content pre {
+  background-color: #282c34;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.options-page-content .markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: #abb2bf; /* 코드 블록 내부 코드 색상 */
+}
+
+.options-page-content .markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+  color: #eee;
+}
+
+.options-page-content .markdown-content th,
+.options-page-content .markdown-content td {
+  border: 1px solid #555;
+  padding: 8px;
+  text-align: left;
+}
+
+.options-page-content .markdown-content th {
+  background-color: #444;
+  color: #fff;
+}
+
+.options-page-content .markdown-content hr {
+  border: 0;
+  border-top: 1px solid #555;
+  margin: 1em 0;
+}
+
 /* reCAPTCHA 배지 위치 조정 */
 .grecaptcha-badge {
   top: 70px !important; /* 헤더 높이를 고려하여 조정 */
