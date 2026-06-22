@@ -36,7 +36,7 @@ jobs:
           # Clean build artifacts and npm cache to ensure fresh build
           rm -rf build
           npm cache clean --force
-          npm install
+          npm install --force
           npm run build
 
       - name: Upload Pages artifact
