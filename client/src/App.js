@@ -4,7 +4,6 @@ import { LoadScript } from '@react-google-maps/api';
 import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
 import TabBar from './components/TabBar';
-import NotReadyPopup from './components/NotReadyPopup';
 import SchedulePage from './components/SchedulePage';
 import FavoritesPage from './components/FavoritesPage';
 import OptionsPage from './components/OptionsPage';
