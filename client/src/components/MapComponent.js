@@ -81,8 +81,8 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
             onClick={() => handleMarkerClick(venue)}
             icon={{
               url: venue.type === 'live_venue' 
-                ? 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png' 
-                : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                ? 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png' 
+                : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
             }}
           />
         ))}
@@ -134,7 +134,9 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                 {selectedVenue.opening_hours && selectedVenue.opening_hours[language] && (
                   <p style={{ margin: '5px 0' }}>
                     <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} /> 
-                    {JSON.parse(selectedVenue.opening_hours[language]).join(', ')}
+                    {(Array.isArray(selectedVenue.opening_hours[language]) 
+                      ? selectedVenue.opening_hours[language] 
+                      : JSON.parse(selectedVenue.opening_hours[language])).join(', ')}
                   </p>
                 )}
               </div>
