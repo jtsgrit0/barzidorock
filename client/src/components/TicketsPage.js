@@ -11,8 +11,16 @@ const TicketsPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // 백엔드 API URL을 환경 변수에서 가져오거나 기본값 사용 (Vercel 배포 시 상대 경로 사용)
-        const apiUrl = process.env.REACT_APP_API_URL || '';
+        let apiUrl = '';
+        if (process.env.NODE_ENV === 'production') {
+          if (window.location.hostname === 'jtsgrit0.github.io') {
+            apiUrl = 'https://barzidorock-2akv.vercel.app';
+          } else {
+            apiUrl = '';
+          }
+        } else {
+          apiUrl = 'http://localhost:5000';
+        }
         const response = await fetch(`${apiUrl}/api/rollinghall-events`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
