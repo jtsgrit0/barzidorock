@@ -166,10 +166,10 @@
 /* reCAPTCHA 배지 위치 조정 */
 .grecaptcha-badge {
   top: 70px !important; /* 헤더 높이를 고려하여 조정 */
-  right: 15px !important;
+  left: 15px !important;
   bottom: auto !important; /* 기존 bottom 속성 무효화 */
   transform: scale(0.9);
-  transform-origin: top right;
+  transform-origin: top left;
   z-index: 9999 !important;
 }
 
@@ -178,5 +178,6 @@
   .grecaptcha-badge {
     transform: scale(0.8) !important;
     top: 60px !important; /* 모바일 헤더 높이를 고려하여 조정 */
+    left: 10px !important;
   }
 }
