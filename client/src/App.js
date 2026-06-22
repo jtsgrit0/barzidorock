@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 function App() {
-  const { i18n } = useTranslation(); // i18n 인스턴스 가져오기
+  const { t, i18n } = useTranslation(); // i18n 인스턴스 가져오기
   const [venues, setVenues] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
@@ -169,6 +169,12 @@ function App() {
                   setLanguage={setLanguage}
                   favorites={favorites}
                   toggleFavorite={toggleFavorite}
+                  translations={{
+                    call: t('call'),
+                    directions: t('directions'),
+                    website: t('website'),
+                    tickets: t('ticketsPage.title')
+                  }}
                 />
               } />
               <Route path="/tickets" element={<TicketsPage />} />

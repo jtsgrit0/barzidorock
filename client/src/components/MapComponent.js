@@ -137,22 +137,22 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
               <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px', flexWrap: 'wrap' }}>
                 <a href={`tel:${selectedVenue.phoneNumber}`} style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                   <FontAwesomeIcon icon={faPhone} size="2x" />
-                  <p style={{ margin: '5px 0' }}>{translations.call || '전화걸기'}</p>
+                  <p style={{ margin: '5px 0' }}>{translations?.call || '전화걸기'}</p>
                 </a>
                 <a href={`https://www.google.com/maps/dir/?api=1&destination=${selectedVenue.latitude},${selectedVenue.longitude}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                   <FontAwesomeIcon icon={faMapMarkerAlt} size="2x" />
-                  <p style={{ margin: '5px 0' }}>{translations.directions || '길찾기'}</p>
+                  <p style={{ margin: '5px 0' }}>{translations?.directions || '길찾기'}</p>
                 </a>
                 {selectedVenue.websiteUrl && (
                   <a href={selectedVenue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                     <FontAwesomeIcon icon={faHome} size="2x" />
-                    <p style={{ margin: '5px 0' }}>{translations.website || '홈페이지'}</p>
+                    <p style={{ margin: '5px 0' }}>{translations?.website || '홈페이지'}</p>
                   </a>
                 )}
                 {selectedVenue.id === 'ChIJUVRrTNCYfDURTjrzSja3Tgs' && selectedVenue.websiteUrl && (
                   <a href={`${selectedVenue.websiteUrl}ticket`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                     <FontAwesomeIcon icon={faTicketAlt} size="2x" />
-                    <p style={{ margin: '5px 0' }}>{translations.tickets || '티켓예매'}</p>
+                    <p style={{ margin: '5px 0' }}>{translations?.tickets || '티켓예매'}</p>
                   </a>
                 )}
               </div>
