@@ -34,12 +34,20 @@ async function fetchRollingHallEvents() {
       return { events: [], error: `Failed to fetch main page: ${response.status} ${response.statusText}` };
     }
     const html = await response.text();
-    const $ = cheerio.load(html);
+            const $ = cheerio.load(html);
 
-    const events = [];
-    // 새로운 셀렉터: 상세 페이지 링크를 포함하는 모든 <a> 태그를 찾습니다.
-    const eventLinks = $('a[href*="com_board_basic=read_form"]');
-    console.log(`Found ${eventLinks.length} potential event links.`); // Log 1
+            // Debugging step: Log all <a> tags' hrefs
+            $('a').each((i, el) => {
+              const href = $(el).attr('href');
+              if (href) {
+                console.log(`Found <a> tag with href: ${href}`);
+              }
+            });
+
+            const events = [];
+            // 새로운 셀렉터: 상세 페이지 링크를 포함하는 모든 <a> 태그를 찾습니다.
+            const eventLinks = $('a[href*="com_board_basic=read_form"]');
+            console.log(`Found ${eventLinks.length} potential event links using specific selector.`); // Log 1
 
     if (eventLinks.length === 0) {
       return { events: [], debug: "No event links with 'com_board_basic=read_form' found on the main page." };
