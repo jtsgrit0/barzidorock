@@ -50,14 +50,19 @@ async function fetchRollingHallEvents() {
       const title = $(linkElement).text().trim();
       const detailPageLink = $(linkElement).attr('href');
 
-      // 부모 요소를 찾아서 이미지와 날짜를 추출합니다.
-      const parentElement = $(linkElement).parent();
-      const image = parentElement.find('img').attr('src');
-      const date = parentElement.find('p:contains("공연일")').text().trim(); // '공연일' 텍스트를 포함하는 p 태그
+      // 날짜는 <a> 태그의 다음 형제 <p> 태그에서 추출합니다.
+      const dateElement = $(linkElement).next('p');
+      let date = '';
+      if (dateElement.length > 0 && dateElement.text().includes('공연일')) {
+        date = dateElement.text().replace('[공연일 : ', '').replace(']', '').trim();
+      }
+
+      // 이미지 정보는 메인 페이지에서 직접적으로 보이지 않으므로, 일단 플레이스홀더를 사용합니다.
+      const image = null; // Placeholder for now
 
       console.log(`Processing event ${i + 1}:`); // Log 2
       console.log(`  detailPageLink: ${detailPageLink}`);
-      console.log(`  image: ${image}`);
+      console.log(`  image: ${image}`); // Will be null for now
       console.log(`  title: ${title}`);
       console.log(`  date: ${date}`);
 
