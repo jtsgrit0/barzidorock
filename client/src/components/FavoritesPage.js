@@ -62,16 +62,16 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translatio
               <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px', borderTop: '1px solid #444', paddingTop: '20px' }}>
                 <a href={`tel:${venue.phoneNumber}`} style={{ textDecoration: 'none', color: '#eee', textAlign: 'center' }}>
                   <FontAwesomeIcon icon={faPhone} size="2x" />
-                  <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations.call || '전화걸기'}</p>
+                  <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations?.call || '전화걸기'}</p>
                 </a>
                 <a href={`https://www.google.com/maps/dir/?api=1&destination=${venue.latitude},${venue.longitude}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#eee', textAlign: 'center' }}>
                   <FontAwesomeIcon icon={faMapMarkerAlt} size="2x" />
-                  <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations.directions || '길찾기'}</p>
+                  <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations?.directions || '길찾기'}</p>
                 </a>
                 {venue.websiteUrl && (
                   <a href={venue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#eee', textAlign: 'center' }}>
                     <FontAwesomeIcon icon={faHome} size="2x" />
-                    <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations.website || '홈페이지'}</p>
+                    <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations?.website || '홈페이지'}</p>
                   </a>
                 )}
               </div>
@@ -79,7 +79,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translatio
           ))}
         </div>
       ) : (
-        <p style={{ color: '#999', textAlign: 'center', fontSize: '1.2em' }}>{translations.no_favorites || '찜한 장소가 없습니다.'}</p>
+        <p style={{ color: '#999', textAlign: 'center', fontSize: '1.2em' }}>{translations?.no_favorites || '찜한 장소가 없습니다.'}</p>
       )}
     </div>
   );

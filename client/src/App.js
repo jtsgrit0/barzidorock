@@ -186,6 +186,11 @@ function App() {
                   favorites={favorites} 
                   language={language} 
                   toggleFavorite={toggleFavorite}
+                  translations={{
+                    no_favorites: t('favoritesPage.no_favorites'),
+                    remove_favorite: t('favoritesPage.remove_favorite'),
+                    confirm_remove: t('favoritesPage.confirm_remove')
+                  }}
                 />} 
               />
               <Route path="/options" element={<OptionsPage />} />
