@@ -29,39 +29,56 @@ async function fetchRollingHallEvents() {
   const url = 'https://www.rollinghall.co.kr/default/mp3/mp3_sub2.php?sub=02';
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`Failed to fetch main page: ${response.status} ${response.statusText}`);
+      return { events: [], error: `Failed to fetch main page: ${response.status} ${response.statusText}` };
+    }
     const html = await response.text();
     const $ = cheerio.load(html);
 
     const events = [];
-    // 스크린샷을 기반으로 각 공연 블록의 셀렉터를 추정합니다.
-    // 'mp3_list_box' 클래스를 가진 div가 각 공연 정보를 담고 있는 것으로 보입니다.
     const eventElements = $('.mp3_list_box');
+    console.log(`Found ${eventElements.length} event elements.`); // Log 1
+
+    if (eventElements.length === 0) {
+      return { events: [], debug: "No .mp3_list_box elements found on the main page." };
+    }
 
     for (let i = 0; i < eventElements.length; i++) {
       const element = eventElements[i];
       const detailPageLink = $(element).find('a').attr('href');
       const image = $(element).find('img').attr('src');
-      // 제목과 날짜는 <a> 태그 내의 <p> 태그에 있을 것으로 추정합니다.
       const title = $(element).find('a p:nth-of-type(1)').text().trim();
       const date = $(element).find('a p:nth-of-type(2)').text().trim();
+
+      console.log(`Processing event ${i + 1}:`); // Log 2
+      console.log(`  detailPageLink: ${detailPageLink}`);
+      console.log(`  image: ${image}`);
+      console.log(`  title: ${title}`);
+      console.log(`  date: ${date}`);
 
       if (detailPageLink && title && date) {
         const fullDetailPageUrl = `https://www.rollinghall.co.kr${detailPageLink}`;
         let ticketUrl = '';
+        console.log(`  Fetching detail page: ${fullDetailPageUrl}`); // Log 3
 
         try {
-          // 상세 페이지를 가져와서 예매 링크를 추출합니다.
           const detailResponse = await fetch(fullDetailPageUrl);
-          const detailHtml = await detailResponse.text();
-          const detail$ = cheerio.load(detailHtml);
+          if (!detailResponse.ok) {
+            console.error(`Failed to fetch detail page ${fullDetailPageUrl}: ${detailResponse.status} ${detailResponse.statusText}`);
+            // Continue to next event, but log the error
+          } else {
+            const detailHtml = await detailResponse.text();
+            const detail$ = cheerio.load(detailHtml);
 
-          // 상세 페이지에서 'ticket.melon.com'을 포함하는 <a> 태그의 href를 찾습니다.
-          const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
-          if (melonTicketLink) {
-            ticketUrl = melonTicketLink;
+            const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
+            console.log(`  Extracted melonTicketLink: ${melonTicketLink}`); // Log 4
+            if (melonTicketLink) {
+              ticketUrl = melonTicketLink;
+            }
           }
         } catch (detailError) {
-          console.error(`Error fetching detail page for ${fullDetailPageUrl}:`, detailError);
+          console.error(`Error fetching or parsing detail page for ${fullDetailPageUrl}:`, detailError);
         }
 
         events.push({
@@ -71,19 +88,27 @@ async function fetchRollingHallEvents() {
           ticketUrl: ticketUrl,
           image: image ? `https://www.rollinghall.co.kr${image}` : 'https://picsum.photos/400/300?random=' + (i + 1)
         });
+      } else {
+        console.log(`  Skipping event ${i + 1} due to missing detailPageLink, title, or date.`); // Log 5
       }
     }
-    return events;
+    console.log(`Finished scraping. Total events found: ${events.length}`); // Log 6
+    return { events: events, debug: `Scraped ${events.length} events.` };
   } catch (error) {
-    console.error('Error fetching Rolling Hall events:', error);
-    return [];
+    console.error('Error in fetchRollingHallEvents:', error);
+    return { events: [], error: `Error during scraping: ${error.message}` };
   }
 }
 
 // 롤링홀 공연 정보를 제공하는 API 엔드포인트
 app.get('/api/rollinghall-events', async (req, res) => {
-  const events = await fetchRollingHallEvents();
-  res.json(events);
+  try {
+    const result = await fetchRollingHallEvents();
+    res.json(result);
+  } catch (error) {
+    console.error('Error in /api/rollinghall-events endpoint:', error);
+    res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.' });
+  }
 });
 
 // 기본 라우트
