@@ -27,36 +27,45 @@ app.use(express.json());
 // 롤링홀 공연 정보를 스크래핑하는 함수
 async function fetchRollingHallEvents() {
   const url = 'https://www.rollinghall.co.kr/default/mp3/mp3_sub2.php?sub=02';
+  const debugMessages = []; // 디버그 메시지를 수집할 배열
+
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      console.error(`Failed to fetch main page: ${response.status} ${response.statusText}`);
-      return { events: [], error: `Failed to fetch main page: ${response.status} ${response.statusText}` };
+      const errorMsg = `Failed to fetch main page: ${response.status} ${response.statusText}`;
+      debugMessages.push(errorMsg);
+      return { events: [], error: errorMsg, debug: debugMessages.join('\n') };
     }
     const html = await response.text();
-            const $ = cheerio.load(html);
+    const $ = cheerio.load(html);
 
-            const htmlLength = html.length;
-            const htmlSnippet = html.substring(0, 200);
-            const htmlTagCount = $('html').length;
-            const bodyTagCount = $('body').length;
+    const htmlLength = html.length;
+    const htmlSnippet = html.substring(0, 200);
+    const htmlTagCount = $('html').length;
+    const bodyTagCount = $('body').length;
+    debugMessages.push(`HTML Length: ${htmlLength}`);
+    debugMessages.push(`HTML Snippet: ${htmlSnippet}`);
+    debugMessages.push(`<html> count: ${htmlTagCount}`);
+    debugMessages.push(`<body> count: ${bodyTagCount}`);
 
-            const allHrefs = [];
-            $('a').each((i, el) => {
-              const href = $(el).attr('href');
-              if (href) {
-                allHrefs.push(href);
-              }
-            });
+    const allHrefs = [];
+    $('a').each((i, el) => {
+      const href = $(el).attr('href');
+      if (href) {
+        allHrefs.push(href);
+      }
+    });
+    debugMessages.push(`All hrefs found: ${allHrefs.join(', ')}`);
 
-            const events = [];
-            // 새로운 셀렉터: 상세 페이지 링크를 포함하는 모든 <a> 태그를 찾습니다.
-            const eventLinks = $('a[href*="com_board_basic=read_form"]');
-            console.log(`Found ${eventLinks.length} potential event links using specific selector.`); // Log 1
+    const events = [];
+    // 새로운 셀렉터: 상세 페이지 링크를 포함하는 모든 <a> 태그를 찾습니다.
+    const eventLinks = $('a[href*="com_board_basic=read_form"]');
+    debugMessages.push(`Found ${eventLinks.length} potential event links using specific selector.`); // Log 1
 
-            if (eventLinks.length === 0) {
-              return { events: [], debug: `HTML Length: ${htmlLength}, HTML Snippet: ${htmlSnippet}, <html> count: ${htmlTagCount}, <body> count: ${bodyTagCount}, No event links with 'com_board_basic=read_form' found on the main page. All hrefs found: ${allHrefs.join(', ')}` };
-            }
+    if (eventLinks.length === 0) {
+      debugMessages.push("No event links with 'com_board_basic=read_form' found on the main page.");
+      return { events: [], debug: debugMessages.join('\n') };
+    }
 
     for (let i = 0; i < eventLinks.length; i++) {
       const linkElement = eventLinks[i];
@@ -73,34 +82,36 @@ async function fetchRollingHallEvents() {
       // 이미지 정보는 메인 페이지에서 직접적으로 보이지 않으므로, 일단 플레이스홀더를 사용합니다.
       const image = null; // Placeholder for now
 
-      console.log(`Processing event ${i + 1}:`); // Log 2
-      console.log(`  detailPageLink: ${detailPageLink}`);
-      console.log(`  image: ${image}`); // Will be null for now
-      console.log(`  title: ${title}`);
-      console.log(`  date: ${date}`);
+      debugMessages.push(`Processing event ${i + 1}:`); // Log 2
+      debugMessages.push(`  detailPageLink: ${detailPageLink}`);
+      debugMessages.push(`  image: ${image}`); // Will be null for now
+      debugMessages.push(`  title: ${title}`);
+      debugMessages.push(`  date: ${date}`);
 
       if (detailPageLink && title && date) {
         const fullDetailPageUrl = `https://www.rollinghall.co.kr${detailPageLink}`;
         let ticketUrl = '';
-        console.log(`  Fetching detail page: ${fullDetailPageUrl}`); // Log 3
+        debugMessages.push(`  Fetching detail page: ${fullDetailPageUrl}`); // Log 3
 
         try {
           const detailResponse = await fetch(fullDetailPageUrl);
           if (!detailResponse.ok) {
-            console.error(`Failed to fetch detail page ${fullDetailPageUrl}: ${detailResponse.status} ${detailResponse.statusText}`);
+            const detailErrorMsg = `Failed to fetch detail page ${fullDetailPageUrl}: ${detailResponse.status} ${detailResponse.statusText}`;
+            debugMessages.push(detailErrorMsg);
             // Continue to next event, but log the error
           } else {
             const detailHtml = await detailResponse.text();
             const detail$ = cheerio.load(detailHtml);
 
             const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
-            console.log(`  Extracted melonTicketLink: ${melonTicketLink}`); // Log 4
+            debugMessages.push(`  Extracted melonTicketLink: ${melonTicketLink}`); // Log 4
             if (melonTicketLink) {
               ticketUrl = melonTicketLink;
             }
           }
         } catch (detailError) {
-          console.error(`Error fetching or parsing detail page for ${fullDetailPageUrl}:`, detailError);
+          const detailErrorMsg = `Error fetching or parsing detail page for ${fullDetailPageUrl}: ${detailError.message}`;
+          debugMessages.push(detailErrorMsg);
         }
 
         events.push({
@@ -111,14 +122,15 @@ async function fetchRollingHallEvents() {
           image: image ? `https://www.rollinghall.co.kr${image}` : 'https://picsum.photos/400/300?random=' + (i + 1)
         });
       } else {
-        console.log(`  Skipping event ${i + 1} due to missing detailPageLink, title, or date.`); // Log 5
+        debugMessages.push(`  Skipping event ${i + 1} due to missing detailPageLink, title, or date. (title: '${title}', detailPageLink: '${detailPageLink}', date: '${date}')`); // Log 5
       }
     }
-    console.log(`Finished scraping. Total events found: ${events.length}`); // Log 6
-    return { events: events, debug: `Scraped ${events.length} events.` };
+    debugMessages.push(`Finished scraping. Total events found: ${events.length}`); // Log 6
+    return { events: events, debug: debugMessages.join('\n') };
   } catch (error) {
-    console.error('Error in fetchRollingHallEvents:', error);
-    return { events: [], error: `Error during scraping: ${error.message}` };
+    const errorMsg = `Error in fetchRollingHallEvents: ${error.message}`;
+    debugMessages.push(errorMsg);
+    return { events: [], error: errorMsg, debug: debugMessages.join('\n') };
   }
 }
 
