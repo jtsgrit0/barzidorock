@@ -74,6 +74,7 @@ async function fetchRollingHallEvents() {
       debugMessages.push(`Processing event ${i + 1}:`);
       debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
       debugMessages.push(`  Parent outerHTML: ${$(linkElement).parent().prop('outerHTML')}`);
+      debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`);
 
       const title = titleSpan.text().trim();
       const detailPageLink = $(linkElement).attr('href');
