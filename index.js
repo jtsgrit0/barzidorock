@@ -57,26 +57,29 @@ async function fetchRollingHallEvents() {
     });
     debugMessages.push(`All hrefs found: ${allHrefs.join(', ')}`);
 
-    const events = [];
-    // 새로운 셀렉터: 상세 페이지 링크를 포함하는 모든 <a> 태그를 찾습니다.
     const eventLinks = $('a[href*="com_board_basic=read_form"]');
-    debugMessages.push(`Found ${eventLinks.length} potential event links using specific selector.`); // Log 1
+    debugMessages.push(`Found ${eventLinks.length} potential event links using general selector.`);
 
-    if (eventLinks.length === 0) {
-      debugMessages.push("No event links with 'com_board_basic=read_form' found on the main page.");
-      return { events: [], debug: debugMessages.join('\n') };
-    }
-
+    const events = [];
     for (let i = 0; i < eventLinks.length; i++) {
       const linkElement = eventLinks[i];
-      debugMessages.push(`Processing event ${i + 1}:`); // Log 2
-      debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
+      const titleSpan = $(linkElement).find('span.gallery_title');
 
-      const title = $(linkElement).text().trim();
+      // span.gallery_title이 없는 링크는 건너뜁니다.
+      if (titleSpan.length === 0) {
+        debugMessages.push(`Skipping link ${i + 1} because it does not contain span.gallery_title.`);
+        continue;
+      }
+
+      debugMessages.push(`Processing event ${i + 1}:`);
+      debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
+      debugMessages.push(`  Parent outerHTML: ${$(linkElement).parent().prop('outerHTML')}`);
+
+      const title = titleSpan.text().trim();
       const detailPageLink = $(linkElement).attr('href');
 
-      // 날짜는 <a> 태그의 다음 형제 <p> 태그에서 추출합니다.
-      const dateElement = $(linkElement).next('p');
+      // 날짜는 <a> 태그의 부모 요소 내에서 "공연일" 텍스트를 포함하는 <p> 태그에서 추출합니다.
+      const dateElement = $(linkElement).parent().find('p:contains("공연일")');
       debugMessages.push(`  Date element outerHTML: ${dateElement.prop('outerHTML')}`);
       let date = '';
       if (dateElement.length > 0 && dateElement.text().includes('공연일')) {
