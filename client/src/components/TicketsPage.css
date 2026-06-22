@@ -17,30 +17,48 @@
 .event-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-width: 800px;
+  gap: 25px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-.event-item {
+.event-card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 20px;
   text-align: left;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
-.event-item h2 {
+.event-image {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.event-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-info h2 {
   font-size: 1.5em;
-  margin-bottom: 10px;
+  margin: 0;
   color: #333;
 }
 
-.event-item p {
+.event-date {
   font-size: 1em;
   color: #555;
-  margin-bottom: 15px;
+  margin: 0;
 }
 
 .ticket-button {
@@ -52,8 +70,24 @@
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  width: fit-content;
 }
 
 .ticket-button:hover {
   background-color: #0056b3;
+}
+
+/* 반응형 디자인: 모바일에서 카드 세로 정렬 */
+@media (max-width: 600px) {
+  .event-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .event-image {
+    width: 100%;
+    height: 200px;
+  }
+  .ticket-button {
+    align-self: center;
+  }
 }

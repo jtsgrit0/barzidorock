@@ -1,28 +1,53 @@
 import React from 'react';
 import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
-import venuesData from '../venues.json'; // venues.json 데이터를 임포트합니다.
+import venuesData from '../venues.json';
+
+// 롤링홀의 개별 공연 정적 데이터 (실제 스크래핑 데이터로 향후 교체 가능)
+const rollingHallEvents = [
+  {
+    id: 'rh-001',
+    title: '밴드 인디 라이브 2026',
+    date: '2026.07.15 (월) ~ 2026.07.16 (화)',
+    image: 'https://picsum.photos/400/300?random=1', // 실제 공연 이미지로 교체
+    ticketUrl: 'https://www.rollinghall.co.kr/ticket/001'
+  },
+  {
+    id: 'rh-002',
+    title: '인디 페스티벌 @ 롤링홀',
+    date: '2026.07.20 (토) 18:00',
+    image: 'https://picsum.photos/400/300?random=2', // 실제 공연 이미지로 교체
+    ticketUrl: 'https://www.rollinghall.co.kr/ticket/002'
+  },
+  {
+    id: 'rh-003',
+    title: '록 음악 밤',
+    date: '2026.07.27 (토) 20:00',
+    image: 'https://picsum.photos/400/300?random=3', // 실제 공연 이미지로 교체
+    ticketUrl: 'https://www.rollinghall.co.kr/ticket/003'
+  }
+];
 
 const TicketsPage = () => {
   const { t } = useTranslation();
 
-  // ticketUrl을 가진 공연장만 필터링합니다.
-  const venuesWithTickets = venuesData.filter(venue => venue.ticketUrl);
-
   return (
     <div className="tickets-page-container">
       <h1>{t('ticketsPage.title', '티켓 예매')}</h1>
-      <p>{t('ticketsPage.description', '현재 예매 가능한 공연장 목록입니다. 각 공연장의 예매 페이지로 연결됩니다.')}</p>
+      <p>{t('ticketsPage.description', '현재 예매 가능한 공연 목록입니다. 각 공연의 예매 페이지로 연결됩니다.')}</p>
 
       <div className="event-list">
-        {venuesWithTickets.length > 0 ? (
-          venuesWithTickets.map(venue => (
-            <div className="event-item" key={venue.id}>
-              <h2>{venue.name[t('language')] || venue.name.ko}</h2>
-              <p>{t('ticketsPage.venueDescription', '온라인 예매 페이지로 이동합니다.')}</p>
-              <a href={venue.ticketUrl} target="_blank" rel="noopener noreferrer" className="ticket-button">
-                {t('ticketsPage.buyTickets', '예매하기')}
-              </a>
+        {rollingHallEvents.length > 0 ? (
+          rollingHallEvents.map(event => (
+            <div className="event-card" key={event.id}>
+              <img src={event.image} alt={event.title} className="event-image" />
+              <div className="event-info">
+                <h2>{event.title}</h2>
+                <p className="event-date">{event.date}</p>
+                <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer" className="ticket-button">
+                  {t('ticketsPage.buyTickets', '예매하기')}
+                </a>
+              </div>
             </div>
           ))
         ) : (
