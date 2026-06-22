@@ -8,8 +8,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // CORS 설정
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:5000', 'https://jtsgrit0.github.io'];
 app.use(cors({
-  origin: 'http://localhost:3000', // 클라이언트 앱의 주소
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
