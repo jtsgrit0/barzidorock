@@ -11,10 +11,12 @@ import TicketsPage from './components/TicketsPage';
 import VenueManagerRegister from './components/VenueManagerRegister';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
+import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 function App() {
+  const { i18n } = useTranslation(); // i18n 인스턴스 가져오기
   const [venues, setVenues] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
@@ -22,21 +24,11 @@ function App() {
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
-  const [language, setLanguage] = useState('ko');
   const [favorites, setFavorites] = useState([]);
-  const [translations, setTranslations] = useState({});
 
-  useEffect(() => {
-    const loadTranslations = async () => {
-      try {
-        const localeData = await import(`./locales/${language}.json`);
-        setTranslations(localeData.default);
-      } catch (error) {
-        console.error("Could not load translations for the selected language.", error);
-      }
-    };
-    loadTranslations();
-  }, [language]);
+  // language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
+  const language = i18n.language;
+  const setLanguage = (lang) => i18n.changeLanguage(lang);
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites');
@@ -163,7 +155,6 @@ function App() {
             onCategoryChange={handleCategoryChange}
             language={language}
             setLanguage={setLanguage}
-            translations={translations}
           />
           <div className="main-content">
             <Routes>
@@ -178,7 +169,6 @@ function App() {
                   setLanguage={setLanguage}
                   favorites={favorites}
                   toggleFavorite={toggleFavorite}
-                  translations={translations}
                 />
               } />
               <Route path="/tickets" element={<TicketsPage />} />
@@ -190,7 +180,6 @@ function App() {
                   favorites={favorites} 
                   language={language} 
                   toggleFavorite={toggleFavorite}
-                  translations={translations}
                 />} 
               />
               <Route path="/options" element={<OptionsPage />} />
