@@ -131,14 +131,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                     {selectedVenue.phoneNumber}
                   </p>
                 )}
-                {selectedVenue.opening_hours && selectedVenue.opening_hours[language] && (
-                  <p style={{ margin: '5px 0' }}>
-                    <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} /> 
-                    {(Array.isArray(selectedVenue.opening_hours[language]) 
-                      ? selectedVenue.opening_hours[language] 
-                      : JSON.parse(selectedVenue.opening_hours[language])).join(', ')}
-                  </p>
-                )}
+
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px', flexWrap: 'wrap' }}>
@@ -156,7 +149,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                     <p style={{ margin: '5px 0' }}>{translations.website || '홈페이지'}</p>
                   </a>
                 )}
-                {selectedVenue.websiteUrl && (
+                {selectedVenue.id === 'ChIJUVRrTNCYfDURTjrzSja3Tgs' && selectedVenue.websiteUrl && (
                   <a href={`${selectedVenue.websiteUrl}ticket`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
                     <FontAwesomeIcon icon={faTicketAlt} size="2x" />
                     <p style={{ margin: '5px 0' }}>{translations.tickets || '티켓예매'}</p>
