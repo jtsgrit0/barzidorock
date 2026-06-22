@@ -36,11 +36,11 @@ async function fetchRollingHallEvents() {
     const html = await response.text();
             const $ = cheerio.load(html);
 
-            // Debugging step: Log all <a> tags' hrefs
+            const allHrefs = [];
             $('a').each((i, el) => {
               const href = $(el).attr('href');
               if (href) {
-                console.log(`Found <a> tag with href: ${href}`);
+                allHrefs.push(href);
               }
             });
 
@@ -49,9 +49,9 @@ async function fetchRollingHallEvents() {
             const eventLinks = $('a[href*="com_board_basic=read_form"]');
             console.log(`Found ${eventLinks.length} potential event links using specific selector.`); // Log 1
 
-    if (eventLinks.length === 0) {
-      return { events: [], debug: "No event links with 'com_board_basic=read_form' found on the main page." };
-    }
+            if (eventLinks.length === 0) {
+              return { events: [], debug: `No event links with 'com_board_basic=read_form' found on the main page. All hrefs found: ${allHrefs.join(', ')}` };
+            }
 
     for (let i = 0; i < eventLinks.length; i++) {
       const linkElement = eventLinks[i];
