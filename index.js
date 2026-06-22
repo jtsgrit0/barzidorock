@@ -78,8 +78,8 @@ async function fetchRollingHallEvents() {
       const title = titleSpan.text().trim();
       const detailPageLink = $(linkElement).attr('href');
 
-      // 날짜는 <a> 태그의 부모 요소 내에서 "공연일" 텍스트를 포함하는 <p> 태그에서 추출합니다.
-      const dateElement = $(linkElement).parent().find('p:contains("공연일")');
+      // 날짜는 <a> 태그의 직계 형제 <p> 태그에서 "공연일" 텍스트를 포함하는 요소를 추출합니다.
+      const dateElement = $(linkElement).siblings('p:contains("공연일")');
       debugMessages.push(`  Date element outerHTML: ${dateElement.prop('outerHTML')}`);
       let date = '';
       if (dateElement.length > 0 && dateElement.text().includes('공연일')) {
