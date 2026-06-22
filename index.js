@@ -69,11 +69,15 @@ async function fetchRollingHallEvents() {
 
     for (let i = 0; i < eventLinks.length; i++) {
       const linkElement = eventLinks[i];
+      debugMessages.push(`Processing event ${i + 1}:`); // Log 2
+      debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
+
       const title = $(linkElement).text().trim();
       const detailPageLink = $(linkElement).attr('href');
 
       // 날짜는 <a> 태그의 다음 형제 <p> 태그에서 추출합니다.
       const dateElement = $(linkElement).next('p');
+      debugMessages.push(`  Date element outerHTML: ${dateElement.prop('outerHTML')}`);
       let date = '';
       if (dateElement.length > 0 && dateElement.text().includes('공연일')) {
         date = dateElement.text().replace('[공연일 : ', '').replace(']', '').trim();
@@ -82,7 +86,6 @@ async function fetchRollingHallEvents() {
       // 이미지 정보는 메인 페이지에서 직접적으로 보이지 않으므로, 일단 플레이스홀더를 사용합니다.
       const image = null; // Placeholder for now
 
-      debugMessages.push(`Processing event ${i + 1}:`); // Log 2
       debugMessages.push(`  detailPageLink: ${detailPageLink}`);
       debugMessages.push(`  image: ${image}`); // Will be null for now
       debugMessages.push(`  title: ${title}`);
