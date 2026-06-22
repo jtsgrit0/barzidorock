@@ -33,24 +33,46 @@ async function fetchRollingHallEvents() {
     const $ = cheerio.load(html);
 
     const events = [];
-    // 각 공연 정보를 담고 있는 테이블 행을 찾습니다.
-    // 웹사이트 구조에 따라 셀렉터는 변경될 수 있습니다.
-    $('.concert_list tbody tr').each((i, element) => {
-      const title = $(element).find('td:nth-child(2) a').text().trim();
-      const date = $(element).find('td:nth-child(3)').text().trim();
-      const ticketUrl = $(element).find('td:nth-child(2) a').attr('href');
-      const image = $(element).find('td:nth-child(1) img').attr('src'); // 이미지 URL 추출
+    // 스크린샷을 기반으로 각 공연 블록의 셀렉터를 추정합니다.
+    // 'mp3_list_box' 클래스를 가진 div가 각 공연 정보를 담고 있는 것으로 보입니다.
+    const eventElements = $('.mp3_list_box');
 
-      if (title && date && ticketUrl) {
+    for (let i = 0; i < eventElements.length; i++) {
+      const element = eventElements[i];
+      const detailPageLink = $(element).find('a').attr('href');
+      const image = $(element).find('img').attr('src');
+      // 제목과 날짜는 <a> 태그 내의 <p> 태그에 있을 것으로 추정합니다.
+      const title = $(element).find('a p:nth-of-type(1)').text().trim();
+      const date = $(element).find('a p:nth-of-type(2)').text().trim();
+
+      if (detailPageLink && title && date) {
+        const fullDetailPageUrl = `https://www.rollinghall.co.kr${detailPageLink}`;
+        let ticketUrl = '';
+
+        try {
+          // 상세 페이지를 가져와서 예매 링크를 추출합니다.
+          const detailResponse = await fetch(fullDetailPageUrl);
+          const detailHtml = await detailResponse.text();
+          const detail$ = cheerio.load(detailHtml);
+
+          // 상세 페이지에서 'ticket.melon.com'을 포함하는 <a> 태그의 href를 찾습니다.
+          const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
+          if (melonTicketLink) {
+            ticketUrl = melonTicketLink;
+          }
+        } catch (detailError) {
+          console.error(`Error fetching detail page for ${fullDetailPageUrl}:`, detailError);
+        }
+
         events.push({
           id: `rh-${i + 1}`,
           title: title,
           date: date,
-          ticketUrl: `https://www.rollinghall.co.kr${ticketUrl}`, // 상대 경로를 절대 경로로 변환
-          image: image ? `https://www.rollinghall.co.kr${image}` : 'https://picsum.photos/400/300?random=' + (i + 1) // 이미지 URL이 없으면 기본 이미지 사용
+          ticketUrl: ticketUrl,
+          image: image ? `https://www.rollinghall.co.kr${image}` : 'https://picsum.photos/400/300?random=' + (i + 1)
         });
       }
-    });
+    }
     return events;
   } catch (error) {
     console.error('Error fetching Rolling Hall events:', error);
