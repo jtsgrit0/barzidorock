@@ -36,6 +36,11 @@ async function fetchRollingHallEvents() {
     const html = await response.text();
             const $ = cheerio.load(html);
 
+            const htmlLength = html.length;
+            const htmlSnippet = html.substring(0, 200);
+            const htmlTagCount = $('html').length;
+            const bodyTagCount = $('body').length;
+
             const allHrefs = [];
             $('a').each((i, el) => {
               const href = $(el).attr('href');
@@ -50,7 +55,7 @@ async function fetchRollingHallEvents() {
             console.log(`Found ${eventLinks.length} potential event links using specific selector.`); // Log 1
 
             if (eventLinks.length === 0) {
-              return { events: [], debug: `No event links with 'com_board_basic=read_form' found on the main page. All hrefs found: ${allHrefs.join(', ')}` };
+              return { events: [], debug: `HTML Length: ${htmlLength}, HTML Snippet: ${htmlSnippet}, <html> count: ${htmlTagCount}, <body> count: ${bodyTagCount}, No event links with 'com_board_basic=read_form' found on the main page. All hrefs found: ${allHrefs.join(', ')}` };
             }
 
     for (let i = 0; i < eventLinks.length; i++) {
