@@ -104,9 +104,11 @@ async function fetchRollingHallEvents() {
       if (dateTd.length > 0) {
         const dateText = dateTd.text();
         debugMessages.push(`  Date TD text: ${dateText}`);
-        const dateMatch = dateText.match(/(\d{4}년 \d{2}월 \d{2}일)/);
+        // 깨진 한글 문자 대신 숫자 패턴에 집중하여 날짜를 추출
+        const dateMatch = dateText.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
         if (dateMatch) {
-          date = dateMatch[1];
+          // 추출된 연, 월, 일을 사용하여 날짜 문자열 재구성
+          date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
         }
       }
 
