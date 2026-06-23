@@ -120,15 +120,19 @@ async function fetchRollingHallEvents() {
 
       // 이미지 정보 추출
       // linkElement는 제목 <a> 태그입니다.
-      // 이미지 <img> 태그는 제목 <a> 태그와 다른 <td>에 있습니다.
-      // 제목 <a> 태그에서 가장 바깥쪽 <tr> (이미지 <td>와 제목 <td>를 모두 포함하는)를 찾습니다.
-      const mainEventTr = $(linkElement).closest('td[align="left"]').parent('tr');
-      debugMessages.push(`  mainEventTr outerHTML: ${mainEventTr.prop('outerHTML')}`);
-      const imageElement = mainEventTr.find('td img'); // 여기를 수정합니다.
-      debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`);
+      // 이미지 <img> 태그는 제목 <a> 태그와 다른 <tr>에 있습니다.
+      // 제목 <a> 태그에서 가장 가까운 <table> 부모 요소를 찾습니다.
+      const eventTable = $(linkElement).closest('table');
+      debugMessages.push(`  eventTable outerHTML: ${eventTable.prop('outerHTML')}`);
       let image = null;
-      if (imageElement.length > 0) {
-        image = imageElement.attr('src');
+      if (eventTable.length > 0) {
+        // 해당 테이블 내에서 이미지 <img> 태그를 찾습니다.
+        // 이미지는 <td valign="bottom" align="center"> 안에 있습니다.
+        const imageElement = eventTable.find('td[valign="bottom"][align="center"] img');
+        debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`);
+        if (imageElement.length > 0) {
+          image = imageElement.attr('src');
+        }
       }
 
       debugMessages.push(`  detailPageLink: ${detailPageLink}`);
