@@ -48,6 +48,9 @@ async function fetchRollingHallEvents() {
     debugMessages.push(`<html> count: ${htmlTagCount}`);
     debugMessages.push(`<body> count: ${bodyTagCount}`);
 
+    const allPTagsWithDate = $('p:contains("공연일")');
+    debugMessages.push(`All <p> tags containing "공연일": ${allPTagsWithDate.map((i, el) => $(el).prop('outerHTML')).get().join('\n')}`);
+
     const allHrefs = [];
     $('a').each((i, el) => {
       const href = $(el).attr('href');
