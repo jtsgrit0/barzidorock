@@ -26,7 +26,7 @@ const TicketsPage = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEvents(data);
+        setEvents(data.events); // data.events로 수정
       } catch (err) {
         setError(err);
       } finally {
