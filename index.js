@@ -163,6 +163,17 @@ async function fetchRollingHallEvents() {
             debugMessages.push(`  Extracted melonTicketLink: ${melonTicketLink}`); // Log 4
             if (melonTicketLink) {
               ticketUrl = melonTicketLink;
+            } else {
+              // 멜론티켓 링크가 없으면, 다른 "예매하기" 링크를 찾아봅니다.
+              const generalTicketLink = detail$('a:contains("예매하기")').attr('href');
+              debugMessages.push(`  Extracted generalTicketLink: ${generalTicketLink}`);
+              if (generalTicketLink) {
+                ticketUrl = generalTicketLink;
+              } else {
+                // 다른 예매 링크도 없으면, 상세 페이지 URL 자체를 사용합니다.
+                ticketUrl = fullDetailPageUrl;
+                debugMessages.push(`  Falling back to fullDetailPageUrl for ticketUrl: ${ticketUrl}`);
+              }
             }
           }
         } catch (detailError) {
