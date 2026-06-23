@@ -48,9 +48,6 @@ async function fetchRollingHallEvents() {
     debugMessages.push(`<html> count: ${htmlTagCount}`);
     debugMessages.push(`<body> count: ${bodyTagCount}`);
 
-    const allPTagsWithDate = $('p:contains("공연일")');
-    debugMessages.push(`All <p> tags containing "공연일": ${allPTagsWithDate.map((i, el) => $(el).prop('outerHTML')).get().join('\n')}`);
-
     const allHrefs = [];
     $('a').each((i, el) => {
       const href = $(el).attr('href');
@@ -60,8 +57,20 @@ async function fetchRollingHallEvents() {
     });
     debugMessages.push(`All hrefs found: ${allHrefs.join(', ')}`);
 
+
     const eventLinks = $('a[href*="com_board_basic=read_form"]');
     debugMessages.push(`Found ${eventLinks.length} potential event links using general selector.`);
+
+    // 첫 번째 이벤트 링크의 가장 가까운 <table> 부모 요소의 outerHTML을 디버그 메시지에 추가
+    if (eventLinks.length > 0) {
+        const firstLink = $(eventLinks[0]);
+        const closestTable = firstLink.closest('table');
+        if (closestTable.length > 0) {
+            debugMessages.push(`Closest table outerHTML for first event link: ${closestTable.prop('outerHTML')}`);
+        } else {
+            debugMessages.push(`No closest table found for first event link.`);
+        }
+    }
 
     const events = [];
     for (let i = 0; i < eventLinks.length; i++) {
