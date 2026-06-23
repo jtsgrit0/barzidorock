@@ -123,7 +123,7 @@ async function fetchRollingHallEvents() {
       // 이미지 <img> 태그는 제목 <a> 태그와 다른 <td>에 있습니다.
       // 제목 <a> 태그에서 가장 바깥쪽 <tr> (이미지 <td>와 제목 <td>를 모두 포함하는)를 찾습니다.
       const mainEventTr = $(linkElement).closest('td[align="left"]').parent('tr');
-      const imageElement = mainEventTr.find('td[width="100"][align="center"] img');
+      const imageElement = mainEventTr.find('td img'); // 여기를 수정합니다.
       let image = null;
       if (imageElement.length > 0) {
         image = imageElement.attr('src');
