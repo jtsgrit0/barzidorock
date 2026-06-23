@@ -132,6 +132,7 @@ async function fetchRollingHallEvents() {
         debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`);
         if (imageElement.length > 0) {
           image = imageElement.attr('src');
+          debugMessages.push(`  image after attr('src'): ${image}`); // 이 디버그 라인을 추가합니다.
         }
       }
 
