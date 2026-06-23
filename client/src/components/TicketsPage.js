@@ -47,8 +47,6 @@ const TicketsPage = () => {
 
   return (
     <div className="tickets-page-container">
-      <h1>{t('ticketsPage.title', '티켓 예매')}</h1>
-      <p>{t('ticketsPage.description', '현재 예매 가능한 공연 목록입니다. 각 공연의 예매 페이지로 연결됩니다.')}</p>
 
       <div className="event-list">
         {events.length > 0 ? (
