@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch'); // node-fetch 임포트
 const cheerio = require('cheerio'); // cheerio 임포트
+const iconv = require('iconv-lite'); // iconv-lite 임포트
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,7 +37,10 @@ async function fetchRollingHallEvents() {
       debugMessages.push(errorMsg);
       return { events: [], error: errorMsg, debug: debugMessages.join('\n') };
     }
-    const html = await response.text();
+    // EUC-KR 인코딩 처리를 위해 buffer로 응답을 받습니다.
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const html = iconv.decode(buffer, 'EUC-KR'); // EUC-KR로 디코딩
     const $ = cheerio.load(html);
 
     const htmlLength = html.length;
@@ -114,11 +118,15 @@ async function fetchRollingHallEvents() {
         debugMessages.push(`  Final extracted date: '${date}'`); // 최종 추출된 날짜 디버그
       }
 
-      // 이미지 정보는 메인 페이지에서 직접적으로 보이지 않으므로, 일단 플레이스홀더를 사용합니다.
-      const image = null; // Placeholder for now
+      // 이미지 정보 추출
+      const imageElement = $(linkElement).find('img');
+      let image = null;
+      if (imageElement.length > 0) {
+        image = imageElement.attr('src');
+      }
 
       debugMessages.push(`  detailPageLink: ${detailPageLink}`);
-      debugMessages.push(`  image: ${image}`); // Will be null for now
+      debugMessages.push(`  image: ${image}`);
       debugMessages.push(`  title: ${title}`);
       debugMessages.push(`  date: ${date}`);
 
@@ -134,7 +142,10 @@ async function fetchRollingHallEvents() {
             debugMessages.push(detailErrorMsg);
             // Continue to next event, but log the error
           } else {
-            const detailHtml = await detailResponse.text();
+            // 상세 페이지도 EUC-KR로 디코딩
+            const detailArrayBuffer = await detailResponse.arrayBuffer();
+            const detailBuffer = Buffer.from(detailArrayBuffer);
+            const detailHtml = iconv.decode(detailBuffer, 'EUC-KR');
             const detail$ = cheerio.load(detailHtml);
 
             const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
