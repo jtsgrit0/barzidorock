@@ -132,7 +132,6 @@ async function fetchRollingHallEvents() {
         debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`);
         if (imageElement.length > 0) {
           image = imageElement.attr('src');
-          debugMessages.push(`  image after attr('src'): ${image}`); // 이 디버그 라인을 추가합니다.
         }
       }
 
@@ -160,17 +159,28 @@ async function fetchRollingHallEvents() {
             const detail$ = cheerio.load(detailHtml);
 
             const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
-            debugMessages.push(`  Extracted melonTicketLink: ${melonTicketLink}`); // Log 4
+            debugMessages.push(`  Extracted melonTicketLink: ${melonTicketLink}`);
             if (melonTicketLink) {
               ticketUrl = melonTicketLink;
             } else {
-              // 멜론티켓 링크가 없으면, 다른 "예매하기" 링크를 찾아봅니다.
-              const generalTicketLink = detail$('a:contains("예매하기")').attr('href');
-              debugMessages.push(`  Extracted generalTicketLink: ${generalTicketLink}`);
-              if (generalTicketLink) {
-                ticketUrl = generalTicketLink;
-              } else {
-                // 다른 예매 링크도 없으면, 상세 페이지 URL 자체를 사용합니다.
+              // "예매하기" 텍스트를 포함하는 td를 찾고, 그 다음 td에서 링크를 추출
+              const ticketTd = detail$('td:contains("예매하기")');
+              if (ticketTd.length > 0) {
+                const nextTd = ticketTd.next('td');
+                if (nextTd.length > 0) {
+                  const linkInNextTd = nextTd.find('a').attr('href');
+                  if (linkInNextTd) {
+                    ticketUrl = linkInNextTd;
+                    debugMessages.push(`  Extracted ticketUrl from next td (a tag): ${ticketUrl}`);
+                  } else {
+                    // a 태그가 없으면 td의 텍스트를 직접 사용
+                    ticketUrl = nextTd.text().trim();
+                    debugMessages.push(`  Extracted ticketUrl from next td (text): ${ticketUrl}`);
+                  }
+                }
+              }
+
+              if (!ticketUrl) { // 여전히 ticketUrl이 없으면 fullDetailPageUrl로 폴백
                 ticketUrl = fullDetailPageUrl;
                 debugMessages.push(`  Falling back to fullDetailPageUrl for ticketUrl: ${ticketUrl}`);
               }
