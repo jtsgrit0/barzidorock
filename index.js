@@ -103,13 +103,15 @@ async function fetchRollingHallEvents() {
       let date = '';
       if (dateTd.length > 0) {
         const dateText = dateTd.text();
-        debugMessages.push(`  Date TD text: ${dateText}`);
+        debugMessages.push(`  Date TD text (raw): '${dateText}'`); // 원본 텍스트 디버그
         // 깨진 한글 문자 대신 숫자 패턴에 집중하여 날짜를 추출
         const dateMatch = dateText.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
+        debugMessages.push(`  Date regex match result: ${JSON.stringify(dateMatch)}`); // 정규식 매칭 결과 디버그
         if (dateMatch) {
           // 추출된 연, 월, 일을 사용하여 날짜 문자열 재구성
           date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
         }
+        debugMessages.push(`  Final extracted date: '${date}'`); // 최종 추출된 날짜 디버그
       }
 
       // 이미지 정보는 메인 페이지에서 직접적으로 보이지 않으므로, 일단 플레이스홀더를 사용합니다.
