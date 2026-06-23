@@ -93,11 +93,21 @@ async function fetchRollingHallEvents() {
       // <a> 태그의 가장 가까운 <tr> 부모 요소를 찾고, 그 안에서 "공연일" 텍스트를 포함하는 <p> 태그를 찾습니다.
       const parentTr = $(linkElement).closest('tr');
       debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`);
-      const dateElement = parentTr.find('p:contains("공연일")');
-      debugMessages.push(`  Date element outerHTML: ${dateElement.prop('outerHTML')}`);
+      
+      // 제목 <tr> 바로 다음 <tr>에 날짜 정보가 있는지 확인
+      const dateTr = parentTr.next('tr');
+      const dateTd = dateTr.find('td.gallery_etc');
+      debugMessages.push(`  Date TR outerHTML: ${dateTr.prop('outerHTML')}`);
+      debugMessages.push(`  Date TD outerHTML: ${dateTd.prop('outerHTML')}`);
+
       let date = '';
-      if (dateElement.length > 0 && dateElement.text().includes('공연일')) {
-        date = dateElement.text().replace('[공연일 : ', '').replace(']', '').trim();
+      if (dateTd.length > 0) {
+        const dateText = dateTd.text();
+        debugMessages.push(`  Date TD text: ${dateText}`);
+        const dateMatch = dateText.match(/(\d{4}년 \d{2}월 \d{2}일)/);
+        if (dateMatch) {
+          date = dateMatch[1];
+        }
       }
 
       // 이미지 정보는 메인 페이지에서 직접적으로 보이지 않으므로, 일단 플레이스홀더를 사용합니다.
