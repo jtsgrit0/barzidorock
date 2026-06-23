@@ -74,13 +74,13 @@ async function fetchRollingHallEvents() {
       debugMessages.push(`Processing event ${i + 1}:`);
       debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
       debugMessages.push(`  Parent outerHTML: ${$(linkElement).parent().prop('outerHTML')}`);
-      debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`);
 
       const title = titleSpan.text().trim();
       const detailPageLink = $(linkElement).attr('href');
 
       // <a> 태그의 가장 가까운 <tr> 부모 요소를 찾고, 그 안에서 "공연일" 텍스트를 포함하는 <p> 태그를 찾습니다.
       const parentTr = $(linkElement).closest('tr');
+      debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`);
       const dateElement = parentTr.find('p:contains("공연일")');
       debugMessages.push(`  Date element outerHTML: ${dateElement.prop('outerHTML')}`);
       let date = '';
