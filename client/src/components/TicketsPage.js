@@ -12,12 +12,13 @@ const TicketsPage = () => {
     const fetchEvents = async () => {
       try {
         let apiUrl = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
-        const response = await fetch(`${apiUrl}/api/schedules`);
+        // 롤링홀에서 직접 공연 데이터를 스크래핑하는 API 호출
+        const response = await fetch(`${apiUrl}/api/rollinghall-events`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEvents(data); // API는 배열을 직접 반환하므로 data.events 대신 data 사용
+        setEvents(data.events); // /api/rollinghall-events는 { events: [...] } 구조로 반환
       } catch (err) {
         setError(err);
       } finally {
