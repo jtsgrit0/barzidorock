@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import venuesData from '../venues.json';
 import './VenueManagerRegister.css';
 
-const API_BASE_URL = 'https://barzidorock-1lax8hw6x-jtsgrit0s-projects.vercel.app';
+const API_BASE_URL = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
 
 const VenueManagerRegister = () => {
   const [step, setStep] = useState(1); // 1: 기본정보 입력, 2: 사업자등록증 업로드, 3: 완료

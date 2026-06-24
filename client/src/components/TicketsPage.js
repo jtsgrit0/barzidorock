@@ -11,13 +11,13 @@ const TicketsPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        let apiUrl = 'https://barzidorock-1lax8hw6x-jtsgrit0s-projects.vercel.app';
+        let apiUrl = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
         const response = await fetch(`${apiUrl}/api/schedules`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEvents(data.events); // data.events로 수정
+        setEvents(data); // API는 배열을 직접 반환하므로 data.events 대신 data 사용
       } catch (err) {
         setError(err);
       } finally {
@@ -36,12 +36,24 @@ const TicketsPage = () => {
     return <div className="tickets-page-container">에러: {error.message}</div>;
   }
 
+  // 과거 날짜의 공연은 필터링하고, 필요한 필드명으로 매핑
+  const upcomingEvents = events.filter(event => {
+    const eventDate = new Date(event.event_date);
+    return eventDate >= new Date(); // 오늘 이후의 공연만 표시
+  }).map(event => ({
+    id: event.id,
+    image: event.poster_image, // DB의 poster_image를 image로 매핑
+    title: event.event_name, // DB의 event_name을 title로 매핑
+    date: new Date(event.event_date).toLocaleDateString('ko-KR'), // event_date를 한국식 날짜로 변환
+    ticketUrl: event.website_url || '#' // 티켓 URL이 있다면 사용
+  }));
+
   return (
     <div className="tickets-page-container">
 
       <div className="event-list">
-        {events.length > 0 ? (
-          events.map(event => (
+        {upcomingEvents.length > 0 ? (
+          upcomingEvents.map(event => (
             <div className="event-card" key={event.id}>
               <img src={event.image} alt={event.title} className="event-image" />
               <div className="event-info">

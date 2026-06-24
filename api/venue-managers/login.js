@@ -47,7 +47,7 @@ if (req.method === 'OPTIONS') {
     }
 
     // 로그인 세션 쿠키 설정
-    res.setHeader('Set-Cookie', `venueManagerLoggedIn=${user.id}; HttpOnly; Secure; SameSite=None; Domain=barzidorock-2akv.vercel.app; Path=/; Max-Age=86400`);
+    res.setHeader('Set-Cookie', `venueManagerLoggedIn=${user.id}; HttpOnly; Secure; SameSite=None; Domain=barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app; Path=/; Max-Age=86400`);
     
     return res.status(200).json({ 
       success: true, 
