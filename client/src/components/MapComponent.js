@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPhone, faMapMarkerAlt, faHeart, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPhone, faMapMarkerAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const containerStyle = {
   width: '100%',
@@ -149,12 +149,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                     <p style={{ margin: '5px 0' }}>{translations?.website || '홈페이지'}</p>
                   </a>
                 )}
-                {selectedVenue.id === 'ChIJUVRrTNCYfDURTjrzSja3Tgs' && selectedVenue.websiteUrl && (
-                  <a href={`${selectedVenue.websiteUrl}ticket`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black', textAlign: 'center' }}>
-                    <FontAwesomeIcon icon={faTicketAlt} size="2x" />
-                    <p style={{ margin: '5px 0' }}>{translations?.tickets || '티켓예매'}</p>
-                  </a>
-                )}
+
               </div>
 
 
