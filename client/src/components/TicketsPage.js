@@ -38,15 +38,21 @@ const TicketsPage = () => {
   }
 
   // 과거 날짜의 공연은 필터링하고, 필요한 필드명으로 매핑
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00으로 설정
+  
   const upcomingEvents = events.filter(event => {
-    const eventDate = new Date(event.event_date);
-    return eventDate >= new Date(); // 오늘 이후의 공연만 표시
+    // "2026년 07월 31일" 형식의 문자열을 Date 객체로 변환
+    const dateMatch = event.date.match(/(\d{4})년\s*(\d{2})월\s*(\d{2})일/);
+    if (!dateMatch) return false;
+    const eventDate = new Date(dateMatch[1], dateMatch[2] - 1, dateMatch[3]); // 월은 0부터 시작하므로 -1
+    return eventDate >= today; // 오늘 이후의 공연만 표시
   }).map(event => ({
     id: event.id,
-    image: event.poster_image, // DB의 poster_image를 image로 매핑
-    title: event.event_name, // DB의 event_name을 title로 매핑
-    date: new Date(event.event_date).toLocaleDateString('ko-KR'), // event_date를 한국식 날짜로 변환
-    ticketUrl: event.website_url || '#' // 티켓 URL이 있다면 사용
+    image: event.image.replace(/^https:\/\/www.rollinghall.co.kr/, 'https://www.rollinghall.co.kr'), // 이미지 URL 정규화
+    title: event.title,
+    date: event.date,
+    ticketUrl: event.ticketUrl.replace(/^`(.*)`$/, '$1') // 불필요한 백틱 제거
   }));
 
   return (
