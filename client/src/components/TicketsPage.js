@@ -11,17 +11,8 @@ const TicketsPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        let apiUrl = '';
-        if (process.env.NODE_ENV === 'production') {
-          if (window.location.hostname === 'jtsgrit0.github.io') {
-            apiUrl = 'https://barzidorock-2akv.vercel.app';
-          } else {
-            apiUrl = '';
-          }
-        } else {
-          apiUrl = 'http://localhost:5000';
-        }
-        const response = await fetch(`${apiUrl}/api/rollinghall-events`);
+        let apiUrl = 'https://barzidorock-1lax8hw6x-jtsgrit0s-projects.vercel.app';
+        const response = await fetch(`${apiUrl}/api/schedules`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
