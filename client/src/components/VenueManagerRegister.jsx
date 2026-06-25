@@ -153,7 +153,7 @@ const VenueManagerRegister = () => {
 
   return (
     <div className="register-container">
-      <h1>공연장 관리자 회원가입</h1>
+      <h1></h1>
       
       {/* 회원가입 완료 메시지 */}
       {isCompleted ? (
