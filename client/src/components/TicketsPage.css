@@ -49,6 +49,8 @@
   flex-direction: column;
   gap: 10px;
   padding: 0 10px; /* 좌우 패딩 추가 */
+  text-align: right; /* 모든 텍스트 오른쪽 정렬 */
+  align-items: flex-end; /* 플렉스 아이템도 오른쪽 정렬 */
 }
 
 .event-info h2 {
