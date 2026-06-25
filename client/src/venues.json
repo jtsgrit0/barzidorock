@@ -29,7 +29,96 @@
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nrsQFRxT1xN0BpPqNFkomOhjBz_Nl1AtfsdACJW_4Gw_OFrPF6u1r3JGn26r4QjIt6W0OhXiqIj30zwKDhX2lJstzMfkZxf2QxbL9F3NoTFpc_WtLEn4zQPJPUOGf9ocJF9Xo9kDZsECcOVg3pcl7vSLIsoy0nkpRmbsRKw_nsqkv2FtowPQDnPho2NxucsX2Ywj2JwpWEfiObGwMsa9FIoBvYIoue44Di3KRV8tD8IwZw1bIZER5KvrhbZWPCmrx3Nsj5g0IdkFWT-VEumnEwbpXB0fa9EdjwJoLXCsFi8GcaXnMc-jAmIeEwVsmBE4qtZJZyV9CIorHLTDK56XiSzu0cMIpJ-aiJL6UTWi0ZvE2LPw71IcIQLMcFKMTPh-w4v-f8MZ5EDodeOKACw9xqzOXtcm9_DtgkbhOlp_VQWcWs&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3kdbDixw2R00--pygZ6QlZFJxbL99KxKRNRnjhTMfbUMcf1qnpbEJrg_-u0djnA6akAhOCWegSQ2zJzlQnrTibd8eUhOc8rNuvQCWj8migkXIj-jcTsKXEaYyeFgzNQYszNd3UrH77a96EhapAs6K0RqylAaos5XOLwC1oNldqMIa63aQ7WOxVkldvQl8jSXdASMl8yeiCXj7uSydBkyEVpvh49JDWwWwdoUelpYRzqjPY-JV5F2dCNn4Ecab-Fh9zFjr7pCJmAfHGz304C-AnDiWFlypJaqfh7uuRNtPU89pO9qcbGxnSe8BZ5oNIVEG8zjEkltgBFFjAvJb14gDHLevc706QUz5Ed3x9sSyVzpcS_DFHs0vci1lUNczCdrFN3G6EWJgzM_LgT-27CH9uAFXZeIyHlGafN9vWuu9OMppk&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nDkdJZuYllTzNVw9cF_T0fGB5w6ZcHgQpxH8603QXnomBCnhMTYeIjTnz30JkvgJpveJb3eU3jv6lSTA1SRrk9wS3nNSCteWXnpzSTszWfAce5yMgwYTT3bQ156oOlLLNj5RxQMNovyIPJHKgC4lUoo_GdYUq5oGrC4BzpYRkBaBKOdGA7d7J6UyEEF0LRWuK4fL-RzAKOD5oAHPK-UveRkYmOq_rpaWHtCZiI6V-EDcm4fpBWq_I25FcW0QlzJ0udM1_1wmBK9ZwMpeJKbIQHQFJAp6O4MVVrvHl0kBLzu5p27gE7plsly7_9HrBH7lgxqEa2GkA9rhyv8FRcYxKDgCGiDUIQOYyYC6TyQBIJo_6M86sjxVMxqkP1RH0bJURC56ZpVy7ZSLLrX_5Za3zgZ-bqcIaFXwwtYAEO2y_3mSo&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
-    ],
+    ,
+{
+  "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+  "name": {
+    "ko": "Vel.R",
+    "en": "Vel.R"
+  },
+  "type": "live_venue",
+  "address": {
+    "ko": "서울 마포구 와우산로 137",
+    "en": "137 Wausan-ro, Mapo-gu, Seoul, South Korea",
+    "zh": null,
+    "ja": null
+  },
+  "latitude": 37.55,
+  "longitude": 126.92,
+  "phoneNumber": null,
+  "websiteUrl": "https://www.sangsangmadang.com/",
+  "googlePlaceId": null,
+  "description": null,
+  "image_urls": [],
+  "opening_hours": "[]",
+  "area": "hongdae",
+  "created_at": "2026-06-26T00:00:00.000Z"
+},
+{
+          "id": "f1e2d3c4-b5a6-9876-5432-10fedcba9876",
+          "name": { "ko": "프리버드", "en": "Freebird" },
+          "type": "live_venue",
+          "address": { "ko": "서울 마포구 와우산로 125", "en": "125 Wausan-ro, Mapo-gu, Seoul, South Korea", "zh": null, "ja": null },
+          "latitude": 37.5501,
+          "longitude": 126.921,
+          "phoneNumber": null,
+          "websiteUrl": "https://www.facebook.com/freebirdseoul/",
+          "googlePlaceId": null,
+          "description": null,
+          "image_urls": [],
+          "opening_hours": "[]",
+          "area": "hongdae",
+          "created_at": "2026-06-26T00:00:00.000Z"
+        },
+{
+  "id": "1a2b3c4d-5e6f-7890-abcd-ef1234567890",
+  "name": {
+    "ko": "상상마당",
+    "en": "Sangsangmadang"
+  },
+  "type": "live_venue",
+  "address": {
+    "ko": "서울 마포구 어울마당로 65",
+    "en": "65 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
+    "zh": null,
+    "ja": null
+  },
+  "latitude": 37.549,
+  "longitude": 126.923,
+  "phoneNumber": null,
+  "websiteUrl": null,
+  "googlePlaceId": null,
+  "description": null,
+  "image_urls": [],
+  "opening_hours": "[]",
+  "area": "hongdae",
+  "created_at": "2026-06-26T00:00:00.000Z"
+},
+{
+  "id": "fedcba98-7654-3210-fedc-ba9876543210",
+  "name": {
+    "ko": "무신사개러지",
+    "en": "Musinsa Garage"
+  },
+  "type": "live_venue",
+  "address": {
+    "ko": "서울 마포구 잔다리로 32",
+    "en": "32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+    "zh": null,
+    "ja": null
+  },
+  "latitude": 37.551,
+  "longitude": 126.924,
+  "phoneNumber": null,
+  "websiteUrl": "https://www.musinsagarage.com/",
+  "googlePlaceId": null,
+  "description": null,
+  "image_urls": [],
+  "opening_hours": "[]",
+  "area": "hongdae",
+  "created_at": "2026-06-26T00:00:00.000Z"
+}
+],
     "opening_hours": {
       "ko": [
         "월요일: 휴무",
