@@ -2,32 +2,22 @@ const { sql } = require('@vercel/postgres');
 const bcrypt = require('bcrypt');
 
 module.exports = async (req, res) => {
-  // CORS 설정 - 로컬 개발, GitHub Pages, Vercel 모두 허용
-  const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app'];
+  // CORS 설정 - 로컬 개발, GitHub Pages, 모든 Vercel 도메인 허용
+  const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app', 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app'];
   const origin = req.headers.origin;
+  
+  // CORS 헤더 설정
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   
+  // OPTIONS preflight 요청 처리
   if (req.method === 'OPTIONS') {
-    if (allowedOrigins.includes(origin)) {
-const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app'];
-const origin = req.headers.origin;
-if (allowedOrigins.includes(origin)) {
-  res.setHeader('Access-Control-Allow-Origin', origin);
-}
-res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-if (req.method === 'OPTIONS') {
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  return res.status(200).end();
-}    // 필수 필드 검증
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end();
+  }    // 필수 필드 검증
     if (!email || !password || !phone_number || !venue_id) {
       return res.status(400).json({ error: '필수 입력값이 누락되었습니다.' });
     }
