@@ -73,7 +73,7 @@ const VenueManagerRegister = () => {
         Tesseract.recognize(
           file,
           'kor', // 한국어 OCR
-          { logger: m => console.log(`OCR 진행: ${m.status} ${Math.round(m.progress * 100)}%`) }
+          { logger: m => {} }
         ).then(({ data: { text } }) => {
     
           setFormData(prev => ({ ...prev, business_registration_text: text }));
