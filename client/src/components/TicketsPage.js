@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
+// 캐시 설정: 1시간(3600000ms) 동안 캐시 유지
+const CACHE_KEY = 'rollinghall_events_cache';
+const CACHE_EXPIRY = 3600000;
+
 const TicketsPage = () => {
   const { t } = useTranslation();
   const [events, setEvents] = useState([]);
@@ -10,15 +14,48 @@ const TicketsPage = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
+      // 1. 먼저 캐시된 데이터가 있는지 확인
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      if (cachedData) {
+        try {
+          const { timestamp, data } = JSON.parse(cachedData);
+          const now = new Date().getTime();
+          
+          // 캐시가 만료되지 않았으면 캐시된 데이터 먼저 사용
+          if (now - timestamp < CACHE_EXPIRY) {
+            setEvents(data.events);
+            setLoading(false);
+            // 백그라운드에서 최신 데이터 업데이트
+            await refreshEvents();
+            return;
+          }
+        } catch (e) {
+          // 캐시 파싱 오류 시 무시하고 새로 불러옴
+          console.warn('캐시 데이터 파싱 오류, 새로 불러옵니다:', e);
+        }
+      }
+
+      // 캐시가 없거나 만료되었으면 새로 불러오기
+      await refreshEvents();
+    };
+
+    const refreshEvents = async () => {
       try {
         let apiUrl = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
-        // 롤링홀에서 직접 공연 데이터를 스크래핑하는 API 호출
         const response = await fetch(`${apiUrl}/api/rollinghall-events`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEvents(data.events); // /api/rollinghall-events는 { events: [...] } 구조로 반환
+        
+        // 새로 불러온 데이터를 상태에 저장
+        setEvents(data.events);
+        
+        // localStorage에 캐시 저장 (타임스탬프와 함께)
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          timestamp: new Date().getTime(),
+          data: data
+        }));
       } catch (err) {
         setError(err);
       } finally {
