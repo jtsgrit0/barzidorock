@@ -6,6 +6,14 @@
   "category_all": "Tout",
   "category_hongdae": "Hongdae",
   "category_itaewon": "Itaewon",
+  "tabBar": {
+    "home": "Accueil",
+    "tickets": "Billets",
+    "schedule": "Calendrier",
+    "favorites": "Favoris",
+    "options": "Options",
+    "myLocation": "Ma position"
+  },
   "ticketsPage": {
     "title": "Billetterie",
     "description": "Liste des salles de concert disponibles pour la réservation. Vous serez redirigé vers la page de réservation de chaque salle.",

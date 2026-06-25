@@ -2,9 +2,11 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faTicket, faCalendarAlt, faCog, faCrosshairs, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import './TabBar.css';
 
 const TabBar = ({ centerMapToUserLocation }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation(); // 현재 경로 가져오기
 
@@ -29,27 +31,27 @@ const TabBar = ({ centerMapToUserLocation }) => {
     <div className="tab-bar">
       <div className={getTabClassName('/')} onClick={() => handleTabNavigation('/')} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faHome} />
-        <span>홈</span>
+        <span>{t('tabBar.home')}</span>
       </div>
       <div className={getTabClassName('/tickets')} onClick={() => handleTabNavigation('/tickets')} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faTicket} />
-        <span>티켓</span>
+        <span>{t('tabBar.tickets')}</span>
       </div>
       <div className={getTabClassName('/schedule')} onClick={() => handleTabNavigation('/schedule')} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faCalendarAlt} />
-        <span>공연일정</span>
+        <span>{t('tabBar.schedule')}</span>
       </div>
       <div className={getTabClassName('/favorites')} onClick={() => handleTabNavigation('/favorites')} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faHeart} />
-        <span>찜</span>
+        <span>{t('tabBar.favorites')}</span>
       </div>
       <div className={getTabClassName('/options')} onClick={() => handleTabNavigation('/options')} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faCog} />
-        <span>옵션</span>
+        <span>{t('tabBar.options')}</span>
       </div>
       <div className="tab-item" onClick={handleMyLocationClick} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faCrosshairs} />
-        <span>내 위치</span>
+        <span>{t('tabBar.myLocation')}</span>
       </div>
     </div>
   );

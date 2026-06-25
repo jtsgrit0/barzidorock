@@ -6,6 +6,14 @@
   "category_all": "전체",
   "category_hongdae": "홍대",
   "category_itaewon": "이태원",
+  "tabBar": {
+    "home": "홈",
+    "tickets": "티켓",
+    "schedule": "공연일정",
+    "favorites": "찜",
+    "options": "옵션",
+    "myLocation": "내 위치"
+  },
   "ticketsPage": {
     "title": "티켓 예매",
     "description": "현재 예매 가능한 공연장 목록입니다. 각 공연장의 예매 페이지로 연결됩니다.",

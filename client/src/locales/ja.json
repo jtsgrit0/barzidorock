@@ -6,6 +6,14 @@
   "category_all": "すべて",
   "category_hongdae": "弘大",
   "category_itaewon": "梨泰院",
+  "tabBar": {
+    "home": "ホーム",
+    "tickets": "チケット",
+    "schedule": "スケジュール",
+    "favorites": "お気に入り",
+    "options": "オプション",
+    "myLocation": "現在地"
+  },
   "ticketsPage": {
     "title": "チケット予約",
     "description": "予約可能なコンサート会場のリストです。各会場の予約ページにリダイレクトされます。",

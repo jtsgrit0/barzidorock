@@ -6,6 +6,14 @@
   "category_all": "全部",
   "category_hongdae": "弘大",
   "category_itaewon": "梨泰院",
+  "tabBar": {
+    "home": "首页",
+    "tickets": "门票",
+    "schedule": "演出日程",
+    "favorites": "收藏",
+    "options": "设置",
+    "myLocation": "我的位置"
+  },
   "ticketsPage": {
     "title": "购票",
     "description": "可预订的音乐厅列表。您将被重定向到每个音乐厅的预订页面。",
