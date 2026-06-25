@@ -6,20 +6,16 @@ module.exports = async (req, res) => {
   const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app', 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app'];
   const origin = req.headers.origin;
   
-  // CORS 헤더 설정
+  // 모든 요청에 대한 CORS 헤더 설정
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  
+
   // OPTIONS preflight 요청 처리
   if (req.method === 'OPTIONS') {
-    if (allowedOrigins.includes(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
-    }
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
     return res.status(200).end();
   }
 
