@@ -38,8 +38,7 @@ const SchedulePage = ({ language }) => {
     if (savedLoginState === 'true' && savedToken) {
       setIsLoggedIn(true);
     }
-    console.log('reCAPTCHA executeRecaptcha status:', executeRecaptcha ? 'ready' : 'not ready');
-    console.log('Current API URL:', API_BASE_URL);
+
   }, [executeRecaptcha, API_BASE_URL]);
 
   const fetchSchedules = useCallback(async () => {
@@ -49,7 +48,7 @@ const SchedulePage = ({ language }) => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log('API에서 가져온 스케줄 데이터:', data);
+
       
       // API 응답이 비어있을 경우 테스트용 데이터를 추가해서 렌더링 테스트
       let scheduleData = data;
@@ -153,7 +152,7 @@ const SchedulePage = ({ language }) => {
                 description: prev.description ? `${prev.description}\n\n[OCR 추출 텍스트]\n${extractedText}` : extractedText 
               }));
             }
-            console.log('OCR로 추출된 텍스트:', extractedText);
+
           }
         } catch (ocrError) {
           console.error('OCR 텍스트 추출 실패:', ocrError);
