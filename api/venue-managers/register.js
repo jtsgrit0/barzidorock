@@ -17,8 +17,14 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     return res.status(200).end();
-  }    // 필수 필드 검증
-    if (!email || !password || !phone_number || !venue_id) {
+  }
+
+  try {
+    // 요청 바디에서 필요한 필드 추출
+    const { email, password, phone_number, venue_id, business_registration_file } = req.body;
+    
+    // 필수 필드 검증
+    if (!email || !password || !phone_number || !venue_id || !business_registration_file) {
       return res.status(400).json({ error: '필수 입력값이 누락되었습니다.' });
     }
 

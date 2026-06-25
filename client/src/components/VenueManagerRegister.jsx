@@ -12,8 +12,7 @@ const VenueManagerRegister = () => {
     confirmPassword: '',
     phone_number: '',
     venue_id: '',
-    business_registration_file: null,
-    business_registration_number: ''
+    business_registration_file: null
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +81,6 @@ const VenueManagerRegister = () => {
     if (!formData.phone_number) newErrors.phone_number = '전화번호를 입력해주세요';
     if (!formData.venue_id) newErrors.venue_id = '공연장을 선택해주세요';
     if (!formData.business_registration_file) newErrors.business_registration_file = '사업자등록증 파일을 업로드해주세요';
-    if (!formData.business_registration_number) newErrors.business_registration_number = '사업자등록번호를 입력해주세요';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -110,7 +108,6 @@ const VenueManagerRegister = () => {
             password: formData.password,
             phone_number: formData.phone_number,
             venue_id: formData.venue_id,
-            business_registration_number: formData.business_registration_number,
             business_registration_file: base64File
           })
         });
@@ -217,17 +214,7 @@ const VenueManagerRegister = () => {
             {errors.venue_id && <span className="error">{errors.venue_id}</span>}
           </div>
 
-          <div className="form-group">
-            <label>사업자등록번호</label>
-            <input
-              type="text"
-              name="business_registration_number"
-              value={formData.business_registration_number}
-              onChange={handleChange}
-              placeholder="'-' 없이 입력해주세요 (예: 1234567890)"
-            />
-            {errors.business_registration_number && <span className="error">{errors.business_registration_number}</span>}
-          </div>
+
 
           <div className="form-group">
             <label>사업자등록증 업로드</label>
