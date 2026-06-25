@@ -9,6 +9,7 @@
   flex: 1;
   overflow-y: auto; /* Allows scrolling within the content area if needed */
   position: relative; /* Needed for positioning child elements like the map */
+  padding-bottom: 70px; /* 탭 바 높이만큼 하단 패딩 추가 (탭바가 콘텐츠 가리지 않게) */
 }
 
 .App-logo {

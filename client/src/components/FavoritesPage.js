@@ -6,7 +6,7 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translatio
   const favoriteVenues = venues.filter(venue => favorites.includes(venue.id));
 
   return (
-    <div style={{ padding: '20px', paddingTop: '120px', backgroundColor: '#111', minHeight: '100vh' }}>
+    <div style={{ padding: '20px', paddingTop: '120px', paddingBottom: '80px', backgroundColor: '#111', minHeight: '100vh' }}>
       {favoriteVenues.length > 0 ? (
         <div>
           {favoriteVenues.map(venue => (

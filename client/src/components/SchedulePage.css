@@ -1,5 +1,5 @@
 .schedule-page {
-  padding: 100px 15px 20px;
+  padding: 100px 15px 80px; /* 하단 패딩 80px로 늘려서 탭바가 가리지 않게 */
   display: flex;
   flex-direction: column;
   gap: 40px;

@@ -1,5 +1,6 @@
 .tickets-page-container {
   padding: 20px;
+  padding-bottom: 80px; /* 탭 바 높이만큼 하단 패딩 추가 */
   text-align: center;
 }
 
