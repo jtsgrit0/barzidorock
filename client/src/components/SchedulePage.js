@@ -48,11 +48,40 @@ const SchedulePage = ({ language }) => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      const formattedData = data.map(item => {
+      console.log('API에서 가져온 스케줄 데이터:', data);
+      
+      // API 응답이 비어있을 경우 테스트용 데이터를 추가해서 렌더링 테스트
+      let scheduleData = data;
+      if (scheduleData.length === 0) {
+        scheduleData = [
+          {
+            id: 1,
+            venue_id: 'rollinghall',
+            event_date: '2026-07-15T19:00:00.000Z',
+            event_name: 'Retro Night',
+            description: '클래식 록과 함께하는 밤',
+            poster_image: ''
+          }
+        ];
+      }
+      
+      const formattedData = scheduleData.map(item => {
         const venue = venues.find(v => v.id === item.venue_id);
+        // DB에 저장된 UTC 시간을 한국 시간(KST, UTC+9)으로 변환해서 화면에 표시
+        const utcDate = new Date(item.event_date);
+        const koreaDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000));
+        const formattedDate = koreaDate.toLocaleString('ko-KR', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Asia/Seoul'
+        });
         return {
           ...item,
-          venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue'
+          venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue',
+          korean_event_date: formattedDate
         };
       });
       // 시작 시간이 빠른 순서대로 정렬
@@ -112,9 +141,14 @@ const SchedulePage = ({ language }) => {
   };
 
   const resetForm = () => {
+    // 한국 시간(KST, UTC+9)으로 기본 datetime 설정
+    const now = new Date();
+    const koreaTime = new Date(now.getTime() + (9 * 60 * 60 * 1000)); // UTC+9
+    const formattedKoreaTime = koreaTime.toISOString().slice(0, 16); // datetime-local 형식에 맞춤
+    
     setNewEvent({
       venue_id: '',
-      event_date: '',
+      event_date: formattedKoreaTime,
       event_name: '',
       description: '',
       poster_image: '', // 이미지 데이터 초기화
@@ -557,7 +591,12 @@ const SchedulePage = ({ language }) => {
                     <strong>{schedule.venue_name}</strong> - <span>{schedule.event_name}</span>
                   </div>
                   <div className="schedule-item-body">
-                    <span>{new Date(schedule.event_date).toLocaleString(language === 'ko' ? 'ko-KR' : 'en-US')}</span>
+                    <span>
+                      {language === 'ko' 
+                        ? new Date(schedule.event_date).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+                        : new Date(schedule.event_date).toLocaleString('en-US', { timeZone: 'Asia/Seoul' })
+                      }
+                    </span>
                     {schedule.description && <p>{schedule.description}</p>}
                     {schedule.poster_image && (
                       <div className="schedule-item-poster">
