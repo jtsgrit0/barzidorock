@@ -19,12 +19,12 @@ const VenueManagerRegister = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // area 영문명을 한국어 지역명으로 매핑
-  const areaToKorean = {
+  // area 영문명을 한국어 지역명으로 매핑 - 컴포넌트 외부에 정의하거나 useMemo로 캐싱
+  const areaToKorean = React.useMemo(() => ({
     'hongdae': '홍대',
     'gangnam': '강남',
     'itaewon': '이태원'
-  };
+  }), []);
 
   // venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류 - 한번만 계산되도록 useMemo 사용
   const processedVenues = React.useMemo(() => {
@@ -36,7 +36,7 @@ const VenueManagerRegister = () => {
         region: region // area를 한국어 지역명으로 변환
       };
     });
-  }, [venuesData]);
+  }, [venuesData, areaToKorean]);
 
   // 고유한 지역 목록 추출 - 한번만 계산되도록 useMemo 사용
   const regions = React.useMemo(() => {
@@ -65,28 +65,21 @@ const VenueManagerRegister = () => {
   // 입력값 변경 핸들러
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    console.log('handleChange 호출:', name, files);
     if (files) {
       const file = files[0];
-      console.log('선택된 파일:', file.name, file.size, file.type);
       // 먼저 파일을 상태에 저장해서 파일 이름이 즉시 표시되도록 함
-      setFormData(prev => {
-        const newFormData = { ...prev, [name]: file };
-        console.log('formData 업데이트됨:', newFormData.business_registration_file);
-        return newFormData;
-      });
+      setFormData(prev => ({ ...prev, [name]: file }));
       
       // 사업자등록증 파일인 경우 OCR로 텍스트 추출 (백그라운드에서 처리)
       if (name === 'business_registration_file') {
         Tesseract.recognize(
           file,
           'kor', // 한국어 OCR
-          { logger: m => console.log(`OCR 진행: ${m.status} ${Math.round(m.progress * 100)}%`) }
+          { logger: null } // 로그 출력 비활성화 (성능 개선)
         ).then(({ data: { text } }) => {
-          console.log('추출된 사업자등록증 텍스트:', text);
           setFormData(prev => ({ ...prev, business_registration_text: text }));
         }).catch(err => {
-          console.error('OCR 처리 오류:', err);
+          console.error('OCR 처리 오류:', err); // 에러 로그만 유지
         });
       }
     } else {
