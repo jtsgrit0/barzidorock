@@ -97,7 +97,7 @@ const SchedulePage = ({ language }) => {
   }, [fetchSchedules]);
 
   // 공연장 데이터를 한번만 처리하도록 useMemo 사용
-  const processedVenues = React.useMemo(() => venues, [venues]);
+  const processedVenues = React.useMemo(() => venues, []);
   
   useEffect(() => {
     if (selectedArea) {

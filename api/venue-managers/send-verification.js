@@ -31,7 +31,7 @@ if (req.method === 'OPTIONS') {
     `;
 
     // TODO: 실제 SMS 서비스(Twilio, 알리고 등)로 인증 코드 전송
-    console.log(`[DEV] 전화번호 ${phone_number}으로 인증 코드 ${verificationCode} 전송`);
+
     
     // 개발 환경에서는 콘솔에만 로그 남기고 실제 SMS는 보내지 않음
     // 프로덕션에서는 아래 주석을 해제하고 SMS 서비스 연동 필요
