@@ -97,15 +97,18 @@ const SchedulePage = ({ language }) => {
     fetchSchedules();
   }, [fetchSchedules]);
 
+  // 공연장 데이터를 한번만 처리하도록 useMemo 사용
+  const processedVenues = React.useMemo(() => venues, [venues]);
+  
   useEffect(() => {
     if (selectedArea) {
-      const venuesInArea = venues.filter(venue => venue.area === selectedArea);
+      const venuesInArea = processedVenues.filter(venue => venue.area === selectedArea);
       setFilteredVenues(venuesInArea);
     } else {
       setFilteredVenues([]);
     }
     setNewEvent(prev => ({ ...prev, venue_id: '' }));
-  }, [selectedArea]);
+  }, [selectedArea, processedVenues]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -133,7 +136,7 @@ const SchedulePage = ({ language }) => {
           const result = await Tesseract.recognize(
             file,
             'kor+eng', // 한국어+영어 인식
-            { logger: m => console.log(m) } // 진행상황 로그 출력
+            { logger: null } // 로그 출력 비활성화 (성능 개선)
           );
           
           const extractedText = result.data.text.trim();
