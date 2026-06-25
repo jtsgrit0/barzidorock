@@ -5,14 +5,15 @@ import './VenueManagerRegister.css';
 const API_BASE_URL = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
 
 const VenueManagerRegister = () => {
-  const [step, setStep] = useState(1); // 1: 기본정보 입력, 2: 사업자등록증 업로드, 3: 완료
+  const [isCompleted, setIsCompleted] = useState(false); // 회원가입 완료 여부
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
     phone_number: '',
     venue_id: '',
-    business_registration_file: null
+    business_registration_file: null,
+    business_registration_number: ''
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -85,21 +86,27 @@ const VenueManagerRegister = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // 1단계: 기본정보 제출 (이메일 인증 건너뛰고 바로 다음 단계로)
-  const handleSubmitStep1 = async (e) => {
-    e.preventDefault();
-    if (!validateStep1()) return;
+  // 모든 정보를 한번에 유효성 검사
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.email) newErrors.email = '이메일을 입력해주세요';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = '유효한 이메일 형식이 아닙니다';
+    if (!formData.password) newErrors.password = '비밀번호를 입력해주세요';
+    else if (formData.password.length < 8) newErrors.password = '비밀번호는 8자 이상이어야 합니다';
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = '비밀번호가 일치하지 않습니다';
+    if (!formData.phone_number) newErrors.phone_number = '전화번호를 입력해주세요';
+    if (!formData.venue_id) newErrors.venue_id = '공연장을 선택해주세요';
+    if (!formData.business_registration_file) newErrors.business_registration_file = '사업자등록증 파일을 업로드해주세요';
+    if (!formData.business_registration_number) newErrors.business_registration_number = '사업자등록번호를 입력해주세요';
     
-    setStep(2); // 사업자등록증 업로드 단계로 이동
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  // 3단계: 최종 회원가입 제출
+  // 최종 회원가입 제출
   const handleSubmitRegistration = async (e) => {
     e.preventDefault();
-    if (!formData.business_registration_file) {
-      setErrors({ business_registration_file: '사업자등록증 파일을 업로드해주세요' });
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsLoading(true);
     try {
@@ -128,7 +135,7 @@ const VenueManagerRegister = () => {
           throw new Error(data.error || '회원가입에 실패했습니다');
         }
         
-        setStep(3); // 완료 단계로 이동
+        setIsCompleted(true); // 회원가입 완료 상태로 변경
       };
     } catch (error) {
       setErrors({ general: error.message });
@@ -141,16 +148,21 @@ const VenueManagerRegister = () => {
     <div className="register-container">
       <h1>공연장 관리자 회원가입</h1>
       
-      {/* 진행 단계 표시 */}
-      <div className="step-indicator">
-        <div className={`step ${step >= 1 ? 'active' : ''}`}>기본정보</div>
-        <div className={`step ${step >= 2 ? 'active' : ''}`}>서류업로드</div>
-        <div className={`step ${step >= 3 ? 'active' : ''}`}>완료</div>
-      </div>
-
-      {/* 1단계: 기본정보 입력 */}
-      {step === 1 && (
-        <form onSubmit={handleSubmitStep1} className="register-form">
+      {/* 회원가입 완료 메시지 */}
+      {isCompleted ? (
+        <div className="success-message">
+          <h2>회원가입 신청이 완료되었습니다!</h2>
+          <p>
+            제출하신 정보를 검토한 후 관리자가 승인할 때까지 기다려주세요.<br/>
+            승인이 완료되면 등록하신 이메일로 안내 메일이 발송됩니다.
+          </p>
+          <button onClick={() => window.location.href='/'} className="home-button">
+            메인으로 돌아가기
+          </button>
+        </div>
+      ) : (
+        /* 한 페이지에 모든 정보 입력 폼 */
+        <form onSubmit={handleSubmitRegistration} className="register-form">
           <div className="form-group">
             <label>이메일</label>
             <input
@@ -220,19 +232,18 @@ const VenueManagerRegister = () => {
             {errors.venue_id && <span className="error">{errors.venue_id}</span>}
           </div>
 
-          {errors.general && <span className="error general">{errors.general}</span>}
-          
-          <button type="submit" className="submit-button" disabled={isLoading}>
-            {isLoading ? '처리중...' : '다음 단계로'}
-          </button>
-        </form>
-      )}
+          <div className="form-group">
+            <label>사업자등록번호</label>
+            <input
+              type="text"
+              name="business_registration_number"
+              value={formData.business_registration_number}
+              onChange={handleChange}
+              placeholder="'-' 없이 입력해주세요 (예: 1234567890)"
+            />
+            {errors.business_registration_number && <span className="error">{errors.business_registration_number}</span>}
+          </div>
 
-
-
-      {/* 2단계: 사업자등록증 업로드 */}
-      {step === 2 && (
-        <form onSubmit={handleSubmitRegistration} className="register-form">
           <div className="form-group">
             <label>사업자등록증 업로드</label>
             <input
@@ -259,20 +270,6 @@ const VenueManagerRegister = () => {
             {isLoading ? '처리중...' : '회원가입 완료'}
           </button>
         </form>
-      )}
-
-      {/* 3단계: 회원가입 완료 */}
-      {step === 3 && (
-        <div className="success-message">
-          <h2>회원가입 신청이 완료되었습니다!</h2>
-          <p>
-            제출하신 정보를 검토한 후 관리자가 승인할 때까지 기다려주세요.<br/>
-            승인이 완료되면 등록하신 이메일로 안내 메일이 발송됩니다.
-          </p>
-          <button onClick={() => window.location.href='/'} className="home-button">
-            메인으로 돌아가기
-          </button>
-        </div>
       )}
     </div>
   );

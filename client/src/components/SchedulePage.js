@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 // eslint-disable-next-line no-undef
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import Tesseract from 'tesseract.js';
 import './SchedulePage.css';
 import venues from '../venues.json';
 
@@ -119,11 +120,40 @@ const SchedulePage = ({ language }) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
+        // 이미지 Base64로 상태에 저장
         if (isEditing) {
           setEditingSchedule(prev => ({ ...prev, poster_image: reader.result }));
         } else {
           setNewEvent(prev => ({ ...prev, poster_image: reader.result }));
+        }
+
+        // OCR로 텍스트 추출
+        try {
+          const result = await Tesseract.recognize(
+            file,
+            'kor+eng', // 한국어+영어 인식
+            { logger: m => console.log(m) } // 진행상황 로그 출력
+          );
+          
+          const extractedText = result.data.text.trim();
+          if (extractedText) {
+            // 추출된 텍스트를 description 필드에 자동 입력
+            if (isEditing) {
+              setEditingSchedule(prev => ({ 
+                ...prev, 
+                description: prev.description ? `${prev.description}\n\n[OCR 추출 텍스트]\n${extractedText}` : extractedText 
+              }));
+            } else {
+              setNewEvent(prev => ({ 
+                ...prev, 
+                description: prev.description ? `${prev.description}\n\n[OCR 추출 텍스트]\n${extractedText}` : extractedText 
+              }));
+            }
+            console.log('OCR로 추출된 텍스트:', extractedText);
+          }
+        } catch (ocrError) {
+          console.error('OCR 텍스트 추출 실패:', ocrError);
         }
       };
       reader.readAsDataURL(file);
