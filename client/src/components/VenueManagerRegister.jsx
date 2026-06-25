@@ -71,21 +71,6 @@ const VenueManagerRegister = () => {
     }
   };
 
-  // 기본정보 유효성 검사
-  const validateStep1 = () => {
-    const newErrors = {};
-    if (!formData.email) newErrors.email = '이메일을 입력해주세요';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = '유효한 이메일 형식이 아닙니다';
-    if (!formData.password) newErrors.password = '비밀번호를 입력해주세요';
-    else if (formData.password.length < 8) newErrors.password = '비밀번호는 8자 이상이어야 합니다';
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = '비밀번호가 일치하지 않습니다';
-    if (!formData.phone_number) newErrors.phone_number = '전화번호를 입력해주세요';
-    if (!formData.venue_id) newErrors.venue_id = '공연장을 선택해주세요';
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   // 모든 정보를 한번에 유효성 검사
   const validateForm = () => {
     const newErrors = {};
