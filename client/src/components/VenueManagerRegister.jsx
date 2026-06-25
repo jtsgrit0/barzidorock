@@ -19,37 +19,36 @@ const VenueManagerRegister = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // area 영문명을 한국어 지역명으로 매핑 - 컴포넌트 외부에 정의하거나 useMemo로 캐싱
-  const areaToKorean = React.useMemo(() => ({
+  // area 영문명을 한국어 지역명으로 매핑
+  const areaToKorean = {
     'hongdae': '홍대',
     'gangnam': '강남',
     'itaewon': '이태원'
-  }), []);
+  };
 
-  // venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류 - 한번만 계산되도록 useMemo 사용
-  const processedVenues = React.useMemo(() => {
-    return venuesData.map(venue => {
-      const region = areaToKorean[venue.area] || venue.area;
-      return {
-        id: venue.id,
-        name: venue.name.ko, // 한국어 공연장 이름 사용
-        region: region // area를 한국어 지역명으로 변환
-      };
-    });
-  }, [venuesData, areaToKorean]);
+  // venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류
+  const processedVenues = venuesData.map(venue => {
+    const region = areaToKorean[venue.area] || venue.area;
 
-  // 고유한 지역 목록 추출 - 한번만 계산되도록 useMemo 사용
-  const regions = React.useMemo(() => {
-    return [...new Set(processedVenues.map(venue => venue.region))];
-  }, [processedVenues]);
+    return {
+      id: venue.id,
+      name: venue.name.ko, // 한국어 공연장 이름 사용
+      region: region // area를 한국어 지역명으로 변환
+    };
+  });
 
+  // 고유한 지역 목록 추출
+  const regions = [...new Set(processedVenues.map(venue => venue.region))];
+  
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   // 선택된 지역에 따라 공연장 목록 필터링
   useEffect(() => {
+
     if (selectedRegion) {
       const filtered = processedVenues.filter(venue => venue.region === selectedRegion);
+
       setFilteredVenues(filtered);
     } else {
       setFilteredVenues([]);
@@ -67,23 +66,23 @@ const VenueManagerRegister = () => {
     const { name, value, files } = e.target;
     if (files) {
       const file = files[0];
-      // 먼저 파일을 상태에 저장해서 파일 이름이 즉시 표시되도록 함
-      setFormData(prev => ({ ...prev, [name]: file }));
+      setFormData({ ...formData, [name]: file });
       
-      // 사업자등록증 파일인 경우 OCR로 텍스트 추출 (백그라운드에서 처리)
+      // 사업자등록증 파일인 경우 OCR로 텍스트 추출
       if (name === 'business_registration_file') {
         Tesseract.recognize(
           file,
           'kor', // 한국어 OCR
-          { logger: null } // 로그 출력 비활성화 (성능 개선)
+          { logger: m => console.log(`OCR 진행: ${m.status} ${Math.round(m.progress * 100)}%`) }
         ).then(({ data: { text } }) => {
+    
           setFormData(prev => ({ ...prev, business_registration_text: text }));
         }).catch(err => {
-          console.error('OCR 처리 오류:', err); // 에러 로그만 유지
+          console.error('OCR 처리 오류:', err);
         });
       }
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -146,7 +145,7 @@ const VenueManagerRegister = () => {
 
   return (
     <div className="register-container">
-      <h1></h1>
+
       
       {/* 회원가입 완료 메시지 */}
       {isCompleted ? (
@@ -250,16 +249,6 @@ const VenueManagerRegister = () => {
             {formData.business_registration_file && (
               <div className="file-info">
                 선택된 파일: {formData.business_registration_file.name}
-                {/* 이미지 파일인 경우 미리보기 표시 */}
-                {formData.business_registration_file.type.startsWith('image/') && (
-                  <div style={{ marginTop: '10px' }}>
-                    <img 
-                      src={URL.createObjectURL(formData.business_registration_file)} 
-                      alt="사업자등록증 미리보기"
-                      style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '5px' }}
-                    />
-                  </div>
-                )}
               </div>
             )}
           </div>
