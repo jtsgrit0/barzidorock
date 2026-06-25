@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
   try {
     // 요청 바디에서 필요한 필드 추출
-    const { email, password, phone_number, venue_id, business_registration_file } = req.body;
+    const { email, password, phone_number, venue_id, business_registration_file, business_registration_text } = req.body;
     
     // 필수 필드 검증
     if (!email || !password || !phone_number || !venue_id || !business_registration_file) {
@@ -49,6 +49,7 @@ module.exports = async (req, res) => {
         phone_number, 
         venue_id, 
         business_registration_file,
+        business_registration_text,
         is_approved,
         created_at
       ) VALUES (
@@ -57,6 +58,7 @@ module.exports = async (req, res) => {
         ${phone_number},
         ${venue_id},
         ${business_registration_file},
+        ${business_registration_text || ''},
         false,
         NOW()
       ) RETURNING id, email, venue_id, is_approved;

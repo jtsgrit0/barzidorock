@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import venuesData from '../venues.json';
+import Tesseract from 'tesseract.js';
 import './VenueManagerRegister.css';
 
 const API_BASE_URL = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
@@ -12,7 +13,8 @@ const VenueManagerRegister = () => {
     confirmPassword: '',
     phone_number: '',
     venue_id: '',
-    business_registration_file: null
+    business_registration_file: null,
+    business_registration_text: '' // OCR로 추출된 텍스트 저장
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +66,22 @@ const VenueManagerRegister = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
-      setFormData({ ...formData, [name]: files[0] });
+      const file = files[0];
+      setFormData({ ...formData, [name]: file });
+      
+      // 사업자등록증 파일인 경우 OCR로 텍스트 추출
+      if (name === 'business_registration_file') {
+        Tesseract.recognize(
+          file,
+          'kor', // 한국어 OCR
+          { logger: m => console.log(`OCR 진행: ${m.status} ${Math.round(m.progress * 100)}%`) }
+        ).then(({ data: { text } }) => {
+          console.log('추출된 사업자등록증 텍스트:', text);
+          setFormData(prev => ({ ...prev, business_registration_text: text }));
+        }).catch(err => {
+          console.error('OCR 처리 오류:', err);
+        });
+      }
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -108,7 +125,8 @@ const VenueManagerRegister = () => {
             password: formData.password,
             phone_number: formData.phone_number,
             venue_id: formData.venue_id,
-            business_registration_file: base64File
+            business_registration_file: base64File,
+            business_registration_text: formData.business_registration_text
           })
         });
 
