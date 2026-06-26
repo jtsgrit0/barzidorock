@@ -9,7 +9,6 @@ const CACHE_EXPIRY = 3600000;
 const API_BASE_URLS = [
   process.env.REACT_APP_API_URL,
   'https://barzidorock.vercel.app',
-  typeof window !== 'undefined' ? window.location.origin : '',
 ].filter(Boolean);
 
 const normalizeEvent = (event, index = 0) => {
