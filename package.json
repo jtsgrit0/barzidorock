@@ -21,5 +21,8 @@
     "puppeteer": "10.4.0",
     "puppeteer-core": "10.4.0",
     "tesseract.js": "^7.0.0"
+  },
+  "scripts": {
+    "migrate": "node scripts/migrate.js"
   }
 }
