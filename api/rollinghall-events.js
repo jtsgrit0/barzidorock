@@ -55,75 +55,61 @@ async function fetchRollingHallEvents() {
     }
 
     const events = [];
-    const eventLinks = $('a[href*="com_board_basic=read_form"]');
-    debugMessages.push(`Found ${eventLinks.length} potential event links using general selector.`);
-
     for (let i = 0; i < eventLinks.length; i++) {
-      const linkElement = $(eventLinks[i]);
-      debugMessages.push(`Processing link ${i + 1}: ${linkElement.prop('outerHTML')}`);
+      const linkElement = eventLinks[i];
+      const titleSpan = $(linkElement).find('span.gallery_title');
 
-      let title = linkElement.text().trim();
-      if (!title) {
-        // If direct text is empty, try to find a span.gallery_title
-        const titleSpan = linkElement.find('span.gallery_title');
-        if (titleSpan.length > 0) {
-          title = titleSpan.text().trim();
-          debugMessages.push(`  Title extracted from span.gallery_title: '${title}'`);
-        } else {
-          // If still no title, try to find any span or div within the link
-          const childTextElement = linkElement.find('span, div').first();
-          if (childTextElement.length > 0) {
-            title = childTextElement.text().trim();
-            debugMessages.push(`  Title extracted from first child span/div: '${title}'`);
-          }
-        }
-      } else {
-        debugMessages.push(`  Title extracted directly from link: '${title}'`);
-      }
-
-      if (!title) {
-        debugMessages.push(`Skipping event ${i + 1} due to empty title.`);
+      // span.gallery_title이 없는 링크는 건너뜁니다.
+      if (titleSpan.length === 0) {
+        debugMessages.push(`Skipping link ${i + 1} because it does not contain span.gallery_title.`);
         continue;
       }
 
-      const detailPageLink = linkElement.attr('href');
-      const parentTr = linkElement.closest('tr');
-      
-      let date = '';
-      const dateTr = parentTr.next('tr');
-      if (dateTr.length > 0) {
-        const dateTd = dateTr.find('td.gallery_etc'); // Try specific selector first
-        let dateText = '';
-        if (dateTd.length > 0) {
-          dateText = dateTd.text();
-          debugMessages.push(`  Date text from td.gallery_etc: '${dateText}'`);
-        } else {
-          dateText = dateTr.text(); // Fallback to full row text
-          debugMessages.push(`  Date text from next tr: '${dateText}'`);
-        }
+      debugMessages.push(`Processing event ${i + 1}:`);
+      debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
+      debugMessages.push(`  Parent outerHTML: ${$(linkElement).parent().prop('outerHTML')}`);
 
-        const dateMatch = dateText.match(/(\d{4})\S*\s*(\d{2})\S*\s*(\d{2})\S*/);
+      const title = titleSpan.text().trim();
+      const detailPageLink = $(linkElement).attr('href');
+
+      // <a> 태그의 가장 가까운 <tr> 부모 요소를 찾고, 그 안에서 "공연일" 텍스트를 포함하는 <p> 태그를 찾습니다.
+      const parentTr = $(linkElement).closest('tr');
+      debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`);
+      
+      // 제목 <tr> 바로 다음 <tr>에 날짜 정보가 있는지 확인
+      const dateTr = parentTr.next('tr');
+      const dateTd = dateTr.find('td.gallery_etc');
+      debugMessages.push(`  Date TR outerHTML: ${dateTr.prop('outerHTML')}`);
+      debugMessages.push(`  Date TD outerHTML: ${dateTd.prop('outerHTML')}`);
+
+      let date = '';
+      if (dateTd.length > 0) {
+        const dateText = dateTd.text();
+        debugMessages.push(`  Date TD text (raw): '${dateText}'`); // 원본 텍스트 디버그
+        // 깨진 한글 문자 대신 숫자 패턴에 집중하여 날짜를 추출
+        const dateMatch = dateText.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
+        debugMessages.push(`  Date regex match result: ${JSON.stringify(dateMatch)}`); // 정규식 매칭 결과 디버그
         if (dateMatch) {
+          // 추출된 연, 월, 일을 사용하여 날짜 문자열 재구성
           date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
         }
+        debugMessages.push(`  Final extracted date: '${date}'`); // 최종 추출된 날짜 디버그
       }
-      debugMessages.push(`  Extracted date: '${date}'`);
 
+      // 이미지 정보 추출
+      // linkElement는 제목 <a> 태그입니다.
+      // 이미지 <img> 태그는 제목 <a> 태그와 다른 <tr>에 있습니다.
+      // 제목 <a> 태그에서 가장 가까운 <table> 부모 요소를 찾습니다.
+      const eventTable = $(linkElement).closest('table');
+      debugMessages.push(`  eventTable outerHTML: ${eventTable.prop('outerHTML')}`);
       let image = null;
-      const eventTable = linkElement.closest('table');
       if (eventTable.length > 0) {
-        // Try specific image selector first
+        // 해당 테이블 내에서 이미지 <img> 태그를 찾습니다.
+        // 이미지는 <td valign="bottom" align="center"> 안에 있습니다.
         const imageElement = eventTable.find('td[valign="bottom"][align="center"] img');
+        debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`);
         if (imageElement.length > 0) {
           image = imageElement.attr('src');
-          debugMessages.push(`  Image found with specific selector: ${image}`);
-        } else {
-          // Fallback to finding any image in the table
-          const allImagesInTable = eventTable.find('img');
-          if (allImagesInTable.length > 0) {
-            image = $(allImagesInTable[0]).attr('src');
-            debugMessages.push(`  Image found with general selector: ${image}`);
-          }
         }
       }
 
