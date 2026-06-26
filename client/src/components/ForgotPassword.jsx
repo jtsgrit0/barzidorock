@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ForgotPassword.css'; // CSS 파일도 함께 생성할 예정
 
-const API_BASE_URL = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app'; // 기존 API URL 재사용
+const API_BASE_URL = process.env.REACT_APP_API_URL || window.location.origin;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

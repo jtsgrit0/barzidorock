@@ -41,7 +41,7 @@ const TicketsPage = () => {
 
     const refreshEvents = async () => {
       try {
-        let apiUrl = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
+        let apiUrl = process.env.REACT_APP_API_URL || window.location.origin;
         const response = await fetch(`${apiUrl}/api/rollinghall-events`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

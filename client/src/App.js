@@ -27,13 +27,7 @@ function App() {
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  const initialOpenInfoWindows = [
-    "ChIJ8fpuNnWjfDURtBYpCJ1AN7o", // 프리즘홀
-    "a1b2c3d4-e5f6-7890-1234-567890abcdef", // Vel.R
-    "f1e2d3c4-b5a6-9876-5432-10fedcba9876", // 프리버드
-    "1a2b3c4d-5e6f-7890-abcd-ef1234567890", // 상상마당
-    "fedcba98-7654-3210-fedc-ba9876543210", // 무신사개러지
-  ];
+  const initialOpenInfoWindows = [];
 
   // language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
   const language = i18n.language;

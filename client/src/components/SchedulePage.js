@@ -5,6 +5,7 @@ import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recapt
 import Tesseract from 'tesseract.js';
 import './SchedulePage.css';
 import venues from '../venues.json';
+import fallbackSchedules from '../schedulesFallback.json';
 
 const SchedulePage = ({ language }) => {
   const [schedules, setSchedules] = useState([]);
@@ -29,7 +30,28 @@ const SchedulePage = ({ language }) => {
   // eslint-disable-next-line no-undef
   const { executeRecaptcha } = useGoogleReCaptcha();
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
-  const API_BASE_URL = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
+  const API_BASE_URL = process.env.REACT_APP_API_URL || window.location.origin;
+  const formatScheduleRows = useCallback((scheduleData) => {
+    return scheduleData.map(item => {
+      const venue = venues.find(v => v.id === item.venue_id);
+      // DB에 저장된 UTC 시간을 한국 시간(KST, UTC+9)으로 변환해서 화면에 표시
+      const utcDate = new Date(item.event_date);
+      const koreaDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000));
+      const formattedDate = koreaDate.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Asia/Seoul'
+      });
+      return {
+        ...item,
+        venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue',
+        korean_event_date: formattedDate
+      };
+    }).sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+  }, [language]);
 
   useEffect(() => {
     // 페이지 로드 시 로컬스토리지에서 로그인 상태 복원
@@ -44,53 +66,13 @@ const SchedulePage = ({ language }) => {
   const fetchSchedules = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/schedules`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-
-      
-      // API 응답이 비어있을 경우 테스트용 데이터를 추가해서 렌더링 테스트
-      let scheduleData = data;
-      if (scheduleData.length === 0) {
-        scheduleData = [
-          {
-            id: 1,
-            venue_id: 'rollinghall',
-            event_date: '2026-07-15T19:00:00.000Z',
-            event_name: 'Retro Night',
-            description: '클래식 록과 함께하는 밤',
-            poster_image: ''
-          }
-        ];
-      }
-      
-      const formattedData = scheduleData.map(item => {
-        const venue = venues.find(v => v.id === item.venue_id);
-        // DB에 저장된 UTC 시간을 한국 시간(KST, UTC+9)으로 변환해서 화면에 표시
-        const utcDate = new Date(item.event_date);
-        const koreaDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000));
-        const formattedDate = koreaDate.toLocaleString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          timeZone: 'Asia/Seoul'
-        });
-        return {
-          ...item,
-          venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue',
-          korean_event_date: formattedDate
-        };
-      });
-      // 시작 시간이 빠른 순서대로 정렬
-      formattedData.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
-      setSchedules(formattedData);
-    } catch (error) {
-      console.error('Error fetching schedules:', error);
+      const data = response.ok ? await response.json() : fallbackSchedules;
+      const scheduleData = Array.isArray(data) ? data : fallbackSchedules;
+      setSchedules(formatScheduleRows(scheduleData));
+    } catch {
+      setSchedules(formatScheduleRows(fallbackSchedules));
     }
-  }, [language, API_BASE_URL]);
+  }, [API_BASE_URL, formatScheduleRows]);
 
   useEffect(() => {
     fetchSchedules();
