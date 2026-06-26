@@ -158,6 +158,21 @@
   margin-bottom: 20px;
 }
 
+.forgot-password-link {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: #ff6b6b;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  color: #ff5252;
+  text-decoration: underline;
+}
+
 /* 캡차 이미지 위치 조정 - 탭 메뉴에 가리지 않도록 위로 올림 */
 .captcha-container {
   margin-top: 20px;

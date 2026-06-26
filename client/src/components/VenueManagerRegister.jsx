@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import venuesData from '../venues.json';
 import Tesseract from 'tesseract.js';
 import './VenueManagerRegister.css';
@@ -258,6 +259,9 @@ const VenueManagerRegister = () => {
           <button type="submit" className="submit-button" disabled={isLoading}>
             {isLoading ? '처리중...' : '회원가입 완료'}
           </button>
+          <Link to="/forgot-password" className="forgot-password-link">
+            비밀번호를 잊으셨나요?
+          </Link>
         </form>
       )}
     </div>
