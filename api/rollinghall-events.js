@@ -55,61 +55,50 @@ async function fetchRollingHallEvents() {
     }
 
     const events = [];
-    for (let i = 0; i < eventLinks.length; i++) {
-      const linkElement = eventLinks[i];
-      const titleSpan = $(linkElement).find('span.gallery_title');
-
-      // span.gallery_title이 없는 링크는 건너뜁니다.
-      if (titleSpan.length === 0) {
-        debugMessages.push(`Skipping link ${i + 1} because it does not contain span.gallery_title.`);
+    // 모든 게시물 행을 찾아서 직접 처리합니다 (웹사이트 구조 변경에 맞춤)
+    const allRows = $('tr');
+    debugMessages.push(`Found ${allRows.length} total rows in the page.`);
+    
+    for (let i = 0; i < allRows.length; i++) {
+      const row = allRows[i];
+      // 제목 링크 찾기
+      const linkElement = $(row).find('a[href*="com_board_basic=read_form"]');
+      if (linkElement.length === 0) continue;
+      
+      // 링크에서 직접 제목 텍스트 추출 (span.gallery_title이 없어도 작동하도록)
+      const title = linkElement.text().trim();
+      if (!title) {
+        debugMessages.push(`Skipping row ${i + 1} because title is empty.`);
         continue;
       }
-
-      debugMessages.push(`Processing event ${i + 1}:`);
-      debugMessages.push(`  Link outerHTML: ${$(linkElement).prop('outerHTML')}`);
-      debugMessages.push(`  Parent outerHTML: ${$(linkElement).parent().prop('outerHTML')}`);
-
-      const title = titleSpan.text().trim();
-      const detailPageLink = $(linkElement).attr('href');
-
-      // <a> 태그의 가장 가까운 <tr> 부모 요소를 찾고, 그 안에서 "공연일" 텍스트를 포함하는 <p> 태그를 찾습니다.
-      const parentTr = $(linkElement).closest('tr');
-      debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`);
       
-      // 제목 <tr> 바로 다음 <tr>에 날짜 정보가 있는지 확인
+      debugMessages.push(`Processing event ${events.length + 1}:`);
+      debugMessages.push(`  Title: '${title}'`);
+      
+      const detailPageLink = linkElement.attr('href');
+      const parentTr = $(row);
+      
+      // 제목 <tr> 바로 다음 <tr>에서 날짜 정보 찾기
       const dateTr = parentTr.next('tr');
-      const dateTd = dateTr.find('td.gallery_etc');
-      debugMessages.push(`  Date TR outerHTML: ${dateTr.prop('outerHTML')}`);
-      debugMessages.push(`  Date TD outerHTML: ${dateTd.prop('outerHTML')}`);
-
       let date = '';
-      if (dateTd.length > 0) {
-        const dateText = dateTd.text();
-        debugMessages.push(`  Date TD text (raw): '${dateText}'`); // 원본 텍스트 디버그
-        // 깨진 한글 문자 대신 숫자 패턴에 집중하여 날짜를 추출
-        const dateMatch = dateText.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
-        debugMessages.push(`  Date regex match result: ${JSON.stringify(dateMatch)}`); // 정규식 매칭 결과 디버그
+      if (dateTr.length > 0) {
+        const dateText = dateTr.text();
+        debugMessages.push(`  Date row text: '${dateText}'`);
+        const dateMatch = dateText.match(/(\d{4})\S*\s*(\d{2})\S*\s*(\d{2})\S*/);
         if (dateMatch) {
-          // 추출된 연, 월, 일을 사용하여 날짜 문자열 재구성
           date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
         }
-        debugMessages.push(`  Final extracted date: '${date}'`); // 최종 추출된 날짜 디버그
       }
-
-      // 이미지 정보 추출
-      // linkElement는 제목 <a> 태그입니다.
-      // 이미지 <img> 태그는 제목 <a> 태그와 다른 <tr>에 있습니다.
-      // 제목 <a> 태그에서 가장 가까운 <table> 부모 요소를 찾습니다.
-      const eventTable = $(linkElement).closest('table');
-      debugMessages.push(`  eventTable outerHTML: ${eventTable.prop('outerHTML')}`);
+      debugMessages.push(`  Extracted date: '${date}'`);
+      
+      // 이미지 찾기 - 같은 섹션의 모든 img 태그에서 찾기
       let image = null;
-      if (eventTable.length > 0) {
-        // 해당 테이블 내에서 이미지 <img> 태그를 찾습니다.
-        // 이미지는 <td valign="bottom" align="center"> 안에 있습니다.
-        const imageElement = eventTable.find('td[valign="bottom"][align="center"] img');
-        debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`);
-        if (imageElement.length > 0) {
-          image = imageElement.attr('src');
+      const sectionTable = $(row).closest('table');
+      if (sectionTable.length > 0) {
+        const allImagesInTable = sectionTable.find('img');
+        if (allImagesInTable.length > 0) {
+          image = $(allImagesInTable[0]).attr('src');
+          debugMessages.push(`  Found image: ${image}`);
         }
       }
 
