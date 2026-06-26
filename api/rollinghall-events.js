@@ -206,7 +206,11 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     try {
       const result = await fetchRollingHallEvents();
-      res.status(200).json(result);
+      res.status(200).json({
+        events: result.events,
+        error: result.error || null,
+        debug: result.debug || 'No debug information available.'
+      });
     } catch (error) {
       console.error('Error in /api/rollinghall-events endpoint:', error);
       res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.' });
