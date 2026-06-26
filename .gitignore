@@ -5,3 +5,4 @@ client/build/
 database.db
 .vercel
 .env*
+.DS_Store
