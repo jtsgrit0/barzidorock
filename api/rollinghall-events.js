@@ -55,50 +55,75 @@ async function fetchRollingHallEvents() {
     }
 
     const events = [];
-    // 모든 게시물 행을 찾아서 직접 처리합니다 (웹사이트 구조 변경에 맞춤)
-    const allRows = $('tr');
-    debugMessages.push(`Found ${allRows.length} total rows in the page.`);
-    
-    for (let i = 0; i < allRows.length; i++) {
-      const row = allRows[i];
-      // 제목 링크 찾기
-      const linkElement = $(row).find('a[href*="com_board_basic=read_form"]');
-      if (linkElement.length === 0) continue;
-      
-      // 링크에서 직접 제목 텍스트 추출 (span.gallery_title이 없어도 작동하도록)
-      const title = linkElement.text().trim();
+    const eventLinks = $('a[href*="com_board_basic=read_form"]');
+    debugMessages.push(`Found ${eventLinks.length} potential event links using general selector.`);
+
+    for (let i = 0; i < eventLinks.length; i++) {
+      const linkElement = $(eventLinks[i]);
+      debugMessages.push(`Processing link ${i + 1}: ${linkElement.prop('outerHTML')}`);
+
+      let title = linkElement.text().trim();
       if (!title) {
-        debugMessages.push(`Skipping row ${i + 1} because title is empty.`);
+        // If direct text is empty, try to find a span.gallery_title
+        const titleSpan = linkElement.find('span.gallery_title');
+        if (titleSpan.length > 0) {
+          title = titleSpan.text().trim();
+          debugMessages.push(`  Title extracted from span.gallery_title: '${title}'`);
+        } else {
+          // If still no title, try to find any span or div within the link
+          const childTextElement = linkElement.find('span, div').first();
+          if (childTextElement.length > 0) {
+            title = childTextElement.text().trim();
+            debugMessages.push(`  Title extracted from first child span/div: '${title}'`);
+          }
+        }
+      } else {
+        debugMessages.push(`  Title extracted directly from link: '${title}'`);
+      }
+
+      if (!title) {
+        debugMessages.push(`Skipping event ${i + 1} due to empty title.`);
         continue;
       }
-      
-      debugMessages.push(`Processing event ${events.length + 1}:`);
-      debugMessages.push(`  Title: '${title}'`);
-      
+
       const detailPageLink = linkElement.attr('href');
-      const parentTr = $(row);
+      const parentTr = linkElement.closest('tr');
       
-      // 제목 <tr> 바로 다음 <tr>에서 날짜 정보 찾기
-      const dateTr = parentTr.next('tr');
       let date = '';
+      const dateTr = parentTr.next('tr');
       if (dateTr.length > 0) {
-        const dateText = dateTr.text();
-        debugMessages.push(`  Date row text: '${dateText}'`);
+        const dateTd = dateTr.find('td.gallery_etc'); // Try specific selector first
+        let dateText = '';
+        if (dateTd.length > 0) {
+          dateText = dateTd.text();
+          debugMessages.push(`  Date text from td.gallery_etc: '${dateText}'`);
+        } else {
+          dateText = dateTr.text(); // Fallback to full row text
+          debugMessages.push(`  Date text from next tr: '${dateText}'`);
+        }
+
         const dateMatch = dateText.match(/(\d{4})\S*\s*(\d{2})\S*\s*(\d{2})\S*/);
         if (dateMatch) {
           date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
         }
       }
       debugMessages.push(`  Extracted date: '${date}'`);
-      
-      // 이미지 찾기 - 같은 섹션의 모든 img 태그에서 찾기
+
       let image = null;
-      const sectionTable = $(row).closest('table');
-      if (sectionTable.length > 0) {
-        const allImagesInTable = sectionTable.find('img');
-        if (allImagesInTable.length > 0) {
-          image = $(allImagesInTable[0]).attr('src');
-          debugMessages.push(`  Found image: ${image}`);
+      const eventTable = linkElement.closest('table');
+      if (eventTable.length > 0) {
+        // Try specific image selector first
+        const imageElement = eventTable.find('td[valign="bottom"][align="center"] img');
+        if (imageElement.length > 0) {
+          image = imageElement.attr('src');
+          debugMessages.push(`  Image found with specific selector: ${image}`);
+        } else {
+          // Fallback to finding any image in the table
+          const allImagesInTable = eventTable.find('img');
+          if (allImagesInTable.length > 0) {
+            image = $(allImagesInTable[0]).attr('src');
+            debugMessages.push(`  Image found with general selector: ${image}`);
+          }
         }
       }
 
