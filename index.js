@@ -201,6 +201,14 @@ app.get('/api/rollinghall-events', async (req, res) => {
   }
 });
 
+// 비밀번호 재설정 요청 엔드포인트 (forgot-password)
+const forgotPasswordHandler = require('./api/auth/forgot-password');
+app.post('/api/auth/forgot-password', (req, res) => forgotPasswordHandler(req, res));
+
+// 비밀번호 재설정 엔드포인트 (reset-password)
+const resetPasswordHandler = require('./api/auth/reset-password');
+app.post('/api/auth/reset-password', (req, res) => resetPasswordHandler(req, res));
+
 // 기본 라우트
 app.get('/', (req, res) => {
   res.send('Barzidorock Backend API is running!');

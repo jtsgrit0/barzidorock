@@ -10,6 +10,7 @@ import OptionsPage from './components/OptionsPage';
 import TicketsPage from './components/TicketsPage';
 import VenueManagerRegister from './components/VenueManagerRegister';
 import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import venuesData from './venues.json';
 import './App.css'; // Import App.css for popup styling
 import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
@@ -181,6 +182,7 @@ function App() {
               <Route path="/schedule" element={<SchedulePage language={language} />} />
               <Route path="/venue-register" element={<VenueManagerRegister />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/favorites" element={
                 <FavoritesPage 
                   venues={venues} 

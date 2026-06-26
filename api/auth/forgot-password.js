@@ -1,5 +1,6 @@
 const { sql } = require('@vercel/postgres');
 const crypto = require('crypto');
+const nodemailer = require('nodemailer'); // Nodemailer import
 
 module.exports = async (req, res) => {
   // CORS 설정
@@ -53,11 +54,36 @@ module.exports = async (req, res) => {
       WHERE id = ${userId}
     `;
 
-    // 4. 이메일 전송 (자리 표시자)
-    // 실제 이메일 전송 로직은 여기에 구현되어야 합니다 (예: Nodemailer 사용).
-    // 현재는 콘솔에 링크를 로깅합니다.
+    // 4. 이메일 전송
     const resetLink = `https://barzidorock.vercel.app/reset-password?token=${resetToken}`;
-    console.log(`비밀번호 재설정 링크: ${resetLink} (이메일: ${email})`);
+
+    // Nodemailer transporter 설정
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: process.env.EMAIL_PORT == 465, // true for 465, false for other ports
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // 이메일 내용
+    const mailOptions = {
+      from: process.env.EMAIL_USER, // 발신자 이메일 주소
+      to: email, // 수신자 이메일 주소
+      subject: '비밀번호 재설정 요청',
+      html: `
+        <p>안녕하세요,</p>
+        <p>비밀번호 재설정 요청을 받았습니다. 아래 링크를 클릭하여 비밀번호를 재설정해주세요:</p>
+        <p><a href="${resetLink}">${resetLink}</a></p>
+        <p>이 링크는 1시간 후에 만료됩니다.</p>
+        <p>만약 이 요청을 하지 않았다면, 이 이메일을 무시하셔도 됩니다.</p>
+      `,
+    };
+
+    // 이메일 전송
+    await transporter.sendMail(mailOptions);
 
     return res.status(200).json({ message: '비밀번호 재설정 지침이 이메일로 전송되었습니다.' });
   } catch (error) {
