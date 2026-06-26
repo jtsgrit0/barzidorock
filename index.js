@@ -221,6 +221,17 @@ app.get('/api/rollinghall-events', async (req, res) => {
   }
 });
 
+// 스케줄 정보를 제공하는 API 엔드포인트
+app.get('/api/schedules', async (req, res) => {
+  try {
+    const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date ASC;`;
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching schedules:', error);
+    res.status(500).json({ error: 'Failed to fetch schedules.' });
+  }
+});
+
 // 비밀번호 재설정 요청 엔드포인트 (forgot-password)
 const forgotPasswordHandler = require('./api/auth/forgot-password');
 app.post('/api/auth/forgot-password', (req, res) => forgotPasswordHandler(req, res));
