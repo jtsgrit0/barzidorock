@@ -211,8 +211,10 @@ module.exports = async (req, res) => {
       const result = await fetchRollingHallEvents();
       res.status(200).json({
         events: result.events,
+        cached: false, // 캐시가 비활성화되었음을 명시
+        lastFetched: new Date().toISOString(), // 현재 시간을 명시적으로 추가
         error: result.error || null,
-        debug: result.debug || 'No debug information available.'
+        debug: result.debug || 'No debug information available.' // 디버그 정보가 없어도 기본 문자열 포함
       });
     } catch (error) {
       console.error('Error in /api/rollinghall-events endpoint:', error);
