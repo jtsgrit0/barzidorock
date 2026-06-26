@@ -36,8 +36,7 @@ const SchedulePage = ({ language }) => {
       const venue = venues.find(v => v.id === item.venue_id);
       // DB에 저장된 UTC 시간을 한국 시간(KST, UTC+9)으로 변환해서 화면에 표시
       const utcDate = new Date(item.event_date);
-      const koreaDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000));
-      const formattedDate = koreaDate.toLocaleString('ko-KR', {
+      const formattedDate = utcDate.toLocaleString('ko-KR', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -67,7 +66,7 @@ const SchedulePage = ({ language }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/schedules`);
       const data = response.ok ? await response.json() : fallbackSchedules;
-      const scheduleData = Array.isArray(data) ? data : fallbackSchedules;
+      const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
       setSchedules(formatScheduleRows(scheduleData));
     } catch {
       setSchedules(formatScheduleRows(fallbackSchedules));

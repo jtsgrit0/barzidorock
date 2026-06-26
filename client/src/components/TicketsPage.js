@@ -3,94 +3,168 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 // 캐시 설정: 1시간(3600000ms) 동안 캐시 유지
-const CACHE_KEY = 'rollinghall_events_cache';
+// v2로 올려서 예전 잘못된 캐시 형식을 자동으로 무시한다.
+const CACHE_KEY = 'rollinghall_events_cache_v2';
 const CACHE_EXPIRY = 3600000;
+const API_BASE_URLS = [
+  process.env.REACT_APP_API_URL,
+  'https://barzidorock.vercel.app',
+  typeof window !== 'undefined' ? window.location.origin : '',
+].filter(Boolean);
+
+const normalizeEvent = (event, index = 0) => {
+  const title = typeof event?.title === 'string' && event.title.trim()
+    ? event.title.trim()
+    : 'Rolling Hall';
+  const date = typeof event?.date === 'string' ? event.date.trim() : '';
+  const image = typeof event?.image === 'string' && event.image.trim()
+    ? event.image.trim()
+    : `https://picsum.photos/400/300?random=${index + 1}`;
+  const rawTicketUrl = typeof event?.ticketUrl === 'string' ? event.ticketUrl.trim() : '';
+  const ticketUrl = rawTicketUrl.replace(/^`(.*)`$/, '$1').trim() || 'https://www.rollinghall.co.kr';
+
+  return {
+    ...event,
+    id: event?.id ?? `rh-${index + 1}`,
+    title,
+    date,
+    image,
+    ticketUrl,
+  };
+};
+
+const parseEventDate = (dateText) => {
+  if (typeof dateText !== 'string' || !dateText.trim()) {
+    return null;
+  }
+
+  const koreanMatch = dateText.match(/(\d{4})년\s*(\d{2})월\s*(\d{2})일/);
+  if (koreanMatch) {
+    return new Date(Number(koreanMatch[1]), Number(koreanMatch[2]) - 1, Number(koreanMatch[3]));
+  }
+
+  const parsedDate = new Date(dateText);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+};
+
+const readCachedEvents = () => {
+  try {
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (!cachedData) {
+      return [];
+    }
+
+    const parsed = JSON.parse(cachedData);
+    const timestamp = typeof parsed?.timestamp === 'number' ? parsed.timestamp : 0;
+    if (Date.now() - timestamp >= CACHE_EXPIRY) {
+      return [];
+    }
+
+    const rawEvents = Array.isArray(parsed?.data?.events)
+      ? parsed.data.events
+      : Array.isArray(parsed?.data)
+        ? parsed.data
+        : [];
+
+    return rawEvents.map(normalizeEvent).filter(event => event.date);
+  } catch (error) {
+    console.warn('캐시 데이터 파싱 오류, 캐시를 초기화합니다:', error);
+    localStorage.removeItem(CACHE_KEY);
+    return [];
+  }
+};
+
+const fetchRollingHallEvents = async () => {
+  let lastError = null;
+
+  for (const baseUrl of API_BASE_URLS) {
+    try {
+      const response = await fetch(`${baseUrl}/api/rollinghall-events`);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} from ${baseUrl}`);
+      }
+
+      const data = await response.json();
+      const rawEvents = Array.isArray(data?.events)
+        ? data.events
+        : Array.isArray(data)
+          ? data
+          : [];
+
+      return rawEvents.map(normalizeEvent).filter(event => event.date);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error('Failed to fetch Rolling Hall events.');
+};
 
 const TicketsPage = () => {
   const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      // 1. 먼저 캐시된 데이터가 있는지 확인
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      if (cachedData) {
-        try {
-          const { timestamp, data } = JSON.parse(cachedData);
-          const now = new Date().getTime();
-          
-          // 캐시가 만료되지 않았으면 캐시된 데이터 먼저 사용
-          if (now - timestamp < CACHE_EXPIRY) {
-            setEvents(data.events);
-            setLoading(false);
-            // 백그라운드에서 최신 데이터 업데이트
-            await refreshEvents();
-            return;
-          }
-        } catch (e) {
-          // 캐시 파싱 오류 시 무시하고 새로 불러옴
-          console.warn('캐시 데이터 파싱 오류, 새로 불러옵니다:', e);
-        }
-      }
+    let isActive = true;
 
-      // 캐시가 없거나 만료되었으면 새로 불러오기
-      await refreshEvents();
-    };
-
-    const refreshEvents = async () => {
+    const refreshEvents = async ({ background = false } = {}) => {
       try {
-        let apiUrl = process.env.REACT_APP_API_URL || window.location.origin;
-        const response = await fetch(`${apiUrl}/api/rollinghall-events`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const freshEvents = await fetchRollingHallEvents();
+        if (!isActive) {
+          return;
         }
-        const data = await response.json();
-        
-        // 새로 불러온 데이터를 상태에 저장
-        setEvents(data.events);
-        
-        // localStorage에 캐시 저장 (타임스탬프와 함께)
+
+        setEvents(freshEvents);
         localStorage.setItem(CACHE_KEY, JSON.stringify({
-          timestamp: new Date().getTime(),
-          data: data
+          timestamp: Date.now(),
+          data: { events: freshEvents },
         }));
       } catch (err) {
-        setError(err);
+        console.warn('티켓 정보를 불러오지 못했습니다:', err);
+        if (!isActive) {
+          return;
+        }
+
+        if (!background) {
+          const cachedEvents = readCachedEvents();
+          setEvents(cachedEvents);
+        }
       } finally {
-        setLoading(false);
+        if (isActive) {
+          setLoading(false);
+        }
       }
     };
 
-    fetchEvents();
+    const cachedEvents = readCachedEvents();
+    if (cachedEvents.length > 0) {
+      setEvents(cachedEvents);
+      setLoading(false);
+      void refreshEvents({ background: true });
+    } else {
+      void refreshEvents();
+    }
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   if (loading) {
     return <div className="tickets-page-container">로딩 중...</div>;
   }
 
-  if (error) {
-    return <div className="tickets-page-container">에러: {error.message}</div>;
-  }
-
   // 과거 날짜의 공연은 필터링하고, 필요한 필드명으로 매핑
   const today = new Date();
   today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00으로 설정
   
-  const upcomingEvents = events.filter(event => {
-    // "2026년 07월 31일" 형식의 문자열을 Date 객체로 변환
-    const dateMatch = event.date.match(/(\d{4})년\s*(\d{2})월\s*(\d{2})일/);
-    if (!dateMatch) return false;
-    const eventDate = new Date(dateMatch[1], dateMatch[2] - 1, dateMatch[3]); // 월은 0부터 시작하므로 -1
-    return eventDate >= today; // 오늘 이후의 공연만 표시
-  }).map(event => ({
-    id: event.id,
-    image: event.image.replace(/^https:\/\/www.rollinghall.co.kr/, 'https://www.rollinghall.co.kr'), // 이미지 URL 정규화
-    title: event.title,
-    date: event.date,
-    ticketUrl: event.ticketUrl.replace(/^`(.*)`$/, '$1') // 불필요한 백틱 제거
-  }));
+  const upcomingEvents = (Array.isArray(events) ? events : [])
+    .map((event, index) => normalizeEvent(event, index))
+    .filter(event => {
+      const eventDate = parseEventDate(event.date);
+      return eventDate && eventDate >= today;
+    });
 
   return (
     <div className="tickets-page-container">
