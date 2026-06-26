@@ -14,9 +14,10 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations }) {
-  const [selectedVenue, setSelectedVenue] = useState(null);
+function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows }) {
+  const [openInfoWindows, setOpenInfoWindows] = useState(initialOpenInfoWindows || []);
   const [map, setMap] = useState(null);
+  const openVenues = venues.filter(venue => openInfoWindows.includes(venue.id));
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -27,7 +28,13 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   }, []);
 
   const handleMarkerClick = (venue) => {
-    setSelectedVenue(venue);
+    setOpenInfoWindows(prev => {
+      if (prev.includes(venue.id)) {
+        return prev.filter(id => id !== venue.id);
+      } else {
+        return [...prev, venue.id];
+      }
+    });
     if (map) {
       map.setZoom(16);
 
@@ -42,8 +49,8 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     }
   };
 
-  const handleInfoWindowClose = () => {
-    setSelectedVenue(null);
+  const handleInfoWindowClose = (venueId) => {
+    setOpenInfoWindows(prev => prev.filter(id => id !== venueId));
   };
 
   // 구글맵 기본 POI(관심 지점) 라벨을 숨기는 스타일
@@ -87,10 +94,11 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           />
         ))}
 
-        {selectedVenue && ( // selectedVenue가 설정된 경우에만 InfoWindow를 표시합니다.
+        {openVenues.map((selectedVenue) => (
           <InfoWindow
+            key={selectedVenue.id}
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
-            onCloseClick={handleInfoWindowClose}
+            onCloseClick={() => handleInfoWindowClose(selectedVenue.id)}
           >
             <div style={{ maxWidth: '300px', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all' }}>
               <div style={{ position: 'relative', alignItems: 'center' }}>
@@ -155,7 +163,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
 
             </div>
           </InfoWindow>
-        )}
+        ))}
 
         {userLocation && (
           <OverlayView
