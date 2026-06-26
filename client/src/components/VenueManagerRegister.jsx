@@ -6,6 +6,26 @@ import './VenueManagerRegister.css';
 
 const API_BASE_URL = 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app';
 
+// area 영문명을 한국어 지역명으로 매핑 (컴포넌트 외부에서 한 번만 계산)
+const areaToKorean = {
+  'hongdae': '홍대',
+  'gangnam': '강남',
+  'itaewon': '이태원'
+};
+
+// venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류 (컴포넌트 외부에서 한 번만 계산)
+const processedVenues = venuesData.map(venue => {
+  const region = areaToKorean[venue.area] || venue.area;
+  return {
+    id: venue.id,
+    name: venue.name.ko, // 한국어 공연장 이름 사용
+    region: region // area를 한국어 지역명으로 변환
+  };
+});
+
+// 고유한 지역 목록 추출 (컴포넌트 외부에서 한 번만 계산)
+const regions = [...new Set(processedVenues.map(venue => venue.region))];
+
 const VenueManagerRegister = () => {
   const [isCompleted, setIsCompleted] = useState(false); // 회원가입 완료 여부
   const [formData, setFormData] = useState({
@@ -19,43 +39,20 @@ const VenueManagerRegister = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
-  // area 영문명을 한국어 지역명으로 매핑
-  const areaToKorean = {
-    'hongdae': '홍대',
-    'gangnam': '강남',
-    'itaewon': '이태원'
-  };
-
-  // venues.json에서 모든 공연장 데이터를 가져와 지역별로 분류
-  const processedVenues = venuesData.map(venue => {
-    const region = areaToKorean[venue.area] || venue.area;
-
-    return {
-      id: venue.id,
-      name: venue.name.ko, // 한국어 공연장 이름 사용
-      region: region // area를 한국어 지역명으로 변환
-    };
-  });
-
-  // 고유한 지역 목록 추출
-  const regions = [...new Set(processedVenues.map(venue => venue.region))];
   
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
-  // 선택된 지역에 따라 공연장 목록 필터링
+  // 선택된 지역에 따라 공연장 목록 필터링 (selectedRegion이 변경될 때만 실행)
   useEffect(() => {
-
     if (selectedRegion) {
       const filtered = processedVenues.filter(venue => venue.region === selectedRegion);
-
       setFilteredVenues(filtered);
     } else {
       setFilteredVenues([]);
       setFormData(prev => ({ ...prev, venue_id: '' }));
     }
-  }, [selectedRegion, processedVenues]);
+  }, [selectedRegion]);
 
   // 지역 선택 핸들러
   const handleRegionChange = (e) => {
