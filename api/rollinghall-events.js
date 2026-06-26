@@ -181,6 +181,7 @@ async function fetchRollingHallEvents() {
       }
     }
     debugMessages.push(`Finished scraping. Total events found: ${events.length}`); // Log 6
+    console.log('fetchRollingHallEvents Debug:', debugMessages.join('\n')); // Log to Vercel console
     return { events: events, debug: debugMessages.join('\n') };
   } catch (error) {
     const errorMsg = `Error in fetchRollingHallEvents: ${error.message}`;
@@ -209,16 +210,18 @@ module.exports = async (req, res) => {
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
       const result = await fetchRollingHallEvents();
+      // Ensure debug is always a string
+      const debugOutput = result.debug || 'No debug information available.';
+      console.log('RollingHall API Debug Output:', debugOutput); // Log to Vercel console
+
       res.status(200).json({
         events: result.events,
-        cached: false, // 캐시가 비활성화되었음을 명시
-        lastFetched: new Date().toISOString(), // 현재 시간을 명시적으로 추가
         error: result.error || null,
-        debug: result.debug || 'No debug information available.' // 디버그 정보가 없어도 기본 문자열 포함
+        debug: debugOutput // Use the ensured string debug output
       });
     } catch (error) {
       console.error('Error in /api/rollinghall-events endpoint:', error);
-      res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.' });
+      res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.', debug: `Caught error in module.exports: ${error.message}` }); // Add debug to error response too
     }
   } else {
     res.setHeader('Allow', ['GET', 'OPTIONS']);
