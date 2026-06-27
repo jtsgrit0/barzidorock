@@ -9,7 +9,11 @@ async function fetchRollingHallEvents() {
   const debugMessages = []; // 디버그 메시지를 수집할 배열
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
     if (!response.ok) {
       const errorMsg = `Failed to fetch main page: ${response.status} ${response.statusText}`;
       debugMessages.push(errorMsg);
@@ -124,7 +128,11 @@ async function fetchRollingHallEvents() {
         debugMessages.push(`  Fetching detail page: ${fullDetailPageUrl}`); // Log 3
 
         try {
-          const detailResponse = await fetch(fullDetailPageUrl);
+          const detailResponse = await fetch(fullDetailPageUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+          });
           if (!detailResponse.ok) {
             const detailErrorMsg = `Failed to fetch detail page ${fullDetailPageUrl}: ${detailResponse.status} ${detailResponse.statusText}`;
             debugMessages.push(detailErrorMsg);
