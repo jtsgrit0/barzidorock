@@ -121,14 +121,14 @@ const SchedulePage = ({ language }) => {
           if (extractedText) {
             // 추출된 텍스트를 description 필드에 자동 입력
             if (isEditing) {
-              setEditingSchedule(prev => ({ 
-                ...prev, 
-                description: prev.description ? `${prev.description}\n\n[OCR 추출 텍스트]\n${extractedText}` : extractedText 
+              setEditingSchedule(prev => ({
+                ...prev,
+                description: prev.description ? `${prev.description}\n\n${extractedText}` : extractedText
               }));
             } else {
-              setNewEvent(prev => ({ 
-                ...prev, 
-                description: prev.description ? `${prev.description}\n\n[OCR 추출 텍스트]\n${extractedText}` : extractedText 
+              setNewEvent(prev => ({
+                ...prev,
+                description: prev.description ? `${prev.description}\n\n${extractedText}` : extractedText
               }));
             }
 
