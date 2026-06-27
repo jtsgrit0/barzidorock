@@ -115,6 +115,7 @@ const TicketsPage = () => {
         }
 
         setEvents(freshEvents);
+        console.log('Fetched fresh events:', freshEvents);
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           timestamp: Date.now(),
           data: { events: freshEvents },
@@ -128,6 +129,7 @@ const TicketsPage = () => {
         if (!background) {
           const cachedEvents = readCachedEvents();
           setEvents(cachedEvents);
+          console.log('Loaded cached events:', cachedEvents);
         }
       } finally {
         if (isActive) {
@@ -139,6 +141,7 @@ const TicketsPage = () => {
     const cachedEvents = readCachedEvents();
     if (cachedEvents.length > 0) {
       setEvents(cachedEvents);
+      console.log('Initial load from cache:', cachedEvents);
       setLoading(false);
       void refreshEvents({ background: true });
     } else {
@@ -162,8 +165,13 @@ const TicketsPage = () => {
     .map((event, index) => normalizeEvent(event, index))
     .filter(event => {
       const eventDate = parseEventDate(event.date);
-      return eventDate && eventDate >= today;
+      const isUpcoming = eventDate && eventDate >= today;
+      if (!isUpcoming) {
+        console.log('Filtering out past event:', event.title, event.date);
+      }
+      return isUpcoming;
     });
+  console.log('Upcoming events after filter:', upcomingEvents);
 
   return (
     <div className="tickets-page-container">
