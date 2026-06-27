@@ -3,8 +3,8 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 // 캐시 설정: 1시간(3600000ms) 동안 캐시 유지
-// v2로 올려서 예전 잘못된 캐시 형식을 자동으로 무시한다.
-const CACHE_KEY = 'rollinghall_events_cache_v2';
+// v3로 올려서 예전 잘못된 캐시 형식을 자동으로 무시한다.
+const CACHE_KEY = 'rollinghall_events_cache_v3';
 const CACHE_EXPIRY = 3600000;
 const API_BASE_URLS = [
   process.env.REACT_APP_API_URL,
@@ -106,6 +106,8 @@ const TicketsPage = () => {
 
   useEffect(() => {
     let isActive = true;
+    // Clear any old v2 cache to force fresh data fetch
+    localStorage.removeItem('rollinghall_events_cache_v2');
 
     const refreshEvents = async ({ background = false } = {}) => {
       try {
