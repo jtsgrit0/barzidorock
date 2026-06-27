@@ -30,13 +30,23 @@ async function fetchTicketUrl(event, debugMessages) {
         ticketUrl = melonTicketLink;
         debugMessages.push(`  Extracted melonTicketLink: ${ticketUrl}`);
       } else {
-        // More robust search for "예매하기" elements
-        const ticketElements = detail$('td:contains("예매하기"), a:contains("예매하기")');
-        if (ticketElements.length > 0) {
-          const firstTicketElement = ticketElements.first();
-          const nextLink = firstTicketElement.next('td').find('a').attr('href') || firstTicketElement.attr('href');
-          ticketUrl = nextLink || firstTicketElement.text().trim();
-          if (ticketUrl) debugMessages.push(`  Extracted ticketUrl: ${ticketUrl}`);
+        // "예매하기"가 있는 td 바로 다음 td에서 a 태그의 href를 정확히 추출
+        const ticketTd = detail$('td:contains("예매하기")');
+        if (ticketTd.length > 0) {
+          const nextTd = ticketTd.next('td');
+          const ticketLink = nextTd.find('a').attr('href');
+          if (ticketLink) {
+            ticketUrl = ticketLink;
+            debugMessages.push(`  Extracted ticketUrl from next td: ${ticketUrl}`);
+          } else {
+            // 단순히 다음 텍스트에서 URL만 추출하는 백업 로직
+            const nextText = nextTd.text().trim();
+            const urlMatch = nextText.match(/https?:\/\/[^\s]+/);
+            if (urlMatch) {
+              ticketUrl = urlMatch[0];
+              debugMessages.push(`  Extracted ticketUrl from text: ${ticketUrl}`);
+            }
+          }
         }
       }
     }
