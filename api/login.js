@@ -24,9 +24,9 @@ module.exports = async (req, res) => {
   try {
     const { email, password } = req.body;
     
-    // 관리자 이메일과 비밀번호 검증 (환경 변수에서 가져옴)
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
+    // 관리자 이메일과 비밀번호 검증 (임시 하드코딩)
+    const adminEmail = "admin@barzidorock.com";
+    const adminPassword = "temp_password_1234";
 
     if (email === adminEmail && password === adminPassword) {
       // 로그인 성공 - 토큰 반환
