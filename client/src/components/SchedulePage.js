@@ -601,7 +601,7 @@ const SchedulePage = ({ language }) => {
               <li key={schedule.id} className="schedule-item">
                 <div className="schedule-item-content" onClick={() => handleScheduleClick(schedule.venue_id)}>
                   <div className="schedule-item-header">
-                    <strong>{schedule.venue_name}</strong> - <span>{schedule.event_name}</span>
+                    <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                   </div>
                   <div className="schedule-item-body">
                     <span>

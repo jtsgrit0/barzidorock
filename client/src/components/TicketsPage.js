@@ -174,7 +174,7 @@ const TicketsPage = () => {
             <div className="event-card" key={event.id}>
               <img src={event.image} alt={event.title} className="event-image" />
               <div className="event-info">
-                <h2>{event.title}</h2>
+                <h2 className="event-title">{event.title}</h2>
                 <p className="event-date">{event.date}</p>
                 <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer" className="ticket-button">
                   {t('ticketsPage.buyTickets', '예매하기')}
