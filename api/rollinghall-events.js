@@ -102,8 +102,23 @@ async function fetchRollingHallEvents() {
       if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
       if (!detailPageLink || !date) return; // skip if we don't have critical data
 
-      // Clean up title
-      const cleanTitle = textInRow.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ').substring(0, 100).trim();
+      // Clean up title - OCR 텍스트, 불필요한 공백, 중복 공연 정보 등 모두 제거
+      let cleanTitle = textInRow.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ');
+      // [OCR 추출 텍스트] 나 기타 불필요한 태그 제거
+      cleanTitle = cleanTitle.replace(/\[.*OCR.*\]/gi, '').replace(/\[.*추출.*텍스트\]/gi, '');
+      // 같은 행에 여러 공연이 있을 경우 첫번째 공연만 추출 (날짜가 중복되는 경우)
+      const dateRegex = /\d{4}년\s*\d{2}월\s*\d{2}일/gi;
+      const firstDateMatch = cleanTitle.match(dateRegex);
+      if (firstDateMatch && firstDateMatch.length > 1) {
+        // 첫번째 날짜부터 두번째 날짜 전까지의 텍스트만 사용
+        const firstDateIndex = cleanTitle.indexOf(firstDateMatch[0]);
+        const secondDateIndex = cleanTitle.indexOf(firstDateMatch[1]);
+        if (secondDateIndex > firstDateIndex) {
+          cleanTitle = cleanTitle.substring(firstDateIndex, secondDateIndex).trim();
+        }
+      }
+      // 앞에 불필요한 텍스트 제거하고 실제 공연 제목만 추출
+      cleanTitle = cleanTitle.trim().substring(0, 100);
       
       // Extract image from THIS row (works for all HTML structures)
       let image = null;
