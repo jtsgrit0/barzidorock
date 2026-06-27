@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
 
-      const { venue_id, event_date, event_name, description, poster_image, captcha } = req.body;
+      const { venue_id, event_date, event_name, description, poster_image } = req.body;
 
       // 공연장 관리자의 경우 자신의 공연장에만 일정 등록 가능
       if (!user.is_admin && user.venue_id !== venue_id) {
@@ -70,19 +70,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
-      const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captcha}`,
-      });
 
-      const recaptchaData = await response.json();
-
-      if (!recaptchaData.success || recaptchaData.score < 0.5) {
-          return res.status(400).json({ error: 'reCAPTCHA verification failed' });
-      }
 
       await sql`
         INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image)

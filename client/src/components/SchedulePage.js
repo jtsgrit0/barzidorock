@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-undef
 import React, { useState, useEffect, useCallback } from 'react';
-// eslint-disable-next-line no-undef
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 import Tesseract from 'tesseract.js';
 import './SchedulePage.css';
 import venues from '../venues.json';
@@ -27,8 +26,7 @@ const SchedulePage = ({ language }) => {
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
-  // eslint-disable-next-line no-undef
-  const { executeRecaptcha } = useGoogleReCaptcha();
+
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = process.env.REACT_APP_API_URL || window.location.origin;
   const formatScheduleRows = useCallback((scheduleData) => {
@@ -60,7 +58,7 @@ const SchedulePage = ({ language }) => {
       setIsLoggedIn(true);
     }
 
-  }, [executeRecaptcha, API_BASE_URL]);
+  }, [API_BASE_URL]);
 
   const fetchSchedules = useCallback(async () => {
     try {
@@ -199,21 +197,7 @@ const SchedulePage = ({ language }) => {
       return;
     }
 
-    let token;
-    // reCAPTCHA는 POST (생성) 요청에만 필요
-    if (!isEditing) {
-      try {
-        if (!executeRecaptcha) {
-          throw new Error('reCAPTCHA is still loading. Please wait a moment and try again.');
-        }
-        token = await executeRecaptcha('scheduleSubmit');
-        console.log('reCAPTCHA token generated:', token);
-      } catch (error) {
-        console.error('Error executing reCAPTCHA on client side:', error);
-        alert(`reCAPTCHA 실행 중 오류가 발생했습니다: ${error.message}. 잠시 후 다시 시도해주세요.`);
-        return;
-      }
-    }
+
 
     try {
       const method = isEditing ? 'PUT' : 'POST';
@@ -222,7 +206,7 @@ const SchedulePage = ({ language }) => {
         : `${API_BASE_URL}/api/schedules`;
       const body = isEditing 
         ? JSON.stringify(dataToSubmit) 
-        : JSON.stringify({ ...dataToSubmit, captcha: token });
+        : JSON.stringify(dataToSubmit);
 
       console.log(`Sending ${method} to:`, url);
       console.log('Payload:', dataToSubmit);
@@ -255,7 +239,7 @@ const SchedulePage = ({ language }) => {
       console.error(`Error ${isEditing ? 'updating' : 'creating'} schedule:`, error);
       alert(`${isEditing ? '수정' : '저장'}에 실패했습니다: ${error.message}`);
     }
-  }, [executeRecaptcha, newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL]);
+  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL]);
 
   const handleEditClick = (schedule) => {
     const venue = venues.find(v => v.id === schedule.venue_id);
