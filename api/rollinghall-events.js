@@ -72,102 +72,56 @@ async function fetchRollingHallEvents() {
     const html = iconv.decode(Buffer.from(arrayBuffer), 'EUC-KR');
     const $ = cheerio.load(html);
 
-    // 2. Scraped basic info from the list page - UPDATED SELECTORS for robustness
-    // Broader search for any links containing com_board_basic=read_form, and all table rows
-    const eventLinks = $('a[href*="com_board_basic=read_form"]');
-    debugMessages.push(`Found ${eventLinks.length} potential event links via original selector.`);
-    
-    // Fallback: search all table rows if original selector fails
+    // 2. Scraped basic info from the list page - UNIFIED SELECTOR that works for ALL cases
     const allRows = $('tr');
-    debugMessages.push(`Found ${allRows.length} total table rows (fallback check).`);
+    debugMessages.push(`Found ${allRows.length} total table rows.`);
 
     const preliminaryEvents = [];
-    eventLinks.each((i, linkElement) => {
-      const titleSpan = $(linkElement).find('span.gallery_title');
-      if (titleSpan.length === 0) {
-        // Fallback: search parent elements for any text that looks like a title
-        const parentText = $(linkElement).text().trim();
-        if (parentText) {
-          const detailPageLink = $(linkElement).attr('href');
-          const parentTr = $(linkElement).closest('tr');
-          const dateTr = parentTr.next('tr');
-          const dateTd = dateTr.find('td');
-          let date = '';
-          if (dateTd.length > 0) {
-            const dateMatch = dateTd.text().match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
-            if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
-          }
-          if (detailPageLink && parentText && date) {
-            preliminaryEvents.push({
-              id: `rh-${preliminaryEvents.length + 1}`,
-              title: parentText.substring(0, 100).trim(), // Truncate long titles
-              date,
-              detailPageLink,
-              image: `https://picsum.photos/400/300?random=${preliminaryEvents.length + 1}`
-            });
-          }
-        }
-        return; // skip original processing if we couldn't find the span
-      }
+    // Process EVERY table row and extract events - this handles ALL HTML structures
+    allRows.each((i, row) => {
+      const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
+      if (linkInRow.length === 0) return; // skip rows without event links
 
-      const title = titleSpan.text().trim();
-      const detailPageLink = $(linkElement).attr('href');
-      const parentTr = $(linkElement).closest('tr');
-      const dateTr = parentTr.next('tr');
-      const dateTd = dateTr.find('td'); // Broader selector for date
+      const textInRow = $(row).text().trim();
+      if (!textInRow) return;
+
+      const detailPageLink = $(linkInRow).attr('href');
+      // Extract date from row text (works regardless of HTML structure)
+      const dateMatch = textInRow.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
       let date = '';
-      if (dateTd.length > 0) {
-        const dateMatch = dateTd.text().match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
-        if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
-      }
+      if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
+      if (!detailPageLink || !date) return; // skip if we don't have critical data
 
-      const eventTable = $(linkElement).closest('table');
+      // Clean up title
+      const cleanTitle = textInRow.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ').substring(0, 100).trim();
+      
+      // Extract image from THIS row (works for all HTML structures)
       let image = null;
-      if (eventTable.length > 0) {
-        const imageElement = eventTable.find('img'); // Broader image selector
-        if (imageElement.length > 0) image = imageElement.attr('src');
+      const imgInRow = $(row).find('img');
+      if (imgInRow.length > 0) {
+        const rawImgSrc = imgInRow.attr('src');
+        if (rawImgSrc.startsWith('http')) {
+          image = rawImgSrc;
+        } else if (rawImgSrc.startsWith('/')) {
+          image = `https://www.rollinghall.co.kr${rawImgSrc}`;
+        } else {
+          image = `https://www.rollinghall.co.kr/${rawImgSrc}`;
+        }
       }
 
-      if (detailPageLink && title && date) {
+      // Avoid duplicates
+      if (!preliminaryEvents.find(e => e.detailPageLink === detailPageLink)) {
         preliminaryEvents.push({
           id: `rh-${preliminaryEvents.length + 1}`,
-          title,
+          title: cleanTitle,
           date,
           detailPageLink,
-          image: image ? `https://www.rollinghall.co.kr${image}` : `https://picsum.photos/400/300?random=${preliminaryEvents.length + 1}`
+          image: image || `https://picsum.photos/400/300?random=${preliminaryEvents.length + 1}`
         });
       }
     });
 
-    // Add fallback loop if preliminaryEvents is still empty (critical safeguard)
-    if (preliminaryEvents.length === 0) {
-      debugMessages.push("FALLBACK: Using all table rows to scrape events because original method failed.");
-      allRows.each((i, row) => {
-        const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
-        if (linkInRow.length > 0) {
-          const textInRow = $(row).text().trim();
-          if (textInRow) {
-            const detailPageLink = linkInRow.attr('href');
-            const dateMatch = textInRow.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
-            let date = '';
-            if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
-            
-            if (detailPageLink && textInRow && date) {
-              const cleanTitle = textInRow.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ').substring(0, 100).trim();
-              if (!preliminaryEvents.find(e => e.detailPageLink === detailPageLink)) { // Avoid duplicates
-                preliminaryEvents.push({
-                  id: `rh-fallback-${preliminaryEvents.length + 1}`,
-                  title: cleanTitle,
-                  date,
-                  detailPageLink,
-                  image: `https://picsum.photos/400/300?random=${preliminaryEvents.length + 1}`
-                });
-              }
-            }
-          }
-        }
-      });
-    }
+
 
     debugMessages.push(`Successfully scraped ${preliminaryEvents.length} preliminary events.`);
 

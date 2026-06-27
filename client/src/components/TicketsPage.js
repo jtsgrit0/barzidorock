@@ -106,49 +106,35 @@ const TicketsPage = () => {
 
   useEffect(() => {
     let isActive = true;
-    // Clear any old v2 cache to force fresh data fetch
+    // 항상 이전 캐시를 완전히 삭제해서 무조건 새로운 데이터를 가져옴
     localStorage.removeItem('rollinghall_events_cache_v2');
+    localStorage.removeItem(CACHE_KEY);
 
-    const refreshEvents = async ({ background = false } = {}) => {
+    const loadEvents = async () => {
       try {
         const freshEvents = await fetchRollingHallEvents();
-        if (!isActive) {
-          return;
-        }
-
-        setEvents(freshEvents);
+        if (!isActive) return;
+        
         console.log('Fetched fresh events:', freshEvents);
+        setEvents(freshEvents);
+        // 새 데이터를 캐시에 저장
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           timestamp: Date.now(),
           data: { events: freshEvents },
         }));
       } catch (err) {
         console.warn('티켓 정보를 불러오지 못했습니다:', err);
-        if (!isActive) {
-          return;
-        }
-
-        if (!background) {
-          const cachedEvents = readCachedEvents();
-          setEvents(cachedEvents);
-
-        }
+        if (!isActive) return;
+        
+        // 에러 발생시에만 캐시된 데이터 사용
+        const cachedEvents = readCachedEvents();
+        setEvents(cachedEvents);
       } finally {
-        if (isActive) {
-          setLoading(false);
-        }
+        if (isActive) setLoading(false);
       }
     };
 
-    const cachedEvents = readCachedEvents();
-    if (cachedEvents.length > 0) {
-      setEvents(cachedEvents);
-
-      setLoading(false);
-      void refreshEvents({ background: true });
-    } else {
-      void refreshEvents();
-    }
+    loadEvents();
 
     return () => {
       isActive = false;
