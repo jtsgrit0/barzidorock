@@ -129,7 +129,7 @@ const TicketsPage = () => {
         if (!background) {
           const cachedEvents = readCachedEvents();
           setEvents(cachedEvents);
-          console.log('Loaded cached events:', cachedEvents);
+
         }
       } finally {
         if (isActive) {
@@ -141,7 +141,7 @@ const TicketsPage = () => {
     const cachedEvents = readCachedEvents();
     if (cachedEvents.length > 0) {
       setEvents(cachedEvents);
-      console.log('Initial load from cache:', cachedEvents);
+
       setLoading(false);
       void refreshEvents({ background: true });
     } else {
@@ -167,7 +167,7 @@ const TicketsPage = () => {
       const eventDate = parseEventDate(event.date);
       const isUpcoming = eventDate && eventDate >= today;
       if (!isUpcoming) {
-        console.log('Filtering out past event:', event.title, event.date);
+
       }
       return isUpcoming;
     });
