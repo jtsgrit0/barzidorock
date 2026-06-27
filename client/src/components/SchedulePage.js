@@ -564,8 +564,8 @@ const SchedulePage = ({ language }) => {
             </div>
           ) : null }
           <div className="form-buttons">
-            <button type="submit" className="save-button" disabled={!executeRecaptcha && !isEditing}>
-              {isEditing ? '수정' : (!executeRecaptcha ? 'reCAPTCHA 로딩중...' : '저장')}
+            <button type="submit" className="save-button">
+              {isEditing ? '수정' : '저장'}
             </button>
             {isEditing && (
               <button type="button" onClick={handleCancelEdit} className="cancel-button">
@@ -619,13 +619,4 @@ const SchedulePage = ({ language }) => {
   );
 };
 
-export default function SchedulePageWithCaptcha({ language }) {
-  return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey="6LfFviEtAAAAADfPFhv2KPq3oPIADahPzOqeJ1OL"
-      language="ko"
-    >
-      <SchedulePage language={language} />
-    </GoogleReCaptchaProvider>
-  );
-}
+export default SchedulePage;
