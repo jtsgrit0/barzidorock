@@ -106,29 +106,32 @@ const TicketsPage = () => {
 
   useEffect(() => {
     let isActive = true;
-    // 항상 이전 캐시를 완전히 삭제해서 무조건 새로운 데이터를 가져옴
+    // 페이지 로드시 무조건 모든 캐시 삭제 - 강제로 새 데이터 가져오기
     localStorage.removeItem('rollinghall_events_cache_v2');
     localStorage.removeItem(CACHE_KEY);
+    // 혹시 모르는 모든 관련 캐시 키 삭제
+    Object.keys(localStorage).forEach(key => {
+      if (key.includes('rollinghall_events')) {
+        localStorage.removeItem(key);
+      }
+    });
 
     const loadEvents = async () => {
       try {
         const freshEvents = await fetchRollingHallEvents();
         if (!isActive) return;
         
-        console.log('Fetched fresh events:', freshEvents);
+        console.log('✅ Fetched fresh events from API:', freshEvents);
         setEvents(freshEvents);
-        // 새 데이터를 캐시에 저장
+        // 새 데이터만 캐시에 저장
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           timestamp: Date.now(),
           data: { events: freshEvents },
         }));
       } catch (err) {
-        console.warn('티켓 정보를 불러오지 못했습니다:', err);
+        console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
         if (!isActive) return;
-        
-        // 에러 발생시에만 캐시된 데이터 사용
-        const cachedEvents = readCachedEvents();
-        setEvents(cachedEvents);
+        setLoading(false);
       } finally {
         if (isActive) setLoading(false);
       }
