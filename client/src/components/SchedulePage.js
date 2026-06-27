@@ -47,7 +47,7 @@ const SchedulePage = ({ language }) => {
         venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue',
         korean_event_date: formattedDate
       };
-    }).sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+    }).sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
   }, [language]);
 
   useEffect(() => {
