@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
-// 캐시 설정: 1시간(3600000ms) 동안 캐시 유지
-// v3로 올려서 예전 잘못된 캐시 형식을 자동으로 무시한다.
+// 캐시 설정: 이제 캐시를 항상 강제로 삭제하므로 CACHE_EXPIRY 미사용
 const CACHE_KEY = 'rollinghall_events_cache_v3';
-const CACHE_EXPIRY = 3600000;
 const API_BASE_URLS = [
   process.env.REACT_APP_API_URL,
   'https://barzidorock.vercel.app',
@@ -46,32 +44,7 @@ const parseEventDate = (dateText) => {
   return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
 };
 
-const readCachedEvents = () => {
-  try {
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    if (!cachedData) {
-      return [];
-    }
-
-    const parsed = JSON.parse(cachedData);
-    const timestamp = typeof parsed?.timestamp === 'number' ? parsed.timestamp : 0;
-    if (Date.now() - timestamp >= CACHE_EXPIRY) {
-      return [];
-    }
-
-    const rawEvents = Array.isArray(parsed?.data?.events)
-      ? parsed.data.events
-      : Array.isArray(parsed?.data)
-        ? parsed.data
-        : [];
-
-    return rawEvents.map(normalizeEvent).filter(event => event.date);
-  } catch (error) {
-    console.warn('캐시 데이터 파싱 오류, 캐시를 초기화합니다:', error);
-    localStorage.removeItem(CACHE_KEY);
-    return [];
-  }
-};
+// readCachedEvents 함수 삭제 - 캐시 로직 변경으로 미사용
 
 const fetchRollingHallEvents = async () => {
   let lastError = null;
