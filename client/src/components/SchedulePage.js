@@ -28,7 +28,7 @@ const SchedulePage = ({ language }) => {
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
 
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
-  const API_BASE_URL = process.env.REACT_APP_API_URL || window.location.origin;
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
   const formatScheduleRows = useCallback((scheduleData) => {
     return scheduleData.map(item => {
       const venue = venues.find(v => v.id === item.venue_id);
