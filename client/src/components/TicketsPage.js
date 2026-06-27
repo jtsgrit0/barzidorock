@@ -149,17 +149,22 @@ const TicketsPage = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00으로 설정
   
+  // 디버깅: 모든 이벤트와 날짜 비교 로그 추가
+  console.log('Today:', today);
+  events.forEach((event, index) => {
+    const eventDate = parseEventDate(event.date);
+    console.log(`Event ${index + 1}: "${event.title}", date string: "${event.date}", parsed date:`, eventDate, 'is >= today?', eventDate && eventDate >= today);
+  });
+
   const upcomingEvents = (Array.isArray(events) ? events : [])
     .map((event, index) => normalizeEvent(event, index))
     .filter(event => {
       const eventDate = parseEventDate(event.date);
+      // 오늘 날짜인 공연도 포함하도록 = 추가
       const isUpcoming = eventDate && eventDate >= today;
-      if (!isUpcoming) {
-
-      }
       return isUpcoming;
     });
-  console.log('Upcoming events after filter:', upcomingEvents);
+  console.log('Final upcoming events:', upcomingEvents);
 
   return (
     <div className="tickets-page-container">
