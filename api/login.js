@@ -1,5 +1,10 @@
-module.exports = (req, res) => {
-  const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app'];
+module.exports = async (req, res) => {
+  const allowedOrigins = [
+    'https://jtsgrit0.github.io',
+    'http://localhost:3000',
+    'https://barzidorock.vercel.app',
+    'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app' // 동적 Vercel URL 추가
+  ];
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
