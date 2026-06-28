@@ -37,6 +37,7 @@ app.use(cors({
 
 // JSON 요청 본문 파싱
 app.use(express.json());
+app.use(cookieParser()); // 쿠키 파서 사용
 
 // 인증 함수
 const getAuthenticatedUser = async (req) => {
@@ -358,6 +359,55 @@ app.put('/api/schedules/:id', async (req, res) => {
   } catch (error) {
     console.error('Error updating schedule:', error);
     res.status(500).json({ error: 'Failed to update schedule', details: error.message });
+  }
+});
+
+// --- Venue Manager Login API ---
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: '이메일과 비밀번호를 모두 입력해주세요.' });
+  }
+
+  try {
+    const result = await sql`
+      SELECT id, password_hash, is_approved, email_verified FROM venue_managers WHERE email = ${email}
+    `;
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+    }
+
+    const user = result.rows[0];
+
+    if (!user.is_approved) {
+      return res.status(403).json({ error: '관리자 승인을 기다리고 있는 계정입니다.' });
+    }
+
+    if (!user.email_verified) {
+      return res.status(403).json({ error: '이메일 인증이 완료되지 않았습니다.' });
+    }
+
+    const passwordMatches = await bcrypt.compare(password, user.password_hash);
+
+    if (!passwordMatches) {
+      return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+    }
+
+    // 쿠키 설정 (7일간 유효)
+    res.cookie('venueManagerLoggedIn', user.id, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', // HTTPS에서만 쿠키 전송
+      sameSite: 'None', // 크로스-도메인 요청을 위해
+      maxAge: 7 * 24 * 60 * 60 * 1000 
+    });
+
+    res.status(200).json({ message: '로그인 성공' });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: '로그인 중 서버 오류가 발생했습니다.' });
   }
 });
 
