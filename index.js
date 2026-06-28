@@ -153,6 +153,17 @@ secureRouter.post('/login', async (req, res) => {
     return res.status(400).json({ error: '이메일과 비밀번호를 모두 입력해주세요.' });
   }
 
+  // 관리자 계정 확인
+  if (email === 'jtsgrit0@gmail.com' && password === 'Ggdrecon3534@.!') {
+    res.cookie('isAdmin', 'true', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'None',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+    return res.status(200).json({ message: '관리자 로그인 성공' });
+  }
+
   try {
     const result = await sql`
       SELECT id, password_hash, is_approved, email_verified FROM venue_managers WHERE email = ${email}
