@@ -6,6 +6,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vercel/blob": "^2.5.0",
     "@vercel/postgres": "^0.10.0",
     "bcrypt": "^6.0.0",
     "cheerio": "^1.2.0",

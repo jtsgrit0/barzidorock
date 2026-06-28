@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-undef
 import React, { useState, useEffect, useCallback } from 'react';
 
-import Tesseract from 'tesseract.js';
+
 import './SchedulePage.css';
 import venues from '../venues.json';
 import fallbackSchedules from '../schedulesFallback.json';
@@ -97,48 +97,23 @@ const SchedulePage = ({ language }) => {
     }
   };
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file); // 파일 객체 저장
       const reader = new FileReader();
-      reader.onloadend = async () => {
-        // 이미지 Base64로 상태에 저장
+      reader.onloadend = () => {
         if (isEditing) {
           setEditingSchedule(prev => ({ ...prev, poster_image: reader.result }));
         } else {
           setNewEvent(prev => ({ ...prev, poster_image: reader.result }));
         }
-
-        // OCR로 텍스트 추출
-        try {
-          const result = await Tesseract.recognize(
-            file,
-            'kor+eng', // 한국어+영어 인식
-            { logger: null } // 로그 출력 비활성화 (성능 개선)
-          );
-          
-          const extractedText = result.data.text.trim();
-          if (extractedText) {
-            // 추출된 텍스트를 description 필드에 자동 입력
-            if (isEditing) {
-              setEditingSchedule(prev => ({
-                ...prev,
-                description: prev.description ? `${prev.description}\n\n${extractedText}` : extractedText
-              }));
-            } else {
-              setNewEvent(prev => ({
-                ...prev,
-                description: prev.description ? `${prev.description}\n\n${extractedText}` : extractedText
-              }));
-            }
-
-          }
-        } catch (ocrError) {
-          console.error('OCR 텍스트 추출 실패:', ocrError);
-        }
       };
       reader.readAsDataURL(file);
     } else {
+      setSelectedFile(null);
       if (isEditing) {
         setEditingSchedule(prev => ({ ...prev, poster_image: '' }));
       } else {
@@ -182,14 +157,41 @@ const SchedulePage = ({ language }) => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    const rawData = isEditing ? editingSchedule : newEvent;
+
+    let poster_image_url = isEditing ? editingSchedule.poster_image : newEvent.poster_image;
+
+    if (selectedFile) {
+      try {
+        const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filename: selectedFile.name }),
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Failed to get upload URL');
+        }
+
+        const { url } = await uploadResponse.json();
+        poster_image_url = url;
+
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        alert(`이미지 업로드에 실패했습니다: ${error.message}`);
+        return;
+      }
+    }
+
+    const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
-    // 로컬 시간을 UTC로 변환하여 DB에 저장
     const localDate = new Date(rawData.event_date);
     const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
     const dataToSubmit = {
       ...rawData,
-      event_date: utcDate.toISOString()
+      event_date: utcDate.toISOString(),
+      poster_image_url: poster_image_url
     };
 
     if (!dataToSubmit.venue_id || !dataToSubmit.event_date || !dataToSubmit.event_name) {
@@ -197,20 +199,13 @@ const SchedulePage = ({ language }) => {
       return;
     }
 
-
-
     try {
       const method = isEditing ? 'PUT' : 'POST';
       const url = isEditing 
-        ? `${API_BASE_URL}/api/schedules` 
+        ? `${API_BASE_URL}/api/schedules`
         : `${API_BASE_URL}/api/schedules`;
-      const body = isEditing 
-        ? JSON.stringify(dataToSubmit) 
-        : JSON.stringify(dataToSubmit);
+      const body = JSON.stringify(dataToSubmit);
 
-      console.log(`Sending ${method} to:`, url);
-      console.log('Payload:', dataToSubmit);
-      
       const adminToken = localStorage.getItem('adminToken');
       const response = await fetch(url, {
         method: method,
@@ -221,17 +216,11 @@ const SchedulePage = ({ language }) => {
         body: body,
       });
 
-      console.log('Response status:', response.status);
-      
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Server error:', errorData);
         throw new Error(errorData.error || 'Network response was not ok');
       }
 
-      const result = await response.json();
-      console.log('Server success:', result);
-      
       resetForm();
       await fetchSchedules();
       alert(isEditing ? '공연일정이 수정되었습니다!' : '공연일정이 저장되었습니다!');
@@ -239,7 +228,7 @@ const SchedulePage = ({ language }) => {
       console.error(`Error ${isEditing ? 'updating' : 'creating'} schedule:`, error);
       alert(`${isEditing ? '수정' : '저장'}에 실패했습니다: ${error.message}`);
     }
-  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL]);
+  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL, selectedFile]);
 
   const handleEditClick = (schedule) => {
     const venue = venues.find(v => v.id === schedule.venue_id);
