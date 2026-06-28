@@ -121,4 +121,4 @@ module.exports = async (req, res) => {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
 
-      const { id, venue_id, event_date, event_name,.
+      const { id, venue_id, event_date, event_name, description, poster_image } = req.body;
