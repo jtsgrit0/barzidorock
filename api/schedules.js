@@ -1,5 +1,5 @@
-const vercelPostgres = require('@vercel/postgres');
-const sql = vercelPostgres.sql;
+const { sql } = require('@vercel/postgres');
+console.log('Value of sql after destructuring:', sql);
 
 module.exports = async (req, res) => {
   // Handle CORS preflight requests
