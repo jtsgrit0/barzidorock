@@ -195,41 +195,10 @@ async function fetchRollingHallEvents() {
   }
 }
 
-// 롤링홀 공연 정보를 제공하는 API 엔드포인트 (1시간 캐싱 적용)
-app.get('/api/rollinghall-events', async (req, res) => {
-  const now = Date.now();
-  
-  // 캐시가 유효하면 캐시된 데이터 반환
-  if (cachedEvents && (now - lastFetchedTime < CACHE_DURATION)) {
-    return res.json({ events: cachedEvents, cached: true, lastFetched: new Date(lastFetchedTime).toISOString() });
-  }
+const apiRouter = require('./api/index.js');
 
-  // 캐시가 만료되었거나 없으면 새로 스크래핑
-  try {
-    const result = await fetchRollingHallEvents();
-    // 새로 가져온 데이터 캐싱
-    cachedEvents = result.events;
-    lastFetchedTime = now;
-    res.json({ ...result, cached: false, lastFetched: new Date(lastFetchedTime).toISOString() });
-  } catch (error) {
-    console.error('Error in /api/rollinghall-events endpoint:', error);
-    // 스크래핑에 실패해도 캐시된 데이터가 있다면 반환
-    if (cachedEvents) {
-      return res.json({ events: cachedEvents, cached: true, lastFetched: new Date(lastFetchedTime).toISOString(), error: 'Failed to fetch fresh data, returning cached data.' });
-    }
-    res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.' });
-  }
-});
-
-// 스케줄 정보를 제공하는 API 엔드포인트
-app.get('/api/schedules', async (req, res) => {
-  try {
-    const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date ASC;`;
-    res.json(rows);
-  } catch (error) {
-    console.error('Error fetching schedules:', error);
-    res.status(500).json({ error: 'Failed to fetch schedules.' });
-  }
+app.all('/api/*', (req, res) => {
+  apiRouter(req, res);
 });
 
 // 비밀번호 재설정 요청 엔드포인트 (forgot-password)

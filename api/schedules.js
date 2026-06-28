@@ -1,5 +1,4 @@
 const { sql } = require('@vercel/postgres');
-console.log('Value of sql after destructuring:', sql);
 
 module.exports = async (req, res) => {
   // Handle CORS preflight requests
@@ -14,6 +13,10 @@ module.exports = async (req, res) => {
   // Set CORS headers for all other requests
   const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app', 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app']; const origin = req.headers.origin; if (allowedOrigins.includes(origin)) { res.setHeader('Access-Control-Allow-Origin', origin); }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  if (!sql) {
+    return res.status(500).json({ error: "Database connection is not configured correctly. The 'sql' object is undefined." });
+  }
 
   // 로그인 상태 및 사용자 정보 검증 함수 (Authorization 헤더의 토큰 확인)
   const getAuthenticatedUser = async (authHeader) => {
@@ -50,7 +53,7 @@ module.exports = async (req, res) => {
       res.status(200).json(rows);
     } catch (error) {
       console.error('Error fetching schedules:', error);
-      res.status(500).json({ error: 'Failed to fetch schedules' });
+      res.status(500).json({ error: 'Failed to fetch schedules', details: error.message });
     }
   } else if (req.method === 'POST') {
     try {
@@ -118,36 +121,4 @@ module.exports = async (req, res) => {
         return res.status(401).json({ error: 'Unauthorized: Please login first' });
       }
 
-      const { id, venue_id, event_date, event_name, description, poster_image } = req.body;
-
-      if (!id || !venue_id || !event_date || !event_name) {
-        return res.status(400).json({ error: 'Missing required fields for update' });
-      }
-
-      // 공연장 관리자의 경우 수정하려는 일정이 자신의 공연장 일정인지 확인
-      if (!user.is_admin) {
-        const schedule = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
-        if (schedule.rows.length === 0 || schedule.rows[0].venue_id !== user.venue_id) {
-          return res.status(403).json({ error: 'Forbidden: You can only update schedules for your own venue' });
-        }
-        // 수정하려는 공연장 ID도 자신의 공연장과 일치하는지 확인
-        if (venue_id !== user.venue_id) {
-          return res.status(403).json({ error: 'Forbidden: You cannot change the venue ID' });
-        }
-      }
-
-      await sql`
-        UPDATE schedules 
-        SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}, poster_image = ${poster_image}
-        WHERE id = ${id};
-      `;
-      res.status(200).json({ message: 'Schedule updated successfully' });
-    } catch (error) {
-      console.error('Error updating schedule:', error);
-      res.status(500).json({ error: 'Failed to update schedule', details: error.message });
-    }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST', 'DELETE', 'PUT']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-};
+      const { id, venue_id, event_date, event_name,.
