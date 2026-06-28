@@ -1,5 +1,5 @@
-const { sql } = require('@vercel/postgres');
-console.log('SQL object after require:', sql);
+const vercelPostgres = require('@vercel/postgres');
+const sql = vercelPostgres.sql;
 
 module.exports = async (req, res) => {
   // Handle CORS preflight requests
