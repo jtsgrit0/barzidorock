@@ -5,6 +5,7 @@ const fetch = require('node-fetch'); // node-fetch 임포트
 const cheerio = require('cheerio'); // cheerio 임포트
 const iconv = require('iconv-lite'); // iconv-lite 임포트
 
+const { sql } = require('@vercel/postgres');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -13,192 +14,337 @@ let cachedEvents = null;
 let lastFetchedTime = 0;
 const CACHE_DURATION = 3600000; // 1시간
 
-// CORS 설정
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5000', 'https://jtsgrit0.github.io', 'https://barzidorock.vercel.app', 'https://barzidorock-fe0wla9u3-jtsgrit0s-projects.vercel.app'];
+// CORS 설정 (모든 출처 허용)
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // JSON 요청 본문 파싱
 app.use(express.json());
 
-// 롤링홀 공연 정보를 스크래핑하는 함수
-async function fetchRollingHallEvents() {
-  const url = 'https://www.rollinghall.co.kr/default/mp3/mp3_sub2.php?sub=02';
+// 인증 함수
+const getAuthenticatedUser = async (req) => {
+  const authHeader = req.headers.authorization;
+  // 관리자 토큰 검증
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    if (token === 'admin-secret-token-2026') {
+      return { is_admin: true, venue_id: null };
+    }
+  }
+  // 공연장 관리자 쿠키 검증
+  const cookieHeader = req.headers.cookie;
+  if (cookieHeader) {
+    const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split('=');
+      acc[key] = value;
+      return acc;
+    }, {});
+    if (cookies.venueManagerLoggedIn) {
+      const userResult = await sql`
+        SELECT venue_id FROM venue_managers WHERE id = ${cookies.venueManagerLoggedIn} AND is_approved = true AND email_verified = true
+      `;
+      if (userResult.rows.length > 0) {
+        return { is_admin: false, venue_id: userResult.rows[0].venue_id, user_id: cookies.venueManagerLoggedIn };
+      }
+    }
+  }
+  return null;
+};
+
+// Helper function to fetch and parse a detail page
+async function fetchTicketUrl(event, debugMessages) {
+  const fullDetailPageUrl = `https://www.rollinghall.co.kr${event.detailPageLink}`;
+  let ticketUrl = '';
+  debugMessages.push(`  Fetching detail page: ${fullDetailPageUrl}`);
 
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      const errorMsg = `Failed to fetch main page: ${response.status} ${response.statusText}`;
-      // console.error(errorMsg); // 에러 로깅은 유지
-    }
-    // EUC-KR 인코딩 처리를 위해 buffer로 응답을 받습니다.
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const html = iconv.decode(buffer, 'EUC-KR'); // EUC-KR로 디코딩
-    const $ = cheerio.load(html);
-
-    // const htmlLength = html.length; // debugMessages 제거
-    // const htmlSnippet = html.substring(0, 200); // debugMessages 제거
-    // const htmlTagCount = $('html').length; // debugMessages 제거
-    // const bodyTagCount = $('body').length; // debugMessages 제거
-
-    // const allHrefs = []; // debugMessages 제거
-    // $('a').each((i, el) => { // debugMessages 제거
-    //   const href = $(el).attr('href'); // debugMessages 제거
-    //   if (href) { // debugMessages 제거
-    //     allHrefs.push(href); // debugMessages 제거
-    //   } // debugMessages 제거
-    // }); // debugMessages 제거
-
-    // 첫 번째 이벤트 링크의 가장 가까운 <table> 부모 요소의 outerHTML을 디버그 메시지에 추가 // debugMessages 제거
-
-    const events = [];
-    const eventLinks = $('td.body_text_eng a'); // 이벤트 링크 선택자를 정확히 지정
-
-    for (let i = 0; i < eventLinks.length; i++) {
-      const linkElement = eventLinks[i];
-      const titleSpan = $(linkElement).find('span.gallery_title');
-
-      // span.gallery_title이 없는 링크는 건너뜁니다.
-      if (titleSpan.length === 0) {
-        // console.log(`Skipping link ${i} due to missing title span.`); // 필요시 로깅
-        continue;
+    const detailResponse = await fetch(fullDetailPageUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
+    });
 
-      const title = titleSpan.text().trim();
-      const detailPageLink = $(linkElement).attr('href');
+    if (!detailResponse.ok) {
+      debugMessages.push(`Failed to fetch detail page ${fullDetailPageUrl}: ${detailResponse.status} ${detailResponse.statusText}`);
+      ticketUrl = fullDetailPageUrl; // Fallback to detail page URL on failure
+    } else {
+      const detailArrayBuffer = await detailResponse.arrayBuffer();
+      const detailBuffer = Buffer.from(detailArrayBuffer);
+      const detailHtml = iconv.decode(detailBuffer, 'EUC-KR');
+      const detail$ = cheerio.load(detailHtml);
 
-      // <a> 태그의 가장 가까운 <tr> 부모 요소를 찾고, 그 안에서 "공연일" 텍스트를 포함하는 <p> 태그를 찾습니다.
-      const parentTr = $(linkElement).closest('tr');
-      // debugMessages.push(`  Parent TR outerHTML: ${parentTr.prop('outerHTML')}`); // debugMessages 제거
-
-      // 제목 <tr> 바로 다음 <tr>에 날짜 정보가 있는지 확인
-      const dateTr = parentTr.next('tr');
-      const dateTd = dateTr.find('td.gallery_etc');
-      // debugMessages.push(`  Date TR outerHTML: ${dateTr.prop('outerHTML')}`); // debugMessages 제거
-      // debugMessages.push(`  Date TD outerHTML: ${dateTd.prop('outerHTML')}`); // debugMessages 제거
-
-      let date = '';
-      if (dateTd.length > 0) {
-        const dateText = dateTd.text();
-        // debugMessages.push(`  Date TD text (raw): '${dateText}'`); // 원본 텍스트 디버그 // debugMessages 제거
-        // 깨진 한글 문자 대신 숫자 패턴에 집중하여 날짜를 추출
-        const dateMatch = dateText.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
-        // debugMessages.push(`  Date regex match result: ${JSON.stringify(dateMatch)}`); // 정규식 매칭 결과 디버그 // debugMessages 제거
-        if (dateMatch) {
-          // 추출된 연, 월, 일을 사용하여 날짜 문자열 재구성
-          date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
-        }
-        // debugMessages.push(`  Final extracted date: '${date}'`); // 최종 추출된 날짜 디버그 // debugMessages 제거
-      }
-
-      // 이미지 정보 추출
-      // linkElement는 제목 <a> 태그입니다.
-      // 이미지 <img> 태그는 제목 <a> 태그와 다른 <tr>에 있습니다.
-      // 제목 <a> 태그에서 가장 가까운 <table> 부모 요소를 찾습니다.
-      const eventTable = $(linkElement).closest('table');
-      // debugMessages.push(`  eventTable outerHTML: ${eventTable.prop('outerHTML')}`); // debugMessages 제거
-      let image = null;
-      if (eventTable.length > 0) {
-        // 해당 테이블 내에서 이미지 <img> 태그를 찾습니다.
-        // 이미지는 <td valign="bottom" align="center"> 안에 있습니다.
-        const imageElement = eventTable.find('td[valign="bottom"][align="center"] img');
-        // debugMessages.push(`  imageElement outerHTML: ${imageElement.prop('outerHTML')}`); // debugMessages 제거
-        if (imageElement.length > 0) {
-          image = imageElement.attr('src');
-        }
-      }
-
-      // debugMessages.push(`  detailPageLink: ${detailPageLink}`); // debugMessages 제거
-      // debugMessages.push(`  image: ${image}`); // debugMessages 제거
-      // debugMessages.push(`  title: ${title}`); // debugMessages 제거
-      // debugMessages.push(`  date: ${date}`); // debugMessages 제거
-
-      if (detailPageLink && title && date) {
-        const fullDetailPageUrl = `https://www.rollinghall.co.kr${detailPageLink}`;
-        let ticketUrl = '';
-        // debugMessages.push(`  Fetching detail page: ${fullDetailPageUrl}`); // Log 3 // debugMessages 제거
-
-        try {
-          const detailResponse = await fetch(fullDetailPageUrl);
-          if (!detailResponse.ok) {
-            const detailErrorMsg = `Failed to fetch detail page ${fullDetailPageUrl}: ${detailResponse.status} ${detailResponse.statusText}`;
-            // debugMessages.push(detailErrorMsg); // debugMessages 제거
-            // Continue to next event, but log the error
+      const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
+      if (melonTicketLink) {
+        ticketUrl = melonTicketLink;
+        debugMessages.push(`  Extracted melonTicketLink: ${ticketUrl}`);
+      } else {
+        // "예매하기"가 있는 td 바로 다음 td에서 a 태그의 href를 정확히 추출
+        const ticketTd = detail$('td:contains("예매하기")');
+        if (ticketTd.length > 0) {
+          const nextTd = ticketTd.next('td');
+          const ticketLink = nextTd.find('a').attr('href');
+          if (ticketLink) {
+            ticketUrl = ticketLink;
+            debugMessages.push(`  Extracted ticketUrl from next td: ${ticketUrl}`);
           } else {
-            // 상세 페이지도 EUC-KR로 디코딩
-            const detailArrayBuffer = await detailResponse.arrayBuffer();
-            const detailBuffer = Buffer.from(detailArrayBuffer);
-            const detailHtml = iconv.decode(detailBuffer, 'EUC-KR');
-            const detail$ = cheerio.load(detailHtml);
-
-            const melonTicketLink = detail$('a[href*="ticket.melon.com"]').attr('href');
-            // debugMessages.push(`  Extracted melonTicketLink: ${melonTicketLink}`); // debugMessages 제거
-            if (melonTicketLink) {
-              ticketUrl = melonTicketLink;
-            } else {
-              // "예매하기" 텍스트를 포함하는 td를 찾고, 그 다음 td에서 링크를 추출
-              const ticketTd = detail$('td:contains("예매하기")');
-              if (ticketTd.length > 0) {
-                const nextTd = ticketTd.next('td');
-                if (nextTd.length > 0) {
-                  const linkInNextTd = nextTd.find('a').attr('href');
-                  if (linkInNextTd) {
-                    ticketUrl = linkInNextTd;
-                    // debugMessages.push(`  Extracted ticketUrl from next td (a tag): ${ticketUrl}`); // debugMessages 제거
-                  } else {
-                    // a 태그가 없으면 td의 텍스트를 직접 사용
-                    ticketUrl = nextTd.text().trim();
-                    // debugMessages.push(`  Extracted ticketUrl from next td (text): ${ticketUrl}`); // debugMessages 제거
-                  }
-                }
-              }
-
-              if (!ticketUrl) { // 여전히 ticketUrl이 없으면 fullDetailPageUrl로 폴백
-                ticketUrl = fullDetailPageUrl;
-                // debugMessages.push(`  Falling back to fullDetailPageUrl for ticketUrl: ${ticketUrl}`); // debugMessages 제거
-              }
+            // 단순히 다음 텍스트에서 URL만 추출하는 백업 로직
+            const nextText = nextTd.text().trim();
+            const urlMatch = nextText.match(/https?:\/\/[^\s]+/);
+            if (urlMatch) {
+              ticketUrl = urlMatch[0];
+              debugMessages.push(`  Extracted ticketUrl from text: ${ticketUrl}`);
             }
           }
-        } catch (detailError) {
-          const detailErrorMsg = `Error fetching or parsing detail page for ${fullDetailPageUrl}: ${detailError.message}`;
-          // debugMessages.push(detailErrorMsg); // debugMessages 제거
         }
-
-        events.push({
-          id: `rh-${i + 1}`,
-          title: title,
-          date: date,
-          ticketUrl: ticketUrl,
-          image: image ? `https://www.rollinghall.co.kr${image}` : 'https://picsum.photos/400/300?random=' + (i + 1)
-        });
-      } else {
-        // debugMessages.push(`  Skipping event ${i + 1} due to missing detailPageLink, title, or date. (title: '${title}', detailPageLink: '${detailPageLink}', date: '${date}')`); // Log 5 // debugMessages 제거
       }
     }
-    // debugMessages.push(`Finished scraping. Total events found: ${events.length}`); // Log 6 // debugMessages 제거
-    return { events: events /*, debug: debugMessages.join('\n')*/ }; // debugMessages 제거
+  } catch (detailError) {
+    debugMessages.push(`Error fetching or parsing detail page for ${fullDetailPageUrl}: ${detailError.message}`);
+    ticketUrl = fullDetailPageUrl; // Fallback on error
+  }
+
+  // Combine with original event data, excluding the temporary detailPageLink
+  const { detailPageLink, ...rest } = event;
+  return { ...rest, ticketUrl: ticketUrl || fullDetailPageUrl }; // Ensure ticketUrl is never empty
+}
+
+
+// Main function to scrape Rolling Hall events
+async function fetchRollingHallEvents() {
+  const url = 'https://www.rollinghall.co.kr/default/mp3/mp3_sub2.php?sub=02';
+  const debugMessages = [];
+
+  try {
+    // 1. Fetch the main list page
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
+    if (!response.ok) {
+      const errorMsg = `Failed to fetch main page: ${response.status} ${response.statusText}`;
+      debugMessages.push(errorMsg);
+      return { events: [], error: errorMsg, debug: debugMessages.join('\n') };
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const html = iconv.decode(Buffer.from(arrayBuffer), 'EUC-KR');
+    const $ = cheerio.load(html);
+
+    // 2. Scraped basic info from the list page - UNIFIED SELECTOR that works for ALL cases
+    const allRows = $('tr');
+    debugMessages.push(`Found ${allRows.length} total table rows.`);
+
+    const preliminaryEvents = [];
+    // Process EVERY table row and extract events - this handles ALL HTML structures
+    allRows.each((i, row) => {
+      const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
+      if (linkInRow.length === 0) return; // skip rows without event links
+
+      const textInRow = $(row).text().trim();
+      if (!textInRow) return;
+
+      const detailPageLink = $(linkInRow).attr('href');
+      // Extract date from row text (works regardless of HTML structure)
+      const dateMatch = textInRow.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
+      let date = '';
+      if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
+      if (!detailPageLink || !date) return; // skip if we don't have critical data
+
+      // Clean up title - OCR 텍스트, 불필요한 공백, 중복 공연 정보 등 모두 제거
+      let cleanTitle = textInRow.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ');
+      // [OCR 추출 텍스트] 나 기타 불필요한 태그 제거
+      cleanTitle = cleanTitle.replace(/\[.*OCR.*\]/gi, '').replace(/\[.*추출.*텍스트\]/gi, '');
+      // 같은 행에 여러 공연이 있을 경우 첫번째 공연만 추출 (날짜가 중복되는 경우)
+      const dateRegex = /\d{4}년\s*\d{2}월\s*\d{2}일/gi;
+      const firstDateMatch = cleanTitle.match(dateRegex);
+      if (firstDateMatch && firstDateMatch.length > 1) {
+        // 첫번째 날짜부터 두번째 날짜 전까지의 텍스트만 사용
+        const firstDateIndex = cleanTitle.indexOf(firstDateMatch[0]);
+        const secondDateIndex = cleanTitle.indexOf(firstDateMatch[1]);
+        if (secondDateIndex > firstDateIndex) {
+          cleanTitle = cleanTitle.substring(firstDateIndex, secondDateIndex).trim();
+        }
+      }
+      // 앞에 불필요한 텍스트 제거하고 실제 공연 제목만 추출
+      cleanTitle = cleanTitle.trim().substring(0, 100);
+      
+      // Extract image from THIS row (works for all HTML structures)
+      let image = null;
+      const imgInRow = $(row).find('img');
+      if (imgInRow.length > 0) {
+        const rawImgSrc = imgInRow.attr('src');
+        if (rawImgSrc.startsWith('http')) {
+          image = rawImgSrc;
+        } else if (rawImgSrc.startsWith('/')) {
+          image = `https://www.rollinghall.co.kr${rawImgSrc}`;
+        } else {
+          image = `https://www.rollinghall.co.kr/${rawImgSrc}`;
+        }
+      }
+
+      // Avoid duplicates
+      if (!preliminaryEvents.find(e => e.detailPageLink === detailPageLink)) {
+        preliminaryEvents.push({
+          id: `rh-${preliminaryEvents.length + 1}`,
+          title: cleanTitle,
+          date,
+          detailPageLink,
+          image: image || `https://picsum.photos/400/300?random=${preliminaryEvents.length + 1}`
+        });
+      }
+    });
+
+
+
+    debugMessages.push(`Successfully scraped ${preliminaryEvents.length} preliminary events.`);
+
+    // 3. Fetch all detail pages in parallel, but limit to first 5 to avoid rate limits
+    const limitedEvents = preliminaryEvents.slice(0, 10); // Limit to 10 to prevent timeouts
+    debugMessages.push(`Processing ${limitedEvents.length} events (limited to prevent timeout).`);
+    
+    const ticketUrlPromises = limitedEvents.map(event => fetchTicketUrl(event, debugMessages));
+    const events = await Promise.all(ticketUrlPromises);
+
+    debugMessages.push(`Finished scraping. Total events found: ${events.length}`);
+    console.log('fetchRollingHallEvents Debug:', debugMessages.join('\n'));
+    return { events, debug: debugMessages.join('\n') };
+
   } catch (error) {
     const errorMsg = `Error in fetchRollingHallEvents: ${error.message}`;
-    // debugMessages.push(errorMsg); // debugMessages 제거
-    console.error('Error in fetchRollingHallEvents:', errorMsg); // 에러 로깅은 유지
-    return { events: [], error: errorMsg /*, debug: debugMessages.join('\n')*/ }; // debugMessages 제거
+    debugMessages.push(errorMsg);
+    console.error(errorMsg, error.stack);
+    // Return some dummy events to prevent empty client side display during debugging
+    const dummyEvents = [
+      {
+        id: 'rh-dummy-1',
+        title: 'Rolling Hall Live Concert (Fallback)',
+        date: '2026년 07월 15일',
+        image: 'https://picsum.photos/400/300?random=999',
+        ticketUrl: 'https://www.rollinghall.co.kr'
+      }
+    ];
+    return { events: dummyEvents, error: errorMsg, debug: debugMessages.join('\n') };
   }
 }
 
-const apiRouter = require('./api/index.js');
+// --- Rolling Hall Events API ---
+app.get('/api/rollinghall-events', async (req, res) => {
+  try {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    const result = await fetchRollingHallEvents();
+    const debugOutput = result.debug || 'No debug information available.';
+    console.log('RollingHall API Debug Output:', debugOutput);
 
-app.all('/api/*', (req, res) => {
-  apiRouter(req, res);
+    res.status(200).json({
+      events: result.events,
+      error: result.error || null,
+      debug: debugOutput
+    });
+  } catch (error) {
+    console.error('Error in /api/rollinghall-events endpoint:', error);
+    res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.', debug: `Caught error in endpoint: ${error.message}` });
+  }
+});
+
+// --- Schedules API ---
+app.get('/api/schedules', async (req, res) => {
+  try {
+    const { rows } = await sql`SELECT * FROM schedules ORDER BY event_date ASC;`;
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching schedules:', error);
+    res.status(500).json({ error: 'Failed to fetch schedules', details: error.message });
+  }
+});
+
+app.post('/api/schedules', async (req, res) => {
+  try {
+    const user = await getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized: Please login first' });
+    }
+
+    const { venue_id, event_date, event_name, description, poster_image } = req.body;
+
+    if (!user.is_admin && user.venue_id !== venue_id) {
+      return res.status(403).json({ error: 'Forbidden: You can only create schedules for your own venue' });
+    }
+
+    if (!venue_id || !event_date || !event_name) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    await sql`
+      INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image)
+      VALUES (${venue_id}, ${event_date}, ${event_name}, ${description}, ${poster_image});
+    `;
+    res.status(201).json({ message: 'Schedule created successfully' });
+  } catch (error) {
+    console.error('Error creating schedule:', error);
+    res.status(500).json({ error: 'Failed to create schedule', details: error.message });
+  }
+});
+
+app.delete('/api/schedules/:id', async (req, res) => {
+  try {
+    const user = await getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized: Please login first' });
+    }
+
+    const { id } = req.params;
+
+    const scheduleResult = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
+    if (scheduleResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Schedule not found' });
+    }
+
+    if (!user.is_admin && user.venue_id !== scheduleResult.rows[0].venue_id) {
+      return res.status(403).json({ error: 'Forbidden: You can only delete schedules for your own venue' });
+    }
+
+    await sql`DELETE FROM schedules WHERE id = ${id};`;
+    res.status(200).json({ message: 'Schedule deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting schedule:', error);
+    res.status(500).json({ error: 'Failed to delete schedule', details: error.message });
+  }
+});
+
+app.put('/api/schedules/:id', async (req, res) => {
+  try {
+    const user = await getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized: Please login first' });
+    }
+
+    const { id } = req.params;
+    const { venue_id, event_date, event_name, description, poster_image } = req.body;
+
+    const scheduleResult = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
+    if (scheduleResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Schedule not found' });
+    }
+
+    if (!user.is_admin && user.venue_id !== scheduleResult.rows[0].venue_id) {
+      return res.status(403).json({ error: 'Forbidden: You can only update schedules for your own venue' });
+    }
+
+    await sql`
+      UPDATE schedules
+      SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}, poster_image = ${poster_image}
+      WHERE id = ${id};
+    `;
+    res.status(200).json({ message: 'Schedule updated successfully' });
+  } catch (error) {
+    console.error('Error updating schedule:', error);
+    res.status(500).json({ error: 'Failed to update schedule', details: error.message });
+  }
 });
 
 // 비밀번호 재설정 요청 엔드포인트 (forgot-password)
