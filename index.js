@@ -14,11 +14,25 @@ let cachedEvents = null;
 let lastFetchedTime = 0;
 const CACHE_DURATION = 3600000; // 1시간
 
-// CORS 설정 (모든 출처 허용)
+// CORS 설정
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://jtsgrit0.github.io',
+  'https://barzidorock.vercel.app',
+];
+
 app.use(cors({
-  origin: '*',
+  origin: (origin, callback) => {
+    // 허용된 출처 목록, Vercel 미리보기 URL, 그리고 (Postman 같은) 출처 없는 요청을 허용합니다.
+    if (!origin || allowedOrigins.includes(origin) || /barzidorock.*\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // 인증 정보(쿠키 등) 허용
 }));
 
 // JSON 요청 본문 파싱
