@@ -352,6 +352,9 @@ const SchedulePage = ({ language }) => {
       if (response.ok) {
         const data = await response.json();
         setPendingManagers(data.pending_managers);
+      } else if (response.status === 403) {
+        console.error('Failed to fetch pending managers: 403 Forbidden. Check admin permissions.');
+        // Optionally, you can set an error state here to display a message to the user
       } else {
         console.error('Failed to fetch pending managers:', response.status, response.statusText);
       }
