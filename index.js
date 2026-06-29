@@ -83,6 +83,22 @@ secureRouter.post('/schedules/upload', upload.single('file'), async (req, res) =
   }
 });
 
+// 승인 대기 공연장 관리자 목록 조회
+secureRouter.get('/admin/pending-venue-managers', async (req, res) => {
+  try {
+    const user = await getAuthenticatedUser(req);
+    if (!user || !user.is_admin) {
+      return res.status(403).json({ error: 'Forbidden: Admin access required' });
+    }
+
+    const { rows } = await sql`SELECT id, email, venue_id FROM users WHERE is_approved = FALSE AND is_admin = FALSE;`;
+    res.status(200).json({ pending_managers: rows });
+  } catch (error) {
+    console.error('Error fetching pending managers:', error);
+    res.status(500).json({ error: 'Failed to fetch pending managers', details: error.message });
+  }
+});
+
 secureRouter.post('/schedules', async (req, res) => {
   try {
     const user = await getAuthenticatedUser(req);
