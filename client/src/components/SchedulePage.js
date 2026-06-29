@@ -226,13 +226,13 @@ const SchedulePage = ({ language }) => {
 
     if (selectedFile) {
       try {
-        const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ filename: selectedFile.name }),
-        });
+        const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload?filename=${selectedFile.name}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': selectedFile.type,
+        },
+        body: selectedFile,
+      });
 
         if (!uploadResponse.ok) {
           throw new Error('Failed to get upload URL');
