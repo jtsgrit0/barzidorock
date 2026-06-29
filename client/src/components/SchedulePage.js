@@ -66,7 +66,6 @@ const SchedulePage = ({ language }) => {
       const data = response.ok ? await response.json() : fallbackSchedules;
       const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
       setSchedules(formatScheduleRows(scheduleData));
-            console.log('Updated schedules:', formatScheduleRows(scheduleData));
     } catch {
       setSchedules(formatScheduleRows(fallbackSchedules));
     }
@@ -355,12 +354,18 @@ const SchedulePage = ({ language }) => {
   // 승인 대기 공연장 관리자 목록 조회 함수
   const fetchPendingManagers = useCallback(async () => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+        },
         credentials: 'include'
       });
       if (response.ok) {
         const data = await response.json();
         setPendingManagers(data.pending_managers);
+      } else {
+        console.error('Failed to fetch pending managers:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching pending managers:', error);
