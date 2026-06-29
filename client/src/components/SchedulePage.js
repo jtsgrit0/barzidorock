@@ -633,6 +633,7 @@ const SchedulePage = ({ language }) => {
                     {schedule.poster_image && (
                       <div className="schedule-item-poster">
                         <img src={schedule.poster_image} alt="Poster" />
+                        {console.log('Rendering image for schedule:', schedule.id, schedule.poster_image)}
                       </div>
                     )}
                   </div>
