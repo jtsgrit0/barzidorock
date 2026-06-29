@@ -131,16 +131,23 @@ const SchedulePage = ({ language }) => {
           let parsedEventName = '';
           let parsedDescription = '';
 
-          // 한국식 날짜 패턴 (YYYY년 MM월 DD일) 또는 ISO 날짜 패턴 탐색
-          const dateRegex = /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/;
-          const match = text.match(dateRegex);
-          
-          if (match) {
-            const year = match[1];
-            const month = match[2].padStart(2, '0');
-            const day = match[3].padStart(2, '0');
-            // datetime-local 형식에 맞춰 기본 시간 20:00으로 설정
-            parsedDate = `${year}-${month}-${day}T20:00`;
+          // 다양한 날짜 형식에 대한 정규 표현식
+          const dateRegexes = [
+            /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/, // YYYY년 MM월 DD일
+            /(\d{4})\.(\d{1,2})\.(\d{1,2})/, // YYYY.MM.DD
+            /(\d{4})-(\d{1,2})-(\d{1,2})/, // YYYY-MM-DD
+            /(\d{4})\s(\d{1,2})\s(\d{1,2})/, // YYYY MM DD
+          ];
+
+          for (const regex of dateRegexes) {
+            const match = text.match(regex);
+            if (match) {
+              const year = match[1];
+              const month = match[2].padStart(2, '0');
+              const day = match[3].padStart(2, '0');
+              parsedDate = `${year}-${month}-${day}T20:00`;
+              break; // 첫 번째로 일치하는 날짜를 사용
+            }
           }
 
           // 텍스트 줄을 분리하여 첫 번째 의미있는 줄을 공연명으로 사용
