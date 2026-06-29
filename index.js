@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const { sql } = require('@vercel/postgres');
 const { put } = require('@vercel/blob');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() }); // 메모리에 파일을 저장
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -63,16 +65,16 @@ secureRouter.get('/schedules', async (req, res) => {
   }
 });
 
-secureRouter.post('/schedules/upload', async (req, res) => {
+secureRouter.post('/schedules/upload', upload.single('file'), async (req, res) => {
   const { filename } = req.query;
   if (!filename) {
     return res.status(400).json({ error: 'Filename is required' });
   }
 
   try {
-    const blob = await put(filename, req.body, {
+    const blob = await put(filename, req.file.buffer, {
       access: 'public',
-      contentType: req.headers['content-type'],
+      contentType: req.file.mimetype,
     });
     res.status(200).json(blob);
   } catch (error) {
