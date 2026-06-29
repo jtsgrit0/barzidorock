@@ -14,6 +14,7 @@ const SchedulePage = ({ language }) => {
   const [loginError, setLoginError] = useState(''); // 로그인 에러 메시지
   // 승인 대기 공연장 관리자 목록 상태
   const [pendingManagers, setPendingManagers] = useState([]);
+  const [pendingManagersError, setPendingManagersError] = useState('');
   const [showPendingList, setShowPendingList] = useState(false);
   const [selectedArea, setSelectedArea] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
@@ -365,6 +366,7 @@ const SchedulePage = ({ language }) => {
 
   // 승인 대기 공연장 관리자 목록 조회 함수
   const fetchPendingManagers = useCallback(async () => {
+    setPendingManagersError('');
     try {
       const adminToken = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
@@ -378,12 +380,15 @@ const SchedulePage = ({ language }) => {
         setPendingManagers(data.pending_managers);
       } else if (response.status === 403) {
         console.error('Failed to fetch pending managers: 403 Forbidden. Check admin permissions.');
-        // Optionally, you can set an error state here to display a message to the user
+        setPendingManagersError('목록을 조회할 권한이 없습니다. 관리자에게 문의하세요.');
       } else {
-        console.error('Failed to fetch pending managers:', response.status, response.statusText);
+        const errorText = await response.text();
+        console.error('Failed to fetch pending managers:', response.status, errorText);
+        setPendingManagersError('승인 대기 목록을 불러오는 데 실패했습니다.');
       }
     } catch (error) {
       console.error('Error fetching pending managers:', error);
+      setPendingManagersError('승인 대기 목록을 불러오는 중 오류가 발생했습니다.');
     }
   }, [API_BASE_URL]);
 
@@ -520,6 +525,7 @@ const SchedulePage = ({ language }) => {
           </div>
           
           {/* 승인 대기 공연장 관리자 목록 */}
+          {pendingManagersError && <p className="error-message">{pendingManagersError}</p>}
           {showPendingList && pendingManagers.length > 0 && (
             <div className="pending-managers-container">
               <h3>승인 대기 중인 공연장 관리자 ({pendingManagers.length}명)</h3>
