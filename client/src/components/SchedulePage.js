@@ -66,6 +66,7 @@ const SchedulePage = ({ language }) => {
       const data = response.ok ? await response.json() : fallbackSchedules;
       const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
       setSchedules(formatScheduleRows(scheduleData));
+            console.log('Updated schedules:', formatScheduleRows(scheduleData));
     } catch {
       setSchedules(formatScheduleRows(fallbackSchedules));
     }
