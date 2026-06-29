@@ -8,11 +8,13 @@ const iconv = require('iconv-lite');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const { sql } = require('@vercel/postgres');
+const { put } = require('@vercel/blob');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
 
 const corsOptionsCredentials = {
@@ -61,6 +63,24 @@ secureRouter.get('/schedules', async (req, res) => {
   }
 });
 
+secureRouter.post('/schedules/upload', async (req, res) => {
+  const { filename } = req.query;
+  if (!filename) {
+    return res.status(400).json({ error: 'Filename is required' });
+  }
+
+  try {
+    const blob = await put(filename, req.body, {
+      access: 'public',
+      contentType: req.headers['content-type'],
+    });
+    res.status(200).json(blob);
+  } catch (error) {
+    console.error('Error uploading to Vercel Blob:', error);
+    res.status(500).json({ error: 'Failed to upload file', details: error.message });
+  }
+});
+
 secureRouter.post('/schedules', async (req, res) => {
   try {
     const user = await getAuthenticatedUser(req);
@@ -68,7 +88,7 @@ secureRouter.post('/schedules', async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized: Please login first' });
     }
 
-    const { venue_id, event_date, event_name, description, poster_image } = req.body;
+    const { venue_id, event_date, event_name, description, poster_image_url } = req.body;
 
     if (!user.is_admin && user.venue_id !== venue_id) {
       return res.status(403).json({ error: 'Forbidden: You can only create schedules for your own venue' });
@@ -80,7 +100,7 @@ secureRouter.post('/schedules', async (req, res) => {
 
     await sql`
       INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image)
-      VALUES (${venue_id}, ${event_date}, ${event_name}, ${description}, ${poster_image});
+      VALUES (${venue_id}, ${event_date}, ${event_name}, ${description}, ${poster_image_url});
     `;
     res.status(201).json({ message: 'Schedule created successfully' });
   } catch (error) {
@@ -123,7 +143,7 @@ secureRouter.put('/schedules/:id', async (req, res) => {
     }
 
     const { id } = req.params;
-    const { venue_id, event_date, event_name, description, poster_image } = req.body;
+    const { venue_id, event_date, event_name, description, poster_image_url } = req.body;
 
     const scheduleResult = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
     if (scheduleResult.rows.length === 0) {
@@ -136,7 +156,7 @@ secureRouter.put('/schedules/:id', async (req, res) => {
 
     await sql`
       UPDATE schedules
-      SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}, poster_image = ${poster_image}
+      SET venue_id = ${venue_id}, event_date = ${event_date}, event_name = ${event_name}, description = ${description}, poster_image = ${poster_image_url}
       WHERE id = ${id};
     `;
     res.status(200).json({ message: 'Schedule updated successfully' });
