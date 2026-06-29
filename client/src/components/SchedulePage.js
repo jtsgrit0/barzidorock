@@ -244,17 +244,16 @@ const SchedulePage = ({ language }) => {
     const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
     const localDate = new Date(rawData.event_date);
+    if (isNaN(localDate.getTime())) {
+      alert('유효한 공연 날짜를 선택해주세요.');
+      return;
+    }
     const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
     const dataToSubmit = {
       ...rawData,
       event_date: utcDate.toISOString(),
       poster_image_url: poster_image_url
     };
-
-    if (isNaN(localDate.getTime())) {
-      alert('유효한 공연 날짜를 선택해주세요.');
-      return;
-    }
 
     if (!dataToSubmit.venue_id) {
       alert('공연장은 필수 항목입니다.');
