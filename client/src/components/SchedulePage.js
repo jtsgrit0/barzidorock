@@ -315,6 +315,7 @@ const SchedulePage = ({ language }) => {
       id: schedule.id,
       venue_id: schedule.venue_id,
       event_name: schedule.event_name,
+      event_date: schedule.event_date,
       description: schedule.description,
       poster_image: schedule.poster_image, // 이미지 데이터 로드
       password: '',
