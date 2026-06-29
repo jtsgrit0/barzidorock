@@ -73,7 +73,7 @@ secureRouter.post('/schedules/upload', upload.single('file'), async (req, res) =
 
   try {
     const blob = await put(filename, req.file.buffer, {
-      access: 'public',
+      access: 'private',
       contentType: req.file.mimetype,
     });
     res.status(200).json(blob);
