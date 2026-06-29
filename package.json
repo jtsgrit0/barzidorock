@@ -17,6 +17,7 @@
     "express": "^4.22.2",
     "iconv-lite": "^0.7.2",
     "jimp": "^0.22.12",
+    "jsonwebtoken": "^9.0.3",
     "knex": "^3.2.10",
     "multer": "^2.2.0",
     "node-fetch": "^2.6.1",
