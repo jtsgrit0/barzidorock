@@ -549,7 +549,14 @@ const SchedulePage = ({ language }) => {
           <select
             name="venue_id"
             value={isEditing ? editingSchedule?.venue_id || '' : newEvent.venue_id}
-            onChange={handleInputChange}
+            onChange={(e) => {
+              const { name, value } = e.target;
+              if (isEditing) {
+                setEditingSchedule(prev => ({ ...prev, [name]: value }));
+              } else {
+                setNewEvent(prev => ({ ...prev, [name]: value }));
+              }
+            }}
             required
             disabled={!selectedArea}
           >
