@@ -252,6 +252,11 @@ const SchedulePage = ({ language }) => {
       poster_image_url: poster_image_url
     };
 
+    if (isNaN(localDate.getTime())) {
+      alert('유효한 공연 날짜를 선택해주세요.');
+      return;
+    }
+
     if (!dataToSubmit.venue_id) {
       alert('공연장은 필수 항목입니다.');
       return;
