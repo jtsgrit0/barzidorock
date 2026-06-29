@@ -192,15 +192,8 @@ const SchedulePage = ({ language }) => {
 
   const resetForm = () => {
     // 한국 시간(KST, UTC+9)으로 기본 datetime 설정
-    const now = new Date();
-    const koreaTime = new Date(now.getTime() + (9 * 60 * 60 * 1000)); // UTC+9
-    const formattedKoreaTime = koreaTime.toISOString().slice(0, 16); // datetime-local 형식에 맞춤
-    
     setNewEvent({
       venue_id: '',
-      event_date: formattedKoreaTime,
-      event_name: '',
-      description: '',
       poster_image: '', // 이미지 데이터 초기화
       password: '', // 비밀번호 초기화
     });
@@ -258,8 +251,8 @@ const SchedulePage = ({ language }) => {
       poster_image_url: poster_image_url
     };
 
-    if (!dataToSubmit.venue_id || !dataToSubmit.event_date || !dataToSubmit.event_name) {
-      alert('공연장, 날짜/시간, 공연명은 필수 항목입니다.');
+    if (!dataToSubmit.venue_id) {
+      alert('공연장은 필수 항목입니다.');
       return;
     }
 
@@ -301,13 +294,10 @@ const SchedulePage = ({ language }) => {
       setFilteredVenues(venues.filter(v => v.area === venue.area));
     }
     // UTC 시간을 로컬 시간대로 변환하여 datetime-local 형식에 맞춤
-    const eventDate = new Date(schedule.event_date);
-    const localISODate = new Date(eventDate.getTime() - (eventDate.getTimezoneOffset() * 60000)).toISOString().substring(0, 16);
-    
     setEditingSchedule({
       id: schedule.id,
       venue_id: schedule.venue_id,
-      event_date: localISODate,
+      event_date: schedule.event_date,
       event_name: schedule.event_name,
       description: schedule.description,
       poster_image: schedule.poster_image, // 이미지 데이터 로드
@@ -571,27 +561,9 @@ const SchedulePage = ({ language }) => {
               </option>
             ))}
           </select>
-          <input
-            type="datetime-local"
-            name="event_date"
-            value={isEditing ? editingSchedule?.event_date || '' : newEvent.event_date}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="event_name"
-            placeholder="공연명 또는 아티스트"
-            value={isEditing ? editingSchedule?.event_name || '' : newEvent.event_name}
-            onChange={handleInputChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="추가 정보 (선택 사항)"
-            value={isEditing ? editingSchedule?.description || '' : newEvent.description}
-            onChange={handleInputChange}
-          />
+
+
+
           <input
             type="file"
             name="poster_image"
