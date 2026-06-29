@@ -3,7 +3,7 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 // 캐시 설정: 이제 캐시를 항상 강제로 삭제하므로 CACHE_EXPIRY 미사용
-const CACHE_KEY = 'rollinghall_events_cache_v3';
+const CACHE_KEY = 'rollinghall_events_cache';
 const API_BASE_URLS = [
   process.env.REACT_APP_API_URL,
   'https://barzidorock.vercel.app',
@@ -79,28 +79,22 @@ const TicketsPage = () => {
 
   useEffect(() => {
     let isActive = true;
-    // 페이지 로드시 무조건 모든 캐시 삭제 - 강제로 새 데이터 가져오기
-    localStorage.removeItem('rollinghall_events_cache_v2');
-    localStorage.removeItem(CACHE_KEY);
-    // 혹시 모르는 모든 관련 캐시 키 삭제
-    Object.keys(localStorage).forEach(key => {
-      if (key.includes('rollinghall_events')) {
-        localStorage.removeItem(key);
-      }
-    });
 
     const loadEvents = async () => {
+      const cachedEvents = sessionStorage.getItem(CACHE_KEY);
+      if (cachedEvents) {
+        setEvents(JSON.parse(cachedEvents));
+        setLoading(false);
+        return;
+      }
+
       try {
         const freshEvents = await fetchRollingHallEvents();
         if (!isActive) return;
         
         console.log('✅ Fetched fresh events from API:', freshEvents);
         setEvents(freshEvents);
-        // 새 데이터만 캐시에 저장
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          timestamp: Date.now(),
-          data: { events: freshEvents },
-        }));
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(freshEvents));
       } catch (err) {
         console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
         if (!isActive) return;

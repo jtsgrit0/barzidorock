@@ -60,13 +60,23 @@ const SchedulePage = ({ language }) => {
   }, [API_BASE_URL]);
 
   const fetchSchedules = useCallback(async () => {
+    const cachedSchedules = sessionStorage.getItem('schedules');
+    if (cachedSchedules) {
+      setSchedules(JSON.parse(cachedSchedules));
+      return;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
       const data = response.ok ? await response.json() : fallbackSchedules;
       const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
-      setSchedules(formatScheduleRows(scheduleData));
+      const formattedSchedules = formatScheduleRows(scheduleData);
+      setSchedules(formattedSchedules);
+      sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
     } catch {
-      setSchedules(formatScheduleRows(fallbackSchedules));
+      const formattedSchedules = formatScheduleRows(fallbackSchedules);
+      setSchedules(formattedSchedules);
+      sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
     }
   }, [API_BASE_URL, formatScheduleRows]);
 
@@ -272,6 +282,7 @@ const SchedulePage = ({ language }) => {
         throw new Error(errorData.error || 'Network response was not ok');
       }
 
+      sessionStorage.removeItem('schedules');
       resetForm();
       await fetchSchedules();
       alert(isEditing ? '공연일정이 수정되었습니다!' : '공연일정이 저장되었습니다!');
@@ -420,6 +431,7 @@ const SchedulePage = ({ language }) => {
       }
 
       console.log('Server success: Schedule deleted');
+      sessionStorage.removeItem('schedules');
       await fetchSchedules();
       alert('공연일정이 삭제되었습니다!');
     } catch (error) {
