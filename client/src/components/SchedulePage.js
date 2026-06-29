@@ -19,7 +19,6 @@ const SchedulePage = ({ language }) => {
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [newEvent, setNewEvent] = useState({
     venue_id: '',
-    event_date: '',
     event_name: '',
     description: '',
     poster_image: '',
@@ -62,7 +61,7 @@ const SchedulePage = ({ language }) => {
 
   const fetchSchedules = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/schedules`);
+      const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
       const data = response.ok ? await response.json() : fallbackSchedules;
       const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
       setSchedules(formatScheduleRows(scheduleData));
@@ -88,14 +87,7 @@ const SchedulePage = ({ language }) => {
     setNewEvent(prev => ({ ...prev, venue_id: '' }));
   }, [selectedArea, processedVenues]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (isEditing) {
-      setEditingSchedule(prev => ({ ...prev, [name]: value }));
-    } else {
-      setNewEvent({ ...newEvent, [name]: value });
-    }
-  };
+
 
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -194,6 +186,8 @@ const SchedulePage = ({ language }) => {
     // 한국 시간(KST, UTC+9)으로 기본 datetime 설정
     setNewEvent({
       venue_id: '',
+      event_name: '',
+      description: '',
       poster_image: '', // 이미지 데이터 초기화
       password: '', // 비밀번호 초기화
     });
@@ -244,10 +238,6 @@ const SchedulePage = ({ language }) => {
     const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
     const localDate = new Date(rawData.event_date);
-    if (isNaN(localDate.getTime())) {
-      alert('유효한 공연 날짜를 선택해주세요.');
-      return;
-    }
     const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
     const dataToSubmit = {
       ...rawData,
@@ -301,7 +291,6 @@ const SchedulePage = ({ language }) => {
     setEditingSchedule({
       id: schedule.id,
       venue_id: schedule.venue_id,
-      event_date: schedule.event_date,
       event_name: schedule.event_name,
       description: schedule.description,
       poster_image: schedule.poster_image, // 이미지 데이터 로드
@@ -633,7 +622,6 @@ const SchedulePage = ({ language }) => {
                     {schedule.poster_image && (
                       <div className="schedule-item-poster">
                         <img src={schedule.poster_image} alt="Poster" />
-                        {console.log('Rendering image for schedule:', schedule.id, schedule.poster_image)}
                       </div>
                     )}
                   </div>
