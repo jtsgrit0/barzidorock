@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-undef
 import React, { useState, useEffect, useCallback } from 'react';
+import Tesseract from 'tesseract.js';
 
 
 import './SchedulePage.css';
@@ -104,11 +104,75 @@ const SchedulePage = ({ language }) => {
     if (file) {
       setSelectedFile(file); // 파일 객체 저장
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
+        const imageData = reader.result;
         if (isEditing) {
-          setEditingSchedule(prev => ({ ...prev, poster_image: reader.result }));
+          setEditingSchedule(prev => ({ ...prev, poster_image: imageData }));
         } else {
-          setNewEvent(prev => ({ ...prev, poster_image: reader.result }));
+          setNewEvent(prev => ({ ...prev, poster_image: imageData }));
+        }
+
+        // OCR로 이미지에서 텍스트 추출
+        try {
+          const { data: { text } } = await Tesseract.recognize(
+            imageData,
+            'kor+eng', // 한국어와 영어 인식
+            {
+              logger: m => console.log(m) // OCR 진행 로그
+            }
+          );
+
+          console.log('OCR 추출 텍스트:', text);
+
+          // 추출된 텍스트에서 날짜와 공연명 파싱
+          let parsedDate = '';
+          let parsedEventName = '';
+          let parsedDescription = '';
+
+          // 한국식 날짜 패턴 (YYYY년 MM월 DD일) 또는 ISO 날짜 패턴 탐색
+          const dateRegex = /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/;
+          const match = text.match(dateRegex);
+          
+          if (match) {
+            const year = match[1];
+            const month = match[2].padStart(2, '0');
+            const day = match[3].padStart(2, '0');
+            // datetime-local 형식에 맞춰 기본 시간 20:00으로 설정
+            parsedDate = `${year}-${month}-${day}T20:00`;
+          }
+
+          // 텍스트 줄을 분리하여 첫 번째 의미있는 줄을 공연명으로 사용
+          const lines = text.split('\n').filter(line => line.trim().length > 5);
+          if (lines.length > 0) {
+            parsedEventName = lines[0].trim().substring(0, 100); // 첫 100자만 사용
+          }
+          if (lines.length > 1) {
+            parsedDescription = lines.slice(1).join(' ').trim().substring(0, 500);
+          }
+
+          // 파싱된 데이터를 폼에 자동 입력
+          if (parsedDate || parsedEventName) {
+            if (isEditing) {
+              setEditingSchedule(prev => ({
+                ...prev,
+                ...(parsedDate && { event_date: parsedDate }),
+                ...(parsedEventName && { event_name: parsedEventName }),
+                ...(parsedDescription && { description: parsedDescription })
+              }));
+            } else {
+              setNewEvent(prev => ({
+                ...prev,
+                ...(parsedDate && { event_date: parsedDate }),
+                ...(parsedEventName && { event_name: parsedEventName }),
+                ...(parsedDescription && { description: parsedDescription })
+              }));
+            }
+            alert('이미지에서 텍스트를 추출하여 자동으로 입력했습니다!');
+          }
+
+        } catch (error) {
+          console.error('OCR 처리 중 오류:', error);
+          console.log('텍스트 자동 추출에 실패했습니다. 직접 입력해주세요.');
         }
       };
       reader.readAsDataURL(file);
