@@ -254,6 +254,11 @@ const SchedulePage = ({ language }) => {
 
     const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
+    if (!rawData.event_date) {
+      alert('날짜는 필수 항목입니다. 이미지에서 날짜를 인식하지 못한 경우, 다른 이미지를 사용해 보세요.');
+      return;
+    }
+    
     const localDate = new Date(rawData.event_date);
     const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
     const dataToSubmit = {
