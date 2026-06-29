@@ -116,13 +116,16 @@ secureRouter.post('/schedules', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // poster_image_url이 빈 문자열일 경우 NULL로 처리
+    const final_poster_image_url = poster_image_url || null;
+
     await sql`
       INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image)
-      VALUES (${venue_id}, ${event_date}, ${event_name}, ${description}, ${poster_image_url});
+      VALUES (${venue_id}, ${event_date}, ${event_name}, ${description}, ${final_poster_image_url});
     `;
     res.status(201).json({ message: 'Schedule created successfully' });
   } catch (error) {
-    console.error('Error creating schedule:', error);
+    console.error('Error creating schedule:', error.message, error.stack);
     res.status(500).json({ error: 'Failed to create schedule', details: error.message });
   }
 });
