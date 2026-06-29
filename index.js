@@ -66,10 +66,12 @@ secureRouter.get('/schedules', async (req, res) => {
 });
 
 secureRouter.post('/schedules/upload', upload.single('file'), async (req, res) => {
-  const { filename } = req.query;
-  if (!filename) {
+  const { filename: originalFilename } = req.query;
+  if (!originalFilename) {
     return res.status(400).json({ error: 'Filename is required' });
   }
+  const timestamp = Date.now();
+  const filename = `${timestamp}_${originalFilename}`;
 
   try {
     const blob = await put(filename, req.file.buffer, {
