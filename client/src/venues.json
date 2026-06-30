@@ -914,6 +914,7 @@
     "phoneNumber": "+82 10-2396-3050",
     "websiteUrl": "https://www.facebook.com/petsoundsbar",
     "googlePlaceId": "ChIJ_yDW1E6ifDURjtTAd-xUeOg",
+    "area": "itaewon",
     "description": null,
     "image_urls": [
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nynrqQ8YU_0XMfq7IUQh_Zt2CEbd6fN1FOJgjkKwTdeos2omObaMxKjd0SVSijy_ULPe0G1KJYIQAxmwqrh5DAcyPT2KsOAygZnUZ9x20a1cuAVe6uU5naihw4SZfElBkmrd6UpuNGVZoNc2AC22yD1sltCWt7UBdmdihWNSNiidZArZpeFzj94WfjH_qzu1PfzQ29lG7hTbYbf-xl1dnlkEJJ-n2Wbjo1Wso-ertQk7yyk0u54KjtkPwxS4-vflA6ozFltv9y4bl2slEV6_3_Ou8I_l5wl4LZIVSSjjNI-UImcIHpPDur9Tj-395XrwGHFbPoG5NslS6Pg3quoHBdQsVd9c7QD3d2M7pvDxPT822KMfC83mHu0z243ILIRSmuy7rpLok_TvLpNgvCd_tBQvguizU917pqgiCsJ3tAfvyz&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
@@ -928,7 +929,6 @@
       "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AaVGc3nZwiZi6XDmltT8BvBJVYp5JbwGwFUt_0sbn-_NuNpxMh1RtSzbVs7hOohGdpi0o5ltyLdKapyDfjDkOwlCnNW1_5Mk8spmB2YXgz2XnV2tML3L0FJjZdsWxI5cDq-y58USEnt0ZZtycZ6gODjh-Wp2JxHN9MKwgE4EPi7Q27GUmuCquqqzCoat62drt0V3ISZ_xjZ9q48irdrKsCV0GcURqx1tEcdmvPSOz3o5Ju5irtUM-yxfLpMlJF5toGTjEOowPRpeHReskksdGBjk1W0eeMYuK5ARSsR8mEevG2cLj6TlRLb5fWm-wDlZqVn4nIKQaYkehoItBuQhbyLBDHQFrbJiT9U1P9gJ9nIsZJGmAOCzHNjXTUV7cEI6hW1sb-OgaRWqKCT6ynvFbt8xLURdvNL6ddjRL9ozz01Y-QxdGuGD&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
     ],
     "opening_hours": "[\"Monday: 5:30 PM – 2:00 AM\",\"Tuesday: 5:30 PM – 2:00 AM\",\"Wednesday: 5:30 PM – 2:00 AM\",\"Thursday: 5:30 PM – 2:00 AM\",\"Friday: 5:00 PM – 3:00 AM\",\"Saturday: 5:00 PM – 3:00 AM\",\"Sunday: 5:00 PM – 3:00 AM\"]",
-    "area": "itaewon",
     "created_at": "2026-06-11T02:40:13.412Z"
   },
   {
