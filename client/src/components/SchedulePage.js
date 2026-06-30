@@ -177,22 +177,14 @@ const SchedulePage = ({ language }) => {
             let parsedEventName = '';
             let parsedDescription = '';
 
-            const dateRegexes = [
-              /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/, // 2026년 6월 28일
-              /(\d{4})\s*\.\s*(\d{1,2})\s*\.\s*(\d{1,2})/,   // 2026. 6. 28.
-              /(\d{4})-(\d{1,2})-(\d{1,2})/,                 // 2026-06-28
-              /(\d{4})\s+(\d{1,2})\s+(\d{1,2})/,               // 2026 6 28
-            ];
-
-            for (const regex of dateRegexes) {
-              const match = text.match(regex);
-              if (match) {
-                const year = match[1];
-                const month = match[2].padStart(2, '0');
-                const day = match[3].padStart(2, '0');
-                parsedDate = `${year}-${month}-${day}T20:00`;
-                break;
-              }
+            // More robust regex to find dates like YYYY.MM.DD, YYYY-MM-DD, YYYY MM DD
+            const robustDateRegex = /(\d{4})[.\s-년월일\s]*(\d{1,2})[.\s-년월일\s]*(\d{1,2})/;
+            const match = text.match(robustDateRegex);
+            if (match) {
+              const year = match[1];
+              const month = match[2].padStart(2, '0');
+              const day = match[3].padStart(2, '0');
+              parsedDate = `${year}-${month}-${day}T20:00`;
             }
 
             const lines = text.split('\n').filter(line => line.trim().length > 5);
