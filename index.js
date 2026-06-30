@@ -93,7 +93,7 @@ secureRouter.get('/admin/pending-venue-managers', async (req, res) => {
       return res.status(403).json({ error: 'Forbidden: Admin access required' });
     }
 
-    const { rows } = await sql`SELECT id, email, venue_id FROM users WHERE is_approved = FALSE AND is_admin = FALSE;`;
+    const { rows } = await sql`SELECT id, email, venue_id FROM venue_managers WHERE is_approved = FALSE AND is_admin = FALSE;`;
     res.status(200).json({ pending_managers: rows });
   } catch (error) {
     console.error('Error fetching pending managers:', error);
