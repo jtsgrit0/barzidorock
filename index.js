@@ -360,48 +360,52 @@ async function fetchRollingHallEvents() {
 
     const preliminaryEvents = [];
     allRows.each((i, row) => {
-      const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
-      if (linkInRow.length === 0) return;
-
-      const textInRow = $(row).text().trim();
-      if (!textInRow) return;
+      const textInRow = $(row).text().trim().replace(/\s+/g, ' ');
 
       const detailPageLink = $(linkInRow).attr('href');
-      const dateMatch = textInRow.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
-      let date = '';
-      if (dateMatch) date = `${dateMatch[1]}년 ${dateMatch[2]}월 ${dateMatch[3]}일`;
-      if (!detailPageLink || !date) return;
+      if (!detailPageLink) return;
 
-      let cleanTitle = textInRow.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ');
-      cleanTitle = cleanTitle.replace(/\[.*OCR.*\]/gi, '').replace(/\[.*추출.*텍스트\]/gi, '');
-      const dateRegex = /\d{4}년\s*\d{2}월\s*\d{2}일/gi;
-      const firstDateMatch = cleanTitle.match(dateRegex);
-      if (firstDateMatch && firstDateMatch.length > 1) {
-        const firstDateIndex = cleanTitle.indexOf(firstDateMatch[0]);
-        const secondDateIndex = cleanTitle.indexOf(firstDateMatch[1]);
-        if (secondDateIndex > firstDateIndex) {
-          cleanTitle = cleanTitle.substring(firstDateIndex, secondDateIndex).trim();
+      // 정규식을 사용하여 제목과 날짜를 명확하게 분리
+      const titleMatch = textInRow.match(/(.*?)\s*\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
+      
+      let title = textInRow;
+      let date = '';
+
+      if (titleMatch && titleMatch.length === 3) {
+        // [공연일: ...] 패턴이 있는 경우
+        title = titleMatch[1].trim();
+        date = titleMatch[2].trim();
+      } else {
+        // 패턴이 없는 경우, 기존 방식대로 날짜를 찾아보고 제목에서 제거
+        const dateMatchFallback = textInRow.match(/(\d{4}년\s*\d{2}월\s*\d{2}일)/);
+        if (dateMatchFallback) {
+          date = dateMatchFallback[0];
+          // 제목에서 날짜와 관련 없는 텍스트(예: OCR 텍스트) 제거
+          title = textInRow.replace(date, '').replace(/\[.*OCR.*\]/gi, '').replace(/\[.*추출.*텍스트\]/gi, '').trim();
         }
       }
-      cleanTitle = cleanTitle.trim().substring(0, 100);
       
+      if (!date) return; // 날짜를 추출할 수 없으면 이벤트를 추가하지 않음
+
       let image = null;
       const imgInRow = $(row).find('img');
       if (imgInRow.length > 0) {
         const rawImgSrc = imgInRow.attr('src');
-        if (rawImgSrc.startsWith('http')) {
-          image = rawImgSrc;
-        } else if (rawImgSrc.startsWith('/')) {
-          image = `https://www.rollinghall.co.kr${rawImgSrc}`;
-        } else {
-          image = `https://www.rollinghall.co.kr/${rawImgSrc}`;
+        if (rawImgSrc) {
+            if (rawImgSrc.startsWith('http')) {
+                image = rawImgSrc;
+            } else if (rawImgSrc.startsWith('/')) {
+                image = `https://www.rollinghall.co.kr${rawImgSrc}`;
+            } else {
+                image = `https://www.rollinghall.co.kr/${rawImgSrc}`;
+            }
         }
       }
 
       if (!preliminaryEvents.find(e => e.detailPageLink === detailPageLink)) {
         preliminaryEvents.push({
           id: `rh-${preliminaryEvents.length + 1}`,
-          title: cleanTitle,
+          title: title.substring(0, 100), // 제목 길이 제한
           date,
           detailPageLink,
           image: image || `https://picsum.photos/400/300?random=${preliminaryEvents.length + 1}`
