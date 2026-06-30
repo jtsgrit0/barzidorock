@@ -330,6 +330,7 @@ const SchedulePage = ({ language }) => {
       const body = JSON.stringify(dataToSubmit);
 
       const adminToken = localStorage.getItem('adminToken');
+      console.log('adminToken in handleSubmit:', adminToken); // 토큰 값 확인
       const response = await fetch(url, {
         method: method,
         headers: {
