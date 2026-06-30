@@ -170,11 +170,13 @@ const SchedulePage = ({ language }) => {
         setTimeout(async () => {
           try {
             console.log('OCR 처리 시작...');
+            // CORS 문제 해결을 위해 공식 tessdata CDN 사용
             const { data: { text } } = await Tesseract.recognize(
               imageData,
               'kor+eng',
               {
-                logger: m => console.log('[Tesseract]', m)
+                logger: m => console.log('[Tesseract]', m),
+                langPath: 'https://tessdata.projectnaptha.com/4.0.0'
               }
             );
 
