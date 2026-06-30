@@ -177,23 +177,76 @@ const SchedulePage = ({ language }) => {
             let parsedDate = '';
             let parsedEventName = '';
             let parsedDescription = '';
+            let eventHour = 20; // 기본 시작 시간 오후 8시
 
-            // More robust regex to find dates like YYYY.MM.DD, YYYY-MM-DD, YYYY MM DD
+            // 1. 소스코드로 의심되는 줄 필터링하기 위한 키워드
+            const codeKeywords = ['import', 'export', 'function', 'const', 'let', 'var', 'return', 'if', 'else', 'for', 'while', 'class', 'new', 'this', '=>', '{', '}', '//', '/*', '*/', '===', '!==', '&&', '||', 'async', 'await', 'try', 'catch', 'throw', 'console.log', 'useState', 'useEffect', 'React', 'export default'];
+            
+            // 2. 원본 텍스트를 줄 단위로 분리하고 전처리
+            let allLines = text.split('\n')
+              .map(line => line.trim())
+              .filter(line => {
+                // 빈 줄 제거
+                if (!line) return false;
+                // 소스코드 키워드가 포함된 줄 제거
+                for (const keyword of codeKeywords) {
+                  if (line.includes(keyword)) return false;
+                }
+                // 너무 짧은 줄 제거
+                if (line.length < 3) return false;
+                return true;
+              });
+
+            // 3. 날짜 추출 (시간도 함께 추출)
             const robustDateRegex = /(\d{4})[.\s-년월일\s]*(\d{1,2})[.\s-년월일\s]*(\d{1,2})/;
-            const match = text.match(robustDateRegex);
-            if (match) {
-              const year = match[1];
-              const month = match[2].padStart(2, '0');
-              const day = match[3].padStart(2, '0');
-              parsedDate = `${year}-${month}-${day}T20:00`;
+            const timeRegex = /(\d{1,2})\s*(?:PM|AM|시|pm|am)/i; // 시간 패턴 매칭
+            
+            const dateMatch = text.match(robustDateRegex);
+            if (dateMatch) {
+              const year = dateMatch[1];
+              const month = dateMatch[2].padStart(2, '0');
+              const day = dateMatch[3].padStart(2, '0');
+              
+              // 텍스트에서 시간 추출 시도
+              const timeMatch = text.match(timeRegex);
+              if (timeMatch) {
+                let hour = parseInt(timeMatch[1], 10);
+                // PM이 붙어있고 12시가 아니면 12시간 더함
+                if (timeMatch[0].toLowerCase().includes('pm') && hour !== 12) {
+                  hour += 12;
+                }
+                // AM이 붙어있고 12시이면 0시로 변경
+                if (timeMatch[0].toLowerCase().includes('am') && hour === 12) {
+                  hour = 0;
+                }
+                eventHour = hour;
+              }
+              
+              parsedDate = `${year}-${month}-${day}T${String(eventHour).padStart(2, '0')}:00`;
             }
 
-            const lines = text.split('\n').filter(line => line.trim().length > 5);
-            if (lines.length > 0) {
-              parsedEventName = lines[0].trim().substring(0, 100);
-            }
-            if (lines.length > 1) {
-              parsedDescription = lines.slice(1).join(' ').trim().substring(0, 500);
+            // 4. 남은 라인들에서 공연 제목과 설명 분류
+            if (allLines.length > 0) {
+              // 첫 번째 의미있는 라인을 공연 제목으로 사용 (최대 100자)
+              parsedEventName = allLines[0].substring(0, 100);
+              
+              // 나머지 라인들을 설명으로 합치기
+              if (allLines.length > 1) {
+                // 공연 정보에 자주 등장하는 키워드가 있는 라인만 필터링하여 설명에 포함
+                const validDescriptionLines = allLines.slice(1).filter(line => {
+                  const showKeywords = ['입장', '시작', '마감', '무료', '유료', '티켓', '공연', '밴드', '라이브', 'concert', 'show', 'pm', 'am', '시', '분', '~', '-'];
+                  // 공연 관련 키워드가 있거나, 일반적인 문장 길이인 경우만 유지
+                  for (const keyword of showKeywords) {
+                    if (line.toLowerCase().includes(keyword)) return true;
+                  }
+                  return line.length > 10; // 너무 짧은 라인은 제외
+                });
+                parsedDescription = validDescriptionLines.join(' ').trim().substring(0, 500);
+                // 만약 필터링 후 설명이 비었다면 원래 모든 라인을 사용
+                if (!parsedDescription) {
+                  parsedDescription = allLines.slice(1).join(' ').trim().substring(0, 500);
+                }
+              }
             }
 
             // 상태 업데이트 전에 현재 isEditing 값을 클로저에서 안전하게 사용
