@@ -54,28 +54,6 @@
     "created_at": "2026-06-11T02:40:08.511Z"
   },
   {
-    "id": "pet-sounds-001",
-    "name": {
-      "ko": "펫사운즈",
-      "en": "Pet Sounds"
-    },
-    "type": "live_venue",
-    "address": {
-      "ko": "서울 용산구 이태원동 278-8",
-      "en": "278-8 Itaewon-dong, Yongsan-gu, Seoul, South Korea"
-    },
-    "latitude": 37.5354,
-    "longitude": 126.9902,
-    "phoneNumber": null,
-    "websiteUrl": null,
-    "googlePlaceId": null,
-    "description": null,
-    "image_urls": [],
-    "opening_hours": "[]",
-    "area": "itaewon",
-    "created_at": "2026-06-28T00:00:00.000Z"
-  },
-  {
     "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
     "name": {
       "ko": "Vel.R",
