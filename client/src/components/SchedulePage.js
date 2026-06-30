@@ -325,7 +325,7 @@ const SchedulePage = ({ language }) => {
     try {
       const method = isEditing ? 'PUT' : 'POST';
       const url = isEditing 
-        ? `${API_BASE_URL}/api/schedules`
+        ? `${API_BASE_URL}/api/schedules/${editingSchedule.id}`
         : `${API_BASE_URL}/api/schedules`;
       const body = JSON.stringify(dataToSubmit);
 
@@ -480,14 +480,18 @@ const SchedulePage = ({ language }) => {
     }
   }, [isLoggedIn, fetchPendingManagers]);
 
-  const handleDelete = useCallback(async (id) => {
+    const handleDelete = useCallback(async (id) => {
     if (!window.confirm('정말로 이 일정을 삭제하시겠습니까?')) {
       return;
     }
     try {
+      const adminToken = localStorage.getItem('adminToken');
       console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}`);
       const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+        },
         credentials: 'include',
       });
 
