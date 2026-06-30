@@ -286,6 +286,7 @@ const SchedulePage = ({ language }) => {
           'Authorization': `Bearer ${adminToken}`,
         },
         body: formData,
+        credentials: 'include',
       });
 
         if (!uploadResponse.ok) {
@@ -336,6 +337,7 @@ const SchedulePage = ({ language }) => {
           'Authorization': `Bearer ${adminToken}`,
         },
         body: body,
+        credentials: 'include',
       });
 
       if (!response.ok) {
