@@ -64,8 +64,11 @@ const SchedulePage = ({ language }) => {
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
   const formatScheduleRows = useCallback((scheduleData) => {
+    console.log('원본 스케줄 데이터:', scheduleData);
+    console.log('venues.json 데이터:', venues);
     return scheduleData.map(item => {
       const venue = venues.find(v => v.id === item.venue_id);
+      console.log(`item.venue_id: ${item.venue_id}, 찾은 venue:`, venue);
       // DB에 저장된 UTC 시간을 한국 시간(KST, UTC+9)으로 변환해서 화면에 표시
       const utcDate = new Date(item.event_date);
       const formattedDate = utcDate.toLocaleString('ko-KR', {
@@ -180,7 +183,8 @@ const SchedulePage = ({ language }) => {
             let parsedDate = '';
             let parsedEventName = '';
             let parsedDescription = '';
-            let eventHour = 20; // 기본 시작 시간 오후 8시
+            let eventHour = 20; // 기본 시작 시간 오후 8시 (20시)
+            console.log('기본 eventHour 초기값:', eventHour);
 
             // 한국식 날짜 포맷 모두 지원: 2026.6.28, 2026년 6월 28일, 2026-06-28 등
             const koreanDateRegexes = [
@@ -189,75 +193,107 @@ const SchedulePage = ({ language }) => {
               /(\d{4})\/(\d{2})\/(\d{2})/, // 2026/06/28
             ];
             
-            // 시간 포맷: 오후7시, 7PM, 19:00, 19시 등
+            // 시간 포맷: 오후7시, 7PM, 19:00, 19시 등 모든 케이스 커버
             const koreanTimeRegexes = [
               /(오전|오후)\s*(\d{1,2})시?/, // 오후7시, 오전 10시
               /(\d{1,2})\s*(PM|AM|pm|am)/, // 7PM, 10am
-              /(\d{1,2}):(\d{2})/, // 19:00, 7:30
+              /(\d{2}):(\d{2})/, // 19:00, 07:30
+              /(\d{1,2})시/, // 19시, 7시
             ];
 
-            // 원본 텍스트에서 모든 라인을 깔끔하게 정리
+            // 원본 텍스트에서 모든 라인을 깔끔하게 정리 - 코드 필터링 강화
             let allLines = text.split('\n')
               .map(line => line.replace(/[\n\r\t]/g, ' ').trim()) // 특수문자 제거
               .filter(line => {
                 // 빈 줄 제거
                 if (!line || line.length < 2) return false;
-                // 코드로 보이는 긴 영문 라인 제거 (base64나 코드 조각)
-                if (/^[a-zA-Z0-9+/]{30,}$/.test(line)) return false;
+                // base64나 코드로 보이는 긴 영문+숫자 라인 철저히 제거
+                if (/^[a-zA-Z0-9+/]{25,}$/.test(line)) return false;
+                // HTML/JS 코드 조각으로 보이는 라인 제거
+                if (/<\/?[a-z][\s\S]*>/i.test(line) || line.includes('function') || line.includes('const') || line.includes('var')) return false;
                 return true;
               });
 
             console.log('=== OCR 처리 후 라인:', allLines);
 
-            // 날짜 먼저 찾기
-            for (const regex of koreanDateRegexes) {
-              const match = text.match(regex);
-              if (match) {
-                const year = match[1];
-                const month = match[2].padStart(2, '0');
-                const day = match[3].padStart(2, '0');
-                
-                // 시간도 같이 찾기
-                for (const timeRegex of koreanTimeRegexes) {
-                  const timeMatch = text.match(timeRegex);
-                  if (timeMatch) {
-                    if (timeMatch[0].includes('오후') && parseInt(timeMatch[2]) < 12) {
-                      eventHour = parseInt(timeMatch[2]) + 12;
-                    } else if (timeMatch[0].includes('오전') && parseInt(timeMatch[2]) === 12) {
-                      eventHour = 0;
-                    } else if (timeMatch[2] === 'PM' && parseInt(timeMatch[1]) < 12) {
-                      eventHour = parseInt(timeMatch[1]) + 12;
-                    } else if (timeMatch[1] && !isNaN(parseInt(timeMatch[1]))) {
-                      eventHour = parseInt(timeMatch[1]);
-                    } else if (timeMatch[0].includes(':')) {
-                      eventHour = parseInt(timeMatch[1]);
-                    }
-                    break;
-                  }
+            // 시간 먼저 찾기 (날짜보다 먼저 찾아서 기본값 덮어쓰기)
+            for (const timeRegex of koreanTimeRegexes) {
+              const timeMatch = text.match(timeRegex);
+              if (timeMatch) {
+                console.log('시간 매치됨:', timeMatch);
+                // 오후/오후 처리
+                if (timeMatch[1] === '오후' && parseInt(timeMatch[2]) < 12) {
+                  eventHour = parseInt(timeMatch[2]) + 12;
+                } else if (timeMatch[1] === '오전' && parseInt(timeMatch[2]) === 12) {
+                  eventHour = 0;
+                } else if (timeMatch[1] === '오전') {
+                  eventHour = parseInt(timeMatch[2]);
+                // PM/AM 처리
+                } else if (timeMatch[2]?.toUpperCase() === 'PM' && parseInt(timeMatch[1]) < 12) {
+                  eventHour = parseInt(timeMatch[1]) + 12;
+                } else if (timeMatch[2]?.toUpperCase() === 'AM' && parseInt(timeMatch[1]) === 12) {
+                  eventHour = 0;
+                // HH:MM 형식 처리
+                } else if (timeMatch[0].includes(':')) {
+                  eventHour = parseInt(timeMatch[1]);
+                // "19시" 같은 24시간 형식 처리
+                } else if (!isNaN(parseInt(timeMatch[1])) && timeMatch[1] !== '오전' && timeMatch[1] !== '오후') {
+                  eventHour = parseInt(timeMatch[1]);
                 }
-
-                parsedDate = `${year}-${month}-${day}T${String(eventHour).padStart(2, '0')}:00`;
+                console.log('최종 eventHour:', eventHour);
                 break;
               }
             }
 
-            // 공연 제목 추출: 날짜가 포함되지 않은 가장 긴 첫 번째 라인을 제목으로
-            for (const line of allLines) {
-              // 날짜가 포함되지 않고, 5자 이상인 라인을 첫 제목으로 선택
-              if (!/\d{4}/.test(line) && line.length > 5 && !parsedEventName) {
-                parsedEventName = line.substring(0, 50); // 제목은 50자로 제한
-              } else if (parsedEventName && line.length > 5) {
-                // 그 이후 라인들은 설명에 추가
-                parsedDescription += line + ' ';
+            // 날짜 찾기
+            for (const regex of koreanDateRegexes) {
+              const match = text.match(regex);
+              if (match) {
+                console.log('날짜 매치됨:', match);
+                const year = match[1];
+                const month = match[2].padStart(2, '0');
+                const day = match[3].padStart(2, '0');
+                
+                parsedDate = `${year}-${month}-${day}T${String(eventHour).padStart(2, '0')}:00:00`;
+                console.log('최종 parsedDate:', parsedDate);
+                break;
               }
             }
 
-            // 설명이 비었으면 나머지 모든 텍스트를 500자로 제한
-            if (!parsedDescription && allLines.length > 1) {
-              parsedDescription = allLines.slice(1).join(' ').substring(0, 500);
-            } else {
-              parsedDescription = parsedDescription.substring(0, 500);
+            // 공연 제목 추출: 아티스트/밴드 이름이 포함된 라인을 우선으로 제목 선택
+            for (const line of allLines) {
+              // 1. 아티스트 키워드가 포함된 라인을 우선적으로 제목으로 선택
+              // 2. 날짜/시간 숫자가 포함되지 않고, 5자 이상인 첫번째 의미있는 라인을 제목으로
+              if (!/\d{4}|:|시|일/.test(line) && line.length > 5 && !parsedEventName) {
+                // 특수문자나 불필요한 문자 제거
+                const cleanLine = line.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim();
+                if (cleanLine.length > 3) {
+                  parsedEventName = cleanLine.substring(0, 50); // 제목 50자 제한
+                }
+              } else if (parsedEventName && line.length > 5 && !/\d{4}|:|시|일|function|const|var/.test(line)) {
+                // 그 이후 유효한 라인들만 설명에 추가, 코드 키워드는 완전히 제외
+                const cleanDescLine = line.replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim();
+                if (cleanDescLine.length > 3) {
+                  parsedDescription += cleanDescLine + ' ';
+                }
+              }
             }
+
+            // 만약 제목을 찾지 못했으면 첫번째 유효라인을 제목으로
+            if (!parsedEventName && allLines.length > 0) {
+              const firstValidLine = allLines.find(l => l.length > 3);
+              if (firstValidLine) {
+                parsedEventName = firstValidLine.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim().substring(0, 50);
+              }
+            }
+
+            // 설명이 비었으면 나머지 모든 텍스트를 100자로 제한 (사용자 요청)
+            if (!parsedDescription && allLines.length > 1) {
+              parsedDescription = allLines.slice(1).join(' ').replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim().substring(0, 100);
+            } else {
+              parsedDescription = parsedDescription.trim().substring(0, 100);
+            }
+            console.log('최종 설명:', parsedDescription);
 
             console.log('=== 최종 추출:', {parsedDate, parsedEventName, parsedDescription});
 
@@ -769,11 +805,11 @@ const SchedulePage = ({ language }) => {
                 {/* 카드 전체를 클릭하면 공연장 홈페이지로 새창에서 이동 */}
                 {schedule.venue_website ? (
                   <a 
-                    href={schedule.venue_website} 
+                    href={schedule.venue_website || "http://www.kamimusic.com/"} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="schedule-item-content"
-                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div className="schedule-item-header">
                       <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
