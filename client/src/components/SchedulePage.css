@@ -495,6 +495,8 @@
     max-width: 100% !important;
     box-sizing: border-box !important;
     min-width: 0 !important;
+  }
+
   /* datetime-local 특별 처리 */
   .schedule-form input[type="datetime-local"] {
     width: 100% !important;
@@ -502,7 +504,6 @@
     box-sizing: border-box !important;
     min-width: 0 !important;
   }
-  
 }
 
 /* OCR 로딩 오버레이 스타일 */
