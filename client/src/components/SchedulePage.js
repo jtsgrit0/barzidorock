@@ -79,6 +79,7 @@ const SchedulePage = ({ language }) => {
       return {
         ...item,
         venue_name: venue ? (venue.name[language] || venue.name['en']) : 'Unknown Venue',
+        venue_website: venue ? venue.websiteUrl : null, // 공연장 홈페이지 URL 추가
         korean_event_date: formattedDate
       };
     }).sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
@@ -777,7 +778,15 @@ const SchedulePage = ({ language }) => {
               <li key={schedule.id} className="schedule-item">
                 <div className="schedule-item-content" onClick={() => handleScheduleClick(schedule.venue_id)}>
                   <div className="schedule-item-header">
-                    <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
+                    {/* 공연장 이름 클릭시 홈페이지로 새창에서 이동 */}
+                    {schedule.venue_website ? (
+                      <a href={schedule.venue_website} target="_blank" rel="noopener noreferrer" className="venue-link">
+                        <strong>{schedule.venue_name}</strong>
+                      </a>
+                    ) : (
+                      <strong>{schedule.venue_name}</strong>
+                    )}
+                    {' '}- <span className="schedule-event-name">{schedule.event_name}</span>
                   </div>
                   <div className="schedule-item-body">
                     {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
