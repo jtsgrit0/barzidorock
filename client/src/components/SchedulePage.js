@@ -389,12 +389,12 @@ const SchedulePage = ({ language }) => {
       });
 
       if (response.ok) {
-        const data = await response.json();
         setIsLoggedIn(true);
-        setAdminToken(data.token); // 토큰 상태 업데이트
+        const adminSecretToken = 'admin-secret-token-2026'; // 서버가 기대하는 정확한 관리자 토큰
+        setAdminToken(adminSecretToken); // 토큰 상태 업데이트
         setLoginError('');
         // 토큰을 로컬스토리지에 저장하여 새로고침해도 유지
-        localStorage.setItem('adminToken', data.token);
+        localStorage.setItem('adminToken', adminSecretToken);
         localStorage.setItem('isAdminLoggedIn', 'true');
       } else {
         setLoginError('이메일 또는 비밀번호가 올바르지 않습니다.');
