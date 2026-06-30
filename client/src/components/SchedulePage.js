@@ -172,15 +172,17 @@ const SchedulePage = ({ language }) => {
               }
             );
 
-            console.log('OCR 추출 텍스트:', text);
+            console.log('=== OCR 추출 원본 텍스트 ===');
+            console.log(text);
+            console.log('===========================');
 
             let parsedDate = '';
             let parsedEventName = '';
             let parsedDescription = '';
             let eventHour = 20; // 기본 시작 시간 오후 8시
 
-            // 1. 소스코드로 의심되는 줄 필터링하기 위한 키워드
-            const codeKeywords = ['import', 'export', 'function', 'const', 'let', 'var', 'return', 'if', 'else', 'for', 'while', 'class', 'new', 'this', '=>', '{', '}', '//', '/*', '*/', '===', '!==', '&&', '||', 'async', 'await', 'try', 'catch', 'throw', 'console.log', 'useState', 'useEffect', 'React', 'export default'];
+            // 1. 정말 명백한 소스코드 키워드만 필터링 (필터링 너무 과하지 않게 완화)
+            const strictCodeKeywords = ['export default', 'function ', 'const ', 'let ', 'var ', 'useState', 'useEffect', 'React.', 'import '];
             
             // 2. 원본 텍스트를 줄 단위로 분리하고 전처리
             let allLines = text.split('\n')
@@ -188,14 +190,16 @@ const SchedulePage = ({ language }) => {
               .filter(line => {
                 // 빈 줄 제거
                 if (!line) return false;
-                // 소스코드 키워드가 포함된 줄 제거
-                for (const keyword of codeKeywords) {
-                  if (line.includes(keyword)) return false;
+                // 명백한 소스코드 라인만 제거
+                for (const keyword of strictCodeKeywords) {
+                  if (line.startsWith(keyword)) return false;
                 }
-                // 너무 짧은 줄 제거
-                if (line.length < 3) return false;
                 return true;
               });
+
+            console.log('=== 필터링 후 남은 라인들 ===');
+            console.log(allLines);
+            console.log('===========================');
 
             // 3. 날짜 추출 (시간도 함께 추출)
             const robustDateRegex = /(\d{4})[.\s-년월일\s]*(\d{1,2})[.\s-년월일\s]*(\d{1,2})/;
@@ -778,7 +782,7 @@ const SchedulePage = ({ language }) => {
                     {schedule.description && <p>{schedule.description}</p>}
                     {schedule.poster_image && (
                       <div className="schedule-item-poster">
-                        <img src={schedule.poster_image} alt="Poster" />
+                        <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" />
                       </div>
                     )}
                   </div>
