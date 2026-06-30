@@ -265,8 +265,9 @@ const SchedulePage = ({ language }) => {
             }
 
             // 공연 제목/설명 추출 로직 - 인스타그램 공연 포스터에 최적화
-            let parsedEventName = '';
-            let parsedDescription = '';
+            // 기존에 선언된 변수 재사용 (중복 선언 방지)
+            parsedEventName = '';
+            parsedDescription = '';
 
             // 1단계: 아티스트/공연 주제가 들어있는 라인을 최우선으로 제목으로 선택
             const artistCandidates = allLines.filter(line => 
