@@ -128,26 +128,33 @@ const SchedulePage = ({ language }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // 파일 크기 제한: 10MB 이상이면 경고 표시
+      if (file.size > 10 * 1024 * 1024) {
+        alert('이미지 파일 크기가 너무 큽니다. 10MB 이하의 이미지를 사용해주세요.');
+        return;
+      }
+
       setSelectedFile(file); // 파일 객체 저장
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageData = reader.result;
         // 먼저 이미지만 상태에 업데이트 (OCR은 별도로 비동기 처리)
-        if (isEditing) {
+        const currentIsEditing = isEditing; // 현재 isEditing 상태를 클로저에 캡처
+        if (currentIsEditing) {
           setEditingSchedule(prev => ({ ...prev, poster_image: imageData }));
         } else {
           setNewEvent(prev => ({ ...prev, poster_image: imageData }));
         }
 
-        // OCR 작업을 별도의 비동기 함수로 분리하여 실행
-        (async () => {
+        // OCR 작업을 setTimeout으로 비동기 큐에 넣어 메인 스레드 블로킹 방지
+        setTimeout(async () => {
           try {
             console.log('OCR 처리 시작...');
             const { data: { text } } = await Tesseract.recognize(
               imageData,
               'kor+eng',
               {
-                logger: m => console.log(m)
+                logger: m => console.log('[Tesseract]', m)
               }
             );
 
@@ -183,9 +190,11 @@ const SchedulePage = ({ language }) => {
               parsedDescription = lines.slice(1).join(' ').trim().substring(0, 500);
             }
 
+            // 상태 업데이트 전에 현재 isEditing 값을 클로저에서 안전하게 사용
+            const currentlyEditing = isEditing;
             // OCR이 완료된 후에만 상태 업데이트
             if (parsedDate || parsedEventName) {
-              if (isEditing) {
+              if (currentlyEditing) {
                 setEditingSchedule(prev => ({
                   ...prev,
                   ...(parsedDate && { event_date: parsedDate }),
@@ -206,9 +215,9 @@ const SchedulePage = ({ language }) => {
             }
           } catch (error) {
             console.error('OCR 처리 중 오류:', error);
-            alert('OCR 처리 중 오류가 발생했습니다. 직접 입력해주세요.');
+            alert('OCR 처리 중 오류가 발생했습니다. 직접 입력해주세요. 오류: ' + error.message);
           }
-        })();
+        }, 0);
       };
       reader.readAsDataURL(file);
     } else {
