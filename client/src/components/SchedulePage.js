@@ -130,83 +130,85 @@ const SchedulePage = ({ language }) => {
     if (file) {
       setSelectedFile(file); // 파일 객체 저장
       const reader = new FileReader();
-      reader.onloadend = async () => {
+      reader.onloadend = () => {
         const imageData = reader.result;
+        // 먼저 이미지만 상태에 업데이트 (OCR은 별도로 비동기 처리)
         if (isEditing) {
           setEditingSchedule(prev => ({ ...prev, poster_image: imageData }));
         } else {
           setNewEvent(prev => ({ ...prev, poster_image: imageData }));
         }
 
-        // OCR로 이미지에서 텍스트 추출
-        try {
-          const { data: { text } } = await Tesseract.recognize(
-            imageData,
-            'kor+eng', // 한국어와 영어 인식
-            {
-              logger: m => console.log(m) // OCR 진행 로그
+        // OCR 작업을 별도의 비동기 함수로 분리하여 실행
+        (async () => {
+          try {
+            console.log('OCR 처리 시작...');
+            const { data: { text } } = await Tesseract.recognize(
+              imageData,
+              'kor+eng',
+              {
+                logger: m => console.log(m)
+              }
+            );
+
+            console.log('OCR 추출 텍스트:', text);
+
+            let parsedDate = '';
+            let parsedEventName = '';
+            let parsedDescription = '';
+
+            const dateRegexes = [
+              /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/,
+              /(\d{4})\.(\d{1,2})\.(\d{1,2})/,
+              /(\d{4})-(\d{1,2})-(\d{1,2})/,
+              /(\d{4})\s(\d{1,2})\s(\d{1,2})/,
+            ];
+
+            for (const regex of dateRegexes) {
+              const match = text.match(regex);
+              if (match) {
+                const year = match[1];
+                const month = match[2].padStart(2, '0');
+                const day = match[3].padStart(2, '0');
+                parsedDate = `${year}-${month}-${day}T20:00`;
+                break;
+              }
             }
-          );
 
-          console.log('OCR 추출 텍스트:', text);
-
-          // 추출된 텍스트에서 날짜와 공연명 파싱
-          let parsedDate = '';
-          let parsedEventName = '';
-          let parsedDescription = '';
-
-          // 다양한 날짜 형식에 대한 정규 표현식
-          const dateRegexes = [
-            /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/, // YYYY년 MM월 DD일
-            /(\d{4})\.(\d{1,2})\.(\d{1,2})/, // YYYY.MM.DD
-            /(\d{4})-(\d{1,2})-(\d{1,2})/, // YYYY-MM-DD
-            /(\d{4})\s(\d{1,2})\s(\d{1,2})/, // YYYY MM DD
-          ];
-
-          for (const regex of dateRegexes) {
-            const match = text.match(regex);
-            if (match) {
-              const year = match[1];
-              const month = match[2].padStart(2, '0');
-              const day = match[3].padStart(2, '0');
-              parsedDate = `${year}-${month}-${day}T20:00`;
-              break; // 첫 번째로 일치하는 날짜를 사용
+            const lines = text.split('\n').filter(line => line.trim().length > 5);
+            if (lines.length > 0) {
+              parsedEventName = lines[0].trim().substring(0, 100);
             }
-          }
+            if (lines.length > 1) {
+              parsedDescription = lines.slice(1).join(' ').trim().substring(0, 500);
+            }
 
-          // 텍스트 줄을 분리하여 첫 번째 의미있는 줄을 공연명으로 사용
-          const lines = text.split('\n').filter(line => line.trim().length > 5);
-          if (lines.length > 0) {
-            parsedEventName = lines[0].trim().substring(0, 100); // 첫 100자만 사용
-          }
-          if (lines.length > 1) {
-            parsedDescription = lines.slice(1).join(' ').trim().substring(0, 500);
-          }
-
-          // 파싱된 데이터를 폼에 자동 입력
-          if (parsedDate || parsedEventName) {
-            if (isEditing) {
-              setEditingSchedule(prev => ({
-                ...prev,
-                ...(parsedDate && { event_date: parsedDate }),
-                ...(parsedEventName && { event_name: parsedEventName }),
-                ...(parsedDescription && { description: parsedDescription })
-              }));
+            // OCR이 완료된 후에만 상태 업데이트
+            if (parsedDate || parsedEventName) {
+              if (isEditing) {
+                setEditingSchedule(prev => ({
+                  ...prev,
+                  ...(parsedDate && { event_date: parsedDate }),
+                  ...(parsedEventName && { event_name: parsedEventName }),
+                  ...(parsedDescription && { description: parsedDescription })
+                }));
+              } else {
+                setNewEvent(prev => ({
+                  ...prev,
+                  ...(parsedDate && { event_date: parsedDate }),
+                  ...(parsedEventName && { event_name: parsedEventName }),
+                  ...(parsedDescription && { description: parsedDescription })
+                }));
+              }
+              alert('이미지에서 텍스트를 추출하여 자동으로 입력했습니다!');
             } else {
-              setNewEvent(prev => ({
-                ...prev,
-                ...(parsedDate && { event_date: parsedDate }),
-                ...(parsedEventName && { event_name: parsedEventName }),
-                ...(parsedDescription && { description: parsedDescription })
-              }));
+              alert('이미지는 업로드되었지만, 텍스트 추출에 실패했습니다. 직접 입력해주세요.');
             }
-            alert('이미지에서 텍스트를 추출하여 자동으로 입력했습니다!');
+          } catch (error) {
+            console.error('OCR 처리 중 오류:', error);
+            alert('OCR 처리 중 오류가 발생했습니다. 직접 입력해주세요.');
           }
-
-        } catch (error) {
-          console.error('OCR 처리 중 오류:', error);
-          console.log('텍스트 자동 추출에 실패했습니다. 직접 입력해주세요.');
-        }
+        })();
       };
       reader.readAsDataURL(file);
     } else {
