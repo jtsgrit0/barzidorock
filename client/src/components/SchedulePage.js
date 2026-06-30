@@ -485,7 +485,7 @@ const SchedulePage = ({ language }) => {
       console.error(`Error ${isEditing ? 'updating' : 'creating'} schedule:`, error);
       alert(`${isEditing ? '수정' : '저장'}에 실패했습니다: ${error.message}`);
     }
-  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL, selectedFile, adminToken]);
+  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL, selectedFile, adminToken, isLoggedIn]);
 
   const handleEditClick = (schedule) => {
     const venue = venues.find(v => v.id === schedule.venue_id);
@@ -650,7 +650,7 @@ const SchedulePage = ({ language }) => {
       console.error('Error deleting schedule:', error);
       alert(`삭제에 실패했습니다: ${error.message}`);
     }
-  }, [fetchSchedules, API_BASE_URL, adminToken]);
+  }, [fetchSchedules, API_BASE_URL, adminToken, isLoggedIn]);
 
   const handleCancelEdit = () => {
     resetForm();
