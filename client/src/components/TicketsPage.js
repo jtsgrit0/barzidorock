@@ -146,7 +146,7 @@ const TicketsPage = () => {
               <img src={event.image} alt={event.title} className="event-image" />
               <div className="event-info">
                 <h2 className="event-title">{event.title}</h2>
-                <p className="event-date">{event.date}</p>
+                <p className="event-date">{event.date.replace(/\[공연일:([\s\S]*?)\]/, '$1').trim()}</p>
                 <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer" className="ticket-button">
                   {t('ticketsPage.buyTickets', '예매하기')}
                 </a>
