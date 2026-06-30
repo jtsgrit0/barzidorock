@@ -360,6 +360,9 @@ async function fetchRollingHallEvents() {
 
     const preliminaryEvents = [];
     allRows.each((i, row) => {
+      const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
+      if (linkInRow.length === 0) return;
+
       const textInRow = $(row).text().trim().replace(/\s+/g, ' ');
 
       const detailPageLink = $(linkInRow).attr('href');
@@ -372,20 +375,28 @@ async function fetchRollingHallEvents() {
       let date = '';
 
       if (titleMatch && titleMatch.length === 3) {
-        // [공연일: ...] 패턴이 있는 경우
-        title = titleMatch[1].trim();
-        date = titleMatch[2].trim();
-      } else {
-        // 패턴이 없는 경우, 기존 방식대로 날짜를 찾아보고 제목에서 제거
-        const dateMatchFallback = textInRow.match(/(\d{4}년\s*\d{2}월\s*\d{2}일)/);
-        if (dateMatchFallback) {
-          date = dateMatchFallback[0];
-          // 제목에서 날짜와 관련 없는 텍스트(예: OCR 텍스트) 제거
-          title = textInRow.replace(date, '').replace(/\[.*OCR.*\]/gi, '').replace(/\[.*추출.*텍스트\]/gi, '').trim();
-        }
-      }
-      
-      if (!date) return; // 날짜를 추출할 수 없으면 이벤트를 추가하지 않음
+         // [공연일: ...] 패턴이 있는 경우
+         title = titleMatch[1].trim();
+         date = titleMatch[2].trim();
+       } else {
+         // 기존 방식1: 다양한 형태의 숫자 날짜(YYYY.MM.DD, YYYY MM DD 등)를 먼저 찾아봄
+         const dateMatchNumeric = textInRow.match(/(\d{4})\S+\s*(\d{2})\S+\s*(\d{2})\S+/);
+         if (dateMatchNumeric) {
+           date = `${dateMatchNumeric[1]}년 ${dateMatchNumeric[2]}월 ${dateMatchNumeric[3]}일`;
+         }
+         
+         // 기존 방식2: 패턴이 없는 경우, 기존 방식대로 날짜를 찾아보고 제목에서 제거
+         const dateMatchFallback = textInRow.match(/(\d{4}년\s*\d{2}월\s*\d{2}일)/);
+         if (!date && dateMatchFallback) {
+           date = dateMatchFallback[0];
+         }
+         
+         // 제목에서 날짜와 관련 없는 텍스트 제거
+         if (date) {
+           title = textInRow.replace(date, '').replace(/\[.*OCR.*\]/gi, '').replace(/\[.*추출.*텍스트\]/gi, '').trim();
+         }
+       }
+       if (!date) return; // 날짜를 추출할 수 없으면 이벤트를 추가하지 않음
 
       let image = null;
       const imgInRow = $(row).find('img');
