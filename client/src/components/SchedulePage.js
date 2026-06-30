@@ -365,10 +365,11 @@ const SchedulePage = ({ language }) => {
     
     const localDate = new Date(rawData.event_date);
     const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
+    // 서버 스키마에 맞춰 poster_image 키 하나만 사용 (중복 키 제거)
     const dataToSubmit = {
       ...rawData,
       event_date: utcDate.toISOString(),
-      poster_image_url: poster_image_url
+      poster_image: poster_image_url // 정확히 서버가 기대하는 키로 전송
     };
 
     if (!dataToSubmit.venue_id) {
