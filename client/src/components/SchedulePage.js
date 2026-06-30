@@ -785,49 +785,79 @@ const SchedulePage = ({ language }) => {
                     className="schedule-item-content"
                     style={{ textDecoration: 'none', color: 'inherit' }}
                   >
+                    <div className="schedule-item-header">
+                      <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
+                    </div>
+                    <div className="schedule-item-body">
+                      {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
+                      <span className="schedule-date">
+                        {language === 'ko' 
+                          ? new Date(schedule.event_date).toLocaleString('ko-KR', { 
+                              timeZone: 'Asia/Seoul',
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                          : new Date(schedule.event_date).toLocaleString('en-US', { 
+                              timeZone: 'Asia/Seoul',
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                        }
+                      </span>
+                      {/* 공연내용 100자 이내로 자르기 */}
+                      {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
+                      {/* 공연 포스터 */}
+                      {schedule.poster_image && (
+                        <div className="schedule-item-poster">
+                          <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
+                        </div>
+                      )}
+                    </div>
+                  </a>
                 ) : (
                   <div className="schedule-item-content">
-                )}
-                  <div className="schedule-item-header">
-                    <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
-                  </div>
-                  <div className="schedule-item-body">
-                    {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
-                    <span className="schedule-date">
-                      {language === 'ko' 
-                        ? new Date(schedule.event_date).toLocaleString('ko-KR', { 
-                            timeZone: 'Asia/Seoul',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })
-                        : new Date(schedule.event_date).toLocaleString('en-US', { 
-                            timeZone: 'Asia/Seoul',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })
-                      }
-                    </span>
-                    {/* 공연내용 100자 이내로 자르기 */}
-                    {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                    {/* 공연 포스터 */}
-                    {schedule.poster_image && (
-                      <div className="schedule-item-poster">
-                        <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
-                      </div>
-                    )}
-                  </div>
-                  {/* 조건에 따라 카드 콘텐츠 태그 닫기 */}
-                  {schedule.venue_website ? (
-                    </a>
-                  ) : (
+                    <div className="schedule-item-header">
+                      <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
-                  )}
+                    <div className="schedule-item-body">
+                      {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
+                      <span className="schedule-date">
+                        {language === 'ko' 
+                          ? new Date(schedule.event_date).toLocaleString('ko-KR', { 
+                              timeZone: 'Asia/Seoul',
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                          : new Date(schedule.event_date).toLocaleString('en-US', { 
+                              timeZone: 'Asia/Seoul',
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                        }
+                      </span>
+                      {/* 공연내용 100자 이내로 자르기 */}
+                      {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
+                      {/* 공연 포스터 */}
+                      {schedule.poster_image && (
+                        <div className="schedule-item-poster">
+                          <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
                 {isLoggedIn && (
                   <div className="schedule-item-actions">
                     <button onClick={() => handleEditClick(schedule)} className="edit-button">수정</button>
