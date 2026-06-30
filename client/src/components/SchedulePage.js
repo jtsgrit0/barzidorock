@@ -47,8 +47,17 @@ const SchedulePage = ({ language }) => {
 
   // Save form state to session storage whenever it changes
   useEffect(() => {
-    const formState = { newEvent, editingSchedule, isEditing, selectedArea };
-    sessionStorage.setItem('scheduleFormState', JSON.stringify(formState));
+    const stateToSave = {
+      newEvent: { ...newEvent, poster_image: '' }, // 이미지 데이터 제외
+      editingSchedule: editingSchedule ? { ...editingSchedule, poster_image: '' } : null, // 이미지 데이터 제외
+      isEditing,
+      selectedArea
+    };
+    try {
+      sessionStorage.setItem('scheduleFormState', JSON.stringify(stateToSave));
+    } catch (error) {
+      console.error("Could not save form state to session storage:", error);
+    }
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
