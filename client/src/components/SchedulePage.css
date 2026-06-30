@@ -495,6 +495,12 @@
     max-width: 100% !important;
     box-sizing: border-box !important;
     min-width: 0 !important;
+  /* datetime-local 특별 처리 */
+  .schedule-form input[type="datetime-local"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
   }
   
 }
@@ -528,14 +534,4 @@
   background-color: #555;
   cursor: not-allowed;
   opacity: 0.7;
-}
-  
-  /* datetime-local 특별 처리 */
-  .schedule-form input[type="datetime-local"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    min-width: 0 !important;
-  }
-  
 }
