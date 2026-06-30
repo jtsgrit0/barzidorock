@@ -776,17 +776,20 @@ const SchedulePage = ({ language }) => {
           {schedules.length > 0 ? (
             schedules.map((schedule) => (
               <li key={schedule.id} className="schedule-item">
-                <div className="schedule-item-content" onClick={() => handleScheduleClick(schedule.venue_id)}>
+                {/* 카드 전체를 클릭하면 공연장 홈페이지로 새창에서 이동 */}
+                {schedule.venue_website ? (
+                  <a 
+                    href={schedule.venue_website} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="schedule-item-content"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                ) : (
+                  <div className="schedule-item-content">
+                )}
                   <div className="schedule-item-header">
-                    {/* 공연장 이름 클릭시 홈페이지로 새창에서 이동 */}
-                    {schedule.venue_website ? (
-                      <a href={schedule.venue_website} target="_blank" rel="noopener noreferrer" className="venue-link">
-                        <strong>{schedule.venue_name}</strong>
-                      </a>
-                    ) : (
-                      <strong>{schedule.venue_name}</strong>
-                    )}
-                    {' '}- <span className="schedule-event-name">{schedule.event_name}</span>
+                    <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                   </div>
                   <div className="schedule-item-body">
                     {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
@@ -819,7 +822,12 @@ const SchedulePage = ({ language }) => {
                       </div>
                     )}
                   </div>
-                </div>
+                  {/* 조건에 따라 카드 콘텐츠 태그 닫기 */}
+                  {schedule.venue_website ? (
+                    </a>
+                  ) : (
+                    </div>
+                  )}
                 {isLoggedIn && (
                   <div className="schedule-item-actions">
                     <button onClick={() => handleEditClick(schedule)} className="edit-button">수정</button>
