@@ -446,6 +446,15 @@ const SchedulePage = ({ language }) => {
       return;
     }
 
+    // 수정 모드일 때 비밀번호 입력 요청
+    if (isEditing) {
+      const password = prompt('일정을 수정하려면 비밀번호를 입력하세요:');
+      if (password === null) {
+        return; // 사용자가 취소 버튼을 누른 경우
+      }
+      dataToSubmit.password = password;
+    }
+
     try {
       const method = isEditing ? 'PUT' : 'POST';
       const url = isEditing 
@@ -605,17 +614,21 @@ const SchedulePage = ({ language }) => {
   }, [isLoggedIn, fetchPendingManagers]);
 
     const handleDelete = useCallback(async (id) => {
-    if (!window.confirm('정말로 이 일정을 삭제하시겠습니까?')) {
-      return;
+    const password = prompt('일정을 삭제하려면 비밀번호를 입력하세요:');
+    if (password === null) {
+      return; // 사용자가 취소 버튼을 누른 경우
     }
+
     try {
-      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}`);
-      const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}`, {
+      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules/${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/schedules/${id}`, {
         method: 'DELETE',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${adminToken}`,
         },
         credentials: 'include',
+        body: JSON.stringify({ password }), // 비밀번호를 body에 담아 전송
       });
 
       if (!response.ok) {
