@@ -866,10 +866,7 @@
   },
   {
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
-    "name": {
-      "ko": "언더스테이지",
-      "en": "UNDERSTAGE"
-    },
+    "name": "언더스테이지",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 이태원로 246",
@@ -933,10 +930,7 @@
   },
   {
     "id": "ChIJu5zS90mifDURl1MmzCKDnhY",
-    "name": {
-      "ko": "올 댓 재즈",
-      "en": "All That Jazz"
-    },
+    "name": "올 댓 재즈",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 이태원로 216 2층",
@@ -968,10 +962,7 @@
   },
   {
     "id": "ChIJY4nZpr-ffDUR9x3jyF5DWqQ",
-    "name": {
-      "ko": "부기우기",
-      "en": "Boogie Woogie"
-    },
+    "name": "부기우기",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 회나무로 21",
