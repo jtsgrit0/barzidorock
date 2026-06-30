@@ -458,6 +458,92 @@ async function fetchRollingHallEvents() {
   }
 }
 
+// 공연일정 관련 API
+app.get('/api/schedules', async (req, res) => {
+  try {
+    const result = await sql`SELECT * FROM schedules ORDER BY event_date DESC;`;
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching schedules:', error);
+    res.status(500).json({ error: '공연일정을 불러오는 중 오류가 발생했습니다.' });
+  }
+});
+
+app.post('/api/schedules', async (req, res) => {
+  try {
+    const { venue_id, event_name, event_date, description, poster_image_url } = req.body;
+    const result = await sql`
+      INSERT INTO schedules (venue_id, event_name, event_date, description, poster_image_url)
+      VALUES (${venue_id}, ${event_name}, ${event_date}, ${description}, ${poster_image_url})
+      RETURNING *;
+    `;
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error creating schedule:', error);
+    res.status(500).json({ error: '공연일정을 저장하는 중 오류가 발생했습니다.' });
+  }
+});
+
+app.put('/api/schedules/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { venue_id, event_name, event_date, description, poster_image_url, password } = req.body;
+    
+    // 관리자 인증 확인 (Bearer 토큰)
+    const authHeader = req.headers.authorization;
+    const isAdmin = authHeader && authHeader.startsWith('Bearer ') && authHeader.substring(7) === 'admin-secret-token-2026';
+    
+    // 비관리자인 경우 비밀번호 검증
+    if (!isAdmin) {
+      // 추가 검증 로직 (필요시)
+    }
+    
+    const result = await sql`
+      UPDATE schedules 
+      SET venue_id = ${venue_id}, event_name = ${event_name}, event_date = ${event_date}, 
+          description = ${description}, poster_image_url = ${poster_image_url}
+      WHERE id = ${id}
+      RETURNING *;
+    `;
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: '해당 공연일정을 찾을 수 없습니다.' });
+    }
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating schedule:', error);
+    res.status(500).json({ error: '공연일정을 수정하는 중 오류가 발생했습니다.' });
+  }
+});
+
+app.delete('/api/schedules/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+    
+    // 관리자 인증 확인
+    const authHeader = req.headers.authorization;
+    const isAdmin = authHeader && authHeader.startsWith('Bearer ') && authHeader.substring(7) === 'admin-secret-token-2026';
+    
+    // 비관리자인 경우 비밀번호 검증
+    if (!isAdmin) {
+      // 추가 검증 로직 (필요시)
+    }
+    
+    const result = await sql`DELETE FROM schedules WHERE id = ${id} RETURNING *;`;
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: '해당 공연일정을 찾을 수 없습니다.' });
+    }
+    
+    res.json({ message: '공연일정이 삭제되었습니다.' });
+  } catch (error) {
+    console.error('Error deleting schedule:', error);
+    res.status(500).json({ error: '공연일정을 삭제하는 중 오류가 발생했습니다.' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

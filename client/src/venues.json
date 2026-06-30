@@ -1,10 +1,7 @@
 [
   {
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
-    "name": {
-      "ko": "프리즘홀",
-      "en": "Prism Hall"
-    },
+    "name": "프리즘홀",
     "type": "live concert stage",
     "address": {
       "ko": "서울 마포구 양화로12길 6",
@@ -55,10 +52,7 @@
   },
   {
     "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-    "name": {
-      "ko": "Vel.R",
-      "en": "Vel.R"
-    },
+    "name": "Vel.R",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로 137",
@@ -79,10 +73,7 @@
   },
   {
     "id": "f1e2d3c4-b5a6-9876-5432-10fedcba9876",
-    "name": {
-      "ko": "프리버드",
-      "en": "Freebird"
-    },
+    "name": "프리버드",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로 125",
@@ -103,10 +94,7 @@
   },
   {
     "id": "1a2b3c4d-5e6f-7890-abcd-ef1234567890",
-    "name": {
-      "ko": "상상마당",
-      "en": "Sangsangmadang"
-    },
+    "name": "상상마당",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 어울마당로 65",
@@ -127,10 +115,7 @@
   },
   {
     "id": "fedcba98-7654-3210-fedc-ba9876543210",
-    "name": {
-      "ko": "무신사개러지",
-      "en": "Musinsa Garage"
-    },
+    "name": "무신사개러지",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 잔다리로 32",
@@ -151,10 +136,7 @@
   },
   {
     "id": "clubff-001-2026-0627",
-    "name": {
-      "ko": "클럽에프에프",
-      "en": "Club FF"
-    },
+    "name": "클럽에프에프",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로 131",
@@ -175,10 +157,7 @@
   },
   {
     "id": "ChIJUVRrTNCYfDURTjrzSja3Tgs",
-    "name": {
-      "ko": "롤링홀",
-      "en": "Rolling Hall"
-    },
+    "name": "롤링홀",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 어울마당로 35",
@@ -230,10 +209,7 @@
   },
   {
     "id": "ChIJQ0JZJdeYfDURSd6zc_ugmPI",
-    "name": {
-      "ko": "드림홀",
-      "en": "Dream Hall"
-    },
+    "name": "드림홀",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 양화로 64",
@@ -265,10 +241,7 @@
   },
   {
     "id": "ChIJG417WOeZfDUR858nkAd-y_U",
-    "name": {
-      "ko": "홍대 우주정거장",
-      "en": "Hongdae Wuju Jeonggeojang"
-    },
+    "name": "홍대 우주정거장",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로29길 16 지하 1층",
@@ -300,10 +273,7 @@
   },
   {
     "id": "ChIJ6cYrXNqYfDURly0vyvWEHH0",
-    "name": {
-      "ko": "벨로소 홍대",
-      "en": "Veloso Hongdae"
-    },
+    "name": "벨로소 홍대",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 잔다리로 46",
@@ -335,10 +305,7 @@
   },
   {
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
-    "name": {
-      "ko": "카페 언플러그드",
-      "en": "Cafe Unplugged"
-    },
+    "name": "카페 언플러그드",
     "type": "live_venue",
     "address": {
       "ko": "서울특별시 마포구 와우산로33길 26",
@@ -370,10 +337,7 @@
   },
   {
     "id": "ChIJrelcVdCYfDURiaHkye8F2Pg",
-    "name": {
-      "ko": "얼라이브홀",
-      "en": "Alive Hall"
-    },
+    "name": "얼라이브홀",
     "type": "live_venue",
     "address": {
       "ko": "서울특별시 마포구 독막로7길 20 지하",
@@ -533,10 +497,7 @@
   },
   {
     "id": "ChIJz7WjUcWYfDURLQpMqR1EfhI",
-    "name": {
-      "ko": "클럽 FF",
-      "en": "Club FF"
-    },
+    "name": "클럽 FF",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 서교동 407-8",
@@ -568,10 +529,7 @@
   },
   {
     "id": "ChIJD8JrWo6ZfDURQS1q52BpO30",
-    "name": {
-      "ko": "왓챠홀",
-      "en": "Watcha Hall"
-    },
+    "name": "왓챠홀",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 잔다리로 32 지하1층",
@@ -602,10 +560,7 @@
   },
   {
     "id": "ChIJq-BtxCyZfDURacqRwCnbCDI",
-    "name": {
-      "ko": "플렉스 라운지",
-      "en": "Flex lounge"
-    },
+    "name": "플렉스 라운지",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 양화로 100-10",
@@ -636,10 +591,7 @@
   },
   {
     "id": "ChIJ3VeTqXKZfDURa84IUjrVGxU",
-    "name": {
-      "ko": "라이브홀 롤러코스터",
-      "en": "Live Hall Roller Coaster"
-    },
+    "name": "라이브홀 롤러코스터",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 동교로 147 청람빌딩 지하",
@@ -671,10 +623,7 @@
   },
   {
     "id": "ChIJ84N-zN2ZfDURik0Ls-yU7cE",
-    "name": {
-      "ko": "BRST STUDIO & LIVE HOUSE",
-      "en": "BRST STUDIO & LIVE HOUSE"
-    },
+    "name": "BRST STUDIO & LIVE HOUSE",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로18길 30",
@@ -705,10 +654,7 @@
   },
   {
     "id": "ChIJdfv_OM6ZfDURUwSL4gD9o00",
-    "name": {
-      "ko": "Bendeo",
-      "en": "Bendeo"
-    },
+    "name": "Bendeo",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로14길 4 지하 1층",
@@ -740,10 +686,7 @@
   },
   {
     "id": "ChIJIwVrgcSYfDURgLhsDKTq0lo",
-    "name": {
-      "ko": "사운드홀릭시티",
-      "en": "Soundholic City"
-    },
+    "name": "사운드홀릭시티",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 서교동 344-6",
@@ -764,10 +707,7 @@
   },
   {
     "id": "ChIJZdCBRMWYfDURZInohdaixpg",
-    "name": {
-      "ko": "클럽 에반스",
-      "en": "Club Evans"
-    },
+    "name": "클럽 에반스",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로 63 2층",
@@ -799,10 +739,7 @@
   },
   {
     "id": "ChIJ7x57usGYfDURVYMF-xdvxdo",
-    "name": {
-      "ko": "빵",
-      "en": "BBang"
-    },
+    "name": "빵",
     "type": "live_venue",
     "address": {
       "ko": "서울 마포구 와우산로29길 12",
@@ -1058,10 +995,7 @@
   },
   {
     "id": "ChIJC7LRVACjfDURvBApmPbjwng",
-    "name": {
-      "ko": "선데이솔트",
-      "en": "Sunday Salt"
-    },
+    "name": "선데이솔트",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 회나무로 33",
@@ -1119,10 +1053,7 @@
   },
   {
     "id": "ChIJdUZXm4ejfDURt4uTvN2p9y8",
-    "name": {
-      "ko": "플랙 서울",
-      "en": "Flac Seoul"
-    },
+    "name": "플랙 서울",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 이태원동 123-3 2층",
@@ -1145,10 +1076,7 @@
   },
   {
     "id": "ChIJu2Z3JEqifDURp1fcG9iChRY",
-    "name": {
-      "ko": "더 소울",
-      "en": "THE SOUL"
-    },
+    "name": "더 소울",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 한남동 78-2 지하1층",
@@ -1180,10 +1108,7 @@
   },
   {
     "id": "ChIJSQyz70qifDURXds2EiDQMgQ",
-    "name": {
-      "ko": "BBCB: 베톤 브뤼 + 콘크리트 바",
-      "en": "BBCB: Beton Brut + Concrete Bar"
-    },
+    "name": "BBCB: 베톤 브뤼 + 콘크리트 바",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 보광로60길 22",
@@ -1215,10 +1140,7 @@
   },
   {
     "id": "ChIJfdZbMbCjfDURuafv8kKi8Ls",
-    "name": {
-      "ko": "공연장 일신홀",
-      "en": "Ilshin Hall"
-    },
+    "name": "공연장 일신홀",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 한남대로 98",
@@ -1250,10 +1172,7 @@
   },
   {
     "id": "ChIJe7JXCkqifDURSfB3BCVnHPc",
-    "name": {
-      "ko": "바우슈텔러",
-      "en": "Baustelle"
-    },
+    "name": "바우슈텔러",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 이태원동 73-2",
@@ -1317,10 +1236,7 @@
   },
   {
     "id": "ChIJZQZCNZmjfDURpXRZ1mv_ubM",
-    "name": {
-      "ko": "이덴하우스",
-      "en": "Idenhouse"
-    },
+    "name": "이덴하우스",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 독서당로 73 지하1층",
@@ -1352,10 +1268,7 @@
   },
   {
     "id": "ChIJc6-1zDeifDUReiidmKAfVAc",
-    "name": {
-      "ko": "클럽 볼노스트 서울",
-      "en": "Club Volnost Seoul"
-    },
+    "name": "클럽 볼노스트 서울",
     "type": "live_venue",
     "address": {
       "ko": "서울 용산구 이태원로 142",
@@ -1483,10 +1396,7 @@
   },
   {
     "id": "ChIJUw8zwEiifDURaoU2HZwO8w0",
-    "name": {
-      "ko": "록시 LP 펍",
-      "en": "ROXY LP Pub"
-    },
+    "name": "록시 LP 펍",
     "type": "rock_bar",
     "address": {
       "ko": "서울 용산구 회나무로 9",
