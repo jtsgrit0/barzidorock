@@ -127,8 +127,10 @@ const SchedulePage = ({ language }) => {
   const processedVenues = React.useMemo(() => venues, []);
   
   useEffect(() => {
+    console.log('selectedArea changed:', selectedArea, 'processedVenues length:', processedVenues.length);
     if (selectedArea) {
       const venuesInArea = processedVenues.filter(venue => venue.area === selectedArea);
+      console.log('venuesInArea:', venuesInArea.length, venuesInArea.map(v => v.name));
       setFilteredVenues(venuesInArea);
     } else {
       setFilteredVenues([]);
@@ -447,13 +449,13 @@ const SchedulePage = ({ language }) => {
     }
 
     // 수정 모드일 때 관리자가 아닌 경우만 비밀번호 입력 요청
-    if (isEditing && !isLoggedIn) {
-      const password = prompt('일정을 수정하려면 비밀번호를 입력하세요:');
-      if (password === null) {
-        return; // 사용자가 취소 버튼을 누른 경우
-      }
-      dataToSubmit.password = password;
-    }
+        if (isEditing && (!isLoggedIn || !adminToken)) {
+          const password = prompt('일정을 수정하려면 비밀번호를 입력하세요:');
+          if (password === null) {
+            return; // 사용자가 취소 버튼을 누른 경우
+          }
+          dataToSubmit.password = password;
+        }
 
     try {
       const method = isEditing ? 'PUT' : 'POST';
@@ -525,7 +527,7 @@ const SchedulePage = ({ language }) => {
         const adminSecretToken = 'admin-secret-token-2026'; // 서버가 기대하는 정확한 관리자 토큰
         setAdminToken(adminSecretToken); // 토큰 상태 업데이트
         setLoginError('');
-        // 토큰을 로컬스토리지에 저장하여 새로고침해도 유지
+        // 토큰과 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
         localStorage.setItem('adminToken', adminSecretToken);
         localStorage.setItem('isAdminLoggedIn', 'true');
       } else {
@@ -616,22 +618,24 @@ const SchedulePage = ({ language }) => {
     const handleDelete = useCallback(async (id) => {
     let password = null;
     // 관리자가 아닌 경우만 비밀번호 입력 요청
-    if (!isLoggedIn) {
+    if (!isLoggedIn || !adminToken) {
       password = prompt('일정을 삭제하려면 비밀번호를 입력하세요:');
       if (password === null) {
         return; // 사용자가 취소 버튼을 누른 경우
       }
     }
-
     try {
-      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules/${id}`);
-      const requestBody = isLoggedIn ? {} : { password };
+      console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules/${id}`, 'isLoggedIn:', isLoggedIn, 'adminToken:', adminToken);
+      const requestBody = (isLoggedIn && adminToken) ? {} : { password };
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      if (adminToken) {
+        headers['Authorization'] = `Bearer ${adminToken}`;
+      }
       const response = await fetch(`${API_BASE_URL}/api/schedules/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${adminToken}`,
-        },
+        headers: headers,
         credentials: 'include',
         body: JSON.stringify(requestBody), // 관리자일 경우 빈 객체 전송
       });
