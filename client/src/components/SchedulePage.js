@@ -27,6 +27,29 @@ const SchedulePage = ({ language }) => {
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
 
+  // Load form state from session storage on component mount
+  useEffect(() => {
+    try {
+      const savedFormState = sessionStorage.getItem('scheduleFormState');
+      if (savedFormState) {
+        const { newEvent: savedNewEvent, editingSchedule: savedEditingSchedule, isEditing: savedIsEditing, selectedArea: savedSelectedArea } = JSON.parse(savedFormState);
+        if (savedNewEvent) setNewEvent(savedNewEvent);
+        if (savedEditingSchedule) setEditingSchedule(savedEditingSchedule);
+        if (savedIsEditing) setIsEditing(savedIsEditing);
+        if (savedSelectedArea) setSelectedArea(savedSelectedArea);
+      }
+    } catch (error) {
+      console.error("Failed to parse schedule form state from session storage:", error);
+      sessionStorage.removeItem('scheduleFormState');
+    }
+  }, []); // Run only once on mount
+
+  // Save form state to session storage whenever it changes
+  useEffect(() => {
+    const formState = { newEvent, editingSchedule, isEditing, selectedArea };
+    sessionStorage.setItem('scheduleFormState', JSON.stringify(formState));
+  }, [newEvent, editingSchedule, isEditing, selectedArea]);
+
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
   const formatScheduleRows = useCallback((scheduleData) => {
@@ -201,6 +224,9 @@ const SchedulePage = ({ language }) => {
   };
 
   const resetForm = () => {
+    // Clear form state from session storage
+    sessionStorage.removeItem('scheduleFormState');
+
     // 한국 시간(KST, UTC+9)으로 기본 datetime 설정
     setNewEvent({
       venue_id: '',
