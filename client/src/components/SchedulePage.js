@@ -287,8 +287,12 @@ const SchedulePage = ({ language }) => {
         const formData = new FormData();
         formData.append('file', selectedFile); // 'file'은 백엔드에서 파일을 참조할 때 사용할 이름입니다.
 
+        const adminToken = localStorage.getItem('adminToken');
         const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload?filename=${selectedFile.name}`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+        },
         body: formData,
       });
 
