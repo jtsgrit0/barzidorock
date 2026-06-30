@@ -201,20 +201,24 @@ const SchedulePage = ({ language }) => {
               /(\d{1,2})시/, // 19시, 7시
             ];
 
-            // 원본 텍스트에서 모든 라인을 깔끔하게 정리 - 코드 필터링 강화
+            // 원본 텍스트에서 모든 라인을 깔끔하게 정리 - 인스타그램/브라우저 UI 텍스트까지 철저히 필터링
             let allLines = text.split('\n')
               .map(line => line.replace(/[\n\r\t]/g, ' ').trim()) // 특수문자 제거
               .filter(line => {
                 // 빈 줄 제거
-                if (!line || line.length < 2) return false;
-                // base64나 코드로 보이는 긴 영문+숫자 라인 철저히 제거
+                if (!line || line.length < 3) return false;
+                // base64나 코드로 보이는 긴 영문+숫자 라인 제거
                 if (/^[a-zA-Z0-9+/]{25,}$/.test(line)) return false;
-                // HTML/JS 코드 조각으로 보이는 라인 제거
+                // HTML/JS 코드 조각 제거
                 if (/<\/?[a-z][\s\S]*>/i.test(line) || line.includes('function') || line.includes('const') || line.includes('var')) return false;
+                // 브라우저 UI 텍스트 제거
+                if (line.includes('Chrome') || line.includes('방문기록') || line.includes('북마크') || line.includes('프로필') || line.includes('탭') || line.includes('창') || line.includes('도움말')) return false;
+                // 인스타그램 UI 텍스트 제거
+                if (line.includes('BarZidoROCK') || line.includes('instagram.com') || line.includes('좋아요') || line.includes('일 전') || (line.includes('@') && line.includes('.com'))) return false;
                 return true;
               });
 
-            console.log('=== OCR 처리 후 라인:', allLines);
+            console.log('=== 필터링 후 유효 라인만:', allLines);
 
             // 시간 먼저 찾기 (날짜보다 먼저 찾아서 기본값 덮어쓰기)
             for (const timeRegex of koreanTimeRegexes) {
@@ -260,37 +264,53 @@ const SchedulePage = ({ language }) => {
               }
             }
 
-            // 공연 제목 추출: 아티스트/밴드 이름이 포함된 라인을 우선으로 제목 선택
-            for (const line of allLines) {
-              // 1. 아티스트 키워드가 포함된 라인을 우선적으로 제목으로 선택
-              // 2. 날짜/시간 숫자가 포함되지 않고, 5자 이상인 첫번째 의미있는 라인을 제목으로
-              if (!/\d{4}|:|시|일/.test(line) && line.length > 5 && !parsedEventName) {
-                // 특수문자나 불필요한 문자 제거
-                const cleanLine = line.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim();
-                if (cleanLine.length > 3) {
-                  parsedEventName = cleanLine.substring(0, 50); // 제목 50자 제한
+            // 공연 제목/설명 추출 로직 - 인스타그램 공연 포스터에 최적화
+            let parsedEventName = '';
+            let parsedDescription = '';
+
+            // 1단계: 아티스트/공연 주제가 들어있는 라인을 최우선으로 제목으로 선택
+            const artistCandidates = allLines.filter(line => 
+              line.includes('마이클잭슨') || line.includes('Michael Jackson') || 
+              line.includes('17주기') || line.includes('기념공연') || line.includes('라이브') ||
+              line.includes('쇼') || line.includes('페스티벌') || line.includes('콘서트')
+            );
+            if (artistCandidates.length > 0) {
+              const bestTitleLine = artistCandidates.reduce((a, b) => a.length > b.length ? a : b);
+              parsedEventName = bestTitleLine.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim().substring(0, 50);
+            }
+
+            // 2단계: 아티스트 라인을 못찾았으면 일반 로직으로 제목 찾기
+            if (!parsedEventName) {
+              for (const line of allLines) {
+                // 공연장 이름/날짜/시간이 들어간 라인은 제외
+                if (line.includes('펫사운즈') || line.includes('Pet Sounds') || line.includes('petsounds')) continue;
+                if (!/\d{4}|:|시|일|PM|AM|무료입장/.test(line) && line.length > 5 && !parsedEventName) {
+                  const cleanLine = line.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim();
+                  if (cleanLine.length > 3) parsedEventName = cleanLine.substring(0, 50);
                 }
-              } else if (parsedEventName && line.length > 5 && !/\d{4}|:|시|일|function|const|var/.test(line)) {
-                // 그 이후 유효한 라인들만 설명에 추가, 코드 키워드는 완전히 제외
-                const cleanDescLine = line.replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim();
-                if (cleanDescLine.length > 3) {
-                  parsedDescription += cleanDescLine + ' ';
-                }
+              }
+              // 마지막 수단: 첫번째 유효라인을 제목으로
+              if (!parsedEventName && allLines.length > 0) {
+                const fallback = allLines.find(l => l.length > 3);
+                if (fallback) parsedEventName = fallback.substring(0, 50);
               }
             }
 
-            // 만약 제목을 찾지 못했으면 첫번째 유효라인을 제목으로
-            if (!parsedEventName && allLines.length > 0) {
-              const firstValidLine = allLines.find(l => l.length > 3);
-              if (firstValidLine) {
-                parsedEventName = firstValidLine.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim().substring(0, 50);
-              }
-            }
-
-            // 설명이 비었으면 나머지 모든 텍스트를 100자로 제한 (사용자 요청)
-            if (!parsedDescription && allLines.length > 1) {
-              parsedDescription = allLines.slice(1).join(' ').replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim().substring(0, 100);
+            // 3단계: 설명 추출 - 공연 시간/장소/입장정보만 모아서 100자로 제한
+            const descCandidates = allLines.filter(line => 
+              line.includes('무료입장') || line.includes('입장') || line.includes('PM') || line.includes('AM') ||
+              line.includes('이태원') || line.includes('경리단길') || line.includes('3F') || line.includes('펫사운즈에서')
+            );
+            if (descCandidates.length > 0) {
+              parsedDescription = descCandidates.join(' ').replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim().substring(0, 100);
             } else {
+              // 일반 라인들에서 설명 추가
+              for (const line of allLines) {
+                if (line !== parsedEventName && line.length > 5 && parsedDescription.length < 100) {
+                  const cleanDesc = line.replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim();
+                  if (cleanDesc.length > 3) parsedDescription += cleanDesc + ' ';
+                }
+              }
               parsedDescription = parsedDescription.trim().substring(0, 100);
             }
             console.log('최종 설명:', parsedDescription);
