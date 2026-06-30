@@ -135,19 +135,22 @@ secureRouter.post('/schedules', async (req, res) => {
 secureRouter.delete('/schedules/:id', async (req, res) => {
   try {
     const user = await getAuthenticatedUser(req);
-    if (!user) {
-      return res.status(401).json({ error: 'Unauthorized: Please login first' });
-    }
-
     const { id } = req.params;
+    const { password } = req.body; // 삭제 시에도 비밀번호를 받도록 수정
 
-    const scheduleResult = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
+    const scheduleResult = await sql`SELECT venue_id, password FROM schedules WHERE id = ${id}`;
     if (scheduleResult.rows.length === 0) {
       return res.status(404).json({ error: 'Schedule not found' });
     }
 
-    if (!user.is_admin && user.venue_id !== scheduleResult.rows[0].venue_id) {
-      return res.status(403).json({ error: 'Forbidden: You can only delete schedules for your own venue' });
+    const schedule = scheduleResult.rows[0];
+    const isOwner = user && !user.is_admin && user.venue_id === schedule.venue_id;
+    const canModify = user && (user.is_admin || isOwner);
+
+    if (!canModify) {
+      if (!password || schedule.password !== password) {
+        return res.status(403).json({ error: 'Forbidden: Incorrect password or insufficient permissions' });
+      }
     }
 
     await sql`DELETE FROM schedules WHERE id = ${id};`;
@@ -161,20 +164,23 @@ secureRouter.delete('/schedules/:id', async (req, res) => {
 secureRouter.put('/schedules/:id', async (req, res) => {
   try {
     const user = await getAuthenticatedUser(req);
-    if (!user) {
-      return res.status(401).json({ error: 'Unauthorized: Please login first' });
-    }
-
     const { id } = req.params;
-    const { venue_id, event_date, event_name, description, poster_image_url } = req.body;
+    const { venue_id, event_date, event_name, description, poster_image_url, password } = req.body;
 
-    const scheduleResult = await sql`SELECT venue_id FROM schedules WHERE id = ${id}`;
+    const scheduleResult = await sql`SELECT venue_id, password FROM schedules WHERE id = ${id}`;
     if (scheduleResult.rows.length === 0) {
       return res.status(404).json({ error: 'Schedule not found' });
     }
 
-    if (!user.is_admin && user.venue_id !== scheduleResult.rows[0].venue_id) {
-      return res.status(403).json({ error: 'Forbidden: You can only update schedules for your own venue' });
+    const schedule = scheduleResult.rows[0];
+    const isOwner = user && !user.is_admin && user.venue_id === schedule.venue_id;
+    const canModify = user && (user.is_admin || isOwner);
+
+    if (!canModify) {
+      // 비밀번호 확인 로직 (사용자가 로그인하지 않았거나, 관리자/소유주가 아닐 때)
+      if (!password || schedule.password !== password) {
+        return res.status(403).json({ error: 'Forbidden: Incorrect password or insufficient permissions' });
+      }
     }
 
     await sql`
