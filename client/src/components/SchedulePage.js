@@ -9,6 +9,7 @@ import fallbackSchedules from '../schedulesFallback.json';
 const SchedulePage = ({ language }) => {
   const [schedules, setSchedules] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+  const [adminToken, setAdminToken] = useState(null); // 관리자 토큰 상태
   const [loginEmail, setLoginEmail] = useState(''); // 로그인 이메일
   const [loginPassword, setLoginPassword] = useState(''); // 로그인 비밀번호
   const [loginError, setLoginError] = useState(''); // 로그인 에러 메시지
@@ -84,14 +85,14 @@ const SchedulePage = ({ language }) => {
   }, [language]);
 
   useEffect(() => {
-    // 페이지 로드 시 로컬스토리지에서 로그인 상태 복원
+    // 페이지 로드 시 로컬스토리지에서 로그인 상태와 토큰 복원
     const savedLoginState = localStorage.getItem('isAdminLoggedIn');
     const savedToken = localStorage.getItem('adminToken');
     if (savedLoginState === 'true' && savedToken) {
       setIsLoggedIn(true);
+      setAdminToken(savedToken);
     }
-
-  }, [API_BASE_URL]);
+  }, []);
 
   const fetchSchedules = useCallback(async () => {
     const cachedSchedules = sessionStorage.getItem('schedules');
@@ -279,7 +280,6 @@ const SchedulePage = ({ language }) => {
         const formData = new FormData();
         formData.append('file', selectedFile); // 'file'은 백엔드에서 파일을 참조할 때 사용할 이름입니다.
 
-        const adminToken = localStorage.getItem('adminToken');
         const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload?filename=${selectedFile.name}`, {
         method: 'POST',
         headers: {
@@ -329,8 +329,6 @@ const SchedulePage = ({ language }) => {
         : `${API_BASE_URL}/api/schedules`;
       const body = JSON.stringify(dataToSubmit);
 
-      const adminToken = localStorage.getItem('adminToken');
-      console.log('adminToken in handleSubmit:', adminToken); // 토큰 값 확인
       const response = await fetch(url, {
         method: method,
         headers: {
@@ -353,7 +351,7 @@ const SchedulePage = ({ language }) => {
       console.error(`Error ${isEditing ? 'updating' : 'creating'} schedule:`, error);
       alert(`${isEditing ? '수정' : '저장'}에 실패했습니다: ${error.message}`);
     }
-  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL, selectedFile]);
+  }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL, selectedFile, adminToken]);
 
   const handleEditClick = (schedule) => {
     const venue = venues.find(v => v.id === schedule.venue_id);
@@ -391,6 +389,7 @@ const SchedulePage = ({ language }) => {
       if (response.ok) {
         const data = await response.json();
         setIsLoggedIn(true);
+        setAdminToken(data.token); // 토큰 상태 업데이트
         setLoginError('');
         // 토큰을 로컬스토리지에 저장하여 새로고침해도 유지
         localStorage.setItem('adminToken', data.token);
@@ -404,9 +403,9 @@ const SchedulePage = ({ language }) => {
     }
   };
 
-  // 로그아웃 처리 함수
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setAdminToken(null); // 토큰 상태 초기화
     setLoginEmail('');
     setLoginPassword('');
     localStorage.removeItem('isAdminLoggedIn');
@@ -418,7 +417,6 @@ const SchedulePage = ({ language }) => {
   const fetchPendingManagers = useCallback(async () => {
     setPendingManagersError('');
     try {
-      const adminToken = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
         headers: {
           'Authorization': `Bearer ${adminToken}`,
@@ -440,7 +438,7 @@ const SchedulePage = ({ language }) => {
       console.error('Error fetching pending managers:', error);
       setPendingManagersError('승인 대기 목록을 불러오는 중 오류가 발생했습니다.');
     }
-  }, [API_BASE_URL]);
+  }, [API_BASE_URL, adminToken]);
 
   // 공연장 관리자 승인/거절 처리 함수
   const handleApproveManager = async (userId, approve) => {
@@ -486,7 +484,6 @@ const SchedulePage = ({ language }) => {
       return;
     }
     try {
-      const adminToken = localStorage.getItem('adminToken');
       console.log('Sending DELETE to:', `${API_BASE_URL}/api/schedules?id=${id}`);
       const response = await fetch(`${API_BASE_URL}/api/schedules?id=${id}`, {
         method: 'DELETE',
@@ -510,7 +507,7 @@ const SchedulePage = ({ language }) => {
       console.error('Error deleting schedule:', error);
       alert(`삭제에 실패했습니다: ${error.message}`);
     }
-  }, [fetchSchedules, API_BASE_URL]);
+  }, [fetchSchedules, API_BASE_URL, adminToken]);
 
   const handleCancelEdit = () => {
     resetForm();
