@@ -581,16 +581,6 @@ const SchedulePage = ({ language }) => {
     resetForm();
   };
 
-  const handleScheduleClick = (venueId) => {
-    const venue = venues.find(v => v.id === venueId);
-    if (venue && venue.websiteUrl) {
-      window.open(venue.websiteUrl, '_blank');
-    } else {
-      alert('등록된 홈페이지 정보가 없습니다.');
-    }
-  };
-
-
   const areas = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
   const areaNames = {
     hongdae: '홍대',
