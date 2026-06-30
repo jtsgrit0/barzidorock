@@ -805,7 +805,7 @@ const SchedulePage = ({ language }) => {
                 {/* 카드 전체를 클릭하면 공연장 홈페이지로 새창에서 이동 */}
                 {schedule.venue_website ? (
                   <a 
-                    href={schedule.venue_website || "http://www.kamimusic.com/"} 
+                    href={schedule.venue_website} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="schedule-item-content"
