@@ -181,77 +181,84 @@ const SchedulePage = ({ language }) => {
             let parsedDescription = '';
             let eventHour = 20; // 기본 시작 시간 오후 8시
 
-            // 1. 정말 명백한 소스코드 키워드만 필터링 (필터링 너무 과하지 않게 완화)
-            const strictCodeKeywords = ['export default', 'function ', 'const ', 'let ', 'var ', 'useState', 'useEffect', 'React.', 'import '];
+            // 한국식 날짜 포맷 모두 지원: 2026.6.28, 2026년 6월 28일, 2026-06-28 등
+            const koreanDateRegexes = [
+              /(\d{4})[.\s년]*\s*(\d{1,2})[.\s월]*\s*(\d{1,2})[일]?/, // 2026. 6. 28. | 2026년 6월 28일
+              /(\d{4})-(\d{2})-(\d{2})/, // 2026-06-28
+              /(\d{4})\/(\d{2})\/(\d{2})/, // 2026/06/28
+            ];
             
-            // 2. 원본 텍스트를 줄 단위로 분리하고 전처리
+            // 시간 포맷: 오후7시, 7PM, 19:00, 19시 등
+            const koreanTimeRegexes = [
+              /(오전|오후)\s*(\d{1,2})시?/, // 오후7시, 오전 10시
+              /(\d{1,2})\s*(PM|AM|pm|am)/, // 7PM, 10am
+              /(\d{1,2}):(\d{2})/, // 19:00, 7:30
+            ];
+
+            // 원본 텍스트에서 모든 라인을 깔끔하게 정리
             let allLines = text.split('\n')
-              .map(line => line.trim())
+              .map(line => line.replace(/[\n\r\t]/g, ' ').trim()) // 특수문자 제거
               .filter(line => {
                 // 빈 줄 제거
-                if (!line) return false;
-                // 명백한 소스코드 라인만 제거
-                for (const keyword of strictCodeKeywords) {
-                  if (line.startsWith(keyword)) return false;
-                }
+                if (!line || line.length < 2) return false;
+                // 코드로 보이는 긴 영문 라인 제거 (base64나 코드 조각)
+                if (/^[a-zA-Z0-9+/]{30,}$/.test(line)) return false;
                 return true;
               });
 
-            console.log('=== 필터링 후 남은 라인들 ===');
-            console.log(allLines);
-            console.log('===========================');
+            console.log('=== OCR 처리 후 라인:', allLines);
 
-            // 3. 날짜 추출 (시간도 함께 추출)
-            const robustDateRegex = /(\d{4})[.\s-년월일\s]*(\d{1,2})[.\s-년월일\s]*(\d{1,2})/;
-            const timeRegex = /(\d{1,2})\s*(?:PM|AM|시|pm|am)/i; // 시간 패턴 매칭
-            
-            const dateMatch = text.match(robustDateRegex);
-            if (dateMatch) {
-              const year = dateMatch[1];
-              const month = dateMatch[2].padStart(2, '0');
-              const day = dateMatch[3].padStart(2, '0');
-              
-              // 텍스트에서 시간 추출 시도
-              const timeMatch = text.match(timeRegex);
-              if (timeMatch) {
-                let hour = parseInt(timeMatch[1], 10);
-                // PM이 붙어있고 12시가 아니면 12시간 더함
-                if (timeMatch[0].toLowerCase().includes('pm') && hour !== 12) {
-                  hour += 12;
-                }
-                // AM이 붙어있고 12시이면 0시로 변경
-                if (timeMatch[0].toLowerCase().includes('am') && hour === 12) {
-                  hour = 0;
-                }
-                eventHour = hour;
-              }
-              
-              parsedDate = `${year}-${month}-${day}T${String(eventHour).padStart(2, '0')}:00`;
-            }
-
-            // 4. 남은 라인들에서 공연 제목과 설명 분류
-            if (allLines.length > 0) {
-              // 첫 번째 의미있는 라인을 공연 제목으로 사용 (최대 100자)
-              parsedEventName = allLines[0].substring(0, 100);
-              
-              // 나머지 라인들을 설명으로 합치기
-              if (allLines.length > 1) {
-                // 공연 정보에 자주 등장하는 키워드가 있는 라인만 필터링하여 설명에 포함
-                const validDescriptionLines = allLines.slice(1).filter(line => {
-                  const showKeywords = ['입장', '시작', '마감', '무료', '유료', '티켓', '공연', '밴드', '라이브', 'concert', 'show', 'pm', 'am', '시', '분', '~', '-'];
-                  // 공연 관련 키워드가 있거나, 일반적인 문장 길이인 경우만 유지
-                  for (const keyword of showKeywords) {
-                    if (line.toLowerCase().includes(keyword)) return true;
+            // 날짜 먼저 찾기
+            for (const regex of koreanDateRegexes) {
+              const match = text.match(regex);
+              if (match) {
+                const year = match[1];
+                const month = match[2].padStart(2, '0');
+                const day = match[3].padStart(2, '0');
+                
+                // 시간도 같이 찾기
+                for (const timeRegex of koreanTimeRegexes) {
+                  const timeMatch = text.match(timeRegex);
+                  if (timeMatch) {
+                    if (timeMatch[0].includes('오후') && parseInt(timeMatch[2]) < 12) {
+                      eventHour = parseInt(timeMatch[2]) + 12;
+                    } else if (timeMatch[0].includes('오전') && parseInt(timeMatch[2]) === 12) {
+                      eventHour = 0;
+                    } else if (timeMatch[2] === 'PM' && parseInt(timeMatch[1]) < 12) {
+                      eventHour = parseInt(timeMatch[1]) + 12;
+                    } else if (timeMatch[1] && !isNaN(parseInt(timeMatch[1]))) {
+                      eventHour = parseInt(timeMatch[1]);
+                    } else if (timeMatch[0].includes(':')) {
+                      eventHour = parseInt(timeMatch[1]);
+                    }
+                    break;
                   }
-                  return line.length > 10; // 너무 짧은 라인은 제외
-                });
-                parsedDescription = validDescriptionLines.join(' ').trim().substring(0, 500);
-                // 만약 필터링 후 설명이 비었다면 원래 모든 라인을 사용
-                if (!parsedDescription) {
-                  parsedDescription = allLines.slice(1).join(' ').trim().substring(0, 500);
                 }
+
+                parsedDate = `${year}-${month}-${day}T${String(eventHour).padStart(2, '0')}:00`;
+                break;
               }
             }
+
+            // 공연 제목 추출: 날짜가 포함되지 않은 가장 긴 첫 번째 라인을 제목으로
+            for (const line of allLines) {
+              // 날짜가 포함되지 않고, 5자 이상인 라인을 첫 제목으로 선택
+              if (!/\d{4}/.test(line) && line.length > 5 && !parsedEventName) {
+                parsedEventName = line.substring(0, 50); // 제목은 50자로 제한
+              } else if (parsedEventName && line.length > 5) {
+                // 그 이후 라인들은 설명에 추가
+                parsedDescription += line + ' ';
+              }
+            }
+
+            // 설명이 비었으면 나머지 모든 텍스트를 500자로 제한
+            if (!parsedDescription && allLines.length > 1) {
+              parsedDescription = allLines.slice(1).join(' ').substring(0, 500);
+            } else {
+              parsedDescription = parsedDescription.substring(0, 500);
+            }
+
+            console.log('=== 최종 추출:', {parsedDate, parsedEventName, parsedDescription});
 
             // 상태 업데이트 전에 현재 isEditing 값을 클로저에서 안전하게 사용
             const currentlyEditing = isEditing;
@@ -773,16 +780,33 @@ const SchedulePage = ({ language }) => {
                     <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                   </div>
                   <div className="schedule-item-body">
-                    <span>
+                    {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
+                    <span className="schedule-date">
                       {language === 'ko' 
-                        ? new Date(schedule.event_date).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
-                        : new Date(schedule.event_date).toLocaleString('en-US', { timeZone: 'Asia/Seoul' })
+                        ? new Date(schedule.event_date).toLocaleString('ko-KR', { 
+                            timeZone: 'Asia/Seoul',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })
+                        : new Date(schedule.event_date).toLocaleString('en-US', { 
+                            timeZone: 'Asia/Seoul',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })
                       }
                     </span>
-                    {schedule.description && <p>{schedule.description}</p>}
+                    {/* 공연내용 100자 이내로 자르기 */}
+                    {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
+                    {/* 공연 포스터 */}
                     {schedule.poster_image && (
                       <div className="schedule-item-poster">
-                        <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" />
+                        <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
                       </div>
                     )}
                   </div>
