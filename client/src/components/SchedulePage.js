@@ -172,13 +172,12 @@ const SchedulePage = ({ language }) => {
             console.log('OCR 처리 시작...');
             // CORS 문제 해결을 위해 공식 tessdata CDN 사용
             // Tesseract.js v5 안정적인 설정: createWorker로 명시적 경로 지정
-            const worker = await Tesseract.createWorker({
+            // ✅ Tesseract.js v5 공식 호출 방식으로 수정: 첫번째 인자에 언어, 두번째에 worker 설정
+            const worker = await Tesseract.createWorker('kor+eng', 1, {
               workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
               corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
               langPath: 'https://tessdata.projectnaptha.com/4.0.0'
             });
-            await worker.loadLanguage('kor+eng');
-            await worker.initialize('kor+eng');
             // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
             let { data: { text } } = await worker.recognize(imageData, {
               rotateText: true,
