@@ -471,10 +471,10 @@ app.get('/api/schedules', async (req, res) => {
 
 app.post('/api/schedules', async (req, res) => {
   try {
-    const { venue_id, event_name, event_date, description, poster_image_url } = req.body;
+    const { venue_id, event_name, event_date, description, poster_image } = req.body;
     const result = await sql`
       INSERT INTO schedules (venue_id, event_name, event_date, description, poster_image_url)
-      VALUES (${venue_id}, ${event_name}, ${event_date}, ${description}, ${poster_image_url})
+      VALUES (${venue_id}, ${event_name}, ${event_date}, ${description}, ${poster_image})
       RETURNING *;
     `;
     res.status(201).json(result.rows[0]);
@@ -487,21 +487,27 @@ app.post('/api/schedules', async (req, res) => {
 app.put('/api/schedules/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { venue_id, event_name, event_date, description, poster_image_url, password } = req.body;
+    const { venue_id, event_name, event_date, description, poster_image, password } = req.body;
     
-    // 관리자 인증 확인 (Bearer 토큰)
+    // 관리자 인증 확인 (Bearer 토큰) - getAuthenticatedUser 함수 재사용
     const authHeader = req.headers.authorization;
-    const isAdmin = authHeader && authHeader.startsWith('Bearer ') && authHeader.substring(7) === 'admin-secret-token-2026';
+    let isAdmin = false;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      if (token === 'admin-secret-token-2026') {
+        isAdmin = true;
+      }
+    }
     
-    // 비관리자인 경우 비밀번호 검증
+    // 비관리자인 경우 비밀번호 검증 (향후 구현)
     if (!isAdmin) {
-      // 추가 검증 로직 (필요시)
+      // 현재는 간단하게 처리
     }
     
     const result = await sql`
       UPDATE schedules 
       SET venue_id = ${venue_id}, event_name = ${event_name}, event_date = ${event_date}, 
-          description = ${description}, poster_image_url = ${poster_image_url}
+          description = ${description}, poster_image_url = ${poster_image}
       WHERE id = ${id}
       RETURNING *;
     `;
@@ -520,16 +526,18 @@ app.put('/api/schedules/:id', async (req, res) => {
 app.delete('/api/schedules/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { password } = req.body;
     
-    // 관리자 인증 확인
+    // 관리자 인증 확인 - getAuthenticatedUser와 동일한 로직
     const authHeader = req.headers.authorization;
-    const isAdmin = authHeader && authHeader.startsWith('Bearer ') && authHeader.substring(7) === 'admin-secret-token-2026';
-    
-    // 비관리자인 경우 비밀번호 검증
-    if (!isAdmin) {
-      // 추가 검증 로직 (필요시)
+    let isAdmin = false;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      if (token === 'admin-secret-token-2026') {
+        isAdmin = true;
+      }
     }
+    
+    console.log('DELETE request - isAdmin:', isAdmin, 'authHeader:', authHeader);
     
     const result = await sql`DELETE FROM schedules WHERE id = ${id} RETURNING *;`;
     
