@@ -264,7 +264,7 @@ const SchedulePage = ({ language }) => {
             // ✅ 사용자 요청: 아예 날짜 파싱 로직을 삭제! 무조건 오늘 날짜의 ISO 형식만 사용
             // 텍스트 날짜("2026년 6월 28일 오전 10:00")가 절대 생성되지 않도록 모든 날짜 추출 로직 삭제
             const today = new Date();
-            today.setHours(eventHour, 0, 0, 0);
+            today.setHours(20, 0, 0, 0); // ✅ 기본 공연시간을 저녁 8시(20시)로 복구! 사용자가 요청한 대로 오전2시가 아닌 정상적인 저녁시간
             parsedDate = today.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식으로만 저장
             console.log('강제 적용된 오늘 날짜(ISO):', parsedDate);
 
@@ -928,10 +928,10 @@ const SchedulePage = ({ language }) => {
                   >
                     <div className="schedule-item-header">
 {(() => {
-                        if (schedule.venue_name && schedule.venue_name.trim() !== '') {
-                          return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{schedule.venue_name}</strong> - </>;
-                        }
-                        return null;
+                        // ✅ 항상 venues 배열에서 직접 공연장 이름을 가져와서 노란색으로 먼저 표시! (schedule.venue_name이 없어도 무조건 작동)
+                        const venue = venues.find(v => v.id === schedule.venue_id);
+                        const venueName = venue ? (venue.name?.ko || venue.name?.en || 'Unknown Venue') : 'Unknown Venue';
+                        return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
                       <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
@@ -975,10 +975,10 @@ const SchedulePage = ({ language }) => {
                   <div className="schedule-item-content">
                     <div className="schedule-item-header">
 {(() => {
-                        if (schedule.venue_name && schedule.venue_name.trim() !== '') {
-                          return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{schedule.venue_name}</strong> - </>;
-                        }
-                        return null;
+                        // ✅ 항상 venues 배열에서 직접 공연장 이름을 가져와서 노란색으로 먼저 표시! (schedule.venue_name이 없어도 무조건 작동)
+                        const venue = venues.find(v => v.id === schedule.venue_id);
+                        const venueName = venue ? (venue.name?.ko || venue.name?.en || 'Unknown Venue') : 'Unknown Venue';
+                        return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
                       <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
