@@ -76,9 +76,14 @@ const VenueManagerRegister = () => {
             langPath: 'https://tessdata.projectnaptha.com/4.0.0',
             logger: m => {}
           });
-          await worker.loadLanguage('kor');
-          await worker.initialize('kor');
-          const { data: { text } } = await worker.recognize(file);
+          await worker.loadLanguage('kor+eng');
+          await worker.initialize('kor+eng');
+          // 이미지 전체 텍스트 제대로 읽도록 옵션 추가
+          const { data: { text } } = await worker.recognize(file, {
+            rotateText: true,
+            preserveInterwordSpacing: true,
+            tessedit_pageseg_mode: 6
+          });
           await worker.terminate();
           setFormData(prev => ({ ...prev, business_registration_text: text }));
         })().catch(err => {

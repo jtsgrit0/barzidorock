@@ -180,7 +180,14 @@ const SchedulePage = ({ language }) => {
             });
             await worker.loadLanguage('kor+eng');
             await worker.initialize('kor+eng');
-            const { data: { text } } = await worker.recognize(imageData);
+            // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
+            const { data: { text } } = await worker.recognize(imageData, {
+              rotateText: true,
+              preserveInterwordSpacing: true,
+              tessjs_create_hocr: false,
+              tessjs_create_tsv: false,
+              tessedit_pageseg_mode: 6 // 전체 페이지를 하나의 텍스트 블록으로 인식
+            });
             await worker.terminate();
             );
 
