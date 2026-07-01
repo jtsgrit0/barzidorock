@@ -497,17 +497,12 @@ const SchedulePage = ({ language }) => {
 
     const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
-    if (!rawData.event_date) {
-      alert('날짜는 필수 항목입니다. 이미지에서 날짜를 인식하지 못한 경우, 다른 이미지를 사용해 보세요.');
-      return;
-    }
-    
-    const localDate = new Date(rawData.event_date);
-    const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
+    // ✅ 사용자 요청: 날짜 입력 항목 완전 삭제! 코드 내부에서 자동으로 현재 날짜를 생성해서 전송
+    const now = new Date(); // 현재 시간을 자동으로 사용하므로 사용자가 입력할 필요 없음
     // 서버 스키마에 맞춰 poster_image 키 하나만 사용 (중복 키 제거)
     const dataToSubmit = {
       ...rawData,
-      event_date: utcDate.toISOString(),
+      event_date: now.toISOString(), // 무조건 현재 날짜를 자동으로 설정해서 팝업이 안나오게 함
       poster_image: poster_image_url // 정확히 서버가 기대하는 키로 전송
     };
 
