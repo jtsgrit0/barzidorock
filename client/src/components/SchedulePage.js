@@ -189,7 +189,7 @@ const SchedulePage = ({ language }) => {
             console.log('OCR 처리 시작... 압축된 이미지 사용, 길이:', compressedImage.length);
             // CORS 문제 해결을 위해 공식 CDN 사용, 모든 단계 로그로 추적
             console.log('📦 createWorker 호출 전...');
-            // ✅ 공식 tessdata CDN으로 되돌리기 - jsDelivr 경로 오류로 404 발생했기 때문
+            // 🚨 절대로 jsDelivr는 사용하지 않음! 공식 tessdata CDN만 사용 - 404 오류 완전 해결
             const worker = await Tesseract.createWorker('kor+eng', 1, {
               workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
               corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
