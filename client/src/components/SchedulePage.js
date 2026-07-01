@@ -324,25 +324,72 @@ const SchedulePage = ({ language }) => {
             }
             console.log('최종 설명:', parsedDescription);
 
-            console.log('=== 최종 추출:', {parsedDate, parsedEventName, parsedDescription});
+            // ✅ 공연장 이름 자동 추출: OCR 텍스트에서 venues.json의 공연장 이름 찾기
+            let matchedVenueId = null;
+            let matchedVenue = null;
+            for (const venue of venues) {
+              if (text.includes(venue.name) || text.includes(venue.name.replace(/\s/g, ''))) {
+                matchedVenue = venue;
+                matchedVenueId = venue.id;
+                console.log('✅ 공연장 자동 매칭 성공:', venue.name, 'ID:', venue.id);
+                break;
+              }
+            }
+            // 만약 공연장을 찾지 못했으면 지역(이태원/홍대 등)으로도 검색
+            if (!matchedVenueId) {
+              for (const venue of venues) {
+                if (text.includes(venue.area)) {
+                  matchedVenue = venue;
+                  matchedVenueId = venue.id;
+                  console.log('✅ 지역으로 공연장 매칭 성공:', venue.name, '지역:', venue.area);
+                  break;
+                }
+              }
+            }
+
+            // ✅ 아티스트(밴드) 이름 추출: 공연장 이름 다음에 나오는 텍스트나 주요 제목에서 밴드명 추출
+            let parsedArtist = '';
+            if (matchedVenue && text.includes(matchedVenue.name)) {
+              const afterVenue = text.split(matchedVenue.name)[1].trim();
+              const firstLine = afterVenue.split('\n')[0].trim();
+              if (firstLine.length > 0 && firstLine.length < 50) {
+                parsedArtist = firstLine;
+              }
+            }
+            // 밴드 이름이 있으면 이벤트 이름에 추가
+            if (parsedArtist && !parsedEventName.includes(parsedArtist)) {
+              parsedEventName = parsedArtist + ' - ' + parsedEventName;
+            }
+
+            console.log('=== 최종 추출:', {parsedDate, parsedEventName, parsedDescription, matchedVenue, parsedArtist});
 
             // 상태 업데이트 전에 현재 isEditing 값을 클로저에서 안전하게 사용
             const currentlyEditing = isEditing;
+            // 공연장을 찾았으면 지역도 자동으로 선택
+            if (matchedVenue) {
+              setSelectedArea(matchedVenue.area);
+              setTimeout(() => {
+                const venueSelect = document.querySelector('select[name="venue_id"]');
+                if (venueSelect) venueSelect.value = matchedVenueId;
+              }, 100);
+            }
             // OCR이 완료된 후에만 상태 업데이트
-            if (parsedDate || parsedEventName) {
+            if (parsedDate || parsedEventName || matchedVenueId) {
               if (currentlyEditing) {
                 setEditingSchedule(prev => ({
                   ...prev,
                   ...(parsedDate && { event_date: parsedDate }),
                   ...(parsedEventName && { event_name: parsedEventName }),
-                  ...(parsedDescription && { description: parsedDescription })
+                  ...(parsedDescription && { description: parsedDescription }),
+                  ...(matchedVenueId && { venue_id: matchedVenueId })
                 }));
               } else {
                 setNewEvent(prev => ({
                   ...prev,
                   ...(parsedDate && { event_date: parsedDate }),
                   ...(parsedEventName && { event_name: parsedEventName }),
-                  ...(parsedDescription && { description: parsedDescription })
+                  ...(parsedDescription && { description: parsedDescription }),
+                  ...(matchedVenueId && { venue_id: matchedVenueId })
                 }));
               }
               alert('이미지에서 텍스트를 추출하여 자동으로 입력했습니다!');
@@ -861,7 +908,7 @@ const SchedulePage = ({ language }) => {
                     style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div className="schedule-item-header">
-                      <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
+                      <strong style={{ color: '#ffd700' }}>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
                       {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
@@ -887,10 +934,10 @@ const SchedulePage = ({ language }) => {
                       </span>
                       {/* 공연내용 100자 이내로 자르기 */}
                       {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                      {/* 공연 포스터 */}
-                      {schedule.poster_image_url && (
+                      {/* 공연 포스터: 둘 다 지원 (poster_image_url 또는 poster_image) */}
+                      {(schedule.poster_image_url || schedule.poster_image) && (
                         <div className="schedule-item-poster">
-                          <img src={schedule.poster_image_url} alt="Poster" crossorigin="anonymous" loading="lazy" />
+                          <img src={schedule.poster_image_url || schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
                         </div>
                       )}
                     </div>
@@ -898,7 +945,7 @@ const SchedulePage = ({ language }) => {
                 ) : (
                   <div className="schedule-item-content">
                     <div className="schedule-item-header">
-                      <strong>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
+                      <strong style={{ color: '#ffd700' }}>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
                       {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
@@ -924,10 +971,10 @@ const SchedulePage = ({ language }) => {
                       </span>
                       {/* 공연내용 100자 이내로 자르기 */}
                       {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                      {/* 공연 포스터 */}
-                      {schedule.poster_image && (
+                      {/* 공연 포스터: 둘 다 지원 (poster_image_url 또는 poster_image) */}
+                      {(schedule.poster_image_url || schedule.poster_image) && (
                         <div className="schedule-item-poster">
-                          <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
+                          <img src={schedule.poster_image_url || schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
                         </div>
                       )}
                     </div>
