@@ -189,11 +189,11 @@ const SchedulePage = ({ language }) => {
             console.log('OCR 처리 시작... 압축된 이미지 사용, 길이:', compressedImage.length);
             // CORS 문제 해결을 위해 공식 CDN 사용, 모든 단계 로그로 추적
             console.log('📦 createWorker 호출 전...');
-            // ✅ 가장 안정적인 jsDelivr CDN으로 모든 리소스 교체 - CORS 완벽 해결
+            // ✅ 공식 tessdata CDN으로 되돌리기 - jsDelivr 경로 오류로 404 발생했기 때문
             const worker = await Tesseract.createWorker('kor+eng', 1, {
-              workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/worker.min.js',
-              corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
-              langPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/lang-data'
+              workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
+              corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
+              langPath: 'https://tessdata.projectnaptha.com/4.0.0'
             });
             console.log('✅ worker 생성 성공!');
               // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
