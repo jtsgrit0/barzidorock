@@ -176,7 +176,7 @@ const SchedulePage = ({ language }) => {
               'kor+eng',
               {
                 logger: m => console.log('[Tesseract]', m),
-                langPath: 'https://unpkg.com/tesseract.js-data@4.0.0'
+                langPath: 'https://cdn.jsdelivr.net/npm/tesseract.js-data@4.0.0'
               }
             );
 
