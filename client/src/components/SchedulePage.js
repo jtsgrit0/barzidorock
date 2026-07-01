@@ -918,7 +918,7 @@ const SchedulePage = ({ language }) => {
                     style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div className="schedule-item-header">
-                      <strong style={{ color: '#ffd700' }}>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
+                      <strong style={{ color: '#ffff00 !important', color: 'yellow', textShadow: '0 0 5px rgba(255,255,0,0.5)' }}>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
                       {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
@@ -955,7 +955,7 @@ const SchedulePage = ({ language }) => {
                 ) : (
                   <div className="schedule-item-content">
                     <div className="schedule-item-header">
-                      <strong style={{ color: '#ffd700' }}>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
+                      <strong style={{ color: '#ffff00 !important', color: 'yellow', textShadow: '0 0 5px rgba(255,255,0,0.5)' }}>{schedule.venue_name}</strong> - <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
                       {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
