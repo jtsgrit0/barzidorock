@@ -796,7 +796,7 @@ const SchedulePage = ({ language }) => {
             <option value="">공연장을 선택하세요</option>
             {filteredVenues.map((venue) => (
               <option key={venue.id} value={venue.id}>
-                {venue.name[language] || venue.name['en']}
+                {typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name}
               </option>
             ))}
           </select>
