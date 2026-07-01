@@ -170,23 +170,27 @@ const SchedulePage = ({ language }) => {
         setTimeout(async () => {
           try {
             console.log('OCR 처리 시작...');
-            // CORS 문제 해결을 위해 공식 tessdata CDN 사용
-            // Tesseract.js v5 안정적인 설정: createWorker로 명시적 경로 지정
-            // ✅ Tesseract.js v5 공식 호출 방식으로 수정: 첫번째 인자에 언어, 두번째에 worker 설정
+            // CORS 문제 해결을 위해 공식 CDN 사용, 모든 단계 로그로 추적
+            console.log('📦 createWorker 호출 전...');
+            // ✅ 가장 안정적인 jsDelivr CDN으로 모든 리소스 교체 - CORS 완벽 해결
             const worker = await Tesseract.createWorker('kor+eng', 1, {
-              workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
-              corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
-              langPath: 'https://tessdata.projectnaptha.com/4.0.0'
+              workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/worker.min.js',
+              corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
+              langPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/lang-data'
             });
-            // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
-            let { data: { text } } = await worker.recognize(imageData, {
-              rotateText: true,
-              preserveInterwordSpacing: true,
-              tessjs_create_hocr: false,
-              tessjs_create_tsv: false,
-              tessedit_pageseg_mode: 6 // 전체 페이지를 하나의 텍스트 블록으로 인식
-            });
-            await worker.terminate();
+            console.log('✅ worker 생성 성공!');
+              // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
+              console.log('🔍 recognize 호출 전...');
+              let { data: { text } } = await worker.recognize(imageData, {
+                rotateText: true,
+                preserveInterwordSpacing: true,
+                tessjs_create_hocr: false,
+                tessjs_create_tsv: false,
+                tessedit_pageseg_mode: 6 // 전체 페이지를 하나의 텍스트 블록으로 인식
+              });
+              console.log('✅ 텍스트 인식 완료! 추출된 텍스트 길이:', text.length);
+              await worker.terminate();
+              console.log('🏁 worker 종료 완료');
 
             console.log('=== OCR 추출 원본 텍스트 ===');
             console.log(text);

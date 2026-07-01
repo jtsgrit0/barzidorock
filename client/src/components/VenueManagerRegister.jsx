@@ -70,22 +70,29 @@ const VenueManagerRegister = () => {
       if (name === 'business_registration_file') {
         // Tesseract.js v5 안정적인 설정: createWorker로 명시적 경로 지정
         (async () => {
-          // ✅ Tesseract.js v5 공식 호출 방식으로 수정: 첫번째 인자에 언어, 두번째에 worker 설정
+          console.log('🏢 사업자등록증 OCR 처리 시작...');
+          console.log('📦 createWorker 호출 전...');
+          // ✅ 가장 안정적인 jsDelivr CDN으로 모든 리소스 교체 - CORS 완벽 해결
           const worker = await Tesseract.createWorker('kor+eng', 1, {
-            workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
-            corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
-            langPath: 'https://tessdata.projectnaptha.com/4.0.0'
+            workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/worker.min.js',
+            corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
+            langPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/lang-data'
           });
+          console.log('✅ worker 생성 성공!');
           // 이미지 전체 텍스트 제대로 읽도록 옵션 추가
+          console.log('🔍 recognize 호출 전...');
           const { data: { text } } = await worker.recognize(file, {
             rotateText: true,
             preserveInterwordSpacing: true,
             tessedit_pageseg_mode: 6
           });
+          console.log('✅ 텍스트 인식 완료! 추출된 텍스트 길이:', text.length);
           await worker.terminate();
+          console.log('🏁 worker 종료 완료');
           setFormData(prev => ({ ...prev, business_registration_text: text }));
         })().catch(err => {
-          console.error('OCR 처리 오류:', err);
+          console.error('❌ 사업자등록증 OCR 처리 오류:', err);
+          console.error('오류 메시지:', err.message);
         });
       }
     } else {
