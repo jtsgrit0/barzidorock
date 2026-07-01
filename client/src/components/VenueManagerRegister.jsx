@@ -73,8 +73,7 @@ const VenueManagerRegister = () => {
           const worker = await Tesseract.createWorker({
             workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
             corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
-            langPath: 'https://tessdata.projectnaptha.com/4.0.0',
-            logger: m => {}
+            langPath: 'https://tessdata.projectnaptha.com/4.0.0'
           });
           await worker.loadLanguage('kor+eng');
           await worker.initialize('kor+eng');
