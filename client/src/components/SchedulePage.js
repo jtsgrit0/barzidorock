@@ -181,7 +181,7 @@ const SchedulePage = ({ language }) => {
             await worker.loadLanguage('kor+eng');
             await worker.initialize('kor+eng');
             // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
-            const { data: { text } } = await worker.recognize(imageData, {
+            let { data: { text } } = await worker.recognize(imageData, {
               rotateText: true,
               preserveInterwordSpacing: true,
               tessjs_create_hocr: false,
@@ -189,7 +189,6 @@ const SchedulePage = ({ language }) => {
               tessedit_pageseg_mode: 6 // 전체 페이지를 하나의 텍스트 블록으로 인식
             });
             await worker.terminate();
-            );
 
             console.log('=== OCR 추출 원본 텍스트 ===');
             console.log(text);
@@ -212,7 +211,8 @@ const SchedulePage = ({ language }) => {
             }
             console.log('=== 후처리된 정리 텍스트 ===');
             console.log(cleanedText);
-            const text = cleanedText;
+            // 원본 text 변수를 정리된 텍스트로 교체
+            text = cleanedText;
 
             let parsedDate = '';
             let parsedEventName = '';
@@ -926,11 +926,12 @@ const SchedulePage = ({ language }) => {
                     style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div className="schedule-item-header">
-                      {schedule.venue_name && schedule.venue_name.trim() !== '' ? (
-                        <>
-                          <strong style={{ color: '#ffff00 !important', color: 'yellow', textShadow: '0 0 5px rgba(255,255,0,0.5)' }}>{schedule.venue_name}</strong> - 
-                        </>
-                      )}
+{(() => {
+                        if (schedule.venue_name && schedule.venue_name.trim() !== '') {
+                          return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{schedule.venue_name}</strong> - </>;
+                        }
+                        return null;
+                      })()}
                       <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
@@ -972,11 +973,12 @@ const SchedulePage = ({ language }) => {
                 ) : (
                   <div className="schedule-item-content">
                     <div className="schedule-item-header">
-                      {schedule.venue_name && schedule.venue_name.trim() !== '' ? (
-                        <>
-                          <strong style={{ color: '#ffff00 !important', color: 'yellow', textShadow: '0 0 5px rgba(255,255,0,0.5)' }}>{schedule.venue_name}</strong> - 
-                        </>
-                      )}
+{(() => {
+                        if (schedule.venue_name && schedule.venue_name.trim() !== '') {
+                          return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{schedule.venue_name}</strong> - </>;
+                        }
+                        return null;
+                      })()}
                       <span className="schedule-event-name">{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">

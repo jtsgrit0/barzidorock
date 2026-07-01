@@ -87,9 +87,6 @@ const VenueManagerRegister = () => {
           await worker.terminate();
           setFormData(prev => ({ ...prev, business_registration_text: text }));
         })().catch(err => {
-    
-          setFormData(prev => ({ ...prev, business_registration_text: text }));
-        }).catch(err => {
           console.error('OCR 처리 오류:', err);
         });
       }
