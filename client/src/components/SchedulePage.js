@@ -220,20 +220,7 @@ const SchedulePage = ({ language }) => {
             let eventHour = 20; // 기본 시작 시간 오후 8시 (20시)
             console.log('기본 eventHour 초기값:', eventHour);
 
-            // 한국식 날짜 포맷 모두 지원: 2026.6.28, 2026년 6월 28일, 2026-06-28 등
-            const koreanDateRegexes = [
-              /(\d{4})[.\s년]*\s*(\d{1,2})[.\s월]*\s*(\d{1,2})[일]?/, // 2026. 6. 28. | 2026년 6월 28일
-              /(\d{4})-(\d{2})-(\d{2})/, // 2026-06-28
-              /(\d{4})\/(\d{2})\/(\d{2})/, // 2026/06/28
-            ];
-            
-            // 시간 포맷: 오후7시, 7PM, 19:00, 19시 등 모든 케이스 커버
-            const koreanTimeRegexes = [
-              /(오전|오후)\s*(\d{1,2})시?/, // 오후7시, 오전 10시
-              /(\d{1,2})\s*(PM|AM|pm|am)/, // 7PM, 10am
-              /(\d{2}):(\d{2})/, // 19:00, 07:30
-              /(\d{1,2})시/, // 19시, 7시
-            ];
+            // 사용자 요청으로 모든 날짜/시간 파싱 로직 삭제 완료 - 변수도 완전히 제거
 
             // 원본 텍스트에서 모든 라인을 깔끔하게 정리 - 인스타그램/브라우저 UI 텍스트까지 철저히 필터링
             let allLines = text.split('\n')
@@ -253,35 +240,7 @@ const SchedulePage = ({ language }) => {
               });
 
             console.log('=== 필터링 후 유효 라인만:', allLines);
-
-            // 시간 먼저 찾기 (날짜보다 먼저 찾아서 기본값 덮어쓰기)
-            for (const timeRegex of koreanTimeRegexes) {
-              const timeMatch = text.match(timeRegex);
-              if (timeMatch) {
-                console.log('시간 매치됨:', timeMatch);
-                // 오후/오후 처리
-                if (timeMatch[1] === '오후' && parseInt(timeMatch[2]) < 12) {
-                  eventHour = parseInt(timeMatch[2]) + 12;
-                } else if (timeMatch[1] === '오전' && parseInt(timeMatch[2]) === 12) {
-                  eventHour = 0;
-                } else if (timeMatch[1] === '오전') {
-                  eventHour = parseInt(timeMatch[2]);
-                // PM/AM 처리
-                } else if (timeMatch[2]?.toUpperCase() === 'PM' && parseInt(timeMatch[1]) < 12) {
-                  eventHour = parseInt(timeMatch[1]) + 12;
-                } else if (timeMatch[2]?.toUpperCase() === 'AM' && parseInt(timeMatch[1]) === 12) {
-                  eventHour = 0;
-                // HH:MM 형식 처리
-                } else if (timeMatch[0].includes(':')) {
-                  eventHour = parseInt(timeMatch[1]);
-                // "19시" 같은 24시간 형식 처리
-                } else if (!isNaN(parseInt(timeMatch[1])) && timeMatch[1] !== '오전' && timeMatch[1] !== '오후') {
-                  eventHour = parseInt(timeMatch[1]);
-                }
-                console.log('최종 eventHour:', eventHour);
-                break;
-              }
-            }
+            // 사용자 요청으로 모든 시간/날짜 파싱 로직 완전 삭제 - 기본 이벤트 시간 20시만 사용
 
             // ✅ 사용자 요청: 아예 날짜 파싱 로직을 삭제! 무조건 오늘 날짜의 ISO 형식만 사용
             // 텍스트 날짜("2026년 6월 28일 오전 10:00")가 절대 생성되지 않도록 모든 날짜 추출 로직 삭제
