@@ -152,15 +152,32 @@ const SchedulePage = ({ language }) => {
       }
 
       setSelectedFile(file); // 파일 객체 저장
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageData = reader.result;
-        // 먼저 이미지만 상태에 업데이트 (OCR은 별도로 비동기 처리)
-        const currentIsEditing = isEditing; // 현재 isEditing 상태를 클로저에 캡처
+      
+      // ✅ 이미지 압축: OCR/업로드 전에 미리 리사이즈해서 파일 크기 줄이기
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        // 최대 너비 1920px로 제한
+        if (width > 1920) {
+          height = (height * 1920) / width;
+          width = 1920;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        // JPEG 0.9 품질로 압축 (OCR 정확도 유지하면서 크기 줄이기)
+        const compressedImage = canvas.toDataURL('image/jpeg', 0.9);
+        console.log('✅ 이미지 압축 완료! 원본:', file.size, 'byte / 압축후:', compressedImage.length, 'byte');
+        
+        // 압축된 이미지로 상태 업데이트
+        const currentIsEditing = isEditing;
         if (currentIsEditing) {
-          setEditingSchedule(prev => ({ ...prev, poster_image: imageData }));
+          setEditingSchedule(prev => ({ ...prev, poster_image: compressedImage }));
         } else {
-          setNewEvent(prev => ({ ...prev, poster_image: imageData }));
+          setNewEvent(prev => ({ ...prev, poster_image: compressedImage }));
         }
 
         // OCR 작업 시작 전 로딩 상태 활성화
@@ -169,7 +186,7 @@ const SchedulePage = ({ language }) => {
         // OCR 작업을 setTimeout으로 비동기 큐에 넣어 메인 스레드 블로킹 방지
         setTimeout(async () => {
           try {
-            console.log('OCR 처리 시작...');
+            console.log('OCR 처리 시작... 압축된 이미지 사용, 길이:', compressedImage.length);
             // CORS 문제 해결을 위해 공식 CDN 사용, 모든 단계 로그로 추적
             console.log('📦 createWorker 호출 전...');
             // ✅ 가장 안정적인 jsDelivr CDN으로 모든 리소스 교체 - CORS 완벽 해결
@@ -181,7 +198,7 @@ const SchedulePage = ({ language }) => {
             console.log('✅ worker 생성 성공!');
               // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
               console.log('🔍 recognize 호출 전...');
-              let { data: { text } } = await worker.recognize(imageData, {
+              let { data: { text } } = await worker.recognize(compressedImage, {
                 rotateText: true,
                 preserveInterwordSpacing: true,
                 tessjs_create_hocr: false,
@@ -383,8 +400,9 @@ const SchedulePage = ({ language }) => {
             setIsProcessingOCR(false);
           }
         }, 0);
-      };
-      reader.readAsDataURL(file);
+      }; // setTimeout 끝
+      }; // img.onload 함수 닫기
+      img.src = URL.createObjectURL(file); // 이미지 로드 시작!
     } else {
       setSelectedFile(null);
       if (isEditing) {
@@ -433,17 +451,40 @@ const SchedulePage = ({ language }) => {
 
     if (selectedFile) {
       try {
-        const formData = new FormData();
-        formData.append('file', selectedFile); // 'file'은 백엔드에서 파일을 참조할 때 사용할 이름입니다.
+        // ✅ 413 Content Too Large 해결: 이미지 압축해서 업로드
+        const compressedBlob = await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            // 최대 너비 1920px로 제한
+            if (width > 1920) {
+              height = (height * 1920) / width;
+              width = 1920;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            // JPEG 0.8 품질로 압축
+            canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.8);
+          };
+          img.src = URL.createObjectURL(selectedFile);
+        });
+        console.log('✅ 이미지 압축 완료! 원본크기:', selectedFile.size, '압축후:', compressedBlob.size);
 
-        const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload?filename=${selectedFile.name}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${adminToken}`,
-        },
-        body: formData,
-        credentials: 'include',
-      });
+        const formData = new FormData();
+        formData.append('file', compressedBlob, `compressed_${selectedFile.name}`);
+
+        // ✅ CORS 오류 해결: credentials: 'include' 제거, Authorization 헤더만 유지
+        const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload?filename=compressed_${selectedFile.name}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${adminToken}`,
+          },
+          body: formData
+        });
 
         if (!uploadResponse.ok) {
           throw new Error('Failed to get upload URL');
