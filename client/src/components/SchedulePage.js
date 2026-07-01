@@ -195,6 +195,25 @@ const SchedulePage = ({ language }) => {
             console.log(text);
             console.log('===========================');
 
+            // ✅ OCR로 분리된 한글 단어 자동 합치기: "마 이 클 잭 슨" → "마이클잭슨"
+            let cleanedText = text.replace(/(\w)\s+(\w)/g, (match, a, b) => {
+              // 한글 자모/단어가 분리된 경우 합치기
+              if (/[가-힣a-zA-Z]/.test(a) && /[가-힣a-zA-Z]/.test(b)) {
+                return a + b;
+              }
+              return match;
+            });
+            // 두 글자 이상 분리된 것도 추가로 합치기 (반복 실행)
+            for(let i=0; i<3; i++) {
+              cleanedText = cleanedText.replace(/(\w)\s+(\w)/g, (match, a, b) => {
+                if (/[가-힣a-zA-Z]/.test(a) && /[가-힣a-zA-Z]/.test(b)) return a+b;
+                return match;
+              });
+            }
+            console.log('=== 후처리된 정리 텍스트 ===');
+            console.log(cleanedText);
+            const text = cleanedText;
+
             let parsedDate = '';
             let parsedEventName = '';
             let parsedDescription = '';
