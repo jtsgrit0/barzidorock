@@ -283,30 +283,12 @@ const SchedulePage = ({ language }) => {
               }
             }
 
-            // 날짜 찾기
-            let dateFound = false;
-            for (const regex of koreanDateRegexes) {
-              const match = text.match(regex);
-              if (match) {
-                console.log('날짜 매치됨:', match);
-                const year = match[1];
-                const month = String(parseInt(match[2])).padStart(2, '0');
-                const day = String(parseInt(match[3])).padStart(2, '0');
-                
-                parsedDate = `${year}-${month}-${day}T${String(eventHour).padStart(2, '0')}:00:00`;
-                dateFound = true;
-                console.log('최종 parsedDate:', parsedDate);
-                break;
-              }
-            }
-
-            // ✅ 사용자가 말씀하신 문제 해결: 날짜를 절대 텍스트로 등록하지 않음, 찾지 못하면 오늘 날짜로 강제 설정
-            if (!dateFound) {
-              const today = new Date();
-              today.setHours(eventHour, 0, 0, 0);
-              parsedDate = today.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식으로만 저장
-              console.log('날짜를 찾지 못해 오늘 날짜로 설정:', parsedDate);
-            }
+            // ✅ 사용자 요청: 아예 날짜 파싱 로직을 삭제! 무조건 오늘 날짜의 ISO 형식만 사용
+            // 텍스트 날짜("2026년 6월 28일 오전 10:00")가 절대 생성되지 않도록 모든 날짜 추출 로직 삭제
+            const today = new Date();
+            today.setHours(eventHour, 0, 0, 0);
+            parsedDate = today.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식으로만 저장
+            console.log('강제 적용된 오늘 날짜(ISO):', parsedDate);
 
             // 공연 제목/설명 추출 로직 - 인스타그램 공연 포스터에 최적화
             // 기존에 선언된 변수 재사용 (중복 선언 방지)
