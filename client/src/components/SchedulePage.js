@@ -617,7 +617,7 @@ const SchedulePage = ({ language }) => {
     }
   }, [isLoggedIn, fetchPendingManagers]);
 
-    const handleDelete = useCallback(async (id) => {
+  const handleDelete = useCallback(async (id) => {
     let password = null;
     // 관리자가 아닌 경우만 비밀번호 입력 요청
     if (!isLoggedIn || !adminToken) {
