@@ -884,9 +884,9 @@ const SchedulePage = ({ language }) => {
                       {/* 공연내용 100자 이내로 자르기 */}
                       {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
                       {/* 공연 포스터 */}
-                      {schedule.poster_image && (
+                      {schedule.poster_image_url && (
                         <div className="schedule-item-poster">
-                          <img src={schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
+                          <img src={schedule.poster_image_url} alt="Poster" crossorigin="anonymous" loading="lazy" />
                         </div>
                       )}
                     </div>
