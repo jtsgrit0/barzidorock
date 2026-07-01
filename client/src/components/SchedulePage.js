@@ -171,13 +171,17 @@ const SchedulePage = ({ language }) => {
           try {
             console.log('OCR 처리 시작...');
             // CORS 문제 해결을 위해 공식 tessdata CDN 사용
-            const { data: { text } } = await Tesseract.recognize(
-              imageData,
-              'kor+eng',
-              {
-                logger: m => console.log('[Tesseract]', m),
-                langPath: 'https://tessdata.projectnaptha.com/4.0.0'
-              }
+            // Tesseract.js v5 안정적인 설정: createWorker로 명시적 경로 지정
+            const worker = await Tesseract.createWorker({
+              workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
+              corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
+              langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+              logger: m => console.log('[Tesseract]', m)
+            });
+            await worker.loadLanguage('kor+eng');
+            await worker.initialize('kor+eng');
+            const { data: { text } } = await worker.recognize(imageData);
+            await worker.terminate();
             );
 
             console.log('=== OCR 추출 원본 텍스트 ===');

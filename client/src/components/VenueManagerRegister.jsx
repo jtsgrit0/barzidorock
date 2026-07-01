@@ -68,14 +68,20 @@ const VenueManagerRegister = () => {
       
       // 사업자등록증 파일인 경우 OCR로 텍스트 추출
       if (name === 'business_registration_file') {
-        Tesseract.recognize(
-          file,
-          'kor', // 한국어 OCR
-          { 
-            logger: m => {},
-            langPath: 'https://tessdata.projectnaptha.com/4.0.0'
-          }
-        ).then(({ data: { text } }) => {
+        // Tesseract.js v5 안정적인 설정: createWorker로 명시적 경로 지정
+        (async () => {
+          const worker = await Tesseract.createWorker({
+            workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
+            corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
+            langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+            logger: m => {}
+          });
+          await worker.loadLanguage('kor');
+          await worker.initialize('kor');
+          const { data: { text } } = await worker.recognize(file);
+          await worker.terminate();
+          setFormData(prev => ({ ...prev, business_registration_text: text }));
+        })().catch(err => {
     
           setFormData(prev => ({ ...prev, business_registration_text: text }));
         }).catch(err => {
