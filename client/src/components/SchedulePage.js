@@ -957,12 +957,16 @@ const SchedulePage = ({ language }) => {
                       </span>
                       {/* 공연내용 100자 이내로 자르기 */}
                       {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                      {/* 공연 포스터: 둘 다 지원 (poster_image_url 또는 poster_image) */}
-                      {(schedule.poster_image_url || schedule.poster_image) && (
-                        <div className="schedule-item-poster">
-                          <img src={schedule.poster_image_url || schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
-                        </div>
-                      )}
+                      {/* 모든 가능한 이미지 키 지원: poster_image_url, poster_image, poster_url, image_url, image */}
+                      {(() => {
+                        const imageSrc = schedule.poster_image_url || schedule.poster_image || schedule.poster_url || schedule.image_url || schedule.image;
+                        console.log('이미지소스 확인:', imageSrc, 'schedule객체:', schedule);
+                        return imageSrc ? (
+                          <div className="schedule-item-poster">
+                            <img src={imageSrc} alt="Poster" crossorigin="anonymous" loading="lazy" onError={(e) => console.error('이미지로딩오류:', e, imageSrc)} />
+                          </div>
+                        ) : null;
+                      })()}
                     </div>
                   </a>
                 ) : (
@@ -999,12 +1003,16 @@ const SchedulePage = ({ language }) => {
                       </span>
                       {/* 공연내용 100자 이내로 자르기 */}
                       {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                      {/* 공연 포스터: 둘 다 지원 (poster_image_url 또는 poster_image) */}
-                      {(schedule.poster_image_url || schedule.poster_image) && (
-                        <div className="schedule-item-poster">
-                          <img src={schedule.poster_image_url || schedule.poster_image} alt="Poster" crossorigin="anonymous" loading="lazy" />
-                        </div>
-                      )}
+                      {/* 모든 가능한 이미지 키 지원: poster_image_url, poster_image, poster_url, image_url, image */}
+                      {(() => {
+                        const imageSrc = schedule.poster_image_url || schedule.poster_image || schedule.poster_url || schedule.image_url || schedule.image;
+                        console.log('이미지소스 확인:', imageSrc, 'schedule객체:', schedule);
+                        return imageSrc ? (
+                          <div className="schedule-item-poster">
+                            <img src={imageSrc} alt="Poster" crossorigin="anonymous" loading="lazy" onError={(e) => console.error('이미지로딩오류:', e, imageSrc)} />
+                          </div>
+                        ) : null;
+                      })()}
                     </div>
                   </div>
                 )}
