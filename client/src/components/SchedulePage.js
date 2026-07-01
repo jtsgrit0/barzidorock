@@ -399,8 +399,7 @@ const SchedulePage = ({ language }) => {
             // OCR 처리 완료 후 로딩 상태 해제
             setIsProcessingOCR(false);
           }
-        }, 0);
-      }; // setTimeout 끝
+        }, 0); // setTimeout 끝
       }; // img.onload 함수 닫기
       img.src = URL.createObjectURL(file); // 이미지 로드 시작!
     } else {
