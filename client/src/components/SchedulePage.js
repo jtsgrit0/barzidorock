@@ -918,7 +918,7 @@ const SchedulePage = ({ language }) => {
                     style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div className="schedule-item-header">
-                      {schedule.venue_name && schedule.venue_name !== 'Unknown Venue' ? (
+                      {schedule.venue_name && schedule.venue_name.trim() !== '' ? (
                         <>
                           <strong style={{ color: '#ffff00 !important', color: 'yellow', textShadow: '0 0 5px rgba(255,255,0,0.5)' }}>{schedule.venue_name}</strong> - 
                         </>
@@ -960,7 +960,7 @@ const SchedulePage = ({ language }) => {
                 ) : (
                   <div className="schedule-item-content">
                     <div className="schedule-item-header">
-                      {schedule.venue_name && schedule.venue_name !== 'Unknown Venue' ? (
+                      {schedule.venue_name && schedule.venue_name.trim() !== '' ? (
                         <>
                           <strong style={{ color: '#ffff00 !important', color: 'yellow', textShadow: '0 0 5px rgba(255,255,0,0.5)' }}>{schedule.venue_name}</strong> - 
                         </>
