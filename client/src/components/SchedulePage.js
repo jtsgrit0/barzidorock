@@ -203,7 +203,7 @@ const SchedulePage = ({ language }) => {
                 preserveInterwordSpacing: true,
                 tessjs_create_hocr: false,
                 tessjs_create_tsv: false,
-                tessedit_pageseg_mode: 6 // 전체 페이지를 하나의 텍스트 블록으로 인식
+                tessedit_pageseg_mode: 3 // ✅ 사용자 요청: 이미지 전체의 모든 텍스트 블록 자동 감지! 왼쪽 큰 공연제목도 인식
               });
               console.log('✅ 텍스트 인식 완료! 추출된 텍스트 길이:', text.length);
               await worker.terminate();
