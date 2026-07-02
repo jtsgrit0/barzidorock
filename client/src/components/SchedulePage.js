@@ -241,22 +241,35 @@ const SchedulePage = ({ language }) => {
 
             // 사용자 요청으로 모든 날짜/시간 파싱 로직 삭제 완료 - 변수도 완전히 제거
 
-            // 원본 텍스트에서 모든 라인을 깔끔하게 정리 - 인스타그램/브라우저 UI 텍스트까지 철저히 필터링
+            // ✅ 사용자 요청: OCR 추출 텍스트 완벽 재분석! 인스타그램 UI/불필요 텍스트 100% 필터링
             let allLines = text.split('\n')
               .map(line => line.replace(/[\n\r\t]/g, ' ').trim()) // 특수문자 제거
               .filter(line => {
-                // 빈 줄 제거
+                // 1. 빈 줄/짧은 줄 제거
                 if (!line || line.length < 3) return false;
-                // base64나 코드로 보이는 긴 영문+숫자 라인 제거
+                // 2. base64/긴 코드 라인 제거
                 if (/^[a-zA-Z0-9+/]{25,}$/.test(line)) return false;
-                // HTML/JS 코드 조각 제거
+                // 3. 코드 조각 제거
                 if (/<\/?[a-z][\s\S]*>/i.test(line) || line.includes('function') || line.includes('const') || line.includes('var')) return false;
-                // 브라우저 UI 텍스트 제거
-                if (line.includes('Chrome') || line.includes('방문기록') || line.includes('북마크') || line.includes('프로필') || line.includes('탭') || line.includes('창') || line.includes('도움말')) return false;
-                // 인스타그램 UI 텍스트 제거
-                if (line.includes('BarZidoROCK') || line.includes('instagram.com') || line.includes('좋아요') || line.includes('일 전') || (line.includes('@') && line.includes('.com'))) return false;
+                // 4. 모든 브라우저 UI 텍스트 제거
+                if (line.includes('Chrome') || line.includes('방문기록') || line.includes('북마크') || line.includes('프로필') || line.includes('탭') || line.includes('창') || line.includes('도움말') || line.includes('주소창') || line.includes('새로고침')) return false;
+                // 5. 인스타그램 모든 UI 텍스트 철저히 제거
+                const instagramUIWords = ['좋아요', '팔로우', '팔로잉', '게시됨', '일 전', '시간 전', 'BarZidoROCK', 'instagram.com', '인스타그램', '프로필', '저장', '공유', '댓글', '팔로우하기', '차단', '신고', '게시물', '스토리', '릴스'];
+                if (instagramUIWords.some(word => line.includes(word))) return false;
+                // 6. @username 이메일/URL 전부 제거
+                if (line.includes('@') && line.includes('.com') || line.includes('http')) return false;
                 return true;
               });
+
+            // ✅ 추가로 한글 단어 분리 완벽 수정: "뮤 직 비 디 오 와 라이브" → "뮤직비디오와라이브" 자동 합치기
+            allLines = allLines.map(line => {
+              let fixedLine = line;
+              // 5회 반복해서 모든 분리된 한글 글자 합치기
+              for(let i=0; i<5; i++) {
+                fixedLine = fixedLine.replace(/([가-힣])\s+([가-힣])/g, '$1$2');
+              }
+              return fixedLine;
+            });
 
             console.log('=== 필터링 후 유효 라인만:', allLines);
             // 사용자 요청으로 모든 시간/날짜 파싱 로직 완전 삭제 - 기본 이벤트 시간 20시만 사용
@@ -269,52 +282,38 @@ const SchedulePage = ({ language }) => {
             parsedEventName = '';
             parsedDescription = '';
 
-            // 1단계: 아티스트/공연 주제가 들어있는 라인을 최우선으로 제목으로 선택
-            const artistCandidates = allLines.filter(line => 
-              line.includes('마이클잭슨') || line.includes('Michael Jackson') || 
-              line.includes('17주기') || line.includes('기념공연') || line.includes('라이브') ||
-              line.includes('쇼') || line.includes('페스티벌') || line.includes('콘서트')
-            );
-            if (artistCandidates.length > 0) {
-              const bestTitleLine = artistCandidates.reduce((a, b) => a.length > b.length ? a : b);
-              parsedEventName = bestTitleLine.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim().substring(0, 50);
-            }
+            // ✅ 1단계: 먼저 입장정보/시간 라인을 모두 찾아서 description에 먼저 담기
+            const timeKeywords = ['PM', 'AM', '시', '입장', '무료', '영업', '~', '-', '부터', '까지'];
+            const descLines = allLines.filter(line => timeKeywords.some(k => line.includes(k)));
+            const venueLines = allLines.filter(line => line.includes('펫사운즈') || line.includes('PetSounds') || line.includes('petsounds') || venues.some(v => line.includes(v.name.replace(/\s/g,''))));
+            // 설명에 시간/장소 외 다른 내용 추가
+            const otherLines = allLines.filter(line => !descLines.includes(line) && !venueLines.includes(line));
+            
+            // description에 모든 세부정보 모아서 깔끔하게 합치기
+            parsedDescription = [...descLines, ...otherLines.slice(0,3)]
+              .join(' ')
+              .replace(/[^\w\sㄱ-힣a-zA-Z,.~-]/g, ' ')
+              .trim()
+              .substring(0, 150);
 
-            // 2단계: 아티스트 라인을 못찾았으면 일반 로직으로 제목 찾기
-            if (!parsedEventName) {
-              for (const line of allLines) {
-                // 공연장 이름/날짜/시간이 들어간 라인은 제외
-                if (line.includes('펫사운즈') || line.includes('Pet Sounds') || line.includes('petsounds')) continue;
-                if (!/\d{4}|:|시|일|PM|AM|무료입장/.test(line) && line.length > 5 && !parsedEventName) {
-                  const cleanLine = line.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim();
-                  if (cleanLine.length > 3) parsedEventName = cleanLine.substring(0, 50);
-                }
-              }
-              // 마지막 수단: 첫번째 유효라인을 제목으로
-              if (!parsedEventName && allLines.length > 0) {
-                const fallback = allLines.find(l => l.length > 3);
-                if (fallback) parsedEventName = fallback.substring(0, 50);
-              }
-            }
-
-            // 3단계: 설명 추출 - 공연 시간/장소/입장정보만 모아서 100자로 제한
-            const descCandidates = allLines.filter(line => 
-              line.includes('무료입장') || line.includes('입장') || line.includes('PM') || line.includes('AM') ||
-              line.includes('이태원') || line.includes('경리단길') || line.includes('3F') || line.includes('펫사운즈에서')
-            );
-            if (descCandidates.length > 0) {
-              parsedDescription = descCandidates.join(' ').replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim().substring(0, 100);
+            // ✅ 2단계: 공연 제목 추출 - 가장 긴 유효 라인(아티스트/공연이름)을 제목으로 선택
+            const titleCandidates = allLines.filter(line => {
+              // 시간/장소 라인은 제외하고 아티스트/공연이름만 남기기
+              if (descLines.includes(line) || venueLines.includes(line)) return false;
+              return line.length > 3;
+            });
+            if (titleCandidates.length > 0) {
+              // 가장 적합한 제목 라인 선택 (길이가 적당하고 의미있는 라인)
+              const bestTitle = titleCandidates.reduce((a, b) => a.length > b.length ? a : b);
+              parsedEventName = bestTitle.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim().substring(0, 60);
             } else {
-              // 일반 라인들에서 설명 추가
-              for (const line of allLines) {
-                if (line !== parsedEventName && line.length > 5 && parsedDescription.length < 100) {
-                  const cleanDesc = line.replace(/[^\w\sㄱ-힣a-zA-Z,.]/g, ' ').trim();
-                  if (cleanDesc.length > 3) parsedDescription += cleanDesc + ' ';
-                }
-              }
-              parsedDescription = parsedDescription.trim().substring(0, 100);
+              // 제목을 못찾았으면 첫번째 유효라인 사용
+              const fallback = allLines.find(l => l.length > 3);
+              if (fallback) parsedEventName = fallback.substring(0, 60);
             }
-            console.log('최종 설명:', parsedDescription);
+            console.log('✅ 최종분석완료: 제목=', parsedEventName, '설명=', parsedDescription);
+
+            // 기존 설명 추출 로직 완전 삭제 - 새로운 분석 로직으로 대체됨
 
             // ✅ 공연장 이름 자동 추출: OCR 텍스트에서 venues.json의 공연장 이름 찾기
             let matchedVenueId = null;
