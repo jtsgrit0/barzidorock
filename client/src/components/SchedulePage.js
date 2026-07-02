@@ -487,6 +487,7 @@ const SchedulePage = ({ language }) => {
 
         const { url } = await uploadResponse.json();
         poster_image_url = url;
+        console.log('✅ S3 업로드 완료! 받은 URL:', poster_image_url); // 업로드된 이미지 URL 확인
 
       } catch (error) {
         console.error('Error uploading file:', error);
