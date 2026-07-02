@@ -65,7 +65,8 @@ secureRouter.get('/schedules', async (req, res) => {
   }
 });
 
-secureRouter.post('/schedules/upload', upload.single('file'), async (req, res) => {
+// ✅ 파일업로드 엔드포인트는 인증없이 접근가능한 apiRouter에 등록! secureRouter에 넣어서 500에러 발생했던 문제 해결
+apiRouter.post('/schedules/upload', upload.single('file'), async (req, res) => {
   const { filename: originalFilename } = req.query;
   if (!originalFilename) {
     return res.status(400).json({ error: 'Filename is required' });
