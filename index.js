@@ -87,7 +87,7 @@ apiRouter.post('/schedules/upload', (req, res) => {
       }
       console.log('✅ 파일업로드시작:', req.file.originalname, req.file.size);
       const blob = await put(filename, req.file.buffer, {
-        access: 'public', // ✅ 이미지를 퍼블릭으로 업로드해서 누구나 접근 가능하게! 403 Forbidden 해결
+        // ✅ Blob 스토어가 private이므로 public Access 사용불가! 기본 설정으로 업로드
         contentType: req.file.mimetype,
       });
       console.log('✅ Blob업로드성공:', blob.url);
