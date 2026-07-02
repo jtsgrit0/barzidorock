@@ -75,7 +75,7 @@ secureRouter.post('/schedules/upload', upload.single('file'), async (req, res) =
 
   try {
     const blob = await put(filename, req.file.buffer, {
-      access: 'private',
+      access: 'public', // ✅ 이미지를 퍼블릭으로 업로드해서 누구나 접근 가능하게! 403 Forbidden 해결
       contentType: req.file.mimetype,
     });
     res.status(200).json(blob);
