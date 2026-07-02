@@ -507,12 +507,15 @@ const SchedulePage = ({ language }) => {
       // OCR로 날짜를 추출하지 못한 경우에만 현재 날짜를 자동으로 사용 (팝업 대신 자동 처리)
       finalEventDate = new Date().toISOString();
     }
-    // 서버 스키마에 맞춰 poster_image 키 하나만 사용 (중복 키 제거)
+    // ✅ 이미지 키 중복 없이 확실하게 전송! 절대로 이미지가 누락되지 않도록
+    console.log('제출전데이터확인:', rawData, 'poster_image_url:', poster_image_url);
     const dataToSubmit = {
       ...rawData,
       event_date: finalEventDate, // OCR 추출 날짜 우선 사용, 실패시 현재날짜 자동적용
-      poster_image: poster_image_url // 정확히 서버가 기대하는 키로 전송
+      poster_image: poster_image_url || rawData.poster_image || rawData.poster_image_url, // 모든 케이스 커버
+      poster_image_url: poster_image_url || rawData.poster_image_url || rawData.poster_image // 서버가 어떤 키를 기대하든 모두 커버
     };
+    console.log('최종제출데이터:', dataToSubmit);
 
     if (!dataToSubmit.venue_id) {
       alert('공연장은 필수 항목입니다.');
@@ -929,8 +932,13 @@ const SchedulePage = ({ language }) => {
 {(() => {
                         // ✅ 항상 venues 배열에서 직접 공연장 이름을 가져와서 노란색으로 먼저 표시! 문자열 일치 보장
                         const venue = venues.find(v => String(v.id) === String(schedule.venue_id));
-                        const venueName = venue ? (venue.name?.ko || venue.name?.en || 'Unknown Venue') : 'Unknown Venue';
-                        console.log('공연장찾기:', schedule.venue_id, '→', venueName, 'venue.id?', venue?.id);
+                        // ✅ name이 문자열일 때도, 객체일 때도 모두 지원하도록 수정! pet-sounds-001처럼 name이 문자열로 저장된 경우도 처리
+                        const venueName = venue ? (
+                          typeof venue.name === 'string' 
+                            ? venue.name 
+                            : (venue.name?.ko || venue.name?.en || 'Unknown Venue')
+                        ) : 'Unknown Venue';
+                        console.log('공연장찾기:', schedule.venue_id, '→', venueName, 'venue객체:', venue, 'typeof name:', typeof venue?.name);
                         return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
                       <span className="schedule-event-name">{schedule.event_name}</span>
