@@ -259,13 +259,43 @@ const SchedulePage = ({ language }) => {
               });
 
             console.log('=== 필터링 후 유효 라인만:', allLines);
-            // 사용자 요청으로 모든 시간/날짜 파싱 로직 완전 삭제 - 기본 이벤트 시간 20시만 사용
+            
+            // ✅ 사용자 요청: OCR 텍스트에서 한글 날짜 완벽 추출! "2026년 7월 2일 오전 09:05" 같은 형식 파싱
+             parsedDate = null; // 기존에 선언된 변수 재사용 (중복 선언 방지)
+             const datePatterns = [
+               /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일\s*(오전|오후)?\s*(\d{1,2}):(\d{2})/, // 2026년 7월 2일 오전 09:05
+               /(\d{4})[.-](\d{1,2})[.-](\d{1,2})\s*(\d{1,2}):(\d{2})/, // 2026-07-02 09:05
+               /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/, // 2026년 7월 2일 (시간 없을 경우)
+             ];
 
-            // ✅ 사용자 요청: 날짜/시간 강제 설정 코드 완전 삭제! 사용자가 직접 입력한 날짜가 그대로 사용됨
-            // 절대로 날짜를 임의로 수정하지 않음 - 사용자가 폼에서 선택한 날짜가 그대로 저장됩니다!
+            for (const line of allLines) {
+              for (const pattern of datePatterns) {
+                const match = line.match(pattern);
+                if (match) {
+                  let [, year, month, day, ampm, hour, minute] = match;
+                  // 오후일 경우 12시간 더하기
+                  if (ampm === '오후' && parseInt(hour) < 12) hour = String(parseInt(hour) + 12);
+                  if (ampm === '오전' && parseInt(hour) === 12) hour = '0';
+                  // 날짜 객체 생성
+                  const date = new Date(
+                    parseInt(year), 
+                    parseInt(month)-1, 
+                    parseInt(day), 
+                    parseInt(hour||0), 
+                    parseInt(minute||0)
+                  );
+                  if (!isNaN(date.getTime())) {
+                    parsedDate = date.toISOString();
+                    console.log('✅ OCR 날짜 추출 성공!:', line, '→', parsedDate);
+                    break;
+                  }
+                }
+              }
+              if (parsedDate) break;
+            }
+            console.log('최종 추출된 날짜:', parsedDate);
 
-            // 공연 제목/설명 추출 로직 - 인스타그램 공연 포스터에 최적화
-            // 기존에 선언된 변수 재사용 (중복 선언 방지)
+            // 공연 제목/설명 추출 로직 - 인스타그램 공연 포스터에 최적화 (사용자 요청 반영)
             parsedEventName = '';
             parsedDescription = '';
 
