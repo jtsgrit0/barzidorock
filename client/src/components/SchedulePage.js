@@ -256,8 +256,8 @@ const SchedulePage = ({ language }) => {
                 // 5. 인스타그램 모든 UI 텍스트 철저히 제거
                 const instagramUIWords = ['좋아요', '팔로우', '팔로잉', '게시됨', '일 전', '시간 전', 'BarZidoROCK', 'instagram.com', '인스타그램', '프로필', '저장', '공유', '댓글', '팔로우하기', '차단', '신고', '게시물', '스토리', '릴스'];
                 if (instagramUIWords.some(word => line.includes(word))) return false;
-                // 6. @username 이메일/URL 전부 제거
-                if (line.includes('@') && line.includes('.com') || line.includes('http')) return false;
+                // 6. @username 이메일/URL 전부 제거 - 괄호로 연산자 우선순위 명확히 지정
+                if ((line.includes('@') && line.includes('.com')) || line.includes('http')) return false;
                 return true;
               });
 
