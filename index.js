@@ -65,25 +65,38 @@ secureRouter.get('/schedules', async (req, res) => {
   }
 });
 
-// ✅ 파일업로드 엔드포인트는 인증없이 접근가능한 apiRouter에 등록! secureRouter에 넣어서 500에러 발생했던 문제 해결
-apiRouter.post('/schedules/upload', upload.single('file'), async (req, res) => {
-  const { filename: originalFilename } = req.query;
-  if (!originalFilename) {
-    return res.status(400).json({ error: 'Filename is required' });
-  }
-  const timestamp = Date.now();
-  const filename = `${timestamp}_${originalFilename}`;
+// ✅ 파일업로드 엔드포인트: multer 미들웨어를 직접 실행해서 apiRouter에서도 파일 정상처리
+apiRouter.post('/schedules/upload', (req, res) => {
+  // multer 미들웨어를 직접 실행해서 req.file을 정상적으로 생성
+  upload.single('file')(req, res, async (err) => {
+    if (err) {
+      console.error('Multer error:', err);
+      return res.status(500).json({ error: 'Multer error', details: err.message });
+    }
+    const { filename: originalFilename } = req.query;
+    if (!originalFilename) {
+      return res.status(400).json({ error: 'Filename is required' });
+    }
+    const timestamp = Date.now();
+    const filename = `${timestamp}_${originalFilename}`;
 
-  try {
-    const blob = await put(filename, req.file.buffer, {
-      access: 'public', // ✅ 이미지를 퍼블릭으로 업로드해서 누구나 접근 가능하게! 403 Forbidden 해결
-      contentType: req.file.mimetype,
-    });
-    res.status(200).json(blob);
-  } catch (error) {
-    console.error('Error uploading to Vercel Blob:', error);
-    res.status(500).json({ error: 'Failed to upload file', details: error.message });
-  }
+    try {
+      if (!req.file) {
+        console.error('req.file is undefined!');
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+      console.log('✅ 파일업로드시작:', req.file.originalname, req.file.size);
+      const blob = await put(filename, req.file.buffer, {
+        access: 'public', // ✅ 이미지를 퍼블릭으로 업로드해서 누구나 접근 가능하게! 403 Forbidden 해결
+        contentType: req.file.mimetype,
+      });
+      console.log('✅ Blob업로드성공:', blob.url);
+      res.status(200).json(blob);
+    } catch (error) {
+      console.error('Error uploading to Vercel Blob:', error);
+      res.status(500).json({ error: 'Failed to upload file', details: error.message });
+    }
+  });
 });
 
 // 승인 대기 공연장 관리자 목록 조회
