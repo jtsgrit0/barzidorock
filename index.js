@@ -489,6 +489,10 @@ app.delete('/api/schedules/:id', async (req, res) => {
   }
 });
 
+// ✅ 라우터 마운트: apiRouter는 /api로, secureRouter도 /api로 등록 (모든 API 엔드포인트 정상 작동)
+app.use('/api', apiRouter);
+app.use('/api', secureRouter);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
