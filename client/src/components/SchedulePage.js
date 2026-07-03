@@ -20,8 +20,8 @@ const SchedulePage = ({ language }) => {
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [newEvent, setNewEvent] = useState({
     venue_id: '',
-    event_name: '',
-    description: '',
+    event_name: '새 공연',
+    description: '공연 정보',
     poster_image: '',
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
@@ -282,16 +282,9 @@ const SchedulePage = ({ language }) => {
 
     const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
-    // ✅ OCR로 추출된 날짜를 우선 사용, 없을 경우에만 현재 날짜로 자동 설정
-    let finalEventDate;
-    if (rawData.event_date) {
-      // OCR로 추출된 날짜가 있으면 그대로 사용
-      const localDate = new Date(rawData.event_date);
-      finalEventDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000)).toISOString();
-    } else {
-      // OCR로 날짜를 추출하지 못한 경우에만 현재 날짜를 자동으로 사용 (팝업 대신 자동 처리)
-      finalEventDate = new Date().toISOString();
-    }
+    // ✅ 항상 현재 날짜를 자동으로 설정 - 사용자가 직접 입력할 필요 없음
+    const now = new Date();
+    const finalEventDate = now.toISOString();
     // ✅ 이미지 키 중복 없이 확실하게 전송! 절대로 이미지가 누락되지 않도록
     console.log('제출전데이터확인:', rawData, 'poster_image_url:', poster_image_url);
     const dataToSubmit = {
