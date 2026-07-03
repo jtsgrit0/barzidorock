@@ -45,10 +45,6 @@ const TabBar = ({ centerMapToUserLocation }) => {
         <FontAwesomeIcon icon={faHeart} />
         <span>{t('tabBar.favorites')}</span>
       </div>
-      <div className={getTabClassName('/options')} onClick={() => handleTabNavigation('/options')} style={{ cursor: 'pointer' }}>
-        <FontAwesomeIcon icon={faCog} />
-        <span>{t('tabBar.options')}</span>
-      </div>
       <div className="tab-item" onClick={handleMyLocationClick} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon icon={faCrosshairs} />
         <span>{t('tabBar.myLocation')}</span>
