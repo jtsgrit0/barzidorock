@@ -351,6 +351,10 @@ const SchedulePage = ({ language }) => {
       // 성공 alert 제거 - 팝업 없이 조용히 처리
     } catch (error) {
       console.error(`Error ${isEditing ? 'updating' : 'creating'} schedule:`, error);
+      // 서버에서 반환하는 상세 오류 정보 출력
+      if (error.message) {
+        console.error('Server error details:', error.message);
+      }
       // 에러 팝업 제거 - 사용자가 직접 입력할 필요 없이 조용히 처리
       resetForm();
       await fetchSchedules();
