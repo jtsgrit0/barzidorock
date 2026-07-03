@@ -282,9 +282,11 @@ const SchedulePage = ({ language }) => {
 
     const rawData = isEditing ? { ...editingSchedule, poster_image: poster_image_url } : { ...newEvent, poster_image: poster_image_url };
     
-    // ✅ 항상 현재 날짜를 자동으로 설정 - 사용자가 직접 입력할 필요 없음
+    // ✅ 항상 현재 날짜를 자동으로 설정 - PostgreSQL timestamp 형식에 맞춤
     const now = new Date();
+    // PostgreSQL이 인식할 수 있는 표준 ISO 8601 형식 유지
     const finalEventDate = now.toISOString();
+    console.log('전송되는 event_date:', finalEventDate);
     // ✅ 이미지 키 중복 없이 확실하게 전송! 절대로 이미지가 누락되지 않도록
     console.log('제출전데이터확인:', rawData, 'poster_image_url:', poster_image_url);
     const dataToSubmit = {

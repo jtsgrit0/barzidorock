@@ -158,8 +158,8 @@ app.post('/api/schedules', async (req, res) => {
     if (!venue_id) {
       return res.status(400).json({ error: 'Missing required fields: venue_id' });
     }
-    // 프론트엔드에서 항상 event_date를 보내주므로 null로 처리하지 않음 (DB NOT NULL 제약조건 호환)
-    const final_event_date = event_date;
+    // 프론트엔드에서 event_date를 보내지 않아도 서버에서 자동으로 현재 날짜 설정 (DB NOT NULL 제약조건 보장)
+    const final_event_date = event_date || new Date().toISOString();
     const final_event_name = event_name && event_name !== '' ? event_name : '제목 없음';
     const final_description = description || '';
     const final_poster_image_url = poster_image || poster_image_url || null;
