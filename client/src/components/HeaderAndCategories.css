@@ -29,6 +29,14 @@
   font-size: 1.5em; /* 제목 폰트 크기 조정 */
   white-space: nowrap;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header-app-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
 
 .categories {
