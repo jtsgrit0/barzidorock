@@ -116,6 +116,41 @@ secureRouter.get('/admin/pending-venue-managers', async (req, res) => {
   }
 });
 
+// ✅ 인증 없이 누구나 이미지 업로드 가능한 엔드포인트 (secureRouter보다 먼저 매칭되어야 함)
+app.post('/api/schedules/upload', (req, res) => {
+  // multer 미들웨어를 직접 실행해서 req.file을 정상적으로 생성
+  upload.single('file')(req, res, async (err) => {
+    if (err) {
+      console.error('Multer error:', err);
+      return res.status(500).json({ error: 'Multer error', details: err.message });
+    }
+    const { filename: originalFilename } = req.query;
+    if (!originalFilename) {
+      return res.status(400).json({ error: 'Filename is required' });
+    }
+    const timestamp = Date.now();
+    const filename = `${timestamp}_${originalFilename}`;
+
+    try {
+      if (!req.file) {
+        console.error('req.file is undefined!');
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+      console.log('✅ 파일업로드시작:', req.file.originalname, req.file.size);
+      const blob = await put(filename, req.file.buffer, {
+        // ✅ 클라이언트에서 이미지를 직접 로드하려면 public으로 업로드해야함! 403 Forbidden 해결
+        access: 'public',
+        contentType: req.file.mimetype,
+      });
+      console.log('✅ Blob업로드성공:', blob.url);
+      res.status(200).json(blob);
+    } catch (error) {
+      console.error('Error uploading to Vercel Blob:', error);
+      res.status(500).json({ error: 'Failed to upload file', details: error.message });
+    }
+  });
+});
+
 // ✅ 인증 없이 누구나 일정 생성 가능한 엔드포인트 (secureRouter보다 먼저 매칭되어야 함)
 app.post('/api/schedules', async (req, res) => {
   try {
@@ -123,7 +158,8 @@ app.post('/api/schedules', async (req, res) => {
     if (!venue_id) {
       return res.status(400).json({ error: 'Missing required fields: venue_id' });
     }
-    const final_event_date = event_date && event_date !== '' ? event_date : null;
+    // 프론트엔드에서 항상 event_date를 보내주므로 null로 처리하지 않음 (DB NOT NULL 제약조건 호환)
+    const final_event_date = event_date;
     const final_event_name = event_name && event_name !== '' ? event_name : '제목 없음';
     const final_description = description || '';
     const final_poster_image_url = poster_image || poster_image_url || null;
