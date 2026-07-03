@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTicket, faCalendarAlt, faCog, faCrosshairs, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTicket, faCalendarAlt, faCrosshairs, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import './TabBar.css';
 
