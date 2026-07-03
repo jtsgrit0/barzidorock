@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Tesseract from 'tesseract.js';
 
 
 import './SchedulePage.css';
@@ -27,7 +26,6 @@ const SchedulePage = ({ language }) => {
   });
   const [editingSchedule, setEditingSchedule] = useState(null); // 수정 중인 일정
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
-  const [isProcessingOCR, setIsProcessingOCR] = useState(false); // OCR 처리 중 상태
 
   // Load form state from session storage on component mount
   useEffect(() => {
@@ -565,25 +563,16 @@ const SchedulePage = ({ language }) => {
       {/* 로그인된 사용자에게만 일정 관리 폼 표시 */}
       {isLoggedIn && (
         <div className="schedule-form-container">
-          {/* OCR 처리 중 오버레이 표시 */}
-          {isProcessingOCR && (
-            <div className="ocr-loading-overlay">
-              <div className="ocr-loading-message">
-                이미지에서 텍스트를 추출중입니다... 잠시만 기다려주세요.
-              </div>
-            </div>
-          )}
           <div className="admin-header">
             <h2>{isEditing ? '공연일정 수정' : '새 공연일정 등록'}</h2>
             <div className="admin-controls">
               <button 
                 onClick={() => setShowPendingList(!showPendingList)} 
                 className="pending-button"
-                disabled={isProcessingOCR}
               >
                 승인대기 관리자 {pendingManagers.length > 0 && `(${pendingManagers.length})`}
               </button>
-              <button onClick={handleLogout} className="logout-button" disabled={isProcessingOCR}>로그아웃</button>
+              <button onClick={handleLogout} className="logout-button">로그아웃</button>
             </div>
           </div>
           
