@@ -477,12 +477,14 @@ const SchedulePage = ({ language }) => {
         const formData = new FormData();
         formData.append('file', compressedBlob, `compressed_${selectedFile.name}`);
 
-        // ✅ CORS 오류 해결: credentials: 'include' 제거, Authorization 헤더만 유지
+        // ✅ 로그인하지 않은 경우 Authorization 헤더 제거
+        const uploadHeaders = {};
+        if (adminToken) {
+          uploadHeaders['Authorization'] = `Bearer ${adminToken}`;
+        }
         const uploadResponse = await fetch(`${API_BASE_URL}/api/schedules/upload?filename=compressed_${selectedFile.name}`, {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${adminToken}`,
-          },
+          headers: uploadHeaders,
           body: formData
         });
 
@@ -544,12 +546,17 @@ const SchedulePage = ({ language }) => {
         : `${API_BASE_URL}/api/schedules`;
       const body = JSON.stringify(dataToSubmit);
 
+      // ✅ 로그인하지 않은 경우 Authorization 헤더 제거 (서버의 인증 없이 접근 가능한 POST 엔드포인트 사용)
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      if (adminToken) {
+        headers['Authorization'] = `Bearer ${adminToken}`;
+      }
+      
       const response = await fetch(url, {
         method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${adminToken}`,
-        },
+        headers: headers,
         body: body,
         credentials: 'include',
       });
