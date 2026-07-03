@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './HeaderAndCategories.css';
 import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
-import appIcon from './app_icon.png'; // app_icon.png import
 
 // translations prop 제거
 function HeaderAndCategories({ selectedCategory, onCategoryChange, language, setLanguage }) {
@@ -43,7 +42,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     <div className="floating-header">
       <div className="title-and-categories">
         <h1>
-          <img src={appIcon} alt="app icon" className="header-app-icon" />
+          <img src={`${process.env.PUBLIC_URL}/app_icon.png`} alt="app icon" className="header-app-icon" />
           BarZidoROCK
         </h1>
         <div className="categories">
