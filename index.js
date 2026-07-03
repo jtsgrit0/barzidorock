@@ -154,8 +154,10 @@ app.post('/api/schedules/upload', (req, res) => {
 // ✅ 인증 없이 누구나 일정 생성 가능한 엔드포인트 (secureRouter보다 먼저 매칭되어야 함)
 app.post('/api/schedules', async (req, res) => {
   try {
+    console.log('📥 /api/schedules 요청 받음! req.body:', JSON.stringify(req.body, null, 2));
     const { venue_id, event_date, event_name, description, poster_image, poster_image_url } = req.body;
     if (!venue_id) {
+      console.error('❌ venue_id가 없음!');
       return res.status(400).json({ error: 'Missing required fields: venue_id' });
     }
     // 프론트엔드에서 event_date를 보내지 않아도 서버에서 자동으로 현재 날짜 설정 (DB NOT NULL 제약조건 보장)
@@ -163,11 +165,13 @@ app.post('/api/schedules', async (req, res) => {
     const final_event_name = event_name && event_name !== '' ? event_name : '제목 없음';
     const final_description = description || '';
     const final_poster_image_url = poster_image || poster_image_url || null;
+    console.log('✅ 삽입전 값들:', { venue_id, final_event_date, final_event_name, final_description, final_poster_image_url });
     const result = await sql`
       INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image_url)
       VALUES (${venue_id}, ${final_event_date}, ${final_event_name}, ${final_description}, ${final_poster_image_url})
       RETURNING *;
     `;
+    console.log('🎉 삽입성공! 결과:', result.rows[0]);
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error('Error creating schedule:', error.message, error.stack);
