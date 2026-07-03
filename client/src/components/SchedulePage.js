@@ -203,7 +203,8 @@ const SchedulePage = ({ language }) => {
                 preserveInterwordSpacing: true,
                 tessjs_create_hocr: false,
                 tessjs_create_tsv: false,
-                tessedit_pageseg_mode: 3 // ✅ 사용자 요청: 이미지 전체의 모든 텍스트 블록 자동 감지! 왼쪽 큰 공연제목도 인식
+                tessedit_pageseg_mode: 6, // ✅ 공연 포스터에 최적화: 단일 블록 텍스트로 인식해서 큰 제목도 정확히 추출
+                tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789가나다라마바사아자차카타파하~!@#$%^&*()_-+=[]{}|;:,.<>? ' // 한국어/영어/숫자만 허용해서 노이즈 감소
               });
               console.log('✅ 텍스트 인식 완료! 추출된 텍스트 길이:', text.length);
               await worker.terminate();
@@ -213,21 +214,14 @@ const SchedulePage = ({ language }) => {
             console.log(text);
             console.log('===========================');
 
-            // ✅ OCR로 분리된 한글 단어 자동 합치기: "마 이 클 잭 슨" → "마이클잭슨"
-            let cleanedText = text.replace(/(\w)\s+(\w)/g, (match, a, b) => {
-              // 한글 자모/단어가 분리된 경우 합치기
-              if (/[가-힣a-zA-Z]/.test(a) && /[가-힣a-zA-Z]/.test(b)) {
-                return a + b;
-              }
-              return match;
-            });
-            // 두 글자 이상 분리된 것도 추가로 합치기 (반복 실행)
-            for(let i=0; i<3; i++) {
-              cleanedText = cleanedText.replace(/(\w)\s+(\w)/g, (match, a, b) => {
-                if (/[가-힣a-zA-Z]/.test(a) && /[가-힣a-zA-Z]/.test(b)) return a+b;
-                return match;
-              });
+            // ✅ OCR로 분리된 한글 단어 강력 자동 합치기: "마 이 클 잭 슨" → "마이클잭슨"
+            let cleanedText = text;
+            // 10회 반복해서 모든 분리된 한글/영어 글자 완전히 합치기
+            for(let i=0; i<10; i++) {
+              cleanedText = cleanedText.replace(/([가-힣a-zA-Z])\s+([가-힣a-zA-Z])/g, '$1$2');
             }
+            // 공백이 2개 이상인 경우 1개로 줄이기
+            cleanedText = cleanedText.replace(/\s+/g, ' ').trim();
             console.log('=== 후처리된 정리 텍스트 ===');
             console.log(cleanedText);
             // 원본 text 변수를 정리된 텍스트로 교체
@@ -282,10 +276,22 @@ const SchedulePage = ({ language }) => {
             parsedEventName = '';
             parsedDescription = '';
 
-            // ✅ 1단계: 먼저 입장정보/시간 라인을 모두 찾아서 description에 먼저 담기
+            // ✅ 1단계: 가장 긴 라인을 공연 제목으로 우선 추출 (포스터의 큰 제목은 대부분 가장 긴 텍스트)
+            if (allLines.length > 0) {
+              // 길이 기준으로 정렬해서 가장 긴 라인을 제목으로 사용
+              allLines.sort((a, b) => b.length - a.length);
+              parsedEventName = allLines[0]; // 첫 번째(가장 긴) 라인을 공연 제목으로
+              // 제목으로 사용한 라인은 목록에서 제거
+              allLines.shift();
+            }
+            
+            // ✅ 2단계: 나머지 라인에서 시간/장소 정보 찾아서 description에 담기
             const timeKeywords = ['PM', 'AM', '시', '입장', '무료', '영업', '~', '-', '부터', '까지'];
             const descLines = allLines.filter(line => timeKeywords.some(k => line.includes(k)));
             const venueLines = allLines.filter(line => line.includes('펫사운즈') || line.includes('PetSounds') || line.includes('petsounds') || venues.some(v => line.includes(v.name.replace(/\s/g,''))));
+            // 나머지 모든 라인을 설명에 추가
+            const remainingLines = allLines.filter(line => !descLines.includes(line) && !venueLines.includes(line));
+            parsedDescription = [...venueLines, ...descLines, ...remainingLines].join(' ');
             // 설명에 시간/장소 외 다른 내용 추가
             const otherLines = allLines.filter(line => !descLines.includes(line) && !venueLines.includes(line));
             
