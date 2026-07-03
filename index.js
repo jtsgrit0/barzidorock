@@ -167,7 +167,7 @@ app.post('/api/schedules', async (req, res) => {
     const final_poster_image_url = poster_image || poster_image_url || null;
     console.log('✅ 삽입전 값들:', { venue_id, final_event_date, final_event_name, final_description, final_poster_image_url });
     const result = await sql`
-      INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image_url)
+      INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image)
       VALUES (${venue_id}, ${final_event_date}, ${final_event_name}, ${final_description}, ${final_poster_image_url})
       RETURNING *;
     `;
