@@ -947,12 +947,13 @@ const SchedulePage = ({ language }) => {
                         console.log('공연장찾기:', schedule.venue_id, '→', venueName, 'venue객체:', venue, 'typeof name:', typeof venue?.name);
                         return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
-                      <span className="schedule-event-name">{schedule.event_name}</span>
+                      {/* ✅ 사용자 요청: 아티스트 이름/시간/공연내용 화면에서 숨김 (데이터는 유지) */}
+                      <span className="schedule-event-name" style={{display: 'none'}}>{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
                       {/* ✅ 사용자 요청: 화면에 날짜 표시 완전 삭제! 날짜는 내부적으로만 사용하고 화면에는 노출하지 않음 */}
-                      {/* 공연내용 100자 이내로 자르기 */}
-                      {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
+                      {/* 공연내용 화면에서 숨김 (데이터는 유지) */}
+                      {schedule.description && <p className="schedule-description" style={{display: 'none'}}>{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
                       {/* 모든 가능한 이미지 키 지원: poster_image_url, poster_image, poster_url, image_url, image */}
                       {(() => {
                         const imageSrc = schedule.poster_image_url || schedule.poster_image || schedule.poster_url || schedule.image_url || schedule.image;
@@ -975,11 +976,12 @@ const SchedulePage = ({ language }) => {
                         console.log('공연장찾기(두번째카드):', schedule.venue_id, '→', venueName, 'venue.id?', venue?.id);
                         return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
-                      <span className="schedule-event-name">{schedule.event_name}</span>
+                      {/* ✅ 사용자 요청: 아티스트 이름/시간/공연내용 화면에서 숨김 (데이터는 유지) */}
+                      <span className="schedule-event-name" style={{display: 'none'}}>{schedule.event_name}</span>
                     </div>
                     <div className="schedule-item-body">
-                      {/* 공연일자/시간 (한국시간으로 명확하게 표시) */}
-                      <span className="schedule-date">
+                      {/* 공연일자/시간 화면에서 숨김 (데이터는 유지) */}
+                      <span className="schedule-date" style={{display: 'none'}}>
                         {language === 'ko' 
                           ? new Date(schedule.event_date).toLocaleString('ko-KR', { 
                               timeZone: 'Asia/Seoul',
@@ -999,8 +1001,8 @@ const SchedulePage = ({ language }) => {
                             })
                         }
                       </span>
-                      {/* 공연내용 100자 이내로 자르기 */}
-                      {schedule.description && <p className="schedule-description">{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
+                      {/* 공연내용 화면에서 숨김 (데이터는 유지) */}
+                      {schedule.description && <p className="schedule-description" style={{display: 'none'}}>{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
                       {/* 모든 가능한 이미지 키 지원: poster_image_url, poster_image, poster_url, image_url, image */}
                       {(() => {
                         const imageSrc = schedule.poster_image_url || schedule.poster_image || schedule.poster_url || schedule.image_url || schedule.image;
