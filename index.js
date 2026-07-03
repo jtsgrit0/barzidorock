@@ -116,6 +116,29 @@ secureRouter.get('/admin/pending-venue-managers', async (req, res) => {
   }
 });
 
+// ✅ 인증 없이 누구나 일정 생성 가능한 엔드포인트 (secureRouter보다 먼저 매칭되어야 함)
+app.post('/api/schedules', async (req, res) => {
+  try {
+    const { venue_id, event_date, event_name, description, poster_image, poster_image_url } = req.body;
+    if (!venue_id) {
+      return res.status(400).json({ error: 'Missing required fields: venue_id' });
+    }
+    const final_event_date = event_date && event_date !== '' ? event_date : null;
+    const final_event_name = event_name && event_name !== '' ? event_name : '제목 없음';
+    const final_description = description || '';
+    const final_poster_image_url = poster_image || poster_image_url || null;
+    const result = await sql`
+      INSERT INTO schedules (venue_id, event_date, event_name, description, poster_image_url)
+      VALUES (${venue_id}, ${final_event_date}, ${final_event_name}, ${final_description}, ${final_poster_image_url})
+      RETURNING *;
+    `;
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error creating schedule:', error.message, error.stack);
+    res.status(500).json({ error: 'Failed to create schedule', details: error.message });
+  }
+});
+
 secureRouter.post('/schedules', async (req, res) => {
   try {
     const user = await getAuthenticatedUser(req);
@@ -423,20 +446,7 @@ app.get('/api/schedules', async (req, res) => {
   }
 });
 
-app.post('/api/schedules', async (req, res) => {
-  try {
-    const { venue_id, event_name, event_date, description, poster_image } = req.body;
-    const result = await sql`
-      INSERT INTO schedules (venue_id, event_name, event_date, description, poster_image_url)
-      VALUES (${venue_id}, ${event_name}, ${event_date}, ${description}, ${poster_image})
-      RETURNING *;
-    `;
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error('Error creating schedule:', error);
-    res.status(500).json({ error: '공연일정을 저장하는 중 오류가 발생했습니다.' });
-  }
-});
+
 
 app.put('/api/schedules/:id', async (req, res) => {
   try {
