@@ -33,8 +33,6 @@ jobs:
       - name: Install dependencies and build
         run: |
           cd client
-          # Clean build artifacts and npm cache to ensure fresh build
-          rm -rf build
           npm cache clean --force
           npm install --force
           npm run build
