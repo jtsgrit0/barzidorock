@@ -558,7 +558,6 @@ const SchedulePage = ({ language }) => {
         method: method,
         headers: headers,
         body: body,
-        credentials: 'include',
       });
 
       if (!response.ok) {
