@@ -307,6 +307,14 @@ const SchedulePage = ({ language }) => {
       alert('공연장은 필수 항목입니다.');
       return;
     }
+    // 공연 이름이 비어있으면 자동으로 기본값 설정 - 직접 입력하지 않아도 제출 가능
+    if (!dataToSubmit.event_name || dataToSubmit.event_name.trim() === '') {
+      dataToSubmit.event_name = '새 공연';
+    }
+    // 설명이 비어있어도 기본값 설정
+    if (!dataToSubmit.description || dataToSubmit.description.trim() === '') {
+      dataToSubmit.description = '공연 정보';
+    }
 
     // 수정 모드일 때 관리자가 아닌 경우만 비밀번호 입력 요청
         if (isEditing && (!isLoggedIn || !adminToken)) {
