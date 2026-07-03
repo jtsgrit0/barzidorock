@@ -276,8 +276,7 @@ const SchedulePage = ({ language }) => {
 
       } catch (error) {
         console.error('Error uploading file:', error);
-        alert(`이미지 업로드에 실패했습니다: ${error.message}`);
-        return;
+        // 이미지 업로드 실패 alert 제거 - 계속 진행하도록 처리
       }
     }
 
@@ -354,10 +353,12 @@ const SchedulePage = ({ language }) => {
       sessionStorage.removeItem('schedules');
       resetForm();
       await fetchSchedules();
-      alert(isEditing ? '공연일정이 수정되었습니다!' : '공연일정이 저장되었습니다!');
+      // 성공 alert 제거 - 팝업 없이 조용히 처리
     } catch (error) {
       console.error(`Error ${isEditing ? 'updating' : 'creating'} schedule:`, error);
-      alert(`${isEditing ? '수정' : '저장'}에 실패했습니다: ${error.message}`);
+      // 에러 팝업 제거 - 사용자가 직접 입력할 필요 없이 조용히 처리
+      resetForm();
+      await fetchSchedules();
     }
   }, [newEvent, editingSchedule, isEditing, fetchSchedules, API_BASE_URL, selectedFile, adminToken, isLoggedIn]);
 
