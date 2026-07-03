@@ -153,7 +153,7 @@ const SchedulePage = ({ language }) => {
 
       setSelectedFile(file); // 파일 객체 저장
       
-      // ✅ 이미지 압축: OCR/업로드 전에 미리 리사이즈해서 파일 크기 줄이기
+      // ✅ 이미지 압축: 업로드 전에 미리 리사이즈해서 파일 크기 줄이기
       const img = new Image();
       img.onload = function() {
         const canvas = document.createElement('canvas');
@@ -168,239 +168,19 @@ const SchedulePage = ({ language }) => {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        // JPEG 0.9 품질로 압축 (OCR 정확도 유지하면서 크기 줄이기)
+        // JPEG 0.9 품질로 압축
         const compressedImage = canvas.toDataURL('image/jpeg', 0.9);
         console.log('✅ 이미지 압축 완료! 원본:', file.size, 'byte / 압축후:', compressedImage.length, 'byte');
         
         // 압축된 이미지로 상태 업데이트
-        const currentIsEditing = isEditing;
-        if (currentIsEditing) {
+        if (isEditing) {
           setEditingSchedule(prev => ({ ...prev, poster_image: compressedImage }));
         } else {
           setNewEvent(prev => ({ ...prev, poster_image: compressedImage }));
         }
-
-        // OCR 작업 시작 전 로딩 상태 활성화
-        setIsProcessingOCR(true);
         
-        // OCR 작업을 setTimeout으로 비동기 큐에 넣어 메인 스레드 블로킹 방지
-        setTimeout(async () => {
-          try {
-            console.log('OCR 처리 시작... 압축된 이미지 사용, 길이:', compressedImage.length);
-            // CORS 문제 해결을 위해 공식 CDN 사용, 모든 단계 로그로 추적
-            console.log('📦 createWorker 호출 전...');
-            // 🚨 절대로 jsDelivr는 사용하지 않음! 공식 tessdata CDN만 사용 - 404 오류 완전 해결
-            const worker = await Tesseract.createWorker('kor+eng', 1, {
-              workerPath: 'https://unpkg.com/tesseract.js@5.0.4/dist/worker.min.js',
-              corePath: 'https://unpkg.com/tesseract.js-core@5.0.0/tesseract-core.wasm.js',
-              langPath: 'https://tessdata.projectnaptha.com/4.0.0'
-            });
-            console.log('✅ worker 생성 성공!');
-              // ✅ 이미지 전체 텍스트를 제대로 읽도록 전처리 옵션 추가
-              console.log('🔍 recognize 호출 전...');
-              let { data: { text } } = await worker.recognize(compressedImage, {
-                rotateText: true,
-                preserveInterwordSpacing: true,
-                tessjs_create_hocr: false,
-                tessjs_create_tsv: false,
-                tessedit_pageseg_mode: 6, // ✅ 공연 포스터에 최적화: 단일 블록 텍스트로 인식해서 큰 제목도 정확히 추출
-                tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789가나다라마바사아자차카타파하~!@#$%^&*()_-+=[]{}|;:,.<>? ' // 한국어/영어/숫자만 허용해서 노이즈 감소
-              });
-              console.log('✅ 텍스트 인식 완료! 추출된 텍스트 길이:', text.length);
-              await worker.terminate();
-              console.log('🏁 worker 종료 완료');
-
-            console.log('=== OCR 추출 원본 텍스트 ===');
-            console.log(text);
-            console.log('===========================');
-
-            // ✅ OCR로 분리된 한글 단어 강력 자동 합치기: "마 이 클 잭 슨" → "마이클잭슨"
-            let cleanedText = text;
-            // 10회 반복해서 모든 분리된 한글/영어 글자 완전히 합치기
-            for(let i=0; i<10; i++) {
-              cleanedText = cleanedText.replace(/([가-힣a-zA-Z])\s+([가-힣a-zA-Z])/g, '$1$2');
-            }
-            // 공백이 2개 이상인 경우 1개로 줄이기
-            cleanedText = cleanedText.replace(/\s+/g, ' ').trim();
-            console.log('=== 후처리된 정리 텍스트 ===');
-            console.log(cleanedText);
-            // 원본 text 변수를 정리된 텍스트로 교체
-            text = cleanedText;
-
-            let parsedDate = '';
-            let parsedEventName = '';
-            let parsedDescription = '';
-            let eventHour = 20; // 기본 시작 시간 오후 8시 (20시)
-            console.log('기본 eventHour 초기값:', eventHour);
-
-            // 사용자 요청으로 모든 날짜/시간 파싱 로직 삭제 완료 - 변수도 완전히 제거
-
-            // ✅ 사용자 요청: OCR 추출 텍스트 완벽 재분석! 인스타그램 UI/불필요 텍스트 100% 필터링
-            let allLines = text.split('\n')
-              .map(line => line.replace(/[\n\r\t]/g, ' ').trim()) // 특수문자 제거
-              .filter(line => {
-                // 1. 빈 줄/짧은 줄 제거
-                if (!line || line.length < 3) return false;
-                // 2. base64/긴 코드 라인 제거
-                if (/^[a-zA-Z0-9+/]{25,}$/.test(line)) return false;
-                // 3. 코드 조각 제거
-                if (/<\/?[a-z][\s\S]*>/i.test(line) || line.includes('function') || line.includes('const') || line.includes('var')) return false;
-                // 4. 모든 브라우저 UI 텍스트 제거
-                if (line.includes('Chrome') || line.includes('방문기록') || line.includes('북마크') || line.includes('프로필') || line.includes('탭') || line.includes('창') || line.includes('도움말') || line.includes('주소창') || line.includes('새로고침')) return false;
-                // 5. 인스타그램 모든 UI 텍스트 철저히 제거
-                const instagramUIWords = ['좋아요', '팔로우', '팔로잉', '게시됨', '일 전', '시간 전', 'BarZidoROCK', 'instagram.com', '인스타그램', '프로필', '저장', '공유', '댓글', '팔로우하기', '차단', '신고', '게시물', '스토리', '릴스'];
-                if (instagramUIWords.some(word => line.includes(word))) return false;
-                // 6. @username 이메일/URL 전부 제거 - 괄호로 연산자 우선순위 명확히 지정
-                if ((line.includes('@') && line.includes('.com')) || line.includes('http')) return false;
-                return true;
-              });
-
-            // ✅ 추가로 한글 단어 분리 완벽 수정: "뮤 직 비 디 오 와 라이브" → "뮤직비디오와라이브" 자동 합치기
-            allLines = allLines.map(line => {
-              let fixedLine = line;
-              // 5회 반복해서 모든 분리된 한글 글자 합치기
-              for(let i=0; i<5; i++) {
-                fixedLine = fixedLine.replace(/([가-힣])\s+([가-힣])/g, '$1$2');
-              }
-              return fixedLine;
-            });
-
-            console.log('=== 필터링 후 유효 라인만:', allLines);
-            // 사용자 요청으로 모든 시간/날짜 파싱 로직 완전 삭제 - 기본 이벤트 시간 20시만 사용
-
-            // ✅ 사용자 요청: 날짜/시간 강제 설정 코드 완전 삭제! 사용자가 직접 입력한 날짜가 그대로 사용됨
-            // 절대로 날짜를 임의로 수정하지 않음 - 사용자가 폼에서 선택한 날짜가 그대로 저장됩니다!
-
-            // 공연 제목/설명 추출 로직 - 인스타그램 공연 포스터에 최적화
-            // 기존에 선언된 변수 재사용 (중복 선언 방지)
-            parsedEventName = '';
-            parsedDescription = '';
-
-            // ✅ 1단계: 가장 긴 라인을 공연 제목으로 우선 추출 (포스터의 큰 제목은 대부분 가장 긴 텍스트)
-            if (allLines.length > 0) {
-              // 길이 기준으로 정렬해서 가장 긴 라인을 제목으로 사용
-              allLines.sort((a, b) => b.length - a.length);
-              parsedEventName = allLines[0]; // 첫 번째(가장 긴) 라인을 공연 제목으로
-              // 제목으로 사용한 라인은 목록에서 제거
-              allLines.shift();
-            }
-            
-            // ✅ 2단계: 나머지 라인에서 시간/장소 정보 찾아서 description에 담기
-            const timeKeywords = ['PM', 'AM', '시', '입장', '무료', '영업', '~', '-', '부터', '까지'];
-            const descLines = allLines.filter(line => timeKeywords.some(k => line.includes(k)));
-            const venueLines = allLines.filter(line => line.includes('펫사운즈') || line.includes('PetSounds') || line.includes('petsounds') || venues.some(v => line.includes(v.name.replace(/\s/g,''))));
-            // 나머지 모든 라인을 설명에 추가
-            const remainingLines = allLines.filter(line => !descLines.includes(line) && !venueLines.includes(line));
-            parsedDescription = [...venueLines, ...descLines, ...remainingLines].join(' ');
-            // 설명에 시간/장소 외 다른 내용 추가
-            const otherLines = allLines.filter(line => !descLines.includes(line) && !venueLines.includes(line));
-            
-            // description에 모든 세부정보 모아서 깔끔하게 합치기
-            parsedDescription = [...descLines, ...otherLines.slice(0,3)]
-              .join(' ')
-              .replace(/[^\w\sㄱ-힣a-zA-Z,.~-]/g, ' ')
-              .trim()
-              .substring(0, 150);
-
-            // ✅ 2단계: 공연 제목 추출 - 가장 긴 유효 라인(아티스트/공연이름)을 제목으로 선택
-            const titleCandidates = allLines.filter(line => {
-              // 시간/장소 라인은 제외하고 아티스트/공연이름만 남기기
-              if (descLines.includes(line) || venueLines.includes(line)) return false;
-              return line.length > 3;
-            });
-            if (titleCandidates.length > 0) {
-              // 가장 적합한 제목 라인 선택 (길이가 적당하고 의미있는 라인)
-              const bestTitle = titleCandidates.reduce((a, b) => a.length > b.length ? a : b);
-              parsedEventName = bestTitle.replace(/[^\w\sㄱ-힣a-zA-Z]/g, ' ').trim().substring(0, 60);
-            } else {
-              // 제목을 못찾았으면 첫번째 유효라인 사용
-              const fallback = allLines.find(l => l.length > 3);
-              if (fallback) parsedEventName = fallback.substring(0, 60);
-            }
-            console.log('✅ 최종분석완료: 제목=', parsedEventName, '설명=', parsedDescription);
-
-            // 기존 설명 추출 로직 완전 삭제 - 새로운 분석 로직으로 대체됨
-
-            // ✅ 공연장 이름 자동 추출: OCR 텍스트에서 venues.json의 공연장 이름 찾기
-            let matchedVenueId = null;
-            let matchedVenue = null;
-            for (const venue of venues) {
-              if (text.includes(venue.name) || text.includes(venue.name.replace(/\s/g, ''))) {
-                matchedVenue = venue;
-                matchedVenueId = venue.id;
-                console.log('✅ 공연장 자동 매칭 성공:', venue.name, 'ID:', venue.id);
-                break;
-              }
-            }
-            // 만약 공연장을 찾지 못했으면 지역(이태원/홍대 등)으로도 검색
-            if (!matchedVenueId) {
-              for (const venue of venues) {
-                if (text.includes(venue.area)) {
-                  matchedVenue = venue;
-                  matchedVenueId = venue.id;
-                  console.log('✅ 지역으로 공연장 매칭 성공:', venue.name, '지역:', venue.area);
-                  break;
-                }
-              }
-            }
-
-            // ✅ 아티스트(밴드) 이름 추출: 공연장 이름 다음에 나오는 텍스트나 주요 제목에서 밴드명 추출
-            let parsedArtist = '';
-            if (matchedVenue && text.includes(matchedVenue.name)) {
-              const afterVenue = text.split(matchedVenue.name)[1].trim();
-              const firstLine = afterVenue.split('\n')[0].trim();
-              if (firstLine.length > 0 && firstLine.length < 50) {
-                parsedArtist = firstLine;
-              }
-            }
-            // 밴드 이름이 있으면 이벤트 이름에 추가
-            if (parsedArtist && !parsedEventName.includes(parsedArtist)) {
-              parsedEventName = parsedArtist + ' - ' + parsedEventName;
-            }
-
-            console.log('=== 최종 추출:', {parsedDate, parsedEventName, parsedDescription, matchedVenue, parsedArtist});
-
-            // 상태 업데이트 전에 현재 isEditing 값을 클로저에서 안전하게 사용
-            const currentlyEditing = isEditing;
-            // 공연장을 찾았으면 지역도 자동으로 선택
-            if (matchedVenue) {
-              setSelectedArea(matchedVenue.area);
-              setTimeout(() => {
-                const venueSelect = document.querySelector('select[name="venue_id"]');
-                if (venueSelect) venueSelect.value = matchedVenueId;
-              }, 100);
-            }
-            // OCR이 완료된 후에만 상태 업데이트
-            if (parsedDate || parsedEventName || matchedVenueId) {
-              if (currentlyEditing) {
-                setEditingSchedule(prev => ({
-                  ...prev,
-                  ...(parsedDate && { event_date: parsedDate }),
-                  ...(parsedEventName && { event_name: parsedEventName }),
-                  ...(parsedDescription && { description: parsedDescription }),
-                  ...(matchedVenueId && { venue_id: matchedVenueId })
-                }));
-              } else {
-                setNewEvent(prev => ({
-                  ...prev,
-                  ...(parsedDate && { event_date: parsedDate }),
-                  ...(parsedEventName && { event_name: parsedEventName }),
-                  ...(parsedDescription && { description: parsedDescription }),
-                  ...(matchedVenueId && { venue_id: matchedVenueId })
-                }));
-              }
-              alert('이미지에서 텍스트를 추출하여 자동으로 입력했습니다!');
-            } else {
-              alert('이미지는 업로드되었지만, 텍스트 추출에 실패했습니다. 직접 입력해주세요.');
-            }
-          } catch (error) {
-            console.error('OCR 처리 중 오류:', error);
-            alert('OCR 처리 중 오류가 발생했습니다. 직접 입력해주세요. 오류: ' + error.message);
-          } finally {
-            // OCR 처리 완료 후 로딩 상태 해제
-            setIsProcessingOCR(false);
-          }
-        }, 0); // setTimeout 끝
+        // OCR 비활성화: 이미지만 업로드하고 자동 텍스트 추출 수행하지 않음
+        alert('이미지가 성공적으로 업로드되었습니다. 필요한 정보를 직접 입력해주세요.');
       }; // img.onload 함수 닫기
       img.src = URL.createObjectURL(file); // 이미지 로드 시작!
     } else {
