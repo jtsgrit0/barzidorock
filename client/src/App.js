@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { HashRouter as Router, Routes, Route, useNavigation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoadScript } from '@react-google-maps/api';
 import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
@@ -30,27 +30,17 @@ function App() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const initialOpenInfoWindows = [];
-  const navigation = useNavigation();
 
-  // language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
-  const language = i18n.language;
-  const setLanguage = (lang) => i18n.changeLanguage(lang);
+// language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
+const language = i18n.language;
+const setLanguage = (lang) => i18n.changeLanguage(lang);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500); // 1.5초 후 스플래시 화면 숨기기
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (navigation.state === 'loading' || navigation.state === 'submitting') {
-      setLoading(true);
-    } else {
-      const timer = setTimeout(() => setLoading(false), 500); // 페이지 로드 후 0.5초 딜레이
-      return () => clearTimeout(timer);
-    }
-  }, [navigation.state]);
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1500); // 1.5초 후 스플래시 화면 숨기기
+  return () => clearTimeout(timer);
+}, []);
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites');
