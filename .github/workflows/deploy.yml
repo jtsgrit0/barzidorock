@@ -35,7 +35,9 @@ jobs:
           cd client
           npm cache clean --force
           npm install --force
-          npm run build
+          REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }} npm run build
+        env:
+          CI: false
 
       - name: Configure Git User
         run: |
