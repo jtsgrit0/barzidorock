@@ -65,6 +65,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={{
+          clickableIcons: false, // 기본 POI 아이콘 클릭 비활성화
           styles: mapStyles,
           streetViewControl: false, // '이동' 버튼 제거 (스트리트 뷰)
           mapTypeControl: false,    // '라이브 뷰' 버튼 제거 (지도 유형)
