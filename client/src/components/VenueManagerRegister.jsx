@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import venuesData from '../venues.json';
+
 import Tesseract from 'tesseract.js';
 import './VenueManagerRegister.css';
 
@@ -14,6 +14,7 @@ const areaToKorean = {
 };
 
 const VenueManagerRegister = () => {
+  const [venues, setVenues] = useState([]);
   const [isCompleted, setIsCompleted] = useState(false); // 회원가입 완료 여부
   const [formData, setFormData] = useState({
     email: '',
@@ -30,11 +31,23 @@ const VenueManagerRegister = () => {
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
+  useEffect(() => {
+    fetch('/barzidorock/venues.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => setVenues(data))
+      .catch(error => console.error('Error fetching venues:', error));
+  }, []);
+
   // 공연장 데이터를 useMemo로 캐싱 (SchedulePage.js와 동일한 로직)
-  const processedVenues = React.useMemo(() => venuesData, []);
+  const processedVenues = React.useMemo(() => venues, [venues]);
   
   // SchedulePage.js와 동일하게 venues.json에서 직접 고유한 area 목록 추출
-  const regions = [...new Set(venuesData.map(venue => venue.area).filter(Boolean))];
+  const regions = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
 
   // 선택된 지역에 따라 공연장 목록 필터링 (selectedRegion이 변경될 때만 실행)
   useEffect(() => {

@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 
 import './SchedulePage.css';
-import venues from '../venues.json';
+
 import fallbackSchedules from '../schedulesFallback.json';
 
 const SchedulePage = ({ language }) => {
+  const [venues, setVenues] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [adminToken, setAdminToken] = useState(null); // 관리자 토큰 상태
@@ -59,6 +60,13 @@ const SchedulePage = ({ language }) => {
     }
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
+  useEffect(() => {
+    fetch('/barzidorock/venues.json')
+      .then(response => response.json())
+      .then(data => setVenues(data))
+      .catch(error => console.error('Error fetching venues:', error));
+  }, []);
+
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
   const formatScheduleRows = useCallback((scheduleData) => {
@@ -84,7 +92,7 @@ const SchedulePage = ({ language }) => {
         korean_event_date: formattedDate
       };
     }).sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
-  }, [language]);
+  }, [language, venues]);
 
   useEffect(() => {
     // 페이지 로드 시 로컬스토리지에서 로그인 상태와 토큰 복원
@@ -122,7 +130,7 @@ const SchedulePage = ({ language }) => {
   }, [fetchSchedules]);
 
   // 공연장 데이터를 한번만 처리하도록 useMemo 사용
-  const processedVenues = React.useMemo(() => venues, []);
+  const processedVenues = React.useMemo(() => venues, [venues]);
   
   useEffect(() => {
     console.log('selectedArea changed:', selectedArea, 'processedVenues length:', processedVenues.length);
