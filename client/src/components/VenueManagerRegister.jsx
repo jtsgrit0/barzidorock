@@ -32,7 +32,7 @@ const VenueManagerRegister = () => {
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   useEffect(() => {
-    fetch('/barzidorock/venues.json')
+    fetch(`${process.env.PUBLIC_URL}/venues.json`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

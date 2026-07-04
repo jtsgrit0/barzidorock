@@ -61,7 +61,7 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    fetch('/barzidorock/venues.json')
+    fetch(`${process.env.PUBLIC_URL}/venues.json`)
       .then(response => response.json())
       .then(data => setVenues(data))
       .catch(error => console.error('Error fetching venues:', error));
