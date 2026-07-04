@@ -9,12 +9,9 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.verce
 // area 영문명을 한국어 지역명으로 매핑
 const areaToKorean = {
   'hongdae': '홍대',
-  'gangnam': '강남',
-  'itaewon': '이태원'
+  'itaewon': '이태원',
+  'gangnam': '강남'
 };
-
-// 고유한 영문 지역 목록 추출 (select option에서 한국어로 표시)
-const regions = Object.keys(areaToKorean);
 
 const VenueManagerRegister = () => {
   const [isCompleted, setIsCompleted] = useState(false); // 회원가입 완료 여부
@@ -35,15 +32,20 @@ const VenueManagerRegister = () => {
 
   // 공연장 데이터를 useMemo로 캐싱 (SchedulePage.js와 동일한 로직)
   const processedVenues = React.useMemo(() => venuesData, []);
+  
+  // SchedulePage.js와 동일하게 venues.json에서 직접 고유한 area 목록 추출
+  const regions = [...new Set(venuesData.map(venue => venue.area).filter(Boolean))];
 
   // 선택된 지역에 따라 공연장 목록 필터링 (selectedRegion이 변경될 때만 실행)
   useEffect(() => {
+    console.log('selectedRegion changed:', selectedRegion, 'processedVenues length:', processedVenues.length);
     if (selectedRegion) {
       const venuesInArea = processedVenues.filter(venue => venue.area === selectedRegion);
+      console.log('venuesInArea:', venuesInArea.length, venuesInArea.map(v => v.name));
       // 선택된 지역의 공연장을 한국어 이름으로 변환해서 저장
       const mappedVenues = venuesInArea.map(venue => ({
         id: venue.id,
-        name: venue.name.ko // 한국어 공연장 이름 사용
+        name: venue.name.ko || venue.name // 한국어 이름이 없으면 원래 이름 사용
       }));
       setFilteredVenues(mappedVenues);
     } else {
