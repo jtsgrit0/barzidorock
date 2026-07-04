@@ -37,6 +37,7 @@
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  flex-shrink: 0; /* 공간이 부족할 때 줄어들지 않도록 설정 */
 }
 
 .categories {
