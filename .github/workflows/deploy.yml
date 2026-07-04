@@ -26,6 +26,12 @@ jobs:
       - name: Install dependencies
         run: cd client && npm install
 
+      - name: Debug venues.json content
+        run: |
+          echo "--- venues.json content ---"
+          cat client/src/venues.json
+          echo "--------------------------"
+
       - name: Build for GitHub Pages
         run: cd client && npm run build
 
