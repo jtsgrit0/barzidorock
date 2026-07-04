@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './ResetPassword.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || window.location.origin;
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();

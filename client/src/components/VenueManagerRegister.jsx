@@ -4,7 +4,7 @@ import venuesData from '../venues.json';
 import Tesseract from 'tesseract.js';
 import './VenueManagerRegister.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || window.location.origin;
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
 
 // area 영문명을 한국어 지역명으로 매핑
 const areaToKorean = {
