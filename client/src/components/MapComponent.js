@@ -15,9 +15,8 @@ const getPixelPositionOffset = (width, height) => ({
 });
 
 function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows }) {
-  const [openInfoWindows, setOpenInfoWindows] = useState(initialOpenInfoWindows || []);
+  const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
-  const openVenues = venues.filter(venue => openInfoWindows.includes(venue.id));
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -27,33 +26,26 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     setMap(null);
   }, []);
 
-  const handleMarkerClick = (venue) => {
-    setOpenInfoWindows(prev => {
-      if (prev.includes(venue.id)) {
-        return prev.filter(id => id !== venue.id);
-      } else {
-        return [...prev, venue.id];
-      }
-    });
+  const handleMarkerClick = (venueId) => {
+    setOpenInfoWindowId(prevId => (prevId === venueId ? null : venueId));
     if (map) {
-      map.setZoom(16);
-
-      // 맵의 중심을 마커 위치보다 약간 남쪽으로 이동시켜 팝업이 앱 제목에 가려지지 않도록 합니다.
-      // 이 값은 실제 UI에 따라 조정이 필요할 수 있는 추정치입니다.
-      const offsetLat = -0.005; // 위도를 약간 감소시켜 맵 중심을 남쪽으로 이동
-      const newCenter = {
-        lat: venue.latitude + offsetLat,
-        lng: venue.longitude,
-      };
-      map.panTo(newCenter); // 새로운 중심으로 맵 이동
+      const venue = venues.find(v => v.id === venueId);
+      if (venue) {
+        map.setZoom(16);
+        const offsetLat = -0.005;
+        const newCenter = {
+          lat: venue.latitude + offsetLat,
+          lng: venue.longitude,
+        };
+        map.panTo(newCenter);
+      }
     }
   };
 
-  const handleInfoWindowClose = (venueId) => {
-    setOpenInfoWindows(prev => prev.filter(id => id !== venueId));
+  const handleInfoWindowClose = () => {
+    setOpenInfoWindowId(null);
   };
 
-  // 구글맵 기본 POI(관심 지점) 라벨을 숨기는 스타일
   const mapStyles = [
     {
       featureType: "poi",
@@ -61,6 +53,8 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
       stylers: [{ visibility: "off" }]
     }
   ];
+
+  const selectedVenue = venues.find(venue => venue.id === openInfoWindowId);
 
   return (
     <>
@@ -86,7 +80,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           <Marker
             key={venue.id}
             position={{ lat: venue.latitude, lng: venue.longitude }}
-            onClick={() => handleMarkerClick(venue)}
+            onClick={() => handleMarkerClick(venue.id)}
             icon={{
               url: venue.type === 'live_venue' 
                 ? 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png' 
@@ -95,11 +89,11 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           />
         ))}
 
-        {openVenues.map((selectedVenue) => (
+        {selectedVenue && (
           <InfoWindow
             key={selectedVenue.id}
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
-            onCloseClick={() => handleInfoWindowClose(selectedVenue.id)}
+            onCloseClick={handleInfoWindowClose}
           >
             <div style={{ maxWidth: '85vw', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all', overflowX: 'hidden' }}>
               <div style={{ position: 'relative', alignItems: 'center' }}>
@@ -164,7 +158,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
 
             </div>
           </InfoWindow>
-        ))}
+        )}
 
         {userLocation && (
           <OverlayView
