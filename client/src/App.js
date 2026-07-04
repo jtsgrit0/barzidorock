@@ -54,7 +54,7 @@ useEffect(() => {
   }, [favorites]);
 
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/venues.json`)
+    fetch('./venues.json')
       .then(response => response.json())
       .then(data => setVenues(data))
       .catch(error => console.error('Error fetching venues:', error));
