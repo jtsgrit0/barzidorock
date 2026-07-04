@@ -12,7 +12,7 @@ import VenueManagerRegister from './components/VenueManagerRegister';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import SplashScreen from './components/SplashScreen'; // SplashScreen import
-import venuesData from './venues.json';
+
 import './App.css'; // Import App.css for popup styling
 import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
 
@@ -54,7 +54,10 @@ useEffect(() => {
   }, [favorites]);
 
   useEffect(() => {
-    setVenues(venuesData);
+    fetch('/barzidorock/venues.json')
+      .then(response => response.json())
+      .then(data => setVenues(data))
+      .catch(error => console.error('Error fetching venues:', error));
   }, []);
 
   // Check for location consent on app load
