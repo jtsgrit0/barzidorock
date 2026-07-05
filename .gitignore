@@ -1,0 +1,9 @@
+node_modules/
+client/node_modules/
+client/build/
+.env
+database.db
+.vercel
+.env*
+.DS_Store
+node_modules
