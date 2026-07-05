@@ -25,8 +25,9 @@ module.exports = async (req, res) => {
     }
 
     // 슈퍼 어드민 계정 확인 (index.js의 로직과 통일)
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
+    // 환경 변수가 없으면 하드코딩된 기본값 사용
+    const adminEmail = process.env.ADMIN_EMAIL || 'jtsgrit0@gmail.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Ggdrecon3534@.!';
 
     if (email === adminEmail && password === adminPassword) {
       const token = jwt.sign({ is_admin: true, venue_id: null }, process.env.JWT_SECRET || 'secret-key', { expiresIn: '1h' });
@@ -89,24 +90,6 @@ module.exports = async (req, res) => {
         email: user.email,
         venue_id: user.venue_id,
         role: tokenPayload.role
-      }
-    });
-  } catch (error) {
-    console.error('Venue manager login error:', error);
-    return res.status(500).json({ error: '로그인 중 오류가 발생했습니다.' });
-  }
-};
-    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' }); // 토큰 유효기간 1시간
-
-    return res.status(200).json({
-      success: true,
-      message: '로그인 성공',
-      token: token, // JWT 토큰 반환
-      user: {
-        id: user.id,
-        email: user.email,
-        venue_id: user.venue_id,
-        role: tokenPayload.role // 클라이언트에서도 역할 정보 활용 가능
       }
     });
   } catch (error) {
