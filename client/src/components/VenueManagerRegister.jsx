@@ -185,9 +185,9 @@ const VenueManagerRegister = () => {
             제출하신 정보를 검토한 후 관리자가 승인할 때까지 기다려주세요.<br/>
             승인이 완료되면 등록하신 이메일로 안내 메일이 발송됩니다.
           </p>
-          <button onClick={() => window.location.href='/'} className="home-button">
+          <Link to="/" className="home-button">
             메인으로 돌아가기
-          </button>
+          </Link>
         </div>
       ) : (
         /* 한 페이지에 모든 정보 입력 폼 */
