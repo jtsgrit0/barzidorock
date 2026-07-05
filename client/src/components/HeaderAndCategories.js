@@ -43,7 +43,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     <div className="floating-header">
       <div className="title-and-categories">
         <h1>
-          <img src={`${assetUrl('app_icon.png')}?v=4`} alt="app icon" className="header-app-icon" />
+          <img src={`${assetUrl('app_icon.png')}?v=5`} alt="app icon" className="header-app-icon" />
           BarZidoROCK
         </h1>
         <div className="categories">

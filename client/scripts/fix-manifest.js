@@ -20,3 +20,8 @@ if (publicUrl) {
 }
 
 fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+// SPA fallback for GitHub Pages
+const indexPath = path.join(buildDir, 'index.html');
+const notFoundPath = path.join(buildDir, '404.html');
+fs.copyFileSync(indexPath, notFoundPath);

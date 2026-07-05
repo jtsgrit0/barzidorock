@@ -5,7 +5,7 @@ import '../SplashScreen.css';
 const SplashScreen = ({ loading }) => {
   return (
     <div className={`splash-screen ${!loading ? 'hide' : ''}`}>
-      <img src={`${assetUrl('app_icon.png')}?v=4`} alt="Loading..." className="splash-icon" />
+      <img src={`${assetUrl('app_icon.png')}?v=5`} alt="Loading..." className="splash-icon" />
     </div>
   );
 };

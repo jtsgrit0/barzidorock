@@ -1,8 +1,18 @@
 const API_FALLBACK = 'https://barzidorock.vercel.app';
 
+const isGitHubPagesHost = () => (
+  typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')
+);
+
 const getVenueUrls = () => {
   const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
   const urls = [];
+
+  // GitHub Pages CDN blocks venues.json — load from Vercel API instead
+  if (isGitHubPagesHost()) {
+    urls.push(`${API_FALLBACK}/venues.json`);
+    return urls;
+  }
 
   if (publicUrl) {
     urls.push(`${publicUrl}/venues.json`);
