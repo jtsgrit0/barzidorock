@@ -110,6 +110,9 @@ module.exports = async (req, res) => {
         business_registration_number,
         business_registration_file,
         is_approved,
+        is_admin,
+        email_verified,
+        phone_verified,
         created_at
       ) VALUES (
         ${email},
@@ -118,6 +121,9 @@ module.exports = async (req, res) => {
         ${venue_id},
         ${business_registration_number},
         ${fileUrl},
+        false,
+        false,
+        false,
         false,
         NOW()
       ) RETURNING id, email, venue_id, is_approved
@@ -130,6 +136,9 @@ module.exports = async (req, res) => {
     });
   } catch (error) {
     console.error('Venue manager registration error:', error);
-    return res.status(500).json({ error: '회원가입 중 오류가 발생했습니다.' });
+    return res.status(500).json({
+      error: '회원가입 중 오류가 발생했습니다.',
+      details: error.message,
+    });
   }
 };
