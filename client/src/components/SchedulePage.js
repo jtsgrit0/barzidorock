@@ -467,8 +467,10 @@ const SchedulePage = ({ language }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/admin/approve-venue-manager`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`, // JWT 토큰 추가
+        },
         body: JSON.stringify({ user_id: userId, approve: approve })
       });
       

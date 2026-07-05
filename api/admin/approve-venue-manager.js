@@ -1,5 +1,6 @@
 const { sql } = require('@vercel/postgres');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 // 이메일 발송 설정
 const createTransporter = () => {
@@ -23,15 +24,26 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  // 관리자 권한 확인 (기존 로그인 세션 확인)
-  const cookies = req.headers.cookie?.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
+  // --- JWT 토큰 기반 관리자 권한 확인 ---
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: '인증 토큰이 필요합니다.' });
+    }
+    const token = authHeader.split(' ')[1];
 
-  if (!cookies?.adminLoggedIn) {
-    return res.status(403).json({ error: '관리자 권한이 필요합니다.' });
+    // 토큰 검증
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 최고 관리자(super-admin) 권한 확인
+    if (decoded.role !== 'super-admin') {
+      return res.status(403).json({ error: '접근 권한이 없습니다. 최고 관리자만 이 기능을 사용할 수 있습니다.' });
+    }
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: '토큰이 만료되었습니다. 다시 로그인해주세요.' });
+    }
+    return res.status(401).json({ error: '유효하지 않은 토큰입니다.' });
   }
 
   if (req.method !== 'POST') {
