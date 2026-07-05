@@ -58,29 +58,21 @@ const VenueManagerRegister = () => {
       .catch(error => console.error('VenueManagerRegister.jsx: Error fetching venues:', error));
   }, []);
 
-  // 공연장 데이터를 useMemo로 캐싱 (SchedulePage.js와 동일한 로직)
-  const processedVenues = React.useMemo(() => venues, [venues]);
-  
-  // SchedulePage.js와 동일하게 venues.json에서 직접 고유한 area 목록 추출
-  // const regions = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
-
-  // 선택된 지역에 따라 공연장 목록 필터링 (selectedRegion이 변경될 때만 실행)
+  // 선택된 지역에 따라 공연장 목록 필터링
   useEffect(() => {
-    console.log('selectedRegion changed:', selectedRegion, 'processedVenues length:', processedVenues.length);
-    if (selectedRegion) {
-      const venuesInArea = processedVenues.filter(venue => venue.area === selectedRegion);
-      console.log('venuesInArea:', venuesInArea.length, venuesInArea.map(v => v.name));
-      // 선택된 지역의 공연장을 한국어 이름으로 변환해서 저장
+    if (selectedRegion && venues.length > 0) {
+      const venuesInArea = venues.filter(venue => venue.area === selectedRegion);
       const mappedVenues = venuesInArea.map(venue => ({
         id: venue.id,
-        name: venue.name.ko || venue.name // 한국어 이름이 없으면 원래 이름 사용
+        name: venue.name.ko || venue.name
       }));
       setFilteredVenues(mappedVenues);
     } else {
       setFilteredVenues([]);
-      setFormData(prev => ({ ...prev, venue_id: '' }));
     }
-  }, [selectedRegion, processedVenues]);
+    // 지역이 변경되면 선택된 공연장 초기화
+    setFormData(prev => ({ ...prev, venue_id: '' }));
+  }, [selectedRegion, venues]);
 
   // 지역 선택 핸들러
   const handleRegionChange = (e) => {
