@@ -32,6 +32,7 @@ jobs:
       - name: Build for GitHub Pages
         run: cd client && npm run build:github-pages
         env:
+          PUBLIC_URL: /barzidorock
           REACT_APP_GOOGLE_MAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }}
           CI: false
 
