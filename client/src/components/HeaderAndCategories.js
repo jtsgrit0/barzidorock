@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { assetUrl } from '../utils/assetUrl';
 import './HeaderAndCategories.css';
 import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
 
@@ -42,7 +43,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     <div className="floating-header">
       <div className="title-and-categories">
         <h1>
-          <img src={`${process.env.PUBLIC_URL}/app_icon.png`} alt="app icon" className="header-app-icon" />
+          <img src={`${assetUrl('app_icon.png')}?v=4`} alt="app icon" className="header-app-icon" />
           BarZidoROCK
         </h1>
         <div className="categories">
