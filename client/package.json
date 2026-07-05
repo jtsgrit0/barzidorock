@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/barzidorock",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
@@ -26,6 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && node scripts/fix-manifest.js",
+    "build:github-pages": "PUBLIC_URL=/barzidorock react-scripts build && node scripts/fix-manifest.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build"

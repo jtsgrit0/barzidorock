@@ -27,7 +27,7 @@ jobs:
         run: cd client && npm install
 
       - name: Build for GitHub Pages
-        run: cd client && npm run build
+        run: cd client && npm run build:github-pages
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
