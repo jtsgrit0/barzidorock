@@ -157,12 +157,18 @@ const VenueManagerRegister = () => {
 
         if (!response.ok) {
           let message = '회원가입에 실패했습니다';
-          try {
-            const data = await response.json();
-            message = data.error || message;
-          } catch {
-            message = `서버 오류 (${response.status})`;
+          if (response.status === 409) {
+            message = '이미 가입된 이메일입니다.';
+          } else {
+            try {
+              const data = await response.json();
+              message = data.error || message;
+            } catch {
+              message = `서버 오류 (${response.status})`;
+            }
           }
+          setPopupMessage(message); // 팝업 메시지 설정
+          setShowPopup(true); // 팝업 표시
           throw new Error(message);
         }
         
