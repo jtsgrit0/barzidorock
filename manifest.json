@@ -1,30 +1,26 @@
 {
   "short_name": "BarzidoRock",
-  "name": "BarzidoRock - Live Music Venue Map",
+  "name": "BarZidoROCK - Live Music Venue Map",
   "icons": [
     {
-      "src": "%PUBLIC_URL%/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/barzidorock/app_icon.png",
+      "type": "image/png",
+      "sizes": "64x64"
     },
     {
-      "src": "%PUBLIC_URL%/logo192.png",
+      "src": "/barzidorock/app_icon.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "%PUBLIC_URL%/logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    },
-    {
-      "src": "%PUBLIC_URL%/app_icon.png",
+      "src": "/barzidorock/app_icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/barzidorock/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "scope": "/barzidorock/"
 }
