@@ -110,7 +110,6 @@ module.exports = async (req, res) => {
         business_registration_number,
         business_registration_file,
         is_approved,
-        is_admin,
         email_verified,
         phone_verified,
         created_at
@@ -121,7 +120,6 @@ module.exports = async (req, res) => {
         ${venue_id},
         ${business_registration_number},
         ${fileUrl},
-        false,
         false,
         false,
         false,
