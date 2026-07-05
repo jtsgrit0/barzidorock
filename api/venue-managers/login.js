@@ -19,15 +19,23 @@ if (allowedOrigins.includes(origin)) {
 }
 res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-if (req.method === 'OPTIONS') {
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  return res.status(200).end();
-}
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: '이메일과 비밀번호를 모두 입력해주세요.' });
+    }
+
+    // 이메일로 사용자 조회
+    const userResult = await sql`
+      SELECT id, email, password_hash, is_approved, email_verified, venue_id 
+      FROM venue_managers 
+      WHERE email = ${email}
+    `;
+
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+    }
     const user = userResult.rows[0];
 
     // 비밀번호 bcrypt로 비교
