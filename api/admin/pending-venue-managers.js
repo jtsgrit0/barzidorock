@@ -27,8 +27,8 @@ module.exports = async (req, res) => {
     // 토큰 검증
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 최고 관리자(super-admin) 권한 확인
-    if (decoded.role !== 'super-admin') {
+    // 최고 관리자(super-admin) 권한 확인 (is_admin 또는 role 모두 지원)
+    if (!decoded.is_admin && decoded.role !== 'super-admin') {
       return res.status(403).json({ error: '접근 권한이 없습니다. 최고 관리자만 이 기능을 사용할 수 있습니다.' });
     }
   } catch (error) {
