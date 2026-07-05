@@ -54,7 +54,8 @@ module.exports = async (req, res) => {
         business_registration_number,
         business_registration_file,
         phone_verified,
-        created_at
+        created_at,
+        false AS is_admin // is_admin 컬럼이 없으므로 false로 더미 값 추가
       FROM venue_managers 
       WHERE is_approved = false
       ORDER BY created_at ASC
