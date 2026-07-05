@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import Tesseract from 'tesseract.js';
+import { fetchVenues } from '../utils/fetchVenues';
 import './VenueManagerRegister.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
@@ -34,23 +35,12 @@ const VenueManagerRegister = () => {
   const [regions, setRegions] = useState([]);
 
   useEffect(() => {
-    const fetchUrl = `${process.env.PUBLIC_URL}/venues.json`;
-    console.log('VenueManagerRegister.jsx: Trying to fetch venues from:', fetchUrl);
-    fetch(fetchUrl)
-      .then(response => {
-        console.log('VenueManagerRegister.jsx: Fetch response status:', response.status);
-        if (!response.ok) {
-          throw new Error(`Network response was not ok, status: ${response.status}`);
-        }
-        return response.json();
-      })
+    fetchVenues()
       .then(data => {
-        console.log('VenueManagerRegister.jsx: venues.json loaded successfully:', data.length, 'venues');
+        console.log('VenueManagerRegister.jsx: venues loaded successfully:', data.length, 'venues');
         setVenues(data);
-        // venues 데이터 로드 후 regions 상태 업데이트
         const uniqueRegions = [...new Set(data.map(venue => venue.area).filter(area => area && area !== 'all'))];
         setRegions(uniqueRegions);
-        // 첫 번째 지역을 기본 선택값으로 설정
         if (uniqueRegions.length > 0) {
           setSelectedRegion(uniqueRegions[0]);
         }

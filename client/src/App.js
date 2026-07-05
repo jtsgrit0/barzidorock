@@ -12,6 +12,7 @@ import VenueManagerRegister from './components/VenueManagerRegister';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import SplashScreen from './components/SplashScreen'; // SplashScreen import
+import { fetchVenues } from './utils/fetchVenues';
 
 import './App.css'; // Import App.css for popup styling
 import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
@@ -54,18 +55,9 @@ useEffect(() => {
   }, [favorites]);
 
   useEffect(() => {
-    const fetchUrl = '/venues.json';
-    console.log('App.js: Trying to fetch venues from:', fetchUrl);
-    fetch(fetchUrl)
-      .then(response => {
-        console.log('App.js: Fetch response status:', response.status);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
+    fetchVenues()
       .then(data => {
-        console.log('App.js: venues.json loaded successfully:', data.length, 'venues');
+        console.log('App.js: venues loaded successfully:', data.length, 'venues');
         setVenues(data);
       })
       .catch(error => console.error('App.js: Error fetching venues:', error));

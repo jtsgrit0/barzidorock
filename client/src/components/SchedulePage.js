@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { fetchVenues } from '../utils/fetchVenues';
 
 
 import './SchedulePage.css';
@@ -61,18 +62,9 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    const fetchUrl = `${process.env.PUBLIC_URL}/venues.json`;
-    console.log('SchedulePage.js: Trying to fetch venues from:', fetchUrl);
-    fetch(fetchUrl)
-      .then(response => {
-        console.log('SchedulePage.js: Fetch response status:', response.status);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
+    fetchVenues()
       .then(data => {
-        console.log('SchedulePage.js: venues.json loaded successfully:', data.length, 'venues');
+        console.log('SchedulePage.js: venues loaded successfully:', data.length, 'venues');
         setVenues(data);
       })
       .catch(error => console.error('SchedulePage.js: Error fetching venues:', error));
