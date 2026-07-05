@@ -32,7 +32,7 @@ const VenueManagerRegister = () => {
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   useEffect(() => {
-    const fetchUrl = 'https://jtsgrit0.github.io/barzidorock/venues.json';
+    const fetchUrl = '/venues.json';
     console.log('VenueManagerRegister.jsx: Trying to fetch venues from:', fetchUrl);
     fetch(fetchUrl)
       .then(response => {

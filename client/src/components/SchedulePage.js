@@ -61,7 +61,7 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    const fetchUrl = 'https://jtsgrit0.github.io/barzidorock/venues.json';
+    const fetchUrl = '/venues.json';
     console.log('SchedulePage.js: Trying to fetch venues from:', fetchUrl);
     fetch(fetchUrl)
       .then(response => {
