@@ -396,23 +396,22 @@ const SchedulePage = ({ language }) => {
     e.preventDefault();
     try {
       // 백엔드에 로그인 요청 (이메일과 비밀번호 검증)
-      const response = await fetch(`${API_BASE_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // 쿠키 포함하여 요청 전송
-        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
-      });
+      const response = await fetch(`${API_BASE_URL}/api/venue-managers/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+        });
 
-      if (response.ok) {
-        setIsLoggedIn(true);
-        const adminSecretToken = 'admin-secret-token-2026'; // 서버가 기대하는 정확한 관리자 토큰
-        setAdminToken(adminSecretToken); // 토큰 상태 업데이트
-        setLoginError('');
-        // 토큰과 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
-        localStorage.setItem('adminToken', adminSecretToken);
-        localStorage.setItem('isAdminLoggedIn', 'true');
+        if (response.ok) {
+          const data = await response.json();
+          setIsLoggedIn(true);
+          setAdminToken(data.token); // 서버에서 받은 실제 JWT 토큰 저장
+          setLoginError('');
+          // 토큰과 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
+          localStorage.setItem('adminToken', data.token);
+          localStorage.setItem('isAdminLoggedIn', 'true');
       } else {
         setLoginError('이메일 또는 비밀번호가 올바르지 않습니다.');
       }

@@ -1,5 +1,6 @@
 const { sql } = require('@vercel/postgres');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 module.exports = async (req, res) => {
   // CORS 설정
@@ -54,16 +55,25 @@ res.setHeader('Access-Control-Allow-Credentials', 'true');
       return res.status(403).json({ error: '이메일 인증이 완료되지 않았습니다.' });
     }
 
-    // 로그인 세션 쿠키 설정
-    res.setHeader('Set-Cookie', `venueManagerLoggedIn=${user.id}; HttpOnly; Secure; SameSite=None; Domain=barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app; Path=/; Max-Age=86400`);
-    
-    return res.status(200).json({ 
-      success: true, 
+    // JWT 토큰 생성
+    const tokenPayload = {
+      id: user.id,
+      email: user.email,
+      venue_id: user.venue_id,
+      // 관리자 이메일과 일치하면 'super-admin' 역할 부여
+      role: user.email === process.env.ADMIN_EMAIL ? 'super-admin' : 'venue-manager'
+    };
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' }); // 토큰 유효기간 1시간
+
+    return res.status(200).json({
+      success: true,
       message: '로그인 성공',
+      token: token, // JWT 토큰 반환
       user: {
         id: user.id,
         email: user.email,
-        venue_id: user.venue_id
+        venue_id: user.venue_id,
+        role: tokenPayload.role // 클라이언트에서도 역할 정보 활용 가능
       }
     });
   } catch (error) {
