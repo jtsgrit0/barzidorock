@@ -28,6 +28,8 @@ const VenueManagerRegister = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); // 팝업 표시 여부 상태
+  const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태
   
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
