@@ -61,7 +61,7 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    const fetchUrl = 'https://barzidorock.vercel.app/venues.json';
+    const fetchUrl = `${process.env.PUBLIC_URL}/venues.json`;
     console.log('SchedulePage.js: Trying to fetch venues from:', fetchUrl);
     fetch(fetchUrl)
       .then(response => {
