@@ -31,6 +31,8 @@ const VenueManagerRegister = () => {
   const [selectedRegion, setSelectedRegion] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
 
+  const [regions, setRegions] = useState([]);
+
   useEffect(() => {
     const fetchUrl = '/venues.json';
     console.log('VenueManagerRegister.jsx: Trying to fetch venues from:', fetchUrl);
@@ -45,6 +47,13 @@ const VenueManagerRegister = () => {
       .then(data => {
         console.log('VenueManagerRegister.jsx: venues.json loaded successfully:', data.length, 'venues');
         setVenues(data);
+        // venues 데이터 로드 후 regions 상태 업데이트
+        const uniqueRegions = [...new Set(data.map(venue => venue.area).filter(area => area && area !== 'all'))];
+        setRegions(uniqueRegions);
+        // 첫 번째 지역을 기본 선택값으로 설정
+        if (uniqueRegions.length > 0) {
+          setSelectedRegion(uniqueRegions[0]);
+        }
       })
       .catch(error => console.error('VenueManagerRegister.jsx: Error fetching venues:', error));
   }, []);
@@ -53,7 +62,7 @@ const VenueManagerRegister = () => {
   const processedVenues = React.useMemo(() => venues, [venues]);
   
   // SchedulePage.js와 동일하게 venues.json에서 직접 고유한 area 목록 추출
-  const regions = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
+  // const regions = [...new Set(venues.map(venue => venue.area).filter(Boolean))];
 
   // 선택된 지역에 따라 공연장 목록 필터링 (selectedRegion이 변경될 때만 실행)
   useEffect(() => {
