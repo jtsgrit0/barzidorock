@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "https://jtsgrit0.github.io/barzidorock/static/css/main.5dc15189.css",
-    "main.js": "https://jtsgrit0.github.io/barzidorock/static/js/main.b0f3533b.js",
-    "static/js/453.eca5f793.chunk.js": "https://jtsgrit0.github.io/barzidorock/static/js/453.eca5f793.chunk.js",
-    "index.html": "https://jtsgrit0.github.io/barzidorock/index.html",
-    "main.5dc15189.css.map": "https://jtsgrit0.github.io/barzidorock/static/css/main.5dc15189.css.map",
-    "main.b0f3533b.js.map": "https://jtsgrit0.github.io/barzidorock/static/js/main.b0f3533b.js.map",
-    "453.eca5f793.chunk.js.map": "https://jtsgrit0.github.io/barzidorock/static/js/453.eca5f793.chunk.js.map"
+    "main.css": "/static/css/main.5dc15189.css",
+    "main.js": "/static/js/main.f9985c6d.js",
+    "static/js/453.eca5f793.chunk.js": "/static/js/453.eca5f793.chunk.js",
+    "index.html": "/index.html",
+    "main.5dc15189.css.map": "/static/css/main.5dc15189.css.map",
+    "main.f9985c6d.js.map": "/static/js/main.f9985c6d.js.map",
+    "453.eca5f793.chunk.js.map": "/static/js/453.eca5f793.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5dc15189.css",
-    "static/js/main.b0f3533b.js"
+    "static/js/main.f9985c6d.js"
   ]
 }
