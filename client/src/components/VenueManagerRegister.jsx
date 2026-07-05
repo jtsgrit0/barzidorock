@@ -32,15 +32,22 @@ const VenueManagerRegister = () => {
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   useEffect(() => {
-    fetch('./venues.json')
+    const baseUrl = window.location.origin;
+    const fetchUrl = `${baseUrl}/barzidorock/venues.json`;
+    console.log('VenueManagerRegister.jsx: Trying to fetch venues from:', fetchUrl);
+    fetch(fetchUrl)
       .then(response => {
+        console.log('VenueManagerRegister.jsx: Fetch response status:', response.status);
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`Network response was not ok, status: ${response.status}`);
         }
         return response.json();
       })
-      .then(data => setVenues(data))
-      .catch(error => console.error('Error fetching venues:', error));
+      .then(data => {
+        console.log('VenueManagerRegister.jsx: venues.json loaded successfully:', data.length, 'venues');
+        setVenues(data);
+      })
+      .catch(error => console.error('VenueManagerRegister.jsx: Error fetching venues:', error));
   }, []);
 
   // 공연장 데이터를 useMemo로 캐싱 (SchedulePage.js와 동일한 로직)

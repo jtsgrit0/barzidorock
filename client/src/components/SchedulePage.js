@@ -61,10 +61,19 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    fetch('./venues.json')
-      .then(response => response.json())
-      .then(data => setVenues(data))
-      .catch(error => console.error('Error fetching venues:', error));
+    const baseUrl = window.location.origin;
+    fetch(`${baseUrl}/barzidorock/venues.json`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('SchedulePage.js: venues.json loaded successfully:', data.length, 'venues');
+        setVenues(data);
+      })
+      .catch(error => console.error('SchedulePage.js: Error fetching venues:', error));
   }, []);
 
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분

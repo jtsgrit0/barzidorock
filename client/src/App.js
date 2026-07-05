@@ -54,10 +54,19 @@ useEffect(() => {
   }, [favorites]);
 
   useEffect(() => {
-    fetch('./venues.json')
-      .then(response => response.json())
-      .then(data => setVenues(data))
-      .catch(error => console.error('Error fetching venues:', error));
+    const baseUrl = window.location.origin;
+    fetch(`${baseUrl}/barzidorock/venues.json`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('App.js: venues.json loaded successfully:', data.length, 'venues');
+        setVenues(data);
+      })
+      .catch(error => console.error('App.js: Error fetching venues:', error));
   }, []);
 
   // Check for location consent on app load
