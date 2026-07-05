@@ -285,15 +285,26 @@ const VenueManagerRegister = () => {
 
           {errors.general && <span className="error general">{errors.general}</span>}
           
-          <button type="submit" className="submit-button" disabled={isLoading}>
-            {isLoading ? '처리중...' : '회원가입 완료'}
-          </button>
-          <Link to="/forgot-password" className="forgot-password-link">
-            비밀번호를 잊으셨나요?
-          </Link>
-        </form>
-      )}
+      <button type="submit" className="submit-button" disabled={isLoading}>
+        {isLoading ? '처리중...' : '회원가입 완료'}
+      </button>
+      <Link to="/forgot-password" className="forgot-password-link">
+        비밀번호를 잊으셨나요?
+      </Link>
+    </form>
+  )}
+
+  {/* 팝업 UI */}
+  {showPopup && (
+    <div className="popup-overlay">
+      <div className="popup-content">
+        <h3>알림</h3>
+        <p>{popupMessage}</p>
+        <button onClick={() => setShowPopup(false)}>확인</button>
+      </div>
     </div>
+  )}
+</div>
   );
 };
 
