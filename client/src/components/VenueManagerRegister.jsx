@@ -34,7 +34,7 @@ const VenueManagerRegister = () => {
   const [regions, setRegions] = useState([]);
 
   useEffect(() => {
-    const fetchUrl = '/venues.json';
+    const fetchUrl = `${process.env.PUBLIC_URL}/venues.json`;
     console.log('VenueManagerRegister.jsx: Trying to fetch venues from:', fetchUrl);
     fetch(fetchUrl)
       .then(response => {
