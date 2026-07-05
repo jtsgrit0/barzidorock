@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  
+
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -22,6 +22,25 @@ module.exports = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({ error: '이메일과 비밀번호를 모두 입력해주세요.' });
+    }
+
+    // 슈퍼 어드민 계정 확인 (index.js의 로직과 통일)
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (email === adminEmail && password === adminPassword) {
+      const token = jwt.sign({ is_admin: true, venue_id: null }, process.env.JWT_SECRET || 'secret-key', { expiresIn: '1h' });
+      return res.status(200).json({
+        success: true,
+        message: '관리자 로그인 성공',
+        token,
+        user: {
+          id: null,
+          email: adminEmail,
+          venue_id: null,
+          is_admin: true
+        }
+      });
     }
 
     // 이메일로 사용자 조회
@@ -57,9 +76,26 @@ module.exports = async (req, res) => {
       id: user.id,
       email: user.email,
       venue_id: user.venue_id,
-      // 관리자 이메일과 일치하면 'super-admin' 역할 부여
-      role: user.email === process.env.ADMIN_EMAIL ? 'super-admin' : 'venue-manager'
+      role: user.email === adminEmail ? 'super-admin' : 'venue-manager'
     };
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET || 'secret-key', { expiresIn: '1h' });
+
+    return res.status(200).json({
+      success: true,
+      message: '로그인 성공',
+      token: token,
+      user: {
+        id: user.id,
+        email: user.email,
+        venue_id: user.venue_id,
+        role: tokenPayload.role
+      }
+    });
+  } catch (error) {
+    console.error('Venue manager login error:', error);
+    return res.status(500).json({ error: '로그인 중 오류가 발생했습니다.' });
+  }
+};
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' }); // 토큰 유효기간 1시간
 
     return res.status(200).json({
