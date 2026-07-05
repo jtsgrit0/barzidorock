@@ -563,6 +563,7 @@ app.delete('/api/schedules/:id', async (req, res) => {
 app.use('/api', apiRouter);
 app.use('/api', secureRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Vercel Serverless 함수용 핸들러
+module.exports = (req, res) => {
+  return app(req, res);
+};
