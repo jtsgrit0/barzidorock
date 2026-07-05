@@ -276,6 +276,12 @@ secureRouter.post('/auth/forgot-password', (req, res) => forgotPasswordHandler(r
 const resetPasswordHandler = require('./api/auth/reset-password');
 secureRouter.post('/auth/reset-password', (req, res) => resetPasswordHandler(req, res));
 
+const registerVenueManagerHandler = require('./api/venue-managers/register');
+secureRouter.post('/venue-managers/register', (req, res) => registerVenueManagerHandler(req, res));
+
+const approveVenueManagerHandler = require('./api/admin/approve-venue-manager');
+secureRouter.post('/admin/approve-venue-manager', (req, res) => approveVenueManagerHandler(req, res));
+
 apiRouter.use(secureRouter);
 app.use('/api', apiRouter);
 

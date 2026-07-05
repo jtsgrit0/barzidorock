@@ -154,8 +154,14 @@ const VenueManagerRegister = () => {
         });
 
         if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.error || '회원가입에 실패했습니다');
+          let message = '회원가입에 실패했습니다';
+          try {
+            const data = await response.json();
+            message = data.error || message;
+          } catch {
+            message = `서버 오류 (${response.status})`;
+          }
+          throw new Error(message);
         }
         
         setIsCompleted(true); // 회원가입 완료 상태로 변경
