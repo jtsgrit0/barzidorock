@@ -61,8 +61,11 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/venues.json`)
+    const fetchUrl = 'https://jtsgrit0.github.io/barzidorock/venues.json';
+    console.log('SchedulePage.js: Trying to fetch venues from:', fetchUrl);
+    fetch(fetchUrl)
       .then(response => {
+        console.log('SchedulePage.js: Fetch response status:', response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

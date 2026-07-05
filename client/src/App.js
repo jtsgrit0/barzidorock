@@ -54,8 +54,11 @@ useEffect(() => {
   }, [favorites]);
 
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/venues.json`)
+    const fetchUrl = 'https://jtsgrit0.github.io/barzidorock/venues.json';
+    console.log('App.js: Trying to fetch venues from:', fetchUrl);
+    fetch(fetchUrl)
       .then(response => {
+        console.log('App.js: Fetch response status:', response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
