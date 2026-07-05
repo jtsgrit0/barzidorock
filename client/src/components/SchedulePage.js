@@ -61,8 +61,7 @@ const SchedulePage = ({ language }) => {
   }, [newEvent, editingSchedule, isEditing, selectedArea]);
 
   useEffect(() => {
-    const baseUrl = window.location.origin;
-    fetch(`${baseUrl}/barzidorock/venues.json`)
+    fetch(`${process.env.PUBLIC_URL}/venues.json`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

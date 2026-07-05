@@ -32,8 +32,7 @@ const VenueManagerRegister = () => {
   const [filteredVenues, setFilteredVenues] = useState([]);
 
   useEffect(() => {
-    const baseUrl = window.location.origin;
-    const fetchUrl = `${baseUrl}/barzidorock/venues.json`;
+    const fetchUrl = `${process.env.PUBLIC_URL}/venues.json`;
     console.log('VenueManagerRegister.jsx: Trying to fetch venues from:', fetchUrl);
     fetch(fetchUrl)
       .then(response => {
