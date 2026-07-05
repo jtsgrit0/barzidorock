@@ -11,6 +11,7 @@ const SchedulePage = ({ language }) => {
   const [schedules, setSchedules] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [adminToken, setAdminToken] = useState(null); // 관리자 토큰 상태
+  const [userRole, setUserRole] = useState(null); // 로그인 사용자 역할
   const [loginEmail, setLoginEmail] = useState(''); // 로그인 이메일
   const [loginPassword, setLoginPassword] = useState(''); // 로그인 비밀번호
   const [loginError, setLoginError] = useState(''); // 로그인 에러 메시지
@@ -408,10 +409,14 @@ const SchedulePage = ({ language }) => {
           const data = await response.json();
           setIsLoggedIn(true);
           setAdminToken(data.token); // 서버에서 받은 실제 JWT 토큰 저장
+          setUserRole(data.user?.role || null);
           setLoginError('');
           // 토큰과 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
           localStorage.setItem('adminToken', data.token);
           localStorage.setItem('isAdminLoggedIn', 'true');
+          if (data.user?.role) {
+            localStorage.setItem('userRole', data.user.role);
+          }
       } else {
         setLoginError('이메일 또는 비밀번호가 올바르지 않습니다.');
       }
@@ -424,15 +429,20 @@ const SchedulePage = ({ language }) => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setAdminToken(null); // 토큰 상태 초기화
+    setUserRole(null);
     setLoginEmail('');
     setLoginPassword('');
     localStorage.removeItem('isAdminLoggedIn');
     localStorage.removeItem('adminToken');
+    localStorage.removeItem('userRole');
     resetForm();
   };
 
   // 승인 대기 공연장 관리자 목록 조회 함수
   const fetchPendingManagers = useCallback(async () => {
+    if (userRole !== 'super-admin') {
+      return;
+    }
     setPendingManagersError('');
     try {
       const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
@@ -489,15 +499,21 @@ const SchedulePage = ({ language }) => {
   // 컴포넌트 마운트 시 로그인 상태 확인
   useEffect(() => {
     const loggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+    const savedRole = localStorage.getItem('userRole');
     setIsLoggedIn(loggedIn);
+    setUserRole(savedRole);
   }, []);
 
   // 로그인 상태일 때 승인 대기 관리자 목록 조회
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && userRole === 'super-admin') {
       fetchPendingManagers();
+    } else {
+      setPendingManagers([]);
+      setPendingManagersError('');
+      setShowPendingList(false);
     }
-  }, [isLoggedIn, fetchPendingManagers]);
+  }, [isLoggedIn, userRole, fetchPendingManagers]);
 
   const handleDelete = useCallback(async (id) => {
     let password = null;
@@ -586,12 +602,14 @@ const SchedulePage = ({ language }) => {
           <div className="admin-header">
             <h2>{isEditing ? '공연일정 수정' : '새 공연일정 등록'}</h2>
             <div className="admin-controls">
-              <button 
-                onClick={() => setShowPendingList(!showPendingList)} 
-                className="pending-button"
-              >
-                승인대기 관리자 {pendingManagers.length > 0 && `(${pendingManagers.length})`}
-              </button>
+              {userRole === 'super-admin' && (
+                <button 
+                  onClick={() => setShowPendingList(!showPendingList)} 
+                  className="pending-button"
+                >
+                  승인대기 관리자 {pendingManagers.length > 0 && `(${pendingManagers.length})`}
+                </button>
+              )}
               <button onClick={handleLogout} className="logout-button">로그아웃</button>
             </div>
           </div>

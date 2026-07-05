@@ -30,7 +30,8 @@ module.exports = async (req, res) => {
     const adminPassword = process.env.ADMIN_PASSWORD || 'Ggdrecon3534@.!';
 
     if (email === adminEmail && password === adminPassword) {
-      const token = jwt.sign({ is_admin: true, venue_id: null }, process.env.JWT_SECRET || 'secret-key', { expiresIn: '1h' });
+      const tokenPayload = { is_admin: true, venue_id: null, role: 'super-admin' };
+      const token = jwt.sign(tokenPayload, process.env.JWT_SECRET || 'secret-key', { expiresIn: '1h' });
       return res.status(200).json({
         success: true,
         message: '관리자 로그인 성공',
@@ -39,6 +40,7 @@ module.exports = async (req, res) => {
           id: null,
           email: adminEmail,
           venue_id: null,
+          role: 'super-admin',
           is_admin: true
         }
       });

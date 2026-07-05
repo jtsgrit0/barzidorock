@@ -6,6 +6,7 @@ const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const iconv = require('iconv-lite');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const { sql } = require('@vercel/postgres');
 const { put } = require('@vercel/blob');
@@ -292,10 +293,25 @@ const getAuthenticatedUser = async (req) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     const token = authHeader.substring(7);
+
+    // Support both the hard-coded admin token and JWT auth from venue-managers/login
     if (token === 'admin-secret-token-2026') {
       return { is_admin: true, venue_id: null };
     }
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret-key');
+      if (decoded.is_admin || decoded.role === 'super-admin') {
+        return { is_admin: true, venue_id: null, user_id: decoded.id || null };
+      }
+      if (decoded.id && decoded.venue_id) {
+        return { is_admin: false, venue_id: decoded.venue_id, user_id: decoded.id };
+      }
+    } catch (error) {
+      console.error('JWT verification failed in getAuthenticatedUser:', error.message);
+    }
   }
+
   const cookieHeader = req.headers.cookie;
   if (cookieHeader) {
     const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
