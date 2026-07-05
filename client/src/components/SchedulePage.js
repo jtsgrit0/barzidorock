@@ -466,7 +466,7 @@ const SchedulePage = ({ language }) => {
       console.error('Error fetching pending managers:', error);
       setPendingManagersError('승인 대기 목록을 불러오는 중 오류가 발생했습니다.');
     }
-  }, [API_BASE_URL, adminToken]);
+  }, [API_BASE_URL, adminToken, userRole]);
 
   // 공연장 관리자 승인/거절 처리 함수
   const handleApproveManager = async (userId, approve) => {
