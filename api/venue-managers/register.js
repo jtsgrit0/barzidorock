@@ -1,18 +1,62 @@
 const { sql } = require('@vercel/postgres');
 const bcrypt = require('bcrypt');
+const { put } = require('@vercel/blob');
+
+const extractBusinessRegistrationNumber = (text) => {
+  if (!text || typeof text !== 'string') return '미확인';
+  const match = text.replace(/\s/g, '').match(/(\d{3})-?(\d{2})-?(\d{5})/);
+  return match ? `${match[1]}-${match[2]}-${match[3]}` : '미확인';
+};
+
+const uploadBusinessRegistrationFile = async (base64File, email) => {
+  const match = base64File.match(/^data:([^;]+);base64,(.+)$/);
+  const contentType = match ? match[1] : 'application/octet-stream';
+  const data = match ? match[2] : base64File;
+  const buffer = Buffer.from(data, 'base64');
+  const safeEmail = email.replace(/[^a-zA-Z0-9]/g, '_');
+
+  const blob = await put(`business-registrations/${Date.now()}_${safeEmail}`, buffer, {
+    access: 'public',
+    contentType,
+  });
+
+  return blob.url;
+};
+
+const ensureVenueExists = async (venueId) => {
+  const existing = await sql`SELECT id FROM venues WHERE id = ${venueId}`;
+  if (existing.rows.length > 0) return;
+
+  await sql`
+    INSERT INTO venues (id, name, type, address, latitude, longitude, area, created_at)
+    VALUES (
+      ${venueId},
+      ${'{"ko":"등록 대기"}'},
+      ${'live_venue'},
+      ${'{"ko":""}'},
+      ${0},
+      ${0},
+      ${'unknown'},
+      NOW()
+    )
+    ON CONFLICT (id) DO NOTHING
+  `;
+};
 
 module.exports = async (req, res) => {
-  // CORS 설정 - 로컬 개발, GitHub Pages, 모든 Vercel 도메인 허용
-  const allowedOrigins = ['https://jtsgrit0.github.io', 'http://localhost:3000', 'https://barzidorock.vercel.app', 'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app'];
+  const allowedOrigins = [
+    'https://jtsgrit0.github.io',
+    'http://localhost:3000',
+    'https://barzidorock.vercel.app',
+    'https://barzidorock-4n8edt15l-jtsgrit0s-projects.vercel.app',
+  ];
   const origin = req.headers.origin;
-  
-  // 모든 요청에 대한 CORS 헤더 설정
+
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // OPTIONS preflight 요청 처리
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -20,36 +64,51 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // 요청 바디에서 필요한 필드 추출
-    const { email, password, phone_number, venue_id, business_registration_file, business_registration_text } = req.body;
-    
-    // 필수 필드 검증
+    const {
+      email,
+      password,
+      phone_number,
+      venue_id,
+      business_registration_file,
+      business_registration_text,
+    } = req.body;
+
     if (!email || !password || !phone_number || !venue_id || !business_registration_file) {
       return res.status(400).json({ error: '필수 입력값이 누락되었습니다.' });
     }
 
-    // 이미 가입된 이메일인지 확인
     const existingUser = await sql`
-      SELECT * FROM venue_managers WHERE email = ${email}
+      SELECT id FROM venue_managers WHERE email = ${email}
     `;
 
     if (existingUser.rows.length > 0) {
       return res.status(409).json({ error: '이미 가입된 이메일입니다.' });
     }
 
-    // 비밀번호 bcrypt로 해싱
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
+    const passwordHash = await bcrypt.hash(password, 10);
+    const business_registration_number = extractBusinessRegistrationNumber(business_registration_text);
 
-    // 관리자 승인 대기 상태로 회원가입 처리
+    let fileUrl = null;
+    try {
+      fileUrl = await uploadBusinessRegistrationFile(business_registration_file, email);
+    } catch (uploadError) {
+      console.error('Business registration file upload failed:', uploadError);
+    }
+
+    try {
+      await ensureVenueExists(venue_id);
+    } catch (venueError) {
+      console.error('ensureVenueExists failed:', venueError);
+    }
+
     const result = await sql`
       INSERT INTO venue_managers (
-        email, 
-        password_hash, 
-        phone_number, 
-        venue_id, 
+        email,
+        password_hash,
+        phone_number,
+        venue_id,
+        business_registration_number,
         business_registration_file,
-        business_registration_text,
         is_approved,
         created_at
       ) VALUES (
@@ -57,17 +116,17 @@ module.exports = async (req, res) => {
         ${passwordHash},
         ${phone_number},
         ${venue_id},
-        ${business_registration_file},
-        ${business_registration_text || ''},
+        ${business_registration_number},
+        ${fileUrl},
         false,
         NOW()
-      ) RETURNING id, email, venue_id, is_approved;
+      ) RETURNING id, email, venue_id, is_approved
     `;
 
-    return res.status(201).json({ 
-      success: true, 
+    return res.status(201).json({
+      success: true,
       message: '회원가입이 완료되었습니다. 관리자 승인을 기다려주세요.',
-      user: result.rows[0]
+      user: result.rows[0],
     });
   } catch (error) {
     console.error('Venue manager registration error:', error);
