@@ -74,12 +74,19 @@ const SchedulePage = ({ language }) => {
 
   // venues 또는 userVenueId 변경 시, venue-manager 사용자는 선택값을 고정
   useEffect(() => {
+    console.log('🔍 [userVenueId Effect] Triggered with:', { userVenueId, venuesLength: venues.length });
     if (userVenueId && venues.length > 0) {
       const venue = venues.find(v => String(v.id) === String(userVenueId));
+      console.log('🔍 [userVenueId Effect] Found venue matching userVenueId:', venue);
       if (venue) {
         setSelectedArea(venue.area);
         setFilteredVenues(venues.filter(v => v.area === venue.area));
-        setNewEvent(prev => ({ ...prev, venue_id: String(userVenueId) }));
+        setNewEvent(prev => {
+          console.log('🔍 [userVenueId Effect] Setting newEvent.venue_id to:', userVenueId);
+          return { ...prev, venue_id: String(userVenueId) };
+        });
+      } else {
+        console.warn('🔍 [userVenueId Effect] Could not find venue in venues list with ID:', userVenueId);
       }
     }
   }, [userVenueId, venues]);
@@ -117,11 +124,15 @@ const SchedulePage = ({ language }) => {
     const savedToken = localStorage.getItem('adminToken');
     const savedRole = localStorage.getItem('userRole');
     const savedVenueId = localStorage.getItem('userVenueId');
+    console.log('🔍 [Mount Login Restore] LocalStorage values:', { savedLoginState, savedToken, savedRole, savedVenueId });
     if (savedLoginState === 'true' && savedToken) {
       setIsLoggedIn(true);
       setAdminToken(savedToken);
       if (savedRole) setUserRole(savedRole);
-      if (savedVenueId) setUserVenueId(savedVenueId); // 공연장 매니저의 venue_id 복원
+      if (savedVenueId) {
+        console.log('🔍 [Mount Login Restore] Restoring userVenueId to state:', savedVenueId);
+        setUserVenueId(savedVenueId); // 공연장 매니저의 venue_id 복원
+      }
     }
   }, []);
 
@@ -154,17 +165,20 @@ const SchedulePage = ({ language }) => {
   const processedVenues = React.useMemo(() => venues, [venues]);
   
   useEffect(() => {
-    console.log('selectedArea changed:', selectedArea, 'processedVenues length:', processedVenues.length);
+    console.log('🔍 [selectedArea Effect] selectedArea changed:', selectedArea, 'processedVenues length:', processedVenues.length, 'userVenueId:', userVenueId);
     if (selectedArea) {
       const venuesInArea = processedVenues.filter(venue => venue.area === selectedArea);
-      console.log('venuesInArea:', venuesInArea.length, venuesInArea.map(v => v.name));
+      console.log('🔍 [selectedArea Effect] venuesInArea length:', venuesInArea.length);
       setFilteredVenues(venuesInArea);
     } else {
       setFilteredVenues([]);
     }
     // venue-manager가 로그인한 경우 venue_id를 초기화하지 않음 (덮어쓰기 방지)
     if (!userVenueId) {
+      console.log('🔍 [selectedArea Effect] Resetting venue_id to empty because userVenueId is not set');
       setNewEvent(prev => ({ ...prev, venue_id: '' }));
+    } else {
+      console.log('🔍 [selectedArea Effect] Preserving venue_id because userVenueId is set:', userVenueId);
     }
   }, [selectedArea, processedVenues, userVenueId]);
 
