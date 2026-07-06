@@ -112,12 +112,16 @@ const SchedulePage = ({ language }) => {
   }, [language, venues]);
 
   useEffect(() => {
-    // 페이지 로드 시 로컬스토리지에서 로그인 상태와 토큰 복원
+    // 페이지 로드 시 로컬스토리지에서 로그인 상태, 토큰, 역할, 공연장 ID 복원
     const savedLoginState = localStorage.getItem('isAdminLoggedIn');
     const savedToken = localStorage.getItem('adminToken');
+    const savedRole = localStorage.getItem('userRole');
+    const savedVenueId = localStorage.getItem('userVenueId');
     if (savedLoginState === 'true' && savedToken) {
       setIsLoggedIn(true);
       setAdminToken(savedToken);
+      if (savedRole) setUserRole(savedRole);
+      if (savedVenueId) setUserVenueId(savedVenueId); // 공연장 매니저의 venue_id 복원
     }
   }, []);
 
@@ -224,15 +228,19 @@ const SchedulePage = ({ language }) => {
     // Clear form state from session storage
     sessionStorage.removeItem('scheduleFormState');
 
-    // 한국 시간(KST, UTC+9)으로 기본 datetime 설정
+    // venue-manager 로그인 상태면 venue_id를 초기화하지 않고 유지
+    const savedVenueId = localStorage.getItem('userVenueId');
     setNewEvent({
-      venue_id: '',
+      venue_id: savedVenueId || '', // 공연장 매니저면 venue_id 유지
       event_name: '',
       description: '',
       poster_image: '', // 이미지 데이터 초기화
       password: '', // 비밀번호 초기화
     });
-    setSelectedArea('');
+    // venue-manager가 아닌 경우에만 지역 선택 초기화
+    if (!savedVenueId) {
+      setSelectedArea('');
+    }
     setEditingSchedule(null);
     setIsEditing(false);
     // 파일 입력 필드 초기화
@@ -448,11 +456,13 @@ const SchedulePage = ({ language }) => {
     setIsLoggedIn(false);
     setAdminToken(null); // 토큰 상태 초기화
     setUserRole(null);
+    setUserVenueId(null); // 공연장 ID 상태 초기화
     setLoginEmail('');
     setLoginPassword('');
     localStorage.removeItem('isAdminLoggedIn');
     localStorage.removeItem('adminToken');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('userVenueId'); // 공연장 ID도 삭제
     resetForm();
   };
 
