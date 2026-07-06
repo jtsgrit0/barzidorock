@@ -1,21 +1,54 @@
 name: Deploy to GitHub Pages
-# ⛔ 이 워크플로우는 비활성화되어 있습니다.
-# 이 프로젝트는 Vercel(https://barzidorock.vercel.app)에 배포됩니다.
-# Vercel은 main 브랜치 push 시 자동으로 배포됩니다.
 
 on:
+  push:
+    branches: ["main"]
   workflow_dispatch:
-    inputs:
-      reason:
-        description: '이 워크플로우는 현재 사용하지 않습니다. Vercel로 자동 배포됩니다.'
-        required: false
+
+# 동시 배포 충돌 방지
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  notice:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: 배포 안내
-        run: |
-          echo "이 프로젝트는 Vercel을 통해 자동 배포됩니다."
-          echo "배포 URL: https://barzidorock.vercel.app"
-          echo "Vercel 대시보드: https://vercel.com/dashboard"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+          cache-dependency-path: './client/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./client
+
+      - name: Build
+        run: npm run build
+        working-directory: ./client
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./client/build
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
