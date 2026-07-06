@@ -9,13 +9,18 @@ const createTransporter = () => {
     return null;
   }
 
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD
-    }
-  });
+  try {
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD
+      }
+    });
+  } catch (createError) {
+    console.error('Failed to create nodemailer transporter:', createError);
+    return null;
+  }
 };
 
 module.exports = async (req, res) => {
@@ -58,6 +63,7 @@ module.exports = async (req, res) => {
 
   try {
     const { user_id, approve } = req.body;
+    console.log('Approve venue manager request body:', req.body);
 
     if (!user_id) {
       return res.status(400).json({ error: '사용자 ID가 필요합니다.' });

@@ -469,6 +469,11 @@ const SchedulePage = ({ language }) => {
 
   // 공연장 관리자 승인/거절 처리 함수
   const handleApproveManager = async (userId, approve) => {
+    if (!adminToken) {
+      alert('관리자 토큰이 없습니다. 다시 로그인해주세요.');
+      return;
+    }
+
     const message = approve ? '이 관리자를 승인하시겠습니까?' : '이 관리자 가입을 거절하시겠습니까?';
     if (!window.confirm(message)) return;
     
