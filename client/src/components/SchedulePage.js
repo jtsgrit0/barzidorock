@@ -492,7 +492,8 @@ const SchedulePage = ({ language }) => {
         fetchPendingManagers(); // 목록 새로고침
       } else {
         const errorData = await response.json();
-        alert(`처리에 실패했습니다: ${errorData.error}`);
+        console.error('Approve manager failed:', response.status, errorData);
+        alert(`처리에 실패했습니다: ${errorData.error}${errorData.details ? ' (' + errorData.details + ')' : ''}`);
       }
     } catch (error) {
       console.error('Error approving manager:', error);

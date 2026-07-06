@@ -140,6 +140,6 @@ module.exports = async (req, res) => {
     }
   } catch (error) {
     console.error('Approve venue manager error:', error);
-    return res.status(500).json({ error: '승인 처리 중 오류가 발생했습니다.' });
+    return res.status(500).json({ error: '승인 처리 중 오류가 발생했습니다.', details: error.message });
   }
 };
