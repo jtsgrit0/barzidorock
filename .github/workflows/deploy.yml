@@ -36,6 +36,9 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./client
+        env:
+          PUBLIC_URL: "https://jtsgrit0.github.io/barzidorock"
+          REACT_APP_GOOGLE_MAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
