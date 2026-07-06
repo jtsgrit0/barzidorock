@@ -162,8 +162,12 @@ const SchedulePage = ({ language }) => {
     } else {
       setFilteredVenues([]);
     }
-    setNewEvent(prev => ({ ...prev, venue_id: '' }));
-  }, [selectedArea, processedVenues]);
+    // venue-manager가 로그인한 경우 venue_id를 초기화하지 않음 (덮어쓰기 방지)
+    if (!userVenueId) {
+      setNewEvent(prev => ({ ...prev, venue_id: '' }));
+    }
+  }, [selectedArea, processedVenues, userVenueId]);
+
 
 
 
