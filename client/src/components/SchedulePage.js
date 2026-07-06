@@ -498,8 +498,10 @@ const SchedulePage = ({ language }) => {
   // 컴포넌트 마운트 시 로그인 상태 확인
   useEffect(() => {
     const loggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+    const savedToken = localStorage.getItem('adminToken');
     const savedRole = localStorage.getItem('userRole');
     setIsLoggedIn(loggedIn);
+    setAdminToken(savedToken);
     setUserRole(savedRole);
   }, []);
 
