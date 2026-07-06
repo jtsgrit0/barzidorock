@@ -58,16 +58,6 @@ const corsOptionsCredentials = {
 
 const apiRouter = express.Router();
 
-// 임시 디버깅용 엔드포인트
-apiRouter.get('/debug-db', async (req, res) => {
-  try {
-    const { rows } = await sql`SELECT id, email, venue_id, is_approved, email_verified FROM venue_managers;`;
-    res.status(200).json(rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 
 apiRouter.get('/rollinghall-events', cors(), async (req, res) => {
   try {
