@@ -75,11 +75,11 @@ const SchedulePage = ({ language }) => {
   // venues 또는 userVenueId 변경 시, venue-manager 사용자는 선택값을 고정
   useEffect(() => {
     if (userVenueId && venues.length > 0) {
-      const venue = venues.find(v => v.id === userVenueId);
+      const venue = venues.find(v => String(v.id) === String(userVenueId));
       if (venue) {
         setSelectedArea(venue.area);
         setFilteredVenues(venues.filter(v => v.area === venue.area));
-        setNewEvent(prev => ({ ...prev, venue_id: userVenueId }));
+        setNewEvent(prev => ({ ...prev, venue_id: String(userVenueId) }));
       }
     }
   }, [userVenueId, venues]);
@@ -425,9 +425,9 @@ const SchedulePage = ({ language }) => {
           setUserRole(data.user?.role || null);
           // 로그인한 사용자가 공연장 매니저라면 venue_id를 저장하여 폼을 고정
           if (data.user?.venue_id) {
-            setUserVenueId(data.user.venue_id);
-            localStorage.setItem('userVenueId', String(data.user.venue_id));
-          }
+              setUserVenueId(String(data.user.venue_id));
+              localStorage.setItem('userVenueId', String(data.user.venue_id));
+            }
           setLoginError('');
           // 토큰과 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
           localStorage.setItem('adminToken', data.token);
@@ -528,7 +528,7 @@ const SchedulePage = ({ language }) => {
     setIsLoggedIn(loggedIn);
     setAdminToken(savedToken);
     setUserRole(savedRole);
-    if (savedVenueId) setUserVenueId(Number(savedVenueId));
+    if (savedVenueId) setUserVenueId(savedVenueId);
   }, []);
 
   // 로그인 상태일 때 승인 대기 관리자 목록 조회
