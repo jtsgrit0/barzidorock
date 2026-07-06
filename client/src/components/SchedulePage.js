@@ -12,6 +12,7 @@ const SchedulePage = ({ language }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [adminToken, setAdminToken] = useState(null); // 관리자 토큰 상태
   const [userRole, setUserRole] = useState(null); // 로그인 사용자 역할
+  const [userVenueId, setUserVenueId] = useState(null); // 로그인한 매니저의 공연장 ID
   const [loginEmail, setLoginEmail] = useState(''); // 로그인 이메일
   const [loginPassword, setLoginPassword] = useState(''); // 로그인 비밀번호
   const [loginError, setLoginError] = useState(''); // 로그인 에러 메시지
@@ -70,6 +71,18 @@ const SchedulePage = ({ language }) => {
       })
       .catch(error => console.error('SchedulePage.js: Error fetching venues:', error));
   }, []);
+
+  // venues 또는 userVenueId 변경 시, venue-manager 사용자는 선택값을 고정
+  useEffect(() => {
+    if (userVenueId && venues.length > 0) {
+      const venue = venues.find(v => v.id === userVenueId);
+      if (venue) {
+        setSelectedArea(venue.area);
+        setFilteredVenues(venues.filter(v => v.area === venue.area));
+        setNewEvent(prev => ({ ...prev, venue_id: userVenueId }));
+      }
+    }
+  }, [userVenueId, venues]);
 
   // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
   const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
@@ -410,6 +423,11 @@ const SchedulePage = ({ language }) => {
           setIsLoggedIn(true);
           setAdminToken(data.token); // 서버에서 받은 실제 JWT 토큰 저장
           setUserRole(data.user?.role || null);
+          // 로그인한 사용자가 공연장 매니저라면 venue_id를 저장하여 폼을 고정
+          if (data.user?.venue_id) {
+            setUserVenueId(data.user.venue_id);
+            localStorage.setItem('userVenueId', String(data.user.venue_id));
+          }
           setLoginError('');
           // 토큰과 로그인 상태를 로컬스토리지에 저장하여 새로고침해도 유지
           localStorage.setItem('adminToken', data.token);
@@ -506,9 +524,11 @@ const SchedulePage = ({ language }) => {
     const loggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
     const savedToken = localStorage.getItem('adminToken');
     const savedRole = localStorage.getItem('userRole');
+    const savedVenueId = localStorage.getItem('userVenueId');
     setIsLoggedIn(loggedIn);
     setAdminToken(savedToken);
     setUserRole(savedRole);
+    if (savedVenueId) setUserVenueId(Number(savedVenueId));
   }, []);
 
   // 로그인 상태일 때 승인 대기 관리자 목록 조회
@@ -669,6 +689,7 @@ const SchedulePage = ({ language }) => {
             value={selectedArea}
             onChange={handleAreaChange}
             required
+            disabled={userRole === 'venue-manager'}
           >
             <option value="">지역을 먼저 선택하세요</option>
             {areas.map((area) => (
@@ -689,7 +710,7 @@ const SchedulePage = ({ language }) => {
               }
             }}
             required
-            disabled={!selectedArea}
+            disabled={userRole === 'venue-manager' || !selectedArea}
           >
             <option value="">공연장을 선택하세요</option>
             {filteredVenues.map((venue) => (
