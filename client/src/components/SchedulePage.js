@@ -683,7 +683,7 @@ const SchedulePage = ({ language }) => {
                       <p><strong>공연장ID:</strong> {manager.venue_id}</p>
                       <p><strong>사업자번호:</strong> {manager.business_registration_number}</p>
                       <p><strong>이메일인증:</strong> ✅ 완료</p>
-                      <p><strong>가입일:</strong> {new Date(manager.created_at).toLocaleString('ko-KR')}</p>
+                      <p><strong>가입일:</strong> {manager.created_at ? new Date(manager.created_at).toLocaleString('ko-KR') : '등록 대기'}</p>
                     </div>
                     <div className="manager-actions">
                       <button 
