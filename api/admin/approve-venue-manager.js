@@ -85,8 +85,7 @@ module.exports = async (req, res) => {
       // 승인 처리
       await sql`
         UPDATE venue_managers 
-        SET is_approved = true,
-            updated_at = NOW()
+        SET is_approved = true
         WHERE id = ${user_id}
       `;
       
