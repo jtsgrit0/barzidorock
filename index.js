@@ -26,6 +26,14 @@ if (require('fs').existsSync(clientBuildPath)) {
     res.sendFile(path.join(clientBuildPath, 'index.html'));
   });
 }
+
+// Serve also under /barzidorock prefix (CRA built with homepage=/barzidorock/)
+if (require('fs').existsSync(clientBuildPath)) {
+  app.use('/barzidorock', express.static(clientBuildPath));
+  app.get('/barzidorock/*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
