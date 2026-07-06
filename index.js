@@ -105,6 +105,9 @@ apiRouter.post('/schedules/upload', (req, res) => {
 secureRouter.get('/admin/pending-venue-managers', async (req, res) => {
   try {
     const user = await getAuthenticatedUser(req);
+    if (!req.headers.authorization) {
+      return res.status(401).json({ error: 'Unauthorized: Authorization header is required' });
+    }
     if (!user || !user.is_admin) {
       return res.status(403).json({ error: 'Forbidden: Admin access required' });
     }

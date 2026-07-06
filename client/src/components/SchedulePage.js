@@ -448,8 +448,7 @@ const SchedulePage = ({ language }) => {
       const response = await fetch(`${API_BASE_URL}/api/admin/pending-venue-managers`, {
         headers: {
           'Authorization': `Bearer ${adminToken}`,
-        },
-        credentials: 'include'
+        }
       });
       if (response.ok) {
         const data = await response.json();
