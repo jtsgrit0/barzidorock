@@ -82,12 +82,21 @@ module.exports = async (req, res) => {
     const transporter = createTransporter();
 
     if (approve) {
-      // 승인 처리
-      await sql`
-        UPDATE venue_managers 
-        SET is_approved = true
-        WHERE id = ${user_id}
-      `;
+      // 승인 처리: 이메일 발송 가능 여부에 따라 email_verified를 자동으로 설정
+      if (transporter) {
+        await sql`
+          UPDATE venue_managers 
+          SET is_approved = true
+          WHERE id = ${user_id}
+        `;
+      } else {
+        // 이메일 시스템이 비활성화된 경우 이메일 검증을 수동으로 완료 처리
+        await sql`
+          UPDATE venue_managers 
+          SET is_approved = true, email_verified = true
+          WHERE id = ${user_id}
+        `;
+      }
       
       // 승인 완료 이메일 발송
       if (transporter) {
