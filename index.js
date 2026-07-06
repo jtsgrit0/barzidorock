@@ -85,7 +85,8 @@ secureRouter.get('/schedules', async (req, res) => {
 });
 
 // ✅ 파일업로드 엔드포인트: multer 미들웨어를 직접 실행해서 apiRouter에서도 파일 정상처리
-apiRouter.post('/schedules/upload', (req, res) => {
+apiRouter.options('/schedules/upload', cors(corsOptionsCredentials));
+apiRouter.post('/schedules/upload', cors(corsOptionsCredentials), (req, res) => {
   // multer 미들웨어를 직접 실행해서 req.file을 정상적으로 생성
   upload.single('file')(req, res, async (err) => {
     if (err) {
@@ -139,7 +140,8 @@ secureRouter.get('/admin/pending-venue-managers', async (req, res) => {
 });
 
 // ✅ 인증 없이 누구나 이미지 업로드 가능한 엔드포인트 (secureRouter보다 먼저 매칭되어야 함)
-app.post('/api/schedules/upload', (req, res) => {
+app.options('/api/schedules/upload', cors(corsOptionsCredentials));
+app.post('/api/schedules/upload', cors(corsOptionsCredentials), (req, res) => {
   // multer 미들웨어를 직접 실행해서 req.file을 정상적으로 생성
   upload.single('file')(req, res, async (err) => {
     if (err) {
