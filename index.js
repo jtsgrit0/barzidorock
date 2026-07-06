@@ -16,6 +16,16 @@ const upload = multer({ storage: multer.memoryStorage() }); // 메모리에 파�
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const path = require('path');
+
+// Serve client build statically (fallback for root and SPA routes)
+const clientBuildPath = path.join(__dirname, 'client', 'build');
+if (require('fs').existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath));
+  app.get(['/', '/index.html', '/favicon.ico', '/static/*', '/manifest.json'], (req, res, next) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
