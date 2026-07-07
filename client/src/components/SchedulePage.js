@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLoading } from '../contexts/LoadingContext';
 import { fetchVenues } from '../utils/fetchVenues';
 
 
@@ -7,6 +8,14 @@ import './SchedulePage.css';
 import fallbackSchedules from '../schedulesFallback.json';
 
 const SchedulePage = ({ language }) => {
+  const { setLoading } = useLoading();
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, [setLoading]);
+
   const [venues, setVenues] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리

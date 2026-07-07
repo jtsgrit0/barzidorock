@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useLoading } from '../contexts/LoadingContext';
 import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
-// 캐시 설정: 이제 캐시를 항상 강제로 삭제하므로 CACHE_EXPIRY 미사용
 const CACHE_KEY = 'rollinghall_events_cache';
 const API_BASE_URLS = [
   process.env.REACT_APP_API_URL,
@@ -44,8 +44,6 @@ const parseEventDate = (dateText) => {
   return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
 };
 
-// readCachedEvents 함수 삭제 - 캐시 로직 변경으로 미사용
-
 const fetchRollingHallEvents = async () => {
   let lastError = null;
 
@@ -74,33 +72,32 @@ const fetchRollingHallEvents = async () => {
 
 const TicketsPage = () => {
   const { t } = useTranslation();
+  const { setLoading } = useLoading();
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isActive = true;
+    setLoading(true);
 
     const loadEvents = async () => {
       const cachedEvents = sessionStorage.getItem(CACHE_KEY);
       if (cachedEvents) {
         setEvents(JSON.parse(cachedEvents));
-        setLoading(false);
-        return;
+      } else {
+          try {
+            const freshEvents = await fetchRollingHallEvents();
+            if (isActive) {
+              console.log('✅ Fetched fresh events from API:', freshEvents);
+              setEvents(freshEvents);
+              sessionStorage.setItem(CACHE_KEY, JSON.stringify(freshEvents));
+            }
+          } catch (err) {
+            console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
+          }
       }
-
-      try {
-        const freshEvents = await fetchRollingHallEvents();
-        if (!isActive) return;
-        
-        console.log('✅ Fetched fresh events from API:', freshEvents);
-        setEvents(freshEvents);
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify(freshEvents));
-      } catch (err) {
-        console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
-        if (!isActive) return;
+      
+      if (isActive) {
         setLoading(false);
-      } finally {
-        if (isActive) setLoading(false);
       }
     };
 
@@ -109,36 +106,20 @@ const TicketsPage = () => {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [setLoading]);
 
-  if (loading) {
-    return <div className="tickets-page-container">로딩 중...</div>;
-  }
-
-  // 과거 날짜의 공연은 필터링하고, 필요한 필드명으로 매핑
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00으로 설정
+  today.setHours(0, 0, 0, 0);
   
-  // 디버깅: 모든 이벤트와 날짜 비교 로그 추가
-  console.log('Today:', today);
-  events.forEach((event, index) => {
-    const eventDate = parseEventDate(event.date);
-    console.log(`Event ${index + 1}: "${event.title}", date string: "${event.date}", parsed date:`, eventDate, 'is >= today?', eventDate && eventDate >= today);
-  });
-
   const upcomingEvents = (Array.isArray(events) ? events : [])
     .map((event, index) => normalizeEvent(event, index))
     .filter(event => {
       const eventDate = parseEventDate(event.date);
-      // 오늘 날짜인 공연도 포함하도록 = 추가
-      const isUpcoming = eventDate && eventDate >= today;
-      return isUpcoming;
+      return eventDate && eventDate >= today;
     });
-  console.log('Final upcoming events:', upcomingEvents);
 
   return (
     <div className="tickets-page-container">
-
       <div className="event-list">
         {upcomingEvents.length > 0 ? (
           upcomingEvents.map(event => (

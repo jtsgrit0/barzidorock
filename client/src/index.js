@@ -17,3 +17,14 @@ root.render(
 );
 
 reportWebVitals();
+
+// 스플래시 화면 숨기기
+const splash = document.getElementById('splash');
+if (splash) {
+  setTimeout(() => {
+    splash.style.opacity = 0;
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 500); // 0.5초 후 완전히 숨김
+  }, 1000); // 1초 후 사라지기 시작
+}

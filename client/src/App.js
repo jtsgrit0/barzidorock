@@ -19,8 +19,11 @@ import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-function App() {
-  const { t, i18n } = useTranslation(); // i18n 인스턴스 가져오기
+import { LoadingProvider, useLoading } from './contexts/LoadingContext';
+
+function AppContent() {
+  const { t, i18n } = useTranslation();
+  const { loading, setLoading } = useLoading();
   const [venues, setVenues] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
@@ -29,19 +32,18 @@ function App() {
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const initialOpenInfoWindows = [];
 
-// language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
-const language = i18n.language;
-const setLanguage = (lang) => i18n.changeLanguage(lang);
+  // language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
+  const language = i18n.language;
+  const setLanguage = (lang) => i18n.changeLanguage(lang);
 
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setLoading(false);
-  }, 1500); // 1.5초 후 스플래시 화면 숨기기
-  return () => clearTimeout(timer);
-}, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500); // 1.5초 후 스플래시 화면 숨기기
+    return () => clearTimeout(timer);
+  }, [setLoading]);
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites');
@@ -238,6 +240,14 @@ useEffect(() => {
         </LoadScript>
       </div>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <LoadingProvider>
+      <AppContent />
+    </LoadingProvider>
   );
 }
 
