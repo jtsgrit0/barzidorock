@@ -15,7 +15,6 @@ import ResetPassword from './components/ResetPassword';
 import SplashScreen from './components/SplashScreen';
 import { fetchVenues } from './utils/fetchVenues';
 import { LoadingProvider, useLoading } from './contexts/LoadingContext';
-
 import './App.css';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
