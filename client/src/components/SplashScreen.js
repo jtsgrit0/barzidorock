@@ -7,7 +7,7 @@ const SplashScreen = () => {
   const { loading } = useLoading();
   return (
     <div className={`splash-screen ${!loading ? 'hide' : ''}`}>
-      <img src={`${assetUrl('logo512.png')}?v=5`} alt="Loading..." className="splash-icon" />
+      <img src={`${assetUrl('splash_icon.png')}?v=6`} alt="Loading..." className="splash-icon" />
     </div>
   );
 };
