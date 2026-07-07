@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoadScript } from '@react-google-maps/api';
+import { useTranslation } from 'react-i18next';
 import MapComponent from './components/MapComponent';
 import HeaderAndCategories from './components/HeaderAndCategories';
 import TabBar from './components/TabBar';
@@ -11,15 +12,13 @@ import TicketsPage from './components/TicketsPage';
 import VenueManagerRegister from './components/VenueManagerRegister';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
-import SplashScreen from './components/SplashScreen'; // SplashScreen import
+import SplashScreen from './components/SplashScreen';
 import { fetchVenues } from './utils/fetchVenues';
+import { LoadingProvider, useLoading } from './contexts/LoadingContext';
 
-import './App.css'; // Import App.css for popup styling
-import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
+import './App.css';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-import { LoadingProvider, useLoading } from './contexts/LoadingContext';
 
 function AppContent() {
   const { t, i18n } = useTranslation();
