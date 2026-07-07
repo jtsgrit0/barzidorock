@@ -19,8 +19,8 @@
 }
 
 .splash-icon {
-  width: 120px;
   height: 120px;
+  width: auto;
   animation: zoom-in-out 1.5s ease-in-out infinite;
 }
 
