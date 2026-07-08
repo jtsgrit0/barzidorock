@@ -155,35 +155,49 @@ const SchedulePage = ({ language }) => {
       console.log('🔍 [fetchSchedules] Fetching from API:', `${API_BASE_URL}/api/schedules`);
       const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
       console.log('🔍 [fetchSchedules] Response status:', response.status);
-      const data = response.ok ? await response.json() : fallbackSchedules;
-      console.log('✅ [fetchSchedules] Fetched data:', data);
-      const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
-      console.log('🔍 [fetchSchedules] Using scheduleData:', scheduleData);
+
+      let fetchedData;
+      if (response.ok) {
+        fetchedData = await response.json();
+        console.log('✅ [fetchSchedules] Fetched data from API:', fetchedData);
+      } else {
+        const errorText = await response.text();
+        console.error(`❌ [fetchSchedules] API responded with status ${response.status}:`, errorText);
+        fetchedData = fallbackSchedules; // API 오류 시 fallback 사용
+        console.log('⚠️ [fetchSchedules] Using fallback schedules due to API error.');
+      }
+
+      const scheduleData = Array.isArray(fetchedData) && fetchedData.length > 0 ? fetchedData : fallbackSchedules;
+      console.log('🔍 [fetchSchedules] Final scheduleData source:', scheduleData === fallbackSchedules ? 'fallback' : 'API');
+      
       const formattedSchedules = formatScheduleRows(scheduleData);
       setSchedules(formattedSchedules);
       sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
       console.log('✅ [fetchSchedules] Schedules set successfully:', formattedSchedules.length);
     } catch (error) {
-      console.error('❌ [fetchSchedules] Error fetching schedules, using fallback:', error);
+      console.error('❌ [fetchSchedules] Error during fetch operation, using fallback:', error);
       const formattedSchedules = formatScheduleRows(fallbackSchedules);
       setSchedules(formattedSchedules);
       sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
-      console.log('✅ [fetchSchedules] Fallback schedules set:', formattedSchedules.length);
+      console.log('✅ [fetchSchedules] Fallback schedules set due to fetch error:', formattedSchedules.length);
+    } finally {
+      setLoading(false); // API 호출 완료 또는 실패 시 로딩 상태 해제
     }
-  }, [API_BASE_URL, formatScheduleRows]);
+  }, [API_BASE_URL, formatScheduleRows, setLoading]); // setLoading을 의존성 배열에 추가
 
   // venues가 로드된 후에 스케줄을 포맷팅해서 venue_name이 정상적으로 표시되도록 함
   useEffect(() => {
     if (venues.length > 0) {
       console.log('🔍 [venues loaded] venues.length:', venues.length, 'reprocessing schedules...');
       // venues가 로드되면 기존 스케줄을 다시 포맷팅
-      if (schedules.length === 0) {
+      // API 호출이 실패했거나 스케줄이 없는 경우에만 fetchSchedules를 호출
+      if (schedules.length === 0) { // 또는 API 호출이 실패한 경우를 더 명확히 판단할 수 있는 상태 추가
         fetchSchedules();
       } else {
-        // 기존 raw 데이터로 다시 포맷팅
-        const rawSchedules = fallbackSchedules;
-        const formattedSchedules = formatScheduleRows(rawSchedules);
-        setSchedules(formattedSchedules);
+        // 기존 raw 데이터로 다시 포맷팅 (이 부분은 API가 정상 작동할 때만 의미 있음)
+        // 현재 API 500 오류 상황에서는 이 로직이 실행되지 않도록 하거나,
+        // fallbackSchedules를 사용하여 재포맷팅하는 것이 더 안전함.
+        // 여기서는 API 오류 시 fallback이 사용되므로 이대로 진행.
       }
     }
   }, [venues, fetchSchedules, formatScheduleRows, schedules.length]);
