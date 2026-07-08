@@ -8,7 +8,7 @@ const getVenueUrls = () => {
   const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
   const urls = [];
 
-  // GitHub Pages CDN blocks venues.json — load from Vercel API instead
+  // GitHub Pages에서 항상 Vercel에서 venues.json 불러오기
   if (isGitHubPagesHost()) {
     urls.push(`${API_FALLBACK}/venues.json`);
     return urls;
@@ -21,6 +21,14 @@ const getVenueUrls = () => {
   urls.push(`${API_FALLBACK}/venues.json`);
 
   return [...new Set(urls)];
+};
+
+// 스케줄 API 호출시에도 GitHub Pages에서 CORS 문제 방지를 위해 API_FALLBACK 사용
+export const getApiBaseUrl = () => {
+  if (isGitHubPagesHost()) {
+    return API_FALLBACK;
+  }
+  return process.env.REACT_APP_API_URL || API_FALLBACK;
 };
 
 export const fetchVenues = async () => {

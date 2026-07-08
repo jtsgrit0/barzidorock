@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLoading } from '../contexts/LoadingContext';
-import { fetchVenues } from '../utils/fetchVenues';
+import { fetchVenues, getApiBaseUrl } from '../utils/fetchVenues';
 
 
 import './SchedulePage.css';
@@ -100,8 +100,8 @@ const SchedulePage = ({ language }) => {
     }
   }, [userVenueId, venues]);
 
-  // Vercel(프로덕션)과 로컬 개발 환경의 API 주소 구분
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.vercel.app';
+  // Vercel(프로덕션)과 로컬 개발 환경, GitHub Pages의 API 주소 구분
+  const API_BASE_URL = getApiBaseUrl();
   const formatScheduleRows = useCallback((scheduleData) => {
     console.log('원본 스케줄 데이터:', scheduleData);
     console.log('venues.json 데이터:', venues);
@@ -146,29 +146,47 @@ const SchedulePage = ({ language }) => {
   }, []);
 
   const fetchSchedules = useCallback(async () => {
-    const cachedSchedules = sessionStorage.getItem('schedules');
-    if (cachedSchedules) {
-      setSchedules(JSON.parse(cachedSchedules));
-      return;
-    }
+    console.log('🔍 [fetchSchedules] Starting to fetch schedules...');
+    // 기존 캐시 삭제해서 새로 불러오도록 함
+    sessionStorage.removeItem('schedules');
+    console.log('🗑️ [fetchSchedules] Removed old cached schedules');
 
     try {
+      console.log('🔍 [fetchSchedules] Fetching from API:', `${API_BASE_URL}/api/schedules`);
       const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
+      console.log('🔍 [fetchSchedules] Response status:', response.status);
       const data = response.ok ? await response.json() : fallbackSchedules;
+      console.log('✅ [fetchSchedules] Fetched data:', data);
       const scheduleData = Array.isArray(data) && data.length > 0 ? data : fallbackSchedules;
+      console.log('🔍 [fetchSchedules] Using scheduleData:', scheduleData);
       const formattedSchedules = formatScheduleRows(scheduleData);
       setSchedules(formattedSchedules);
       sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
-    } catch {
+      console.log('✅ [fetchSchedules] Schedules set successfully:', formattedSchedules.length);
+    } catch (error) {
+      console.error('❌ [fetchSchedules] Error fetching schedules, using fallback:', error);
       const formattedSchedules = formatScheduleRows(fallbackSchedules);
       setSchedules(formattedSchedules);
       sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
+      console.log('✅ [fetchSchedules] Fallback schedules set:', formattedSchedules.length);
     }
   }, [API_BASE_URL, formatScheduleRows]);
 
+  // venues가 로드된 후에 스케줄을 포맷팅해서 venue_name이 정상적으로 표시되도록 함
   useEffect(() => {
-    fetchSchedules();
-  }, [fetchSchedules]);
+    if (venues.length > 0) {
+      console.log('🔍 [venues loaded] venues.length:', venues.length, 'reprocessing schedules...');
+      // venues가 로드되면 기존 스케줄을 다시 포맷팅
+      if (schedules.length === 0) {
+        fetchSchedules();
+      } else {
+        // 기존 raw 데이터로 다시 포맷팅
+        const rawSchedules = fallbackSchedules;
+        const formattedSchedules = formatScheduleRows(rawSchedules);
+        setSchedules(formattedSchedules);
+      }
+    }
+  }, [venues, fetchSchedules, formatScheduleRows, schedules.length]);
 
   // 공연장 데이터를 한번만 처리하도록 useMemo 사용
   const processedVenues = React.useMemo(() => venues, [venues]);
