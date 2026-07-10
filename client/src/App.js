@@ -18,7 +18,7 @@ import { LoadingProvider, useLoading } from './contexts/LoadingContext';
 import './App.css';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-const GOOGLE_LIBRARIES = ['places', 'marker'];
+const GOOGLE_LIBRARIES = ['places'];
 
 function AppContent() {
   const { t, i18n } = useTranslation();

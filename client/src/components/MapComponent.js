@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { GoogleMap, MarkerF, InfoWindow, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faPhone, faMapMarkerAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
 
@@ -108,21 +108,16 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         }} // 커스텀 스타일 적용
       >
         {venues.map(venue => (
-          <MarkerF
+          <Marker
             key={venue.id}
             position={{ lat: venue.latitude, lng: venue.longitude }}
             onClick={() => handleMarkerClick(venue.id)}
-          >
-            <img
-              src={
-                venue.type === 'live_venue'
-                  ? 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png'
-                  : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-              }
-              alt=""
-              style={{ width: '32px', height: '32px' }}
-            />
-          </MarkerF>
+            icon={{
+              url: venue.type === 'live_venue' 
+                ? 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png' 
+                : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            }}
+          />
         ))}
 
         {selectedVenue && (
