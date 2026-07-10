@@ -17,6 +17,8 @@ const getPixelPositionOffset = (width, height) => ({
 function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
+  const [venueImages, setVenueImages] = useState({});
+  const API_KEY = 'AIzaSyAFeVxqM6tqhSlG7BGENHOqY_WQV3HX0GM';
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -26,7 +28,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     setMap(null);
   }, []);
 
-  const handleMarkerClick = (venueId) => {
+  const handleMarkerClick = async (venueId) => {
     setOpenInfoWindowId(prevId => (prevId === venueId ? null : venueId));
     if (map) {
       const venue = venues.find(v => v.id === venueId);
@@ -38,6 +40,25 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           lng: venue.longitude,
         };
         map.panTo(newCenter);
+
+        // If venue has googlePlaceId but no images in image_urls, fetch them from Google Places API
+        if (venue.googlePlaceId && (!venue.image_urls || venue.image_urls.length === 0) && !venueImages[venueId]) {
+          try {
+            const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${venue.googlePlaceId}&key=${API_KEY}`);
+            const data = await response.json();
+            if (data.status === 'OK' && data.result.photos && data.result.photos.length > 0) {
+              const photos = data.result.photos.slice(0, 5).map(photo => 
+                `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${API_KEY}`
+              );
+              setVenueImages(prev => ({
+                ...prev,
+                [venueId]: photos
+              }));
+            }
+          } catch (error) {
+            console.error('Error fetching place details:', error);
+          }
+        }
       }
     }
   };
@@ -116,9 +137,9 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                 />
               </div>
 
-              {selectedVenue.image_urls && selectedVenue.image_urls.length > 0 && (
+              {((venueImages[selectedVenue.id] && venueImages[selectedVenue.id].length > 0) || (selectedVenue.image_urls && selectedVenue.image_urls.length > 0)) && (
                 <img 
-                  src={selectedVenue.image_urls[0]} 
+                  src={(venueImages[selectedVenue.id] && venueImages[selectedVenue.id][0]) || selectedVenue.image_urls[0]} 
                   alt={selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name} 
                   style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '8px', margin: '10px 0' }} 
                 />
