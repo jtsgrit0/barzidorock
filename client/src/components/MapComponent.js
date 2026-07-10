@@ -41,31 +41,20 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         map.panTo(newCenter);
 
         // If venue has googlePlaceId but no images in image_urls, fetch them from Google Places API using PlacesService (avoids CORS)
-        if (venue.googlePlaceId && (!venue.image_urls || venue.image_urls.length === 0) && !venueImages[venueId]) {
-          try {
-            // Google Maps JavaScript API의 내장 PlacesService 사용 (CORS 문제 해결)
-            const service = new window.google.maps.places.PlacesService(map);
-            service.getDetails(
-              {
-                placeId: venue.googlePlaceId,
-                fields: ['photos']
-              },
-              (place, status) => {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK && place.photos && place.photos.length > 0) {
-                  const photos = place.photos.slice(0, 5).map(photo => 
-                    photo.getUrl({ maxWidth: 400 })
-                  );
-                  setVenueImages(prev => ({
-                    ...prev,
-                    [venueId]: photos
-                  }));
-                } else {
-                  console.warn('Failed to fetch photos:', status);
-                }
-              }
+        if (venue.googlePlaceId && !venueImages[venueId]) {
+          const place = new window.google.maps.places.Place({
+            id: venue.googlePlaceId,
+          });
+          await place.fetchFields({ fields: ['photos'] });
+
+          if (place.photos && place.photos.length > 0) {
+            const photos = place.photos.slice(0, 5).map(photo => 
+              photo.getURI({ maxWidth: 400, maxHeight: 400 })
             );
-          } catch (error) {
-            console.error('Error fetching place details:', error);
+            setVenueImages(prev => ({
+              ...prev,
+              [venueId]: photos
+            }));
           }
         }
       }
