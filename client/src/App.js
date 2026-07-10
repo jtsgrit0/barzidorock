@@ -31,7 +31,27 @@ function AppContent() {
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [favorites, setFavorites] = useState([]);
+  const [venueImages, setVenueImages] = useState({});
   const initialOpenInfoWindows = [];
+
+  const fetchVenueImages = useCallback(async (venueId) => {
+    if (venueImages[venueId]) {
+      return;
+    }
+    const venue = venues.find(v => v.id === venueId);
+    if (venue && venue.googlePlaceId) {
+      try {
+        const place = new window.google.maps.places.Place({ id: venue.googlePlaceId });
+        await place.fetchFields({ fields: ['photos'] });
+        if (place.photos && place.photos.length > 0) {
+          const photoUris = place.photos.slice(0, 5).map(p => p.getURI({ maxWidth: 400, maxHeight: 400 }));
+          setVenueImages(prev => ({ ...prev, [venueId]: photoUris }));
+        }
+      } catch (error) {
+        console.error(`Error fetching images for venue ${venueId}:`, error);
+      }
+    }
+  }, [venues, venueImages]);
 
   // language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
   const language = i18n.language;
@@ -189,6 +209,8 @@ function AppContent() {
                   setLanguage={setLanguage}
                   favorites={favorites}
                   toggleFavorite={toggleFavorite}
+                  venueImages={venueImages}
+                  fetchVenueImages={fetchVenueImages}
                   translations={{
                     call: t('call'),
                     directions: t('directions'),
@@ -208,6 +230,8 @@ function AppContent() {
                   favorites={favorites} 
                   language={language} 
                   toggleFavorite={toggleFavorite}
+                  venueImages={venueImages}
+                  fetchVenueImages={fetchVenueImages}
                   translations={{
                     no_favorites: t('favoritesPage.no_favorites'),
                     remove_favorite: t('favoritesPage.remove_favorite'),
