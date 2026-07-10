@@ -168,7 +168,7 @@ function AppContent() {
     <Router>
       <div className="App">
         <SplashScreen loading={loading} />
-        <LoadScript googleMapsApiKey={API_KEY}>
+        <LoadScript googleMapsApiKey={API_KEY} libraries={['places']}>
           <HeaderAndCategories
             selectedCategory={selectedCategory}
             onCategoryChange={handleCategoryChange}

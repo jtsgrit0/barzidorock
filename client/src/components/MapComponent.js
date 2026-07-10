@@ -18,7 +18,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
   const [venueImages, setVenueImages] = useState({});
-  const API_KEY = 'AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0';
+  const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -41,20 +41,30 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         };
         map.panTo(newCenter);
 
-        // If venue has googlePlaceId but no images in image_urls, fetch them from Google Places API
+        // If venue has googlePlaceId but no images in image_urls, fetch them from Google Places API using PlacesService (avoids CORS)
         if (venue.googlePlaceId && (!venue.image_urls || venue.image_urls.length === 0) && !venueImages[venueId]) {
           try {
-            const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${venue.googlePlaceId}&key=${API_KEY}`);
-            const data = await response.json();
-            if (data.status === 'OK' && data.result.photos && data.result.photos.length > 0) {
-              const photos = data.result.photos.slice(0, 5).map(photo => 
-                `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${API_KEY}`
-              );
-              setVenueImages(prev => ({
-                ...prev,
-                [venueId]: photos
-              }));
-            }
+            // Google Maps JavaScript API의 내장 PlacesService 사용 (CORS 문제 해결)
+            const service = new window.google.maps.places.PlacesService(map);
+            service.getDetails(
+              {
+                placeId: venue.googlePlaceId,
+                fields: ['photos']
+              },
+              (place, status) => {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK && place.photos && place.photos.length > 0) {
+                  const photos = place.photos.slice(0, 5).map(photo => 
+                    photo.getUrl({ maxWidth: 400 })
+                  );
+                  setVenueImages(prev => ({
+                    ...prev,
+                    [venueId]: photos
+                  }));
+                } else {
+                  console.warn('Failed to fetch photos:', status);
+                }
+              }
+            );
           } catch (error) {
             console.error('Error fetching place details:', error);
           }
