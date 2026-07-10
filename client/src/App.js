@@ -18,6 +18,7 @@ import { LoadingProvider, useLoading } from './contexts/LoadingContext';
 import './App.css';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+const GOOGLE_LIBRARIES = ['places', 'marker'];
 
 function AppContent() {
   const { t, i18n } = useTranslation();
@@ -168,7 +169,7 @@ function AppContent() {
     <Router>
       <div className="App">
         <SplashScreen loading={loading} />
-        <LoadScript googleMapsApiKey={API_KEY} libraries={['places']}>
+        <LoadScript googleMapsApiKey={API_KEY} libraries={GOOGLE_LIBRARIES}>
           <HeaderAndCategories
             selectedCategory={selectedCategory}
             onCategoryChange={handleCategoryChange}
