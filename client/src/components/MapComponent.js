@@ -18,7 +18,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
   const [venueImages, setVenueImages] = useState({});
-  const API_KEY = 'AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0';
+  const API_KEY = 'AIzaSyAFeVxqM6tqhSlG7BGENHOqY_WQV3HX0GM';
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
