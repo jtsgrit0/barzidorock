@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoadScript } from '@react-google-maps/api';
 import { useTranslation } from 'react-i18next';
@@ -32,10 +32,12 @@ function AppContent() {
   const [userLocation, setUserLocation] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [venueImages, setVenueImages] = useState({});
+  const venueImagesRef = useRef(venueImages);
+  venueImagesRef.current = venueImages;
   const initialOpenInfoWindows = [];
 
   const fetchVenueImages = useCallback(async (venueId) => {
-    if (venueImages[venueId]) {
+    if (venueImagesRef.current[venueId]) {
       return;
     }
     const venue = venues.find(v => v.id === venueId);
@@ -51,7 +53,7 @@ function AppContent() {
         console.error(`Error fetching images for venue ${venueId}:`, error);
       }
     }
-  }, [venues, venueImages]);
+  }, [venues]);
 
   // language 상태와 setLanguage 함수를 i18n 인스턴스에서 직접 가져오도록 변경
   const language = i18n.language;

@@ -14,10 +14,9 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows }) {
+function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
-  const [venueImages, setVenueImages] = useState({});
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -40,22 +39,8 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         };
         map.panTo(newCenter);
 
-        // If venue has googlePlaceId but no images in image_urls, fetch them from Google Places API using PlacesService (avoids CORS)
-        if (venue.googlePlaceId && !venueImages[venueId]) {
-          const place = new window.google.maps.places.Place({
-            id: venue.googlePlaceId,
-          });
-          await place.fetchFields({ fields: ['photos'] });
-
-          if (place.photos && place.photos.length > 0) {
-            const photos = place.photos.slice(0, 5).map(photo => 
-              photo.getURI({ maxWidth: 400, maxHeight: 400 })
-            );
-            setVenueImages(prev => ({
-              ...prev,
-              [venueId]: photos
-            }));
-          }
+        if (venue.googlePlaceId) {
+          await fetchVenueImages(venueId);
         }
       }
     }
@@ -135,9 +120,9 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
                 />
               </div>
 
-              {((venueImages[selectedVenue.id] && venueImages[selectedVenue.id].length > 0) || (selectedVenue.image_urls && selectedVenue.image_urls.length > 0)) && (
+              {((venueImages && venueImages[selectedVenue.id] && venueImages[selectedVenue.id].length > 0) || (selectedVenue.image_urls && selectedVenue.image_urls.length > 0)) && (
                 <img 
-                  src={(venueImages[selectedVenue.id] && venueImages[selectedVenue.id][0]) || selectedVenue.image_urls[0]} 
+                  src={(venueImages && venueImages[selectedVenue.id] && venueImages[selectedVenue.id][0]) || (selectedVenue.image_urls && selectedVenue.image_urls[0])} 
                   alt={selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name} 
                   style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '8px', margin: '10px 0' }} 
                 />

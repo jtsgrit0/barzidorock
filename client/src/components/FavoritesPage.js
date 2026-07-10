@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faMapMarkerAlt, faClock, faHeart, faHome } from '@fortawesome/free-solid-svg-icons';
 
-const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translations }) => {
+const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translations, venueImages, fetchVenueImages }) => {
   const favoriteVenues = venues.filter(venue => favorites.includes(venue.id));
+
+  useEffect(() => {
+    favoriteVenues.forEach(venue => {
+      if (venue.googlePlaceId && !venueImages[venue.id]) {
+        fetchVenueImages(venue.id);
+      }
+    });
+  }, [favoriteVenues, venueImages, fetchVenueImages]);
 
   return (
     <div style={{ padding: '20px', paddingTop: '120px', paddingBottom: '80px', backgroundColor: '#111', minHeight: '100vh' }}>
@@ -30,10 +38,10 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translatio
                 />
               </div>
 
-              {venue.image_urls && venue.image_urls.length > 0 && (
+              {((venueImages && venueImages[venue.id] && venueImages[venue.id].length > 0) || (venue.image_urls && venue.image_urls.length > 0)) && (
                 <div style={{ position: 'relative', margin: '15px 0' }}>
                   <img 
-                    src={venue.image_urls[0]} 
+                    src={(venueImages && venueImages[venue.id] && venueImages[venue.id][0]) || (venue.image_urls && venue.image_urls[0])} 
                     alt={venue.name && typeof venue.name === 'object' ? (venue.name[language] || venue.name['en']) : venue.name} 
                     style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }} 
                   />
