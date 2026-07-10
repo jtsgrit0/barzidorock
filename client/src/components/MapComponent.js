@@ -18,7 +18,6 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
   const [venueImages, setVenueImages] = useState({});
-  const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
