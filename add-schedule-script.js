@@ -5,7 +5,7 @@ const ADMIN_TOKEN = 'admin-secret-token-2026'; // 임시 관리자 토큰
 
 async function addSchedule() {
   const newSchedule = {
-    venue_id: 'pet-sounds-001',
+    venue_id: 'pet-sounds-hongdae-001',
     event_date: '2026-06-28T19:00:00.000Z', // 2026년 6월 28일 오후 7시 (UTC)
     event_name: 'THE GREATEST MUSIC OF MICHAEL JACKSON',
     description: `마이클잭슨 17주기를 맞이하여 영원한 팝의 황제인 그의 음악과 영상을 중심으로 DJ High의 The Greatest Music of Michael Jackson을 진행합니다.

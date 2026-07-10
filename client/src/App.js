@@ -40,7 +40,7 @@ function AppContent() {
     if (venueImagesRef.current[venueId]) {
       return;
     }
-    const venue = venues.find(v => v.id === venueId);
+    const venue = venues.find(v => v.id === venueId && v.googlePlaceId) || venues.find(v => v.id === venueId);
     if (venue && venue.googlePlaceId) {
       try {
         const place = new window.google.maps.places.Place({ id: venue.googlePlaceId });
