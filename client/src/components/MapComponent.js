@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faPhone, faMapMarkerAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,11 +8,10 @@ const containerStyle = {
   height: '100%'
 };
 
-// Function to get the correct pane for the OverlayView
-const getPixelPositionOffset = (width, height) => ({
-  x: -(width / 2),
-  y: -(height / 2),
-});
+const userLocationIcon = {
+  url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#4285F4" stroke="white" stroke-width="2.5"/><path d="M12 8 L15 16 L9 16 Z" fill="white"/></svg>'),
+  scaledSize: { width: 24, height: 24 },
+};
 
 function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
@@ -166,15 +165,11 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         )}
 
         {userLocation && (
-          <OverlayView
+          <Marker
             position={userLocation}
-            mapPaneName={OverlayView.MAP_PANE}
-            getPixelPositionOffset={getPixelPositionOffset}
-          >
-            <div className="user-location-marker">
-              <div className="pulse"></div>
-            </div>
-          </OverlayView>
+            icon={userLocationIcon}
+            clickable={false}
+          />
         )}
       </GoogleMap>
     </>
