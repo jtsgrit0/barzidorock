@@ -30,6 +30,7 @@ function AppContent() {
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
+  const [heading, setHeading] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [venueImages, setVenueImages] = useState({});
   const venueImagesRef = useRef(venueImages);
@@ -134,6 +135,30 @@ function AppContent() {
     };
   }, [locationAccessGranted]);
 
+  useEffect(() => {
+    let orientationHandler = null;
+    if (locationAccessGranted && userLocation) {
+      if (window.DeviceOrientationEvent) {
+        orientationHandler = (event) => {
+          if (event.webkitCompassHeading !== undefined) {
+            setHeading(event.webkitCompassHeading);
+          } else if (event.alpha !== null) {
+            setHeading(event.alpha);
+          }
+        };
+        window.addEventListener('deviceorientation', orientationHandler);
+      }
+    } else {
+      setHeading(null);
+    }
+
+    return () => {
+      if (orientationHandler) {
+        window.removeEventListener('deviceorientation', orientationHandler);
+      }
+    };
+  }, [locationAccessGranted, userLocation]);
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     let newCenter;
@@ -206,6 +231,7 @@ function AppContent() {
                   center={mapCenter}
                   zoom={mapZoom}
                   userLocation={userLocation}
+                  heading={heading}
                   centerMapToUserLocation={centerMapToUserLocation}
                   language={language}
                   setLanguage={setLanguage}
