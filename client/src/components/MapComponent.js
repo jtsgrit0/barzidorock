@@ -13,7 +13,7 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages, heading }) {
+function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -172,17 +172,6 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           >
             <div className="user-location-marker">
               <div className="pulse"></div>
-              <div className="direction-cone" style={{ transform: heading !== null ? `rotate(${heading}deg)` : 'rotate(0deg)' }}>
-                <svg viewBox="0 0 100 100" width="100" height="100">
-                  <defs>
-                    <linearGradient id="coneGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgba(66, 133, 244, 0.6)" />
-                      <stop offset="100%" stopColor="rgba(66, 133, 244, 0)" />
-                    </linearGradient>
-                  </defs>
-                  <path d="M50 50 L30 0 Q50 20 70 0 Z" fill="url(#coneGradient)" />
-                </svg>
-              </div>
             </div>
           </OverlayView>
         )}

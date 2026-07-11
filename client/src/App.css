@@ -157,17 +157,6 @@
   }
 }
 
-.user-location-marker .direction-cone {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100px;
-  height: 100px;
-  transform-origin: 50% 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  pointer-events: none;
-}
-
 .options-page-content {
   padding: 20px;
   color: #eee;
