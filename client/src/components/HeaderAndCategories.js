@@ -64,6 +64,12 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
           >
             {t('category_itaewon', '이태원')} {/* t 함수 사용 */}
           </button>
+          <button 
+            className={selectedCategory === 'sukmyung' ? 'active' : ''}
+            onClick={() => handleCategoryClick('sukmyung')}
+          >
+            {t('category_sukmyung', '숙명')} {/* t 함수 사용 */}
+          </button>
         </div>
       </div>
       <div className="language-switcher">

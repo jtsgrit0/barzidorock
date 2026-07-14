@@ -145,6 +145,9 @@ function AppContent() {
     } else if (category === 'itaewon') {
       newCenter = { lat: 37.5345, lng: 126.990 };
       newZoom = 15;
+    } else if (category === 'sukmyung') {
+      newCenter = { lat: 37.5465, lng: 126.967 };
+      newZoom = 15;
     } else { // 'all'
       newCenter = { lat: 37.5550354, lng: 126.929 };
       newZoom = 12;

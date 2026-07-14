@@ -11,6 +11,7 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://barzidorock.verce
 const areaToKorean = {
   'hongdae': '홍대',
   'itaewon': '이태원',
+  'sukmyung': '숙명',
   'gangnam': '강남'
 };
 

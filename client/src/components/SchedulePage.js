@@ -660,6 +660,7 @@ const SchedulePage = ({ language }) => {
   const areaNames = {
     hongdae: '홍대',
     itaewon: '이태원',
+    sukmyung: '숙명',
   };
 
   return (

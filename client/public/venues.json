@@ -1446,5 +1446,71 @@
     "opening_hours": "[\"Monday: 6:00 PM – 5:00 AM\",\"Tuesday: 6:00 PM – 5:00 AM\",\"Wednesday: 6:00 PM – 5:00 AM\",\"Thursday: 6:00 PM – 5:00 AM\",\"Friday: 6:00 PM – 5:00 AM\",\"Saturday: 6:00 PM – 5:00 AM\",\"Sunday: 6:00 PM – 5:00 AM\"]",
     "area": "itaewon",
     "created_at": "2026-06-11T02:40:17.417Z"
+  },
+  {
+    "id": "digger-is-digging-001",
+    "name": "Digger is Digging Record Bar",
+    "name_ko": "디거이즈디깅 레코드바",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 용산구 한강대로87길 8 3층",
+      "en": "8 Hangang-daero 87-gil 3rd Floor, Yongsan-gu, Seoul, South Korea",
+      "zh": "首尔特别市龙山区汉江大路87街8号 3楼",
+      "ja": "ソウル特別市龍山区漢江大路87キル8 3階"
+    },
+    "latitude": 37.54444,
+    "longitude": 126.97153,
+    "phoneNumber": "+82 50-71309-7685",
+    "websiteUrl": "https://www.instagram.com/diggerisdigging",
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sukmyung",
+    "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "oob-bar-001",
+    "name": "OOB LP Bar",
+    "name_ko": "오오비 LP바",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 용산구 한강대로 268-1 2층",
+      "en": "2nd floor, 268-1 Hangang-daero, Yongsan-gu, Seoul, South Korea",
+      "zh": "首尔特别市龙山区汉江大路268-1号 2楼",
+      "ja": "ソウル特別市龍山区漢江大路268-1 2階"
+    },
+    "latitude": 37.553773,
+    "longitude": 126.971157,
+    "phoneNumber": "+82 50-71316-2718",
+    "websiteUrl": "https://www.instagram.com/oob_official",
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sukmyung",
+    "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "sookmyung-women-university-001",
+    "name": "Sookmyung Women's University",
+    "name_ko": "숙명여자대학교",
+    "type": "live concert stage",
+    "address": {
+      "ko": "서울 용산구 청파로47길 100",
+      "en": "100 Cheongpa-ro 47-gil, Yongsan-gu, Seoul, South Korea",
+      "zh": "首尔特别市龙山区青坡路47街100号",
+      "ja": "ソウル特別市龍山区青坡路47キル100"
+    },
+    "latitude": 37.546475,
+    "longitude": 126.967,
+    "phoneNumber": "+82 2-710-9284",
+    "websiteUrl": "http://www.sookmyung.ac.kr/",
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sukmyung",
+    "created_at": "2026-07-15T00:00:00.000Z"
   }
 ]
