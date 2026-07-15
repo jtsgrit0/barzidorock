@@ -134,6 +134,17 @@ function AppContent() {
     };
   }, [locationAccessGranted]);
 
+  useEffect(() => {
+    if (selectedCategory === 'sukmyung' && venues.length > 0) {
+      const sukmyungVenues = venues.filter(v => v.area === 'sukmyung');
+      sukmyungVenues.forEach(venue => {
+        if (venue.googlePlaceId && !venueImagesRef.current[venue.id]) {
+          fetchVenueImages(venue.id);
+        }
+      });
+    }
+  }, [selectedCategory, venues, fetchVenueImages]);
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     let newCenter;
