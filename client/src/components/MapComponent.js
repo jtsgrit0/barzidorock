@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faPhone, faMapMarkerAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -16,10 +16,12 @@ const getPixelPositionOffset = (width, height) => ({
 function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages, activeVenueId }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
+  const venuesRef = useRef(venues);
+  venuesRef.current = venues;
 
   useEffect(() => {
     if (activeVenueId && map) {
-      const venue = venues.find(v => v.id === activeVenueId);
+      const venue = venuesRef.current.find(v => v.id === activeVenueId);
       if (venue) {
         setOpenInfoWindowId(activeVenueId);
         map.setZoom(16);
@@ -34,7 +36,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         }
       }
     }
-  }, [activeVenueId, map, venues, fetchVenueImages]);
+  }, [activeVenueId, map, fetchVenueImages]);
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -79,7 +81,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   const selectedVenue = venues.find(venue => venue.id === openInfoWindowId);
 
   return (
-    <>
+    <div style={{ width: '100%', height: '100%', minHeight: 0 }}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -87,17 +89,17 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={{
-          clickableIcons: false, // 기본 POI 아이콘 클릭 비활성화
+          clickableIcons: false,
           styles: mapStyles,
-          streetViewControl: false, // '이동' 버튼 제거 (스트리트 뷰)
-          mapTypeControl: false,    // '라이브 뷰' 버튼 제거 (지도 유형)
-          fullscreenControl: false, // '전체 화면' 버튼 제거
-          zoomControl: false,       // '확대/축소' 버튼 제거
-          rotateControl: false,     // '회전' 버튼 제거
-          scaleControl: false,      // '스케일' 버튼 제거
-          disableDefaultUI: true,   // 모든 기본 UI 컨트롤 제거
-          gestureHandling: 'greedy' // 한 손가락으로 지도 이동 및 확대/축소 허용
-        }} // 커스텀 스타일 적용
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+          zoomControl: false,
+          rotateControl: false,
+          scaleControl: false,
+          disableDefaultUI: true,
+          gestureHandling: 'greedy'
+        }}
       >
         {venues.map(venue => (
           <Marker
@@ -195,7 +197,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           </OverlayView>
         )}
       </GoogleMap>
-    </>
+    </div>
   );
 }
 

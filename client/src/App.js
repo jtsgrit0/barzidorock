@@ -214,6 +214,8 @@ function AppContent() {
 
       if (matchingVenue) {
         setSearchVenueId(matchingVenue.id);
+        setMapCenter({ lat: matchingVenue.latitude, lng: matchingVenue.longitude });
+        setMapZoom(16);
       } else {
         alert(`"${query}"에 해당하는 공연장을 찾을 수 없습니다.`);
         setSearchVenueId(null);
