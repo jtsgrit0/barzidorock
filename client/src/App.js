@@ -36,6 +36,7 @@ function AppContent() {
   venueImagesRef.current = venueImages;
   const initialOpenInfoWindows = [];
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchVenueId, setSearchVenueId] = useState(null);
 
   const fetchVenueImages = useCallback(async (venueId) => {
     if (venueImagesRef.current[venueId]) {
@@ -198,8 +199,28 @@ function AppContent() {
     setMapZoom(newZoom);
   };
 
-  const handleSearch = (query) => {
+  const handleSearch = (query, shouldNavigate = false) => {
     setSearchQuery(query);
+    if (shouldNavigate && query.trim() !== '') {
+      const lowerQuery = query.toLowerCase();
+      const filteredForSearch = selectedCategory === 'all'
+        ? venues
+        : venues.filter(v => v.area === selectedCategory);
+
+      const matchingVenue = filteredForSearch.find(v => {
+        const name = typeof v.name === 'object' ? (v.name.ko || v.name.en || JSON.stringify(v.name)) : v.name;
+        return name.toLowerCase().includes(lowerQuery);
+      });
+
+      if (matchingVenue) {
+        setSearchVenueId(matchingVenue.id);
+      } else {
+        alert(`"${query}"에 해당하는 공연장을 찾을 수 없습니다.`);
+        setSearchVenueId(null);
+      }
+    } else {
+      setSearchVenueId(null);
+    }
   };
 
   const filteredVenues = selectedCategory === 'all'
@@ -247,6 +268,7 @@ function AppContent() {
                     website: t('website')
                   }}
                   initialOpenInfoWindows={initialOpenInfoWindows}
+                  activeVenueId={searchVenueId}
                 />
               } />
               <Route path="/tickets" element={<TicketsPage />} />

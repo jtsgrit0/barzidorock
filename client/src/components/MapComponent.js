@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, Marker, InfoWindow, OverlayView } from '@react-google-maps/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faPhone, faMapMarkerAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -13,9 +13,28 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages }) {
+function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages, activeVenueId }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
+
+  useEffect(() => {
+    if (activeVenueId && map) {
+      const venue = venues.find(v => v.id === activeVenueId);
+      if (venue) {
+        setOpenInfoWindowId(activeVenueId);
+        map.setZoom(16);
+        const offsetLat = -0.005;
+        const newCenter = {
+          lat: venue.latitude + offsetLat,
+          lng: venue.longitude,
+        };
+        map.panTo(newCenter);
+        if (venue.googlePlaceId) {
+          fetchVenueImages(activeVenueId);
+        }
+      }
+    }
+  }, [activeVenueId, map, venues, fetchVenueImages]);
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
