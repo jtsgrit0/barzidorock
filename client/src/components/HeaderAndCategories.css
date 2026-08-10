@@ -20,7 +20,8 @@
   display: flex;
   align-items: center;
   gap: 10px; /* 제목과 카테고리 간격 */
-  overflow: hidden; /* 자식 요소가 넘칠 경우 숨김 */
+  overflow: visible; /* 검색 입력창이 보이도록 변경 */
+  flex-wrap: nowrap;
 }
 
 .floating-header h1 {
@@ -37,7 +38,52 @@
   height: 30px;
   width: auto;
   margin-right: 10px;
-  flex-shrink: 0; /* 공간이 부족할 때 줄어들지 않도록 설정 */
+  flex-shrink: 0;
+}
+
+.app-title {
+  margin: 0;
+  color: #333;
+  font-size: 1.5em;
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  padding: 6px 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9em;
+  min-width: 150px;
+  max-width: 200px;
+  outline: none;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.search-input:focus {
+  border-color: #007bff;
 }
 
 .categories {

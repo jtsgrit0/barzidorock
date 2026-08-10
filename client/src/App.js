@@ -35,6 +35,7 @@ function AppContent() {
   const venueImagesRef = useRef(venueImages);
   venueImagesRef.current = venueImages;
   const initialOpenInfoWindows = [];
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchVenueImages = useCallback(async (venueId) => {
     if (venueImagesRef.current[venueId]) {
@@ -145,6 +146,33 @@ function AppContent() {
     }
   }, [selectedCategory, venues, fetchVenueImages]);
 
+  const handleLocationConsent = (granted) => {
+    localStorage.setItem('locationConsent', granted ? 'granted' : 'denied');
+    setLocationAccessGranted(granted);
+    setShowLocationConsent(false);
+  };
+
+  const centerMapToUserLocation = useCallback(() => {
+    if (userLocation) {
+      setMapCenter(userLocation);
+      setMapZoom(15);
+    } else if (locationAccessGranted) {
+      alert("현재 위치를 파악 중입니다. 잠시 후 다시 시도해주세요.");
+    } else {
+      setShowLocationConsent(true);
+    }
+  }, [userLocation, locationAccessGranted]);
+
+  const toggleFavorite = (venueId) => {
+    setFavorites(prevFavorites => {
+      if (prevFavorites.includes(venueId)) {
+        return prevFavorites.filter(id => id !== venueId);
+      } else {
+        return [...prevFavorites, venueId];
+      }
+    });
+  };
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     let newCenter;
@@ -167,39 +195,20 @@ function AppContent() {
     setMapZoom(newZoom);
   };
 
-  // Handle user's location consent
-  const handleLocationConsent = (granted) => {
-    localStorage.setItem('locationConsent', granted ? 'granted' : 'denied');
-    setLocationAccessGranted(granted);
-    setShowLocationConsent(false);
-  };
-
-  // Function to center map to user's location, to be passed to MapComponent
-  const centerMapToUserLocation = useCallback(() => {
-    if (userLocation) {
-      setMapCenter(userLocation);
-      setMapZoom(15); // Zoom in when centering to user's location
-    } else if (locationAccessGranted) {
-      alert("현재 위치를 파악 중입니다. 잠시 후 다시 시도해주세요.");
-    } else {
-      // If access was denied or not yet granted, show consent popup again
-      setShowLocationConsent(true);
-    }
-  }, [userLocation, locationAccessGranted]);
-
-  const toggleFavorite = (venueId) => {
-    setFavorites(prevFavorites => {
-      if (prevFavorites.includes(venueId)) {
-        return prevFavorites.filter(id => id !== venueId);
-      } else {
-        return [...prevFavorites, venueId];
-      }
-    });
+  const handleSearch = (query) => {
+    setSearchQuery(query);
   };
 
   const filteredVenues = selectedCategory === 'all'
     ? venues
     : venues.filter(v => v.area === selectedCategory);
+
+  const searchFilteredVenues = searchQuery.trim() === ''
+    ? filteredVenues
+    : filteredVenues.filter(v => {
+        const name = typeof v.name === 'object' ? (v.name.ko || v.name.en || JSON.stringify(v.name)) : v.name;
+        return name.toLowerCase().includes(searchQuery.toLowerCase());
+      });
 
   return (
     <Router>
@@ -211,12 +220,14 @@ function AppContent() {
             onCategoryChange={handleCategoryChange}
             language={language}
             setLanguage={setLanguage}
+            venues={venues}
+            onSearch={handleSearch}
           />
           <div className="main-content">
             <Routes>
               <Route path="/" element={
                 <MapComponent
-                  venues={filteredVenues}
+                  venues={searchFilteredVenues}
                   center={mapCenter}
                   zoom={mapZoom}
                   userLocation={userLocation}

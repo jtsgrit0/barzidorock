@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { assetUrl } from '../utils/assetUrl';
 import './HeaderAndCategories.css';
-import { useTranslation } from 'react-i18next'; // useTranslation 훅 임포트
+import { useTranslation } from 'react-i18next';
 
-// translations prop 제거
-function HeaderAndCategories({ selectedCategory, onCategoryChange, language, setLanguage }) {
-  const { t } = useTranslation(); // t 함수 가져오기
+function HeaderAndCategories({ selectedCategory, onCategoryChange, language, setLanguage, venues, onSearch }) {
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,12 +23,26 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     }
   };
 
+  const handleSearchClick = () => {
+    setSearchOpen(!searchOpen);
+    if (searchOpen) {
+      setSearchQuery('');
+      if (onSearch) onSearch('');
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (onSearch) onSearch(query);
+  };
+
   const flags = {
     ko: '🇰🇷',
     en: '🇺🇸',
     zh: '🇨🇳',
     ja: '🇯🇵',
-    fr: '🇫🇷', // 프랑스어 추가
+    fr: '🇫🇷',
   };
 
   const languageOptions = {
@@ -36,39 +50,54 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     en: 'English',
     zh: '中文',
     ja: '日本語',
-    fr: 'Français', // 프랑스어 추가
+    fr: 'Français',
   };
 
   return (
     <div className="floating-header">
       <div className="title-and-categories">
-        <h1>
-          <img src={`${assetUrl('app_icon_text.png')}?v=7`} alt="BarZidoROCK" className="header-app-icon" />
-        </h1>
+        <button className="search-button" onClick={handleSearchClick} title={t('search', '검색')}>
+          {searchOpen ? '✕' : '🔍'}
+        </button>
+        {searchOpen && (
+          <input
+            type="text"
+            className="search-input"
+            placeholder={t('search_placeholder', '공연장 검색...')}
+            value={searchQuery}
+            onChange={handleSearchChange}
+            autoFocus
+          />
+        )}
+        {!searchOpen && (
+          <h1 className="app-title">
+            {t('app_title', 'BarZidoROCK')}
+          </h1>
+        )}
         <div className="categories">
-          <button 
+          <button
             className={selectedCategory === 'all' ? 'active' : ''}
             onClick={() => handleCategoryClick('all')}
           >
-            {t('category_all', '전체')} {/* t 함수 사용 */}
+            {t('category_all', '전체')}
           </button>
-          <button 
+          <button
             className={selectedCategory === 'hongdae' ? 'active' : ''}
             onClick={() => handleCategoryClick('hongdae')}
           >
-            {t('category_hongdae', '홍대')} {/* t 함수 사용 */}
+            {t('category_hongdae', '홍대')}
           </button>
-          <button 
+          <button
             className={selectedCategory === 'itaewon' ? 'active' : ''}
             onClick={() => handleCategoryClick('itaewon')}
           >
-            {t('category_itaewon', '이태원')} {/* t 함수 사용 */}
+            {t('category_itaewon', '이태원')}
           </button>
-          <button 
+          <button
             className={selectedCategory === 'sukmyung' ? 'active' : ''}
             onClick={() => handleCategoryClick('sukmyung')}
           >
-            {t('category_sukmyung', '숙명')} {/* t 함수 사용 */}
+            {t('category_sukmyung', '숙명')}
           </button>
         </div>
       </div>
@@ -78,7 +107,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
           <span onClick={() => setLanguage('en')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'en' ? 1 : 0.5 }}>{flags.en}</span>
           <span onClick={() => setLanguage('zh')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'zh' ? 1 : 0.5 }}>{flags.zh}</span>
           <span onClick={() => setLanguage('ja')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'ja' ? 1 : 0.5 }}>{flags.ja}</span>
-          <span onClick={() => setLanguage('fr')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'fr' ? 1 : 0.5 }}>{flags.fr}</span> {/* 프랑스어 추가 */}
+          <span onClick={() => setLanguage('fr')} style={{ cursor: 'pointer', marginLeft: '10px', opacity: language === 'fr' ? 1 : 0.5 }}>{flags.fr}</span>
         </div>
         <div className="mobile-menu">
           <span className="current-flag" onClick={() => setMenuOpen(!menuOpen)}>
