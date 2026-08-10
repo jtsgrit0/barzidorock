@@ -129,7 +129,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
             onCloseClick={handleInfoWindowClose}
           >
-            <div style={{ maxWidth: '85vw', maxHeight: '25vh', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all', overflowX: 'hidden', overflowY: 'auto' }}>
+            <div style={{ maxWidth: '85vw', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all', overflow: 'visible' }}>
               <div style={{ position: 'relative', alignItems: 'center' }}>
                 <h2 style={{ margin: 0, fontSize: '1.5em', textAlign: 'center' }}>
                   {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}
