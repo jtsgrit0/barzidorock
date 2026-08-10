@@ -81,7 +81,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   const selectedVenue = venues.find(venue => venue.id === openInfoWindowId);
 
   return (
-    <div style={{ width: '100%', height: '100%', minHeight: 0 }}>
+    <div style={{ position: 'absolute', inset: 0, minHeight: 0 }}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
