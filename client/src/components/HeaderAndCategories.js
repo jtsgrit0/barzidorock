@@ -99,6 +99,12 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
           >
             {t('category_sukmyung', '숙명')}
           </button>
+          <button
+            className={selectedCategory === 'sinchon' ? 'active' : ''}
+            onClick={() => handleCategoryClick('sinchon')}
+          >
+            {t('category_sinchon', '신촌')}
+          </button>
         </div>
       </div>
       <div className="language-switcher">

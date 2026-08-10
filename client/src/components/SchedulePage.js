@@ -661,6 +661,7 @@ const SchedulePage = ({ language }) => {
     hongdae: '홍대',
     itaewon: '이태원',
     sukmyung: '숙명',
+    sinchon: '신촌',
   };
 
   return (

@@ -136,9 +136,9 @@ function AppContent() {
   }, [locationAccessGranted]);
 
   useEffect(() => {
-    if (selectedCategory === 'sukmyung' && venues.length > 0) {
-      const sukmyungVenues = venues.filter(v => v.area === 'sukmyung');
-      sukmyungVenues.forEach(venue => {
+    if ((selectedCategory === 'sukmyung' || selectedCategory === 'sinchon') && venues.length > 0) {
+      const areaVenues = venues.filter(v => v.area === selectedCategory);
+      areaVenues.forEach(venue => {
         if (venue.googlePlaceId && !venueImagesRef.current[venue.id]) {
           fetchVenueImages(venue.id);
         }
@@ -186,6 +186,9 @@ function AppContent() {
       newZoom = 15;
     } else if (category === 'sukmyung') {
       newCenter = { lat: 37.5465, lng: 126.967 };
+      newZoom = 15;
+    } else if (category === 'sinchon') {
+      newCenter = { lat: 37.555, lng: 126.936 };
       newZoom = 15;
     } else { // 'all'
       newCenter = { lat: 37.5550354, lng: 126.929 };

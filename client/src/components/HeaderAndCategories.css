@@ -148,6 +148,13 @@
   opacity: 0.8;
 }
 
+.categories button:nth-child(5) {
+  background-color: #9b59b6;
+}
+.categories button:nth-child(5):hover {
+  opacity: 0.8;
+}
+
 .mobile-menu {
   display: none;
 }

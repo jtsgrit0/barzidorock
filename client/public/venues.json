@@ -1512,5 +1512,93 @@
     "opening_hours": "[]",
     "area": "sukmyung",
     "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "cozy-lounge-sinchon-001",
+    "name": "Cozy Lounge",
+    "name_ko": "코지 라운지",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 서대문구 연세로7안길 10-5 2층",
+      "en": "2nd Floor, 10-5 Yonsei-ro 7an-gil, Seodaemun-gu, Seoul, South Korea",
+      "zh": "首尔特别市西大门区延世路7安街10-5号 2楼",
+      "ja": "ソウル特別市西大門区延世路7安ギル10-5 2階"
+    },
+    "latitude": 37.5585,
+    "longitude": 126.9335,
+    "phoneNumber": "0507-1326-1780",
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sinchon",
+    "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "bricks5221-sinchon-001",
+    "name": "Bricks5221",
+    "name_ko": "브릭스5221",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 서대문구 연세로 22 2층",
+      "en": "2nd Floor, 22 Yonsei-ro, Seodaemun-gu, Seoul, South Korea",
+      "zh": "首尔特别市西大门区延世路22号 2楼",
+      "ja": "ソウル特別市西大門区延世路22 2階"
+    },
+    "latitude": 37.5568,
+    "longitude": 126.9358,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sinchon",
+    "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "woodstock-sinchon-001",
+    "name": "Woodstock Sinchon",
+    "name_ko": "우드스탁 신촌",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 서대문구 연세로 36 3층",
+      "en": "3rd Floor, 36 Yonsei-ro, Seodaemun-gu, Seoul, South Korea",
+      "zh": "首尔特别市西大门区延世路36号 3楼",
+      "ja": "ソウル特別市西大門区延世路36 3階"
+    },
+    "latitude": 37.5572,
+    "longitude": 126.9372,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sinchon",
+    "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "salon-de-neuru-001",
+    "name": "Salon De Neuru",
+    "name_ko": "살롱드느루",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 서대문구 연세로2길 21 2층",
+      "en": "2nd Floor, 21 Yonsei-ro 2-gil, Seodaemun-gu, Seoul, South Korea",
+      "zh": "首尔特别市西大门区延世路2街21号 2楼",
+      "ja": "ソウル特別市西大門区延世路2キル21 2階"
+    },
+    "latitude": 37.5578,
+    "longitude": 126.9345,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "sinchon",
+    "created_at": "2026-07-15T00:00:00.000Z"
   }
 ]
