@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { assetUrl } from '../utils/assetUrl';
 import './HeaderAndCategories.css';
@@ -9,6 +9,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,6 +42,9 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
   const handleSearchKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (onSearch) onSearch(searchQuery, true);
+      if (searchInputRef.current) {
+        searchInputRef.current.blur();
+      }
     }
   };
 
@@ -102,6 +106,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
       <div className="header-actions">
         {searchOpen && (
           <input
+            ref={searchInputRef}
             type="text"
             className="search-input"
             placeholder={t('search_placeholder', '공연장 검색...')}

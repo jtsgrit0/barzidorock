@@ -13,7 +13,7 @@ const getPixelPositionOffset = (width, height) => ({
   y: -(height / 2),
 });
 
-function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages, activeVenueId }) {
+function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocation, language, setLanguage, favorites, toggleFavorite, translations, initialOpenInfoWindows, venueImages, fetchVenueImages, activeVenueId, searchVenueId }) {
   const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
   const [map, setMap] = useState(null);
   const venuesRef = useRef(venues);
@@ -23,8 +23,10 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     if (activeVenueId && map) {
       const venue = venuesRef.current.find(v => v.id === activeVenueId);
       if (venue) {
-        setOpenInfoWindowId(activeVenueId);
-        map.setZoom(16);
+        if (!searchVenueId || activeVenueId !== searchVenueId) {
+          setOpenInfoWindowId(activeVenueId);
+        }
+        map.setZoom(14);
         const offsetLat = -0.005;
         const newCenter = {
           lat: venue.latitude + offsetLat,
@@ -36,7 +38,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         }
       }
     }
-  }, [activeVenueId, map, fetchVenueImages]);
+  }, [activeVenueId, map, fetchVenueImages, searchVenueId]);
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -81,8 +83,9 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   const selectedVenue = venues.find(venue => venue.id === openInfoWindowId);
 
   return (
-    <div style={{ position: 'absolute', inset: 0, minHeight: 0 }}>
-      <GoogleMap
+    <div style={{ height: '100%', minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, minHeight: 0 }}>
+        <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
         zoom={zoom}
@@ -98,7 +101,13 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           rotateControl: false,
           scaleControl: false,
           disableDefaultUI: true,
-          gestureHandling: 'greedy'
+          gestureHandling: 'greedy',
+          padding: {
+            top: 0,
+            right: 0,
+            bottom: 70,
+            left: 0
+          }
         }}
       >
         {venues.map(venue => (
@@ -120,7 +129,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
             onCloseClick={handleInfoWindowClose}
           >
-            <div style={{ maxWidth: '85vw', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all', overflowX: 'hidden' }}>
+            <div style={{ maxWidth: '85vw', maxHeight: '25vh', padding: '10px', boxSizing: 'border-box', wordBreak: 'break-all', overflowX: 'hidden', overflowY: 'auto' }}>
               <div style={{ position: 'relative', alignItems: 'center' }}>
                 <h2 style={{ margin: 0, fontSize: '1.5em', textAlign: 'center' }}>
                   {selectedVenue.name[language] || selectedVenue.name['en'] || selectedVenue.name}
@@ -197,6 +206,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           </OverlayView>
         )}
       </GoogleMap>
+      </div>
     </div>
   );
 }
