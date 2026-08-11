@@ -64,43 +64,33 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     fr: 'Français',
   };
 
+  const categories = [
+    { key: 'all', label: t('category_all', '전체') },
+    { key: 'hongdae', label: t('category_hongdae', '홍대') },
+    { key: 'itaewon', label: t('category_itaewon', '이태원') },
+    { key: 'sukmyung', label: t('category_sukmyung', '숙명') },
+    { key: 'sinchon', label: t('category_sinchon', '신촌') },
+  ];
+
   return (
     <div className="floating-header">
       <div className="title-and-categories">
         <h1>
           <img src={`${assetUrl('app_icon_text.png')}?v=7`} alt="BarZidoROCK" className="header-app-icon" />
         </h1>
-        <div className="categories">
-          <button
-            className={selectedCategory === 'all' ? 'active' : ''}
-            onClick={() => handleCategoryClick('all')}
+        <div className="region-dropdown">
+          <label htmlFor="region-select">{t('region', '지역')}</label>
+          <select
+            id="region-select"
+            value={selectedCategory}
+            onChange={(e) => handleCategoryClick(e.target.value)}
           >
-            {t('category_all', '전체')}
-          </button>
-          <button
-            className={selectedCategory === 'hongdae' ? 'active' : ''}
-            onClick={() => handleCategoryClick('hongdae')}
-          >
-            {t('category_hongdae', '홍대')}
-          </button>
-          <button
-            className={selectedCategory === 'itaewon' ? 'active' : ''}
-            onClick={() => handleCategoryClick('itaewon')}
-          >
-            {t('category_itaewon', '이태원')}
-          </button>
-          <button
-            className={selectedCategory === 'sukmyung' ? 'active' : ''}
-            onClick={() => handleCategoryClick('sukmyung')}
-          >
-            {t('category_sukmyung', '숙명')}
-          </button>
-          <button
-            className={selectedCategory === 'sinchon' ? 'active' : ''}
-            onClick={() => handleCategoryClick('sinchon')}
-          >
-            {t('category_sinchon', '신촌')}
-          </button>
+            {categories.map((cat) => (
+              <option key={cat.key} value={cat.key}>
+                {cat.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       <div className="header-actions">
