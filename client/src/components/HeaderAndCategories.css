@@ -3,10 +3,10 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(0, 0, 0, 0.95);
   padding: 8px 15px;
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -28,7 +28,7 @@
 
 .floating-header h1 {
   margin: 0;
-  color: #333;
+  color: #fff;
   font-size: 1.5em;
   white-space: nowrap;
   flex-shrink: 0;
@@ -98,20 +98,13 @@
   gap: 8px;
 }
 
-.region-dropdown label {
-  font-weight: bold;
-  font-size: 0.95em;
-  color: #333;
-  white-space: nowrap;
-}
-
 .region-dropdown select {
   padding: 6px 10px;
   font-size: 0.95em;
   border-radius: 5px;
-  border: 2px solid #ddd;
-  background-color: #fff;
-  color: #333;
+  border: 2px solid #555;
+  background-color: #222;
+  color: #fff;
   font-weight: bold;
   cursor: pointer;
   outline: none;
@@ -119,7 +112,7 @@
 }
 
 .region-dropdown select:focus {
-  border-color: #007bff;
+  border-color: #fff;
 }
 
 .mobile-menu {

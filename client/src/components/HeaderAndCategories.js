@@ -79,9 +79,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
           <img src={`${assetUrl('app_icon_text.png')}?v=7`} alt="BarZidoROCK" className="header-app-icon" />
         </h1>
         <div className="region-dropdown">
-          <label htmlFor="region-select">{t('region', '지역')}</label>
           <select
-            id="region-select"
             value={selectedCategory}
             onChange={(e) => handleCategoryClick(e.target.value)}
           >
