@@ -1579,5 +1579,27 @@
     "opening_hours": "[]",
     "area": "sinchon",
     "created_at": "2026-07-15T00:00:00.000Z"
+  },
+  {
+    "id": "strange-fruit-001",
+    "name": "Strange Fruit",
+    "name_ko": "스트레인지 프룻",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 마포구 와우산로29길 64",
+      "en": "64 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+      "zh": null,
+      "ja": null
+    },
+    "latitude": 37.55620730,
+    "longitude": 126.92677880,
+    "phoneNumber": "+82 2-339-2919",
+    "websiteUrl": "https://www.instagram.com/strangefruit.seoul/",
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": "[]",
+    "area": "hongdae",
+    "created_at": "2026-08-18T10:27:00.000Z"
   }
 ]
