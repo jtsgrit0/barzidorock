@@ -80,6 +80,61 @@ async function fetchPlacesData(query, area, type) {
     return venues;
 }
 
+async function updateAllVenuesAddresses(venues) {
+    console.log("기존 모든 공연장의 주소를 업데이트 중...");
+    const updatedVenues = [];
+    
+    for (const venue of venues) {
+        try {
+            // 이미 주소가 객체 형태이고 한글로 되어있는 경우 스킵
+            if (venue.address && typeof venue.address === 'object' && venue.address.ko) {
+                updatedVenues.push(venue);
+                continue;
+            }
+            
+            // 구글에서 최신 정보(한글 주소) 가져오기
+            const details = await googlePlaces.getPlaceDetails(venue.googlePlaceId, [
+                'name', 'formatted_address', 'geometry/location'
+            ]);
+            
+            if (details && details.formatted_address) {
+                const koreanAddress = details.formatted_address;
+                const address = {
+                    ko: koreanAddress,
+                    en: koreanAddress,
+                    zh: koreanAddress,
+                    ja: koreanAddress
+                };
+                updatedVenues.push({ ...venue, address });
+                console.log(`주소 업데이트 완료: ${venue.name}`);
+            } else {
+                // 정보를 가져오지 못한 경우 기존 주소를 객체로 변환
+                const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+                const address = {
+                    ko: existingAddress,
+                    en: existingAddress,
+                    zh: existingAddress,
+                    ja: existingAddress
+                };
+                updatedVenues.push({ ...venue, address });
+                console.log(`주소 변환 완료 (기존 주소 사용): ${venue.name}`);
+            }
+        } catch (error) {
+            console.error(`${venue.name} 주소 업데이트 실패:`, error.message);
+            // 오류 발생시 기존 주소 유지하면서 객체로 변환
+            const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+            const address = {
+                ko: existingAddress,
+                en: existingAddress,
+                zh: existingAddress,
+                ja: existingAddress
+            };
+            updatedVenues.push({ ...venue, address });
+        }
+    }
+    return updatedVenues;
+}
+
 async function seedInitialData() {
     console.log("Starting initial data seeding...");
     let allVenues = [];
@@ -90,6 +145,10 @@ async function seedInitialData() {
         const existingData = await fs.readFile(existingPath, 'utf8');
         allVenues = JSON.parse(existingData);
         console.log(`기존 장소 ${allVenues.length}개를 불러왔습니다.`);
+        
+        // 모든 기존 장소의 주소 업데이트
+        allVenues = await updateAllVenuesAddresses(allVenues);
+        console.log(`모든 기존 장소의 주소 업데이트 완료`);
     } catch (error) {
         console.log('기존 venues.json 파일이 없거나 읽을 수 없어 새로 생성합니다.');
     }
