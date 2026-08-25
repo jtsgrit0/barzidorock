@@ -149,10 +149,17 @@ async function seedInitialData() {
 
     // 새로운 장소들 추가
     const newVenues = [];
+    // 신촌 기존 검색어
     newVenues.push(...await fetchPlacesData("신촌 라이브 공연장", "sinchon", "live_venue"));
     newVenues.push(...await fetchPlacesData("신촌 락바", "sinchon", "rock_bar"));
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플", "sinchon", "live_venue"));
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플 라이브 공연장", "sinchon", "live_venue"));
+    // 숙명여대 근처 검색어 추가
+    newVenues.push(...await fetchPlacesData("숙명여대 라이브 공연장", "sookmyung", "live_venue"));
+    newVenues.push(...await fetchPlacesData("청파동 라이브 펍", "sookmyung", "pub"));
+    newVenues.push(...await fetchPlacesData("서계동 락바", "sookmyung", "rock_bar"));
+    newVenues.push(...await fetchPlacesData("용산구 숙명여대 근처 바", "sookmyung", "bar"));
+    newVenues.push(...await fetchPlacesData("숙명여대 앞 라이브하우스", "sookmyung", "live_venue"));
 
     // 중복 제거 (기존에 같은 id가 있으면 건너뛰기)
     const existingIds = new Set(allVenues.map(v => v.id));
