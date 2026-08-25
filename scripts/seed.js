@@ -27,7 +27,14 @@ async function fetchPlacesData(query, area, type) {
 
                 if (details) {
                     const name = details.name;
-                    const address = details.formatted_address;
+                    const koreanAddress = details.formatted_address;
+                    // 기존처럼 다국어 주소 객체로 생성 (한글 주소를 기본으로, 다른 언어는 영어로 통일)
+                    const address = {
+                        ko: koreanAddress,
+                        en: koreanAddress, // 원래 기획대로 다른 언어는 영어로 (한글 주소가 한국어이지만 구글에서 한국어로 가져오므로 그대로 사용)
+                        zh: koreanAddress,
+                        ja: koreanAddress
+                    };
                     const latitude = details.geometry.location.lat;
                     const longitude = details.geometry.location.lng;
                     const phoneNumber = details.international_phone_number || null;

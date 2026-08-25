@@ -35,7 +35,7 @@ async function textSearch(query, region = 'kr', language = 'ko') {
     }
 }
 
-async function getPlaceDetails(placeId, fields) {
+async function getPlaceDetails(placeId, fields, language = 'ko') {
     if (!API_KEY) {
         console.error('[googlePlaces.js] API Key is not initialized. Call init() first.');
         throw new Error('Google Places API Key is not initialized.');
@@ -43,7 +43,7 @@ async function getPlaceDetails(placeId, fields) {
     try {
         console.log(`[googlePlaces.js] Calling getPlaceDetails for placeId: "${placeId}"`);
         const response = await axios.get(`${BASE_URL}/details/json`, {
-            params: { place_id: placeId, fields: fields.join(','), key: API_KEY }
+            params: { place_id: placeId, fields: fields.join(','), key: API_KEY, language }
         });
         console.log('[googlePlaces.js] Place Details API Raw Response Data:', JSON.stringify(response.data, null, 2));
         return response.data.result;
