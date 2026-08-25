@@ -134,7 +134,7 @@ async function seedInitialData() {
     let allVenues = [];
 
     // 기존 venues.json 파일에서 데이터 읽어오기
-    const existingPath = path.join(__dirname, '../..', 'client/public', 'venues.json');
+    const existingPath = path.join(__dirname, '..', 'client/public', 'venues.json');
     try {
         const existingData = await fs.readFile(existingPath, 'utf8');
         allVenues = JSON.parse(existingData);
@@ -159,7 +159,7 @@ async function seedInitialData() {
     const uniqueNewVenues = newVenues.filter(v => !existingIds.has(v.id));
     allVenues = allVenues.concat(uniqueNewVenues);
 
-    const outputPath = path.join(__dirname, '../..', 'client/public', 'venues.json');
+    const outputPath = path.join(__dirname, '..', 'client/public', 'venues.json');
     const outputDir = path.dirname(outputPath);
 
     try {

@@ -3,7 +3,12 @@
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
     "name": "Cafe Unplugged",
     "type": "live_venue",
-    "address": "26 Wausan-ro 33-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로33길 26",
+      "en": "대한민국 서울특별시 마포구 와우산로33길 26",
+      "zh": "대한민국 서울특별시 마포구 와우산로33길 26",
+      "ja": "대한민국 서울특별시 마포구 와우산로33길 26"
+    },
     "latitude": 37.5554289,
     "longitude": 126.929198,
     "phoneNumber": "+82 70-4200-9251",
@@ -30,7 +35,12 @@
     "id": "ChIJUVRrTNCYfDURTjrzSja3Tgs",
     "name": "Rolling Hall",
     "type": "live_venue",
-    "address": "35 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 어울마당로 35",
+      "en": "대한민국 서울특별시 마포구 어울마당로 35",
+      "zh": "대한민국 서울특별시 마포구 어울마당로 35",
+      "ja": "대한민국 서울특별시 마포구 어울마당로 35"
+    },
     "latitude": 37.5483606,
     "longitude": 126.9200362,
     "phoneNumber": "+82 2-325-6071",
@@ -57,7 +67,12 @@
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
     "name": "프리즘홀",
     "type": "live_venue",
-    "address": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 양화로12길 6",
+      "en": "대한민국 서울특별시 마포구 양화로12길 6",
+      "zh": "대한민국 서울특별시 마포구 양화로12길 6",
+      "ja": "대한민국 서울특별시 마포구 양화로12길 6"
+    },
     "latitude": 37.5516578,
     "longitude": 126.9175086,
     "phoneNumber": null,
@@ -84,7 +99,12 @@
     "id": "ChIJQ0JZJdeYfDURSd6zc_ugmPI",
     "name": "Dream Hall",
     "type": "live_venue",
-    "address": "64 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 양화로 64",
+      "en": "대한민국 서울특별시 마포구 양화로 64",
+      "zh": "대한민국 서울특별시 마포구 양화로 64",
+      "ja": "대한민국 서울특별시 마포구 양화로 64"
+    },
     "latitude": 37.5503331,
     "longitude": 126.9157927,
     "phoneNumber": null,
@@ -111,7 +131,12 @@
     "id": "ChIJG417WOeZfDUR858nkAd-y_U",
     "name": "홍대 우주정거장",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Wausan-ro 29-gil, 16 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로29길 16 지하 1층",
+      "en": "대한민국 서울특별시 마포구 와우산로29길 16 지하 1층",
+      "zh": "대한민국 서울특별시 마포구 와우산로29길 16 지하 1층",
+      "ja": "대한민국 서울특별시 마포구 와우산로29길 16 지하 1층"
+    },
     "latitude": 37.5550354,
     "longitude": 126.929,
     "phoneNumber": "+82 70-8692-8277",
@@ -138,7 +163,12 @@
     "id": "ChIJ6cYrXNqYfDURly0vyvWEHH0",
     "name": "Veloso Hongdae",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Jandari-ro, 46 서교 스튜디오 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층",
+      "en": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층",
+      "zh": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층",
+      "ja": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층"
+    },
     "latitude": 37.5524282,
     "longitude": 126.9188166,
     "phoneNumber": "+82 2-336-9943",
@@ -165,7 +195,12 @@
     "id": "ChIJk17byMKYfDURZjqOQVXjDL4",
     "name": "클럽 라이브앤라우드",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Donggyo-ro, 191 디비엠빌딩 지하 2층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "en": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "zh": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "ja": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층"
+    },
     "latitude": 37.5574516,
     "longitude": 126.9223086,
     "phoneNumber": "+82 2-336-9399",
@@ -192,7 +227,12 @@
     "id": "ChIJrelcVdCYfDURiaHkye8F2Pg",
     "name": "Alive Hall",
     "type": "live_venue",
-    "address": "20 지하 Dongmak-ro 7-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 독막로7길 20 지하",
+      "en": "대한민국 서울특별시 마포구 독막로7길 20 지하",
+      "zh": "대한민국 서울특별시 마포구 독막로7길 20 지하",
+      "ja": "대한민국 서울특별시 마포구 독막로7길 20 지하"
+    },
     "latitude": 37.5487062,
     "longitude": 126.9191557,
     "phoneNumber": "+82 10-3769-5949",
@@ -219,7 +259,12 @@
     "id": "ChIJrfP8jdqYfDUR68Wxa44PDXU",
     "name": "MUV-Hall",
     "type": "live_venue",
-    "address": "32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 잔다리로 32",
+      "en": "대한민국 서울특별시 마포구 잔다리로 32",
+      "zh": "대한민국 서울특별시 마포구 잔다리로 32",
+      "ja": "대한민국 서울특별시 마포구 잔다리로 32"
+    },
     "latitude": 37.5516113,
     "longitude": 126.9198371,
     "phoneNumber": "+82 10-3692-6082",
@@ -246,7 +291,12 @@
     "id": "ChIJb7N7NMCYfDURUawPN2TKHWk",
     "name": "CLUBAOR(ALL OF ROCK)",
     "type": "live_venue",
-    "address": "156 지하 Wausan-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로 156 지하",
+      "en": "대한민국 서울특별시 마포구 와우산로 156 지하",
+      "zh": "대한민국 서울특별시 마포구 와우산로 156 지하",
+      "ja": "대한민국 서울특별시 마포구 와우산로 156 지하"
+    },
     "latitude": 37.5548473,
     "longitude": 126.9304103,
     "phoneNumber": "+82 10-5500-8711",
@@ -273,7 +323,12 @@
     "id": "ChIJz7WjUcWYfDURLQpMqR1EfhI",
     "name": "Club FF",
     "type": "live_venue",
-    "address": "407-8 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 서교동 407-8",
+      "en": "대한민국 서울특별시 마포구 서교동 407-8",
+      "zh": "대한민국 서울특별시 마포구 서교동 407-8",
+      "ja": "대한민국 서울특별시 마포구 서교동 407-8"
+    },
     "latitude": 37.5502152,
     "longitude": 126.9222892,
     "phoneNumber": "+82 10-9025-3407",
@@ -300,7 +355,12 @@
     "id": "ChIJq-BtxCyZfDURacqRwCnbCDI",
     "name": "Flex lounge",
     "type": "live_venue",
-    "address": "100-10 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 양화로 100-10",
+      "en": "대한민국 서울특별시 마포구 양화로 100-10",
+      "zh": "대한민국 서울특별시 마포구 양화로 100-10",
+      "ja": "대한민국 서울특별시 마포구 양화로 100-10"
+    },
     "latitude": 37.5525552,
     "longitude": 126.9189906,
     "phoneNumber": null,
@@ -326,7 +386,12 @@
     "id": "ChIJ5ZkPq8SYfDURUgbbNVkIe8c",
     "name": "Hanatour V-Hall",
     "type": "live_venue",
-    "address": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 홍익로 25",
+      "en": "대한민국 서울특별시 마포구 홍익로 25",
+      "zh": "대한민국 서울특별시 마포구 홍익로 25",
+      "ja": "대한민국 서울특별시 마포구 홍익로 25"
+    },
     "latitude": 37.5543874,
     "longitude": 126.9219519,
     "phoneNumber": "+82 2-338-0958",
@@ -353,7 +418,12 @@
     "id": "ChIJ7x57usGYfDURVYMF-xdvxdo",
     "name": "BBang",
     "type": "live_venue",
-    "address": "12 Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로29길 12",
+      "en": "대한민국 서울특별시 마포구 와우산로29길 12",
+      "zh": "대한민국 서울특별시 마포구 와우산로29길 12",
+      "ja": "대한민국 서울특별시 마포구 와우산로29길 12"
+    },
     "latitude": 37.5548142,
     "longitude": 126.929257,
     "phoneNumber": "+82 2-6081-1089",
@@ -380,7 +450,12 @@
     "id": "ChIJD8JrWo6ZfDURQS1q52BpO30",
     "name": "Watcha Hall",
     "type": "live_venue",
-    "address": "B1, 32 Jandari-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "B1, 32 잔다리로 마포구 서울특별시 대한민국",
+      "en": "B1, 32 잔다리로 마포구 서울특별시 대한민국",
+      "zh": "B1, 32 잔다리로 마포구 서울특별시 대한민국",
+      "ja": "B1, 32 잔다리로 마포구 서울특별시 대한민국"
+    },
     "latitude": 37.5515437,
     "longitude": 126.9197803,
     "phoneNumber": "+82 2-3144-0409",
@@ -406,7 +481,12 @@
     "id": "ChIJ3UcZNMCYfDUR16xwMCEknpw",
     "name": "사운드카페소리",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Wausan-ro, 159 2층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로 159 2층",
+      "en": "대한민국 서울특별시 마포구 와우산로 159 2층",
+      "zh": "대한민국 서울특별시 마포구 와우산로 159 2층",
+      "ja": "대한민국 서울특별시 마포구 와우산로 159 2층"
+    },
     "latitude": 37.5552168,
     "longitude": 126.9302387,
     "phoneNumber": "+82 2-6013-1496",
@@ -433,7 +513,12 @@
     "id": "ChIJ3VeTqXKZfDURa84IUjrVGxU",
     "name": "라이브홀 롤러코스터",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Donggyo-ro, 147 청람빌딩 지하",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 동교로 147 청람빌딩 지하",
+      "en": "대한민국 서울특별시 마포구 동교로 147 청람빌딩 지하",
+      "zh": "대한민국 서울특별시 마포구 동교로 147 청람빌딩 지하",
+      "ja": "대한민국 서울특별시 마포구 동교로 147 청람빌딩 지하"
+    },
     "latitude": 37.5555485,
     "longitude": 126.9183198,
     "phoneNumber": "+82 70-8281-4612",
@@ -460,7 +545,12 @@
     "id": "ChIJzx9bUdCYfDURqBS39xf_2ow",
     "name": "에반스라운지",
     "type": "live_venue",
-    "address": "401-3 Seogyo-dong, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 서교동 401-3",
+      "en": "대한민국 서울특별시 마포구 서교동 401-3",
+      "zh": "대한민국 서울특별시 마포구 서교동 401-3",
+      "ja": "대한민국 서울특별시 마포구 서교동 401-3"
+    },
     "latitude": 37.548793,
     "longitude": 126.9195083,
     "phoneNumber": "+82 2-3144-1112",
@@ -487,7 +577,12 @@
     "id": "ChIJq6yLN86YfDUR0xvMAxPYxVA",
     "name": "Jebi Dabang",
     "type": "live_venue",
-    "address": "24 Wausan-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로 24",
+      "en": "대한민국 서울특별시 마포구 와우산로 24",
+      "zh": "대한민국 서울특별시 마포구 와우산로 24",
+      "ja": "대한민국 서울특별시 마포구 와우산로 24"
+    },
     "latitude": 37.5466361,
     "longitude": 126.9231098,
     "phoneNumber": "+82 2-325-1969",
@@ -514,7 +609,12 @@
     "id": "ChIJdfv_OM6ZfDURUwSL4gD9o00",
     "name": "Bendeo",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Wausan-ro 14-gil, 4 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로14길 4 지하 1층",
+      "en": "대한민국 서울특별시 마포구 와우산로14길 4 지하 1층",
+      "zh": "대한민국 서울특별시 마포구 와우산로14길 4 지하 1층",
+      "ja": "대한민국 서울특별시 마포구 와우산로14길 4 지하 1층"
+    },
     "latitude": 37.5500175,
     "longitude": 126.9233548,
     "phoneNumber": "+82 2-6406-5646",
@@ -541,7 +641,12 @@
     "id": "ChIJ1_GbzCmZfDURndpDpn--w44",
     "name": "Haroo Music Bar",
     "type": "rock_bar",
-    "address": "178-8 Yanghwa-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 양화로 178-8",
+      "en": "대한민국 서울특별시 마포구 양화로 178-8",
+      "zh": "대한민국 서울특별시 마포구 양화로 178-8",
+      "ja": "대한민국 서울특별시 마포구 양화로 178-8"
+    },
     "latitude": 37.5574499,
     "longitude": 126.9254148,
     "phoneNumber": null,
@@ -568,7 +673,12 @@
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
     "name": "UNDERSTAGE",
     "type": "live_venue",
-    "address": "246 Itaewon-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원로 246",
+      "en": "대한민국 서울특별시 용산구 이태원로 246",
+      "zh": "대한민국 서울특별시 용산구 이태원로 246",
+      "ja": "대한민국 서울특별시 용산구 이태원로 246"
+    },
     "latitude": 37.5366084,
     "longitude": 127.0006901,
     "phoneNumber": "+82 2-331-6301",
@@ -595,7 +705,12 @@
     "id": "ChIJ_yDW1E6ifDURjtTAd-xUeOg",
     "name": "Petsounds 펫사운즈",
     "type": "live_venue",
-    "address": "278-8 Itaewon-dong, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원동 278-8",
+      "en": "대한민국 서울특별시 용산구 이태원동 278-8",
+      "zh": "대한민국 서울특별시 용산구 이태원동 278-8",
+      "ja": "대한민국 서울특별시 용산구 이태원동 278-8"
+    },
     "latitude": 37.5391661,
     "longitude": 126.9889974,
     "phoneNumber": "+82 10-2396-3050",
@@ -622,7 +737,12 @@
     "id": "ChIJu5zS90mifDURl1MmzCKDnhY",
     "name": "All That Jazz",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-ro, 216 2층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원로 216 2층",
+      "en": "대한민국 서울특별시 용산구 이태원로 216 2층",
+      "zh": "대한민국 서울특별시 용산구 이태원로 216 2층",
+      "ja": "대한민국 서울특별시 용산구 이태원로 216 2층"
+    },
     "latitude": 37.5347544,
     "longitude": 126.9981662,
     "phoneNumber": "+82 2-795-5701",
@@ -649,7 +769,12 @@
     "id": "ChIJY4nZpr-ffDUR9x3jyF5DWqQ",
     "name": "Boogie Woogie",
     "type": "live_venue",
-    "address": "21 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 회나무로 21",
+      "en": "대한민국 서울특별시 용산구 회나무로 21",
+      "zh": "대한민국 서울특별시 용산구 회나무로 21",
+      "ja": "대한민국 서울특별시 용산구 회나무로 21"
+    },
     "latitude": 37.5391916,
     "longitude": 126.9890037,
     "phoneNumber": "+82 10-2396-3050",
@@ -676,7 +801,12 @@
     "id": "ChIJ62zAidOjfDURU8jK0RLRPV8",
     "name": "카바나소셜클럽 Itaewon Club Korean pub | 梨泰院夜店 酒肆 | のクラブ",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-ro, 173-7 B2층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원로 173-7 B2층",
+      "en": "대한민국 서울특별시 용산구 이태원로 173-7 B2층",
+      "zh": "대한민국 서울특별시 용산구 이태원로 173-7 B2층",
+      "ja": "대한민국 서울특별시 용산구 이태원로 173-7 B2층"
+    },
     "latitude": 37.5348801,
     "longitude": 126.9932299,
     "phoneNumber": "+82 10-4230-1737",
@@ -703,7 +833,12 @@
     "id": "ChIJZ_-M46SjfDURp0aitQyyjLI",
     "name": "O Passage Jimmy's Bar",
     "type": "live_venue",
-    "address": "54-6 Itaewon-ro 27ga-gil, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원로27가길 54-6",
+      "en": "대한민국 서울특별시 용산구 이태원로27가길 54-6",
+      "zh": "대한민국 서울특별시 용산구 이태원로27가길 54-6",
+      "ja": "대한민국 서울특별시 용산구 이태원로27가길 54-6"
+    },
     "latitude": 37.5351837,
     "longitude": 126.9921516,
     "phoneNumber": "+82 10-2647-9777",
@@ -730,7 +865,12 @@
     "id": "ChIJu2Z3JEqifDURp1fcG9iChRY",
     "name": "THE SOUL",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Hannam-dong, 지하1층 78-2",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 한남동 지하1층 78-2",
+      "en": "대한민국 서울특별시 용산구 한남동 지하1층 78-2",
+      "zh": "대한민국 서울특별시 용산구 한남동 지하1층 78-2",
+      "ja": "대한민국 서울특별시 용산구 한남동 지하1층 78-2"
+    },
     "latitude": 37.53328310000001,
     "longitude": 127.0067917,
     "phoneNumber": "+82 10-5339-5193",
@@ -757,7 +897,12 @@
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
     "name": "프리즘홀",
     "type": "live_venue",
-    "address": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 양화로12길 6",
+      "en": "대한민국 서울특별시 마포구 양화로12길 6",
+      "zh": "대한민국 서울특별시 마포구 양화로12길 6",
+      "ja": "대한민국 서울특별시 마포구 양화로12길 6"
+    },
     "latitude": 37.5516578,
     "longitude": 126.9175086,
     "phoneNumber": null,
@@ -784,7 +929,12 @@
     "id": "ChIJSQyz70qifDURXds2EiDQMgQ",
     "name": "BBCB: Beton Brut + Concrete Bar",
     "type": "live_venue",
-    "address": "22 Bogwang-ro 60-gil, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 보광로60길 22",
+      "en": "대한민국 서울특별시 용산구 보광로60길 22",
+      "zh": "대한민국 서울특별시 용산구 보광로60길 22",
+      "ja": "대한민국 서울특별시 용산구 보광로60길 22"
+    },
     "latitude": 37.5338907,
     "longitude": 126.9954772,
     "phoneNumber": "+82 10-4321-4123",
@@ -811,7 +961,12 @@
     "id": "ChIJizYwvLGjfDUREfOx1W-s9Xs",
     "name": "서브라이엇 해방촌",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Sinheung-ro 7-gil, 1 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 신흥로7길 1 지하 1층",
+      "en": "대한민국 서울특별시 용산구 신흥로7길 1 지하 1층",
+      "zh": "대한민국 서울특별시 용산구 신흥로7길 1 지하 1층",
+      "ja": "대한민국 서울특별시 용산구 신흥로7길 1 지하 1층"
+    },
     "latitude": 37.5419221,
     "longitude": 126.9871708,
     "phoneNumber": "+82 10-8018-5546",
@@ -838,7 +993,12 @@
     "id": "ChIJC7LRVACjfDURvBApmPbjwng",
     "name": "Sunday Salt",
     "type": "live_venue",
-    "address": "33 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 회나무로 33",
+      "en": "대한민국 서울특별시 용산구 회나무로 33",
+      "zh": "대한민국 서울특별시 용산구 회나무로 33",
+      "ja": "대한민국 서울특별시 용산구 회나무로 33"
+    },
     "latitude": 37.539822,
     "longitude": 126.9903789,
     "phoneNumber": null,
@@ -860,7 +1020,12 @@
     "id": "ChIJK1JOih6jfDUR5TbCO_pe93M",
     "name": "MZK Muzik Bar 뮤지크 바",
     "type": "live_venue",
-    "address": "1 Fl, 2-10 Itaewon-ro 20-gil, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "1 Fl, 2-10 이태원로20길 용산구 서울특별시 대한민국",
+      "en": "1 Fl, 2-10 이태원로20길 용산구 서울특별시 대한민국",
+      "zh": "1 Fl, 2-10 이태원로20길 용산구 서울특별시 대한민국",
+      "ja": "1 Fl, 2-10 이태원로20길 용산구 서울특별시 대한민국"
+    },
     "latitude": 37.5340439,
     "longitude": 126.9915207,
     "phoneNumber": null,
@@ -887,7 +1052,12 @@
     "id": "ChIJUVRrTNCYfDURTjrzSja3Tgs",
     "name": "Rolling Hall",
     "type": "live_venue",
-    "address": "35 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 어울마당로 35",
+      "en": "대한민국 서울특별시 마포구 어울마당로 35",
+      "zh": "대한민국 서울특별시 마포구 어울마당로 35",
+      "ja": "대한민국 서울특별시 마포구 어울마당로 35"
+    },
     "latitude": 37.5483606,
     "longitude": 126.9200362,
     "phoneNumber": "+82 2-325-6071",
@@ -914,7 +1084,12 @@
     "id": "ChIJZQZCNZmjfDURpXRZ1mv_ubM",
     "name": "Idenhouse",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Dokseodang-ro, 73 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 독서당로 73 지하 1층",
+      "en": "대한민국 서울특별시 용산구 독서당로 73 지하 1층",
+      "zh": "대한민국 서울특별시 용산구 독서당로 73 지하 1층",
+      "ja": "대한민국 서울특별시 용산구 독서당로 73 지하 1층"
+    },
     "latitude": 37.53421,
     "longitude": 127.008636,
     "phoneNumber": "+82 2-732-0012",
@@ -941,7 +1116,12 @@
     "id": "ChIJWc_5Iv2jfDURtLk0d9MYrKI",
     "name": "BAR UNION",
     "type": "live_venue",
-    "address": "South Korea, Seoul, 2f Itaewon-dong, 74-1 KR 서울특별시 용산구",
+    "address": {
+      "ko": "대한민국 서울특별시 2f 이태원동 74-1 KR 서울특별시 용산구",
+      "en": "대한민국 서울특별시 2f 이태원동 74-1 KR 서울특별시 용산구",
+      "zh": "대한민국 서울특별시 2f 이태원동 74-1 KR 서울특별시 용산구",
+      "ja": "대한민국 서울특별시 2f 이태원동 74-1 KR 서울특별시 용산구"
+    },
     "latitude": 37.5338115,
     "longitude": 126.9923248,
     "phoneNumber": "+82 10-3395-0209",
@@ -968,7 +1148,12 @@
     "id": "ChIJOcccIq2jfDURnOnJgHsW-2o",
     "name": "FREAX | 프릭스 이태원 바",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-ro, 143-13 프릭스 (FREAX 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원로 143-13 프릭스 (FREAX 1층",
+      "en": "대한민국 서울특별시 용산구 이태원로 143-13 프릭스 (FREAX 1층",
+      "zh": "대한민국 서울특별시 용산구 이태원로 143-13 프릭스 (FREAX 1층",
+      "ja": "대한민국 서울특별시 용산구 이태원로 143-13 프릭스 (FREAX 1층"
+    },
     "latitude": 37.53454869999999,
     "longitude": 126.9892328,
     "phoneNumber": "+82 10-2780-8363",
@@ -995,7 +1180,12 @@
     "id": "ChIJdUZXm4ejfDURt4uTvN2p9y8",
     "name": "Flac Seoul",
     "type": "live_venue",
-    "address": "South Korea, Seoul, 2F Itaewon-dong, 123-3 KR 서울특별시 용산구",
+    "address": {
+      "ko": "대한민국 서울특별시 2F 이태원동 123-3 KR 서울특별시 용산구",
+      "en": "대한민국 서울특별시 2F 이태원동 123-3 KR 서울특별시 용산구",
+      "zh": "대한민국 서울특별시 2F 이태원동 123-3 KR 서울특별시 용산구",
+      "ja": "대한민국 서울특별시 2F 이태원동 123-3 KR 서울특별시 용산구"
+    },
     "latitude": 37.5349664,
     "longitude": 126.9949832,
     "phoneNumber": null,
@@ -1013,7 +1203,12 @@
     "id": "ChIJfdZbMbCjfDURuafv8kKi8Ls",
     "name": "공연장 일신홀",
     "type": "live_venue",
-    "address": "98 Hannam-daero, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 한남대로 98",
+      "en": "대한민국 서울특별시 용산구 한남대로 98",
+      "zh": "대한민국 서울특별시 용산구 한남대로 98",
+      "ja": "대한민국 서울특별시 용산구 한남대로 98"
+    },
     "latitude": 37.5371732,
     "longitude": 127.005468,
     "phoneNumber": "+82 2-790-3364",
@@ -1040,7 +1235,12 @@
     "id": "ChIJc6-1zDeifDUReiidmKAfVAc",
     "name": "Club Volnost Seoul",
     "type": "live_venue",
-    "address": "142 Itaewon-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원로 142",
+      "en": "대한민국 서울특별시 용산구 이태원로 142",
+      "zh": "대한민국 서울특별시 용산구 이태원로 142",
+      "ja": "대한민국 서울특별시 용산구 이태원로 142"
+    },
     "latitude": 37.534021,
     "longitude": 126.9893021,
     "phoneNumber": "+82 10-5004-4944",
@@ -1067,7 +1267,12 @@
     "id": "ChIJ_xHB_BajfDUR7Bx64XaiGg4",
     "name": "대원콘텐츠라이브",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Yongsan District, Hangangno 3(sam)-ga, Hangang-daero 23-gil, 55 서울특별시 6층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 한강로3가 한강대로23길 55 서울특별시 6층",
+      "en": "대한민국 서울특별시 용산구 한강로3가 한강대로23길 55 서울특별시 6층",
+      "zh": "대한민국 서울특별시 용산구 한강로3가 한강대로23길 55 서울특별시 6층",
+      "ja": "대한민국 서울특별시 용산구 한강로3가 한강대로23길 55 서울특별시 6층"
+    },
     "latitude": 37.5287506,
     "longitude": 126.9632824,
     "phoneNumber": null,
@@ -1094,7 +1299,12 @@
     "id": "ChIJUw8zwEiifDURaoU2HZwO8w0",
     "name": "ROXY LP Pub",
     "type": "rock_bar",
-    "address": "9 Hoenamu-ro, Yongsan District, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 회나무로 9",
+      "en": "대한민국 서울특별시 용산구 회나무로 9",
+      "zh": "대한민국 서울특별시 용산구 회나무로 9",
+      "ja": "대한민국 서울특별시 용산구 회나무로 9"
+    },
     "latitude": 37.53870939999999,
     "longitude": 126.9878498,
     "phoneNumber": "+82 70-8836-1969",
@@ -1121,7 +1331,12 @@
     "id": "ChIJC9tVWPKjfDURK2kzZuAXgSo",
     "name": "크라운비2 뮤직바 (CROWNB2 MUSIC BAR)",
     "type": "rock_bar",
-    "address": "South Korea, Seoul, Yongsan District, Itaewon-dong, 66-2 2층",
+    "address": {
+      "ko": "대한민국 서울특별시 용산구 이태원동 66-2 2층",
+      "en": "대한민국 서울특별시 용산구 이태원동 66-2 2층",
+      "zh": "대한민국 서울특별시 용산구 이태원동 66-2 2층",
+      "ja": "대한민국 서울특별시 용산구 이태원동 66-2 2층"
+    },
     "latitude": 37.5339335,
     "longitude": 126.9919939,
     "phoneNumber": "+82 10-3299-9921",
@@ -1148,7 +1363,12 @@
     "id": "ChIJ3a7Vp-qYfDURpUCS_XPXQVE",
     "name": "Geek Live House",
     "type": "live_venue",
-    "address": "26-17 지하 Yonsei-ro 5-gil, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로5길 26-17 지하",
+      "en": "대한민국 서울특별시 서대문구 연세로5길 26-17 지하",
+      "zh": "대한민국 서울특별시 서대문구 연세로5길 26-17 지하",
+      "ja": "대한민국 서울특별시 서대문구 연세로5길 26-17 지하"
+    },
     "latitude": 37.5567833,
     "longitude": 126.9348547,
     "phoneNumber": "+82 2-3141-5292",
@@ -1175,7 +1395,12 @@
     "id": "ChIJSydnAZWYfDURs9ynB3h9u20",
     "name": "Monghyang",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Seodaemun-gu, Yonsei-ro 5da-gil, 10 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로5다길 10 지하 1층",
+      "en": "대한민국 서울특별시 서대문구 연세로5다길 10 지하 1층",
+      "zh": "대한민국 서울특별시 서대문구 연세로5다길 10 지하 1층",
+      "ja": "대한민국 서울특별시 서대문구 연세로5다길 10 지하 1층"
+    },
     "latitude": 37.5565264,
     "longitude": 126.9350216,
     "phoneNumber": "+82 70-4121-7580",
@@ -1199,7 +1424,12 @@
     "id": "ChIJ41i5SpWYfDUR21KdD9WpUnw",
     "name": "롤링스톤즈",
     "type": "live_venue",
-    "address": "185-1 Donggyo-dong, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 동교동 185-1",
+      "en": "대한민국 서울특별시 마포구 동교동 185-1",
+      "zh": "대한민국 서울특별시 마포구 동교동 185-1",
+      "ja": "대한민국 서울특별시 마포구 동교동 185-1"
+    },
     "latitude": 37.556322,
     "longitude": 126.932669,
     "phoneNumber": "+82 2-332-9439",
@@ -1226,7 +1456,12 @@
     "id": "ChIJgUUfkZCYfDUR0oFqLHj37Jc",
     "name": "퀸 라이브홀",
     "type": "live_venue",
-    "address": "104-1 Daehyeon-dong, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 대현동 104-1",
+      "en": "대한민국 서울특별시 서대문구 대현동 104-1",
+      "zh": "대한민국 서울특별시 서대문구 대현동 104-1",
+      "ja": "대한민국 서울특별시 서대문구 대현동 104-1"
+    },
     "latitude": 37.557768,
     "longitude": 126.942521,
     "phoneNumber": "+82 2-313-7777",
@@ -1248,7 +1483,12 @@
     "id": "ChIJ5TgqnXyZfDURzH-rh5Uzgq4",
     "name": "Stim Punk Rock Live Pub",
     "type": "live_venue",
-    "address": "13 Yonsei-ro 9-gil, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로9길 13",
+      "en": "대한민국 서울특별시 서대문구 연세로9길 13",
+      "zh": "대한민국 서울특별시 서대문구 연세로9길 13",
+      "ja": "대한민국 서울특별시 서대문구 연세로9길 13"
+    },
     "latitude": 37.55843280000001,
     "longitude": 126.9360843,
     "phoneNumber": "+82 10-6768-6222",
@@ -1266,7 +1506,12 @@
     "id": "ChIJZb0by36ZfDURfUJreig6KN0",
     "name": "Baby Doll",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Seodaemun-gu, Yonsei-ro 7an-gil, 26 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
+      "en": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
+      "zh": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
+      "ja": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층"
+    },
     "latitude": 37.5582289,
     "longitude": 126.9353543,
     "phoneNumber": "+82 50-71469-9946",
@@ -1288,7 +1533,12 @@
     "id": "ChIJS1WFe-mYfDUR432v3EnBVQQ",
     "name": "프리버드라이브홀",
     "type": "live_venue",
-    "address": "South Korea, Seoul, 창천동 512-1번지 지층 서대문구 서울특별시 KR",
+    "address": {
+      "ko": "대한민국 서울특별시 창천동 512-1번지 지층 서대문구 서울특별시 KR",
+      "en": "대한민국 서울특별시 창천동 512-1번지 지층 서대문구 서울특별시 KR",
+      "zh": "대한민국 서울특별시 창천동 512-1번지 지층 서대문구 서울특별시 KR",
+      "ja": "대한민국 서울특별시 창천동 512-1번지 지층 서대문구 서울특별시 KR"
+    },
     "latitude": 37.5600392,
     "longitude": 126.9268562,
     "phoneNumber": "+82 2-333-2701",
@@ -1310,7 +1560,12 @@
     "id": "ChIJOfD6_euYfDURNEx9FpjuPNs",
     "name": "dip",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Seodaemun-gu, 창천동 448 지하",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 창천동 448 지하",
+      "en": "대한민국 서울특별시 서대문구 창천동 448 지하",
+      "zh": "대한민국 서울특별시 서대문구 창천동 448 지하",
+      "ja": "대한민국 서울특별시 서대문구 창천동 448 지하"
+    },
     "latitude": 37.561483,
     "longitude": 126.927268,
     "phoneNumber": "+82 10-4135-6574",
@@ -1330,7 +1585,12 @@
     "id": "ChIJNU_iPSSZfDURXbVtzD5IY5w",
     "name": "Lium",
     "type": "live_venue",
-    "address": "533 Seongsan-ro, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 성산로 533",
+      "en": "대한민국 서울특별시 서대문구 성산로 533",
+      "zh": "대한민국 서울특별시 서대문구 성산로 533",
+      "ja": "대한민국 서울특별시 서대문구 성산로 533"
+    },
     "latitude": 37.5641097,
     "longitude": 126.9445717,
     "phoneNumber": null,
@@ -1357,7 +1617,12 @@
     "id": "ChIJidofLgCZfDURWMnNaC1MHLs",
     "name": "아지토 라이브 홀",
     "type": "live_venue",
-    "address": "13 b1 Sinchon-ro, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 신촌로 13 b1",
+      "en": "대한민국 서울특별시 서대문구 신촌로 13 b1",
+      "zh": "대한민국 서울특별시 서대문구 신촌로 13 b1",
+      "ja": "대한민국 서울특별시 서대문구 신촌로 13 b1"
+    },
     "latitude": 37.5580772,
     "longitude": 126.9484205,
     "phoneNumber": null,
@@ -1373,7 +1638,12 @@
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
     "name": "프리즘홀",
     "type": "live_venue",
-    "address": "6 Yanghwa-ro 12-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 양화로12길 6",
+      "en": "대한민국 서울특별시 마포구 양화로12길 6",
+      "zh": "대한민국 서울특별시 마포구 양화로12길 6",
+      "ja": "대한민국 서울특별시 마포구 양화로12길 6"
+    },
     "latitude": 37.5516578,
     "longitude": 126.9175086,
     "phoneNumber": null,
@@ -1400,7 +1670,12 @@
     "id": "ChIJp1W8FZSYfDURGW0tbx6CGnY",
     "name": "Star Square",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Seodaemun-gu, Yonsei-ro, 19",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로 19",
+      "en": "대한민국 서울특별시 서대문구 연세로 19",
+      "zh": "대한민국 서울특별시 서대문구 연세로 19",
+      "ja": "대한민국 서울특별시 서대문구 연세로 19"
+    },
     "latitude": 37.5570143,
     "longitude": 126.9366787,
     "phoneNumber": null,
@@ -1427,7 +1702,12 @@
     "id": "ChIJk17byMKYfDURZjqOQVXjDL4",
     "name": "클럽 라이브앤라우드",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Donggyo-ro, 191 디비엠빌딩 지하 2층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "en": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "zh": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
+      "ja": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층"
+    },
     "latitude": 37.5574516,
     "longitude": 126.9223086,
     "phoneNumber": "+82 2-336-9399",
@@ -1454,7 +1734,12 @@
     "id": "ChIJtasBvCKZfDURgQw8IiaQ1yc",
     "name": "Sinchon Arisu Straw Performance Area",
     "type": "live_venue",
-    "address": "2-50 Changcheon-dong, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 창천동 2-50",
+      "en": "대한민국 서울특별시 서대문구 창천동 2-50",
+      "zh": "대한민국 서울특별시 서대문구 창천동 2-50",
+      "ja": "대한민국 서울특별시 서대문구 창천동 2-50"
+    },
     "latitude": 37.5588991,
     "longitude": 126.9390181,
     "phoneNumber": null,
@@ -1474,7 +1759,12 @@
     "id": "ChIJC2GlOACZfDUR5KlgBvKIeZg",
     "name": "Setoli",
     "type": "live_venue",
-    "address": "Sinchon-ro 2an-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 신촌로2안길",
+      "en": "대한민국 서울특별시 마포구 신촌로2안길",
+      "zh": "대한민국 서울특별시 마포구 신촌로2안길",
+      "ja": "대한민국 서울특별시 마포구 신촌로2안길"
+    },
     "latitude": 37.5571342,
     "longitude": 126.9286383,
     "phoneNumber": "+82 50-71361-4031",
@@ -1493,7 +1783,12 @@
     "id": "ChIJqZ_FcACZfDUR5oW53gjRzbA",
     "name": "YES24 Wanderloch Hall",
     "type": "live_venue",
-    "address": "129 Sinchon-ro, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 신촌로 129",
+      "en": "대한민국 서울특별시 서대문구 신촌로 129",
+      "zh": "대한민국 서울특별시 서대문구 신촌로 129",
+      "ja": "대한민국 서울특별시 서대문구 신촌로 129"
+    },
     "latitude": 37.55656159999999,
     "longitude": 126.9402326,
     "phoneNumber": null,
@@ -1520,7 +1815,12 @@
     "id": "ChIJseRsY5WYfDURQQiagmKXR9E",
     "name": "김포장위드엘피",
     "type": "live_venue",
-    "address": "54-28 Nogosan-dong, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 노고산동 54-28",
+      "en": "대한민국 서울특별시 마포구 노고산동 54-28",
+      "zh": "대한민국 서울특별시 마포구 노고산동 54-28",
+      "ja": "대한민국 서울특별시 마포구 노고산동 54-28"
+    },
     "latitude": 37.5547762,
     "longitude": 126.9345112,
     "phoneNumber": null,
@@ -1538,7 +1838,12 @@
     "id": "ChIJ15lQSQCZfDURGiSmzpYxVs4",
     "name": "D&D 라이브하우스",
     "type": "live_venue",
-    "address": "52 Yonsei-ro 7an-gil, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7안길 52",
+      "en": "대한민국 서울특별시 서대문구 연세로7안길 52",
+      "zh": "대한민국 서울특별시 서대문구 연세로7안길 52",
+      "ja": "대한민국 서울특별시 서대문구 연세로7안길 52"
+    },
     "latitude": 37.5585471,
     "longitude": 126.9340969,
     "phoneNumber": null,
@@ -1554,7 +1859,12 @@
     "id": "ChIJdS41nOqYfDURqMsS2rXI3x0",
     "name": "바다비 (Salon Badabie)",
     "type": "live_venue",
-    "address": "169-1 Wausan-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로 169-1",
+      "en": "대한민국 서울특별시 마포구 와우산로 169-1",
+      "zh": "대한민국 서울특별시 마포구 와우산로 169-1",
+      "ja": "대한민국 서울특별시 마포구 와우산로 169-1"
+    },
     "latitude": 37.556027,
     "longitude": 126.930854,
     "phoneNumber": null,
@@ -1570,7 +1880,12 @@
     "id": "ChIJb7N7NMCYfDURUawPN2TKHWk",
     "name": "CLUBAOR(ALL OF ROCK)",
     "type": "live_venue",
-    "address": "156 지하 Wausan-ro, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로 156 지하",
+      "en": "대한민국 서울특별시 마포구 와우산로 156 지하",
+      "zh": "대한민국 서울특별시 마포구 와우산로 156 지하",
+      "ja": "대한민국 서울특별시 마포구 와우산로 156 지하"
+    },
     "latitude": 37.5548473,
     "longitude": 126.9304103,
     "phoneNumber": "+82 10-5500-8711",
@@ -1597,7 +1912,12 @@
     "id": "ChIJr-XiYZSYfDURcx-E4TYnVB4",
     "name": "Woodstock Shinchon (since 1992)",
     "type": "rock_bar",
-    "address": "28-8 Yonsei-ro 7-gil, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7길 28-8",
+      "en": "대한민국 서울특별시 서대문구 연세로7길 28-8",
+      "zh": "대한민국 서울특별시 서대문구 연세로7길 28-8",
+      "ja": "대한민국 서울특별시 서대문구 연세로7길 28-8"
+    },
     "latitude": 37.5579786,
     "longitude": 126.935319,
     "phoneNumber": "+82 2-334-1310",
@@ -1624,7 +1944,12 @@
     "id": "ChIJ676QIgCZfDURXYAPeRtaEYo",
     "name": "Deep Purple",
     "type": "live_venue",
-    "address": "34-6 Yonsei-ro 7an-gil, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7안길 34-6",
+      "en": "대한민국 서울특별시 서대문구 연세로7안길 34-6",
+      "zh": "대한민국 서울특별시 서대문구 연세로7안길 34-6",
+      "ja": "대한민국 서울특별시 서대문구 연세로7안길 34-6"
+    },
     "latitude": 37.5583686,
     "longitude": 126.9350136,
     "phoneNumber": null,
@@ -1640,7 +1965,12 @@
     "id": "ChIJ92QLvJ-ZfDURKoucG2kni40",
     "name": "클럽퍼플",
     "type": "live_venue",
-    "address": "25 Wausan-ro 17-gil, Mapo-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로17길 25",
+      "en": "대한민국 서울특별시 마포구 와우산로17길 25",
+      "zh": "대한민국 서울특별시 마포구 와우산로17길 25",
+      "ja": "대한민국 서울특별시 마포구 와우산로17길 25"
+    },
     "latitude": 37.5500439,
     "longitude": 126.9214171,
     "phoneNumber": null,
@@ -1664,7 +1994,12 @@
     "id": "ChIJ4fTGKKiZfDURE8wLxDFHS4U",
     "name": "팝퍼블 신촌점",
     "type": "live_venue",
-    "address": "Sinchon-dong, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 신촌동",
+      "en": "대한민국 서울특별시 서대문구 신촌동",
+      "zh": "대한민국 서울특별시 서대문구 신촌동",
+      "ja": "대한민국 서울특별시 서대문구 신촌동"
+    },
     "latitude": 37.556768,
     "longitude": 126.9365693,
     "phoneNumber": null,
@@ -1691,7 +2026,12 @@
     "id": "ChIJr-XiYZSYfDURcx-E4TYnVB4",
     "name": "Woodstock Shinchon (since 1992)",
     "type": "live_venue",
-    "address": "28-8 Yonsei-ro 7-gil, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7길 28-8",
+      "en": "대한민국 서울특별시 서대문구 연세로7길 28-8",
+      "zh": "대한민국 서울특별시 서대문구 연세로7길 28-8",
+      "ja": "대한민국 서울특별시 서대문구 연세로7길 28-8"
+    },
     "latitude": 37.5579786,
     "longitude": 126.935319,
     "phoneNumber": "+82 2-334-1310",
@@ -1718,7 +2058,12 @@
     "id": "ChIJZb0by36ZfDURfUJreig6KN0",
     "name": "Baby Doll",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Seodaemun-gu, Yonsei-ro 7an-gil, 26 지하 1층",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
+      "en": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
+      "zh": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
+      "ja": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층"
+    },
     "latitude": 37.5582289,
     "longitude": 126.9353543,
     "phoneNumber": "+82 50-71469-9946",
@@ -1740,7 +2085,12 @@
     "id": "ChIJrQe0_EmZfDUR_kbfSZ2aGhY",
     "name": "PEAKERS 클라이밍 신촌",
     "type": "live_venue",
-    "address": "129 Sinchon-ro, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 신촌로 129",
+      "en": "대한민국 서울특별시 서대문구 신촌로 129",
+      "zh": "대한민국 서울특별시 서대문구 신촌로 129",
+      "ja": "대한민국 서울특별시 서대문구 신촌로 129"
+    },
     "latitude": 37.55656159999999,
     "longitude": 126.9402326,
     "phoneNumber": "+82 2-526-8989",
@@ -1767,7 +2117,12 @@
     "id": "ChIJg5CLI8CYfDURz9-ZGSUW2ao",
     "name": "Deeper",
     "type": "live_venue",
-    "address": "South Korea, Seoul, Mapo-gu, Donggyo-dong, 188 2번지 2층",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 동교동 188 2번지 2층",
+      "en": "대한민국 서울특별시 마포구 동교동 188 2번지 2층",
+      "zh": "대한민국 서울특별시 마포구 동교동 188 2번지 2층",
+      "ja": "대한민국 서울특별시 마포구 동교동 188 2번지 2층"
+    },
     "latitude": 37.5555147,
     "longitude": 126.9309656,
     "phoneNumber": "+82 70-4798-4129",
@@ -1794,7 +2149,12 @@
     "id": "ChIJyZ7gYJSYfDUR_6d6-Sn3n5g",
     "name": "Suringneun Maeul",
     "type": "live_venue",
-    "address": "52-66 Changcheon-dong, Seodaemun-gu, Seoul, South Korea",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 창천동 52-66",
+      "en": "대한민국 서울특별시 서대문구 창천동 52-66",
+      "zh": "대한민국 서울특별시 서대문구 창천동 52-66",
+      "ja": "대한민국 서울특별시 서대문구 창천동 52-66"
+    },
     "latitude": 37.5577553,
     "longitude": 126.9355429,
     "phoneNumber": "+82 2-338-1190",
@@ -1821,7 +2181,12 @@
     "id": "ChIJF7xOe5SYfDUR39Cx2jqmjHA",
     "name": "마스터키프라임신촌퍼플릭",
     "type": "live_venue",
-    "address": "South Korea, Seoul, 지하 번지 지하 52-130 중층전체 1층 KR 서울특별시 서대문구 창천동",
+    "address": {
+      "ko": "대한민국 서울특별시 지하 번지 지하 52-130 중층전체 1층 KR 서울특별시 서대문구 창천동",
+      "en": "대한민국 서울특별시 지하 번지 지하 52-130 중층전체 1층 KR 서울특별시 서대문구 창천동",
+      "zh": "대한민국 서울특별시 지하 번지 지하 52-130 중층전체 1층 KR 서울특별시 서대문구 창천동",
+      "ja": "대한민국 서울특별시 지하 번지 지하 52-130 중층전체 1층 KR 서울특별시 서대문구 창천동"
+    },
     "latitude": 37.5581855,
     "longitude": 126.9356918,
     "phoneNumber": "+82 2-336-1777",
