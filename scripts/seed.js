@@ -19,32 +19,39 @@ async function fetchPlacesData(query, area, type) {
             const placeId = place.place_id;
 
             try {
-                const details = await googlePlaces.getPlaceDetails(placeId, [
+                // 한국어 주소와 영어 주소를 각각 가져오기
+                const koreanDetails = await googlePlaces.getPlaceDetails(placeId, [
                     'name', 'formatted_address', 'geometry/location', 'photos',
                     'website', 'opening_hours', 'international_phone_number',
                     'rating', 'user_ratings_total'
-                ]);
+                ], 'ko'); // language=ko로 한국어 주소 가져오기
+                
+                const englishDetails = await googlePlaces.getPlaceDetails(placeId, [
+                    'formatted_address'
+                ], 'en'); // language=en으로 영어 주소 가져오기
 
-                if (details) {
-                    const name = details.name;
-                    const koreanAddress = details.formatted_address;
-                    // 기존처럼 다국어 주소 객체로 생성 (한글 주소를 기본으로, 다른 언어는 영어로 통일)
+                if (koreanDetails) {
+                    const name = koreanDetails.name;
+                    const koreanAddress = koreanDetails.formatted_address;
+                    const englishAddress = englishDetails?.formatted_address || koreanAddress; // 영어 주소가 없으면 한글 주소로 대체
+                    
+                    // 요청대로: 한국어(ko)만 한글, 나머지(en/zh/ja)는 모두 영어 주소로
                     const address = {
                         ko: koreanAddress,
-                        en: koreanAddress, // 원래 기획대로 다른 언어는 영어로 (한글 주소가 한국어이지만 구글에서 한국어로 가져오므로 그대로 사용)
-                        zh: koreanAddress,
-                        ja: koreanAddress
+                        en: englishAddress,
+                        zh: englishAddress,
+                        ja: englishAddress
                     };
-                    const latitude = details.geometry.location.lat;
-                    const longitude = details.geometry.location.lng;
-                    const phoneNumber = details.international_phone_number || null;
-                    const websiteUrl = details.website || null;
+                    const latitude = koreanDetails.geometry.location.lat;
+                    const longitude = koreanDetails.geometry.location.lng;
+                    const phoneNumber = koreanDetails.international_phone_number || null;
+                    const websiteUrl = koreanDetails.website || null;
                     const googlePlaceId = placeId;
                     const description = null;
-                    const image_urls = details.photos ? details.photos.map(photo =>
+                    const image_urls = koreanDetails.photos ? koreanDetails.photos.map(photo =>
                         googlePlaces.getPhotoUrl(photo.photo_reference)
                     ) : [];
-                    const opening_hours = details.opening_hours ? JSON.stringify(details.opening_hours.weekday_text) : null;
+                    const opening_hours = koreanDetails.opening_hours ? JSON.stringify(koreanDetails.opening_hours.weekday_text) : null;
 
                     venues.push({
                         id: googlePlaceId,
@@ -86,43 +93,52 @@ async function updateAllVenuesAddresses(venues) {
     
     for (const venue of venues) {
         try {
-            // 구글에서 최신 정보(한글 주소) 가져오기 (모든 장소에 대해 매번 실행)
-            const details = await googlePlaces.getPlaceDetails(venue.googlePlaceId, [
+            // 구글에서 최신 정보 가져오기: 한국어 주소(ko)는 한글, 영어 주소(en)는 영어로 각각 가져오기
+            const koreanDetails = await googlePlaces.getPlaceDetails(venue.googlePlaceId, [
                 'name', 'formatted_address', 'geometry/location'
-            ]);
+            ], 'ko'); // 한국어 주소
+            
+            const englishDetails = await googlePlaces.getPlaceDetails(venue.googlePlaceId, [
+                'formatted_address'
+            ], 'en'); // 영어 주소
             
             let newArea = venue.area; // 기존 area 유지
             let koreanAddress = '';
             
-            if (details && details.formatted_address) {
-                koreanAddress = details.formatted_address;
+            if (koreanDetails && koreanDetails.formatted_address) {
+                koreanAddress = koreanDetails.formatted_address;
+                const englishAddress = englishDetails?.formatted_address || koreanAddress; // 영어 주소가 없으면 한글 주소로 대체
+                
                 // 숙명여대 인근 주소 확인 후 area를 sukmyung으로 변경, 기존 sookmyung도 모두 sukmyung으로 통일
                 if (koreanAddress.includes('청파동') || koreanAddress.includes('서계동') || 
                     koreanAddress.includes('용산구 독서당로') || koreanAddress.includes('숙명여대') || venue.area === 'sookmyung') {
                     newArea = 'sukmyung';
                 }
                 
+                // 요청대로: 한국어(ko)만 한글, 나머지(en/zh/ja)는 모두 영어 주소로
                 const address = {
                     ko: koreanAddress,
-                    en: koreanAddress,
-                    zh: koreanAddress,
-                    ja: koreanAddress
+                    en: englishAddress,
+                    zh: englishAddress,
+                    ja: englishAddress
                 };
                 updatedVenues.push({ ...venue, address, area: newArea });
                 console.log(`주소 업데이트 완료: ${venue.name} - ${koreanAddress} (area: ${newArea})`);
             } else {
-                // 정보를 가져오지 못한 경우 기존 주소를 객체로 변환
-                const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+                // 정보를 가져오지 못한 경우 기존 주소를 객체로 변환하되, 기존 영어 주소가 있으면 사용
+                const existingKoreanAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+                const existingEnglishAddress = typeof venue.address === 'object' && venue.address?.en ? venue.address.en : existingKoreanAddress;
+                
                 // 기존 주소로도 숙명 인근 확인
-                if (existingAddress.includes('청파동') || existingAddress.includes('서계동') || 
-                    existingAddress.includes('용산구 독서당로') || existingAddress.includes('숙명여대')) {
+                if (existingKoreanAddress.includes('청파동') || existingKoreanAddress.includes('서계동') || 
+                    existingKoreanAddress.includes('용산구 독서당로') || existingKoreanAddress.includes('숙명여대')) {
                     newArea = 'sukmyung';
                 }
                 const address = {
-                    ko: existingAddress,
-                    en: existingAddress,
-                    zh: existingAddress,
-                    ja: existingAddress
+                    ko: existingKoreanAddress,
+                    en: existingEnglishAddress,
+                    zh: existingEnglishAddress,
+                    ja: existingEnglishAddress
                 };
                 updatedVenues.push({ ...venue, address, area: newArea });
                 console.log(`주소 변환 완료 (기존 주소 사용): ${venue.name} (area: ${newArea})`);
@@ -130,18 +146,20 @@ async function updateAllVenuesAddresses(venues) {
         } catch (error) {
             console.error(`${venue.name} 주소 업데이트 실패:`, error.message);
             // 오류 발생시 기존 주소 유지하면서 객체로 변환
-            const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+            const existingKoreanAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+            const existingEnglishAddress = typeof venue.address === 'object' && venue.address?.en ? venue.address.en : existingKoreanAddress;
             let newArea = venue.area;
+            
             // 기존 주소로도 숙명 인근 확인
-            if (existingAddress.includes('청파동') || existingAddress.includes('서계동') || 
-                existingAddress.includes('용산구 독서당로') || existingAddress.includes('숙명여대')) {
+            if (existingKoreanAddress.includes('청파동') || existingKoreanAddress.includes('서계동') || 
+                existingKoreanAddress.includes('용산구 독서당로') || existingKoreanAddress.includes('숙명여대')) {
                 newArea = 'sukmyung';
             }
             const address = {
-                ko: existingAddress,
-                en: existingAddress,
-                zh: existingAddress,
-                ja: existingAddress
+                ko: existingKoreanAddress,
+                en: existingEnglishAddress,
+                zh: existingEnglishAddress,
+                ja: existingEnglishAddress
             };
             updatedVenues.push({ ...venue, address, area: newArea });
         }
