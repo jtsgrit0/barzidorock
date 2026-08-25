@@ -86,13 +86,7 @@ async function updateAllVenuesAddresses(venues) {
     
     for (const venue of venues) {
         try {
-            // 이미 주소가 객체 형태이고 한글로 되어있는 경우 스킵
-            if (venue.address && typeof venue.address === 'object' && venue.address.ko) {
-                updatedVenues.push(venue);
-                continue;
-            }
-            
-            // 구글에서 최신 정보(한글 주소) 가져오기
+            // 구글에서 최신 정보(한글 주소) 가져오기 (모든 장소에 대해 매번 실행)
             const details = await googlePlaces.getPlaceDetails(venue.googlePlaceId, [
                 'name', 'formatted_address', 'geometry/location'
             ]);
@@ -106,7 +100,7 @@ async function updateAllVenuesAddresses(venues) {
                     ja: koreanAddress
                 };
                 updatedVenues.push({ ...venue, address });
-                console.log(`주소 업데이트 완료: ${venue.name}`);
+                console.log(`주소 업데이트 완료: ${venue.name} - ${koreanAddress}`);
             } else {
                 // 정보를 가져오지 못한 경우 기존 주소를 객체로 변환
                 const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
