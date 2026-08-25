@@ -83,6 +83,7 @@ async function seedInitialData() {
     allVenues = allVenues.concat(await fetchPlacesData("이태원 락바", "itaewon", "rock_bar"));
     allVenues = allVenues.concat(await fetchPlacesData("신촌 라이브 공연장", "sinchon", "live_venue"));
     allVenues = allVenues.concat(await fetchPlacesData("신촌 락바", "sinchon", "rock_bar"));
+    allVenues = allVenues.concat(await fetchPlacesData("신촌 딥퍼플", "sinchon", "live_venue"));
 
     const outputPath = path.join(__dirname, '../../client/public', 'venues.json');
     const outputDir = path.dirname(outputPath);
