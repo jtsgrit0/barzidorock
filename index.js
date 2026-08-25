@@ -535,6 +535,23 @@ app.get('/api/schedules', async (req, res) => {
   }
 });
 
+// 모든 공연일정 일괄 삭제 API (관리자용)
+app.delete('/api/schedules/all', async (req, res) => {
+  try {
+    // 누구나 삭제 가능하도록 임시로 권한 체크 생략
+    const result = await sql`DELETE FROM schedules RETURNING *;`;
+    console.log('모든 공연일정 삭제됨:', result.rows.length + '개');
+    res.json({ 
+      message: '모든 공연일정이 성공적으로 삭제되었습니다.', 
+      deletedCount: result.rows.length,
+      deletedSchedules: result.rows.map(r => ({ id: r.id, event_name: r.event_name }))
+    });
+  } catch (error) {
+    console.error('Error deleting all schedules:', error);
+    res.status(500).json({ error: '공연일정을 삭제하는 중 오류가 발생했습니다.' });
+  }
+});
+
 
 
 app.put('/api/schedules/:id', async (req, res) => {
