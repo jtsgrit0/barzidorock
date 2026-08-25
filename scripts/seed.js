@@ -92,6 +92,7 @@ async function seedInitialData() {
     newVenues.push(...await fetchPlacesData("신촌 라이브 공연장", "sinchon", "live_venue"));
     newVenues.push(...await fetchPlacesData("신촌 락바", "sinchon", "rock_bar"));
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플", "sinchon", "live_venue"));
+    newVenues.push(...await fetchPlacesData("신촌 딥퍼플 라이브 공연장", "sinchon", "live_venue"));
 
     // 중복 제거 (기존에 같은 id가 있으면 건너뛰기)
     const existingIds = new Set(allVenues.map(v => v.id));
