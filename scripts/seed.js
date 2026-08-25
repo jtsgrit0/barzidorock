@@ -198,6 +198,8 @@ async function seedInitialData() {
     newVenues.push(...await fetchPlacesData("서계동 락바", "sukmyung", "rock_bar"));
     newVenues.push(...await fetchPlacesData("용산구 숙명여대 근처 바", "sukmyung", "bar"));
     newVenues.push(...await fetchPlacesData("숙명여대 앞 라이브하우스", "sukmyung", "live_venue"));
+    // 홍대 듈 스튜디오 추가
+    newVenues.push(...await fetchPlacesData("홍대 듈 스튜디오", "hongdae", "live_venue"));
 
     // 중복 제거 (기존에 같은 id가 있으면 건너뛰기)
     const existingIds = new Set(allVenues.map(v => v.id));
