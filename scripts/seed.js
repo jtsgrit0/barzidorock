@@ -91,39 +91,59 @@ async function updateAllVenuesAddresses(venues) {
                 'name', 'formatted_address', 'geometry/location'
             ]);
             
+            let newArea = venue.area; // 기존 area 유지
+            let koreanAddress = '';
+            
             if (details && details.formatted_address) {
-                const koreanAddress = details.formatted_address;
+                koreanAddress = details.formatted_address;
+                // 숙명여대 인근 주소 확인 후 area를 sukmyung으로 변경, 기존 sookmyung도 모두 sukmyung으로 통일
+                if (koreanAddress.includes('청파동') || koreanAddress.includes('서계동') || 
+                    koreanAddress.includes('용산구 독서당로') || koreanAddress.includes('숙명여대') || venue.area === 'sookmyung') {
+                    newArea = 'sukmyung';
+                }
+                
                 const address = {
                     ko: koreanAddress,
                     en: koreanAddress,
                     zh: koreanAddress,
                     ja: koreanAddress
                 };
-                updatedVenues.push({ ...venue, address });
-                console.log(`주소 업데이트 완료: ${venue.name} - ${koreanAddress}`);
+                updatedVenues.push({ ...venue, address, area: newArea });
+                console.log(`주소 업데이트 완료: ${venue.name} - ${koreanAddress} (area: ${newArea})`);
             } else {
                 // 정보를 가져오지 못한 경우 기존 주소를 객체로 변환
                 const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+                // 기존 주소로도 숙명 인근 확인
+                if (existingAddress.includes('청파동') || existingAddress.includes('서계동') || 
+                    existingAddress.includes('용산구 독서당로') || existingAddress.includes('숙명여대')) {
+                    newArea = 'sukmyung';
+                }
                 const address = {
                     ko: existingAddress,
                     en: existingAddress,
                     zh: existingAddress,
                     ja: existingAddress
                 };
-                updatedVenues.push({ ...venue, address });
-                console.log(`주소 변환 완료 (기존 주소 사용): ${venue.name}`);
+                updatedVenues.push({ ...venue, address, area: newArea });
+                console.log(`주소 변환 완료 (기존 주소 사용): ${venue.name} (area: ${newArea})`);
             }
         } catch (error) {
             console.error(`${venue.name} 주소 업데이트 실패:`, error.message);
             // 오류 발생시 기존 주소 유지하면서 객체로 변환
             const existingAddress = typeof venue.address === 'string' ? venue.address : venue.address?.ko || '주소 정보 없음';
+            let newArea = venue.area;
+            // 기존 주소로도 숙명 인근 확인
+            if (existingAddress.includes('청파동') || existingAddress.includes('서계동') || 
+                existingAddress.includes('용산구 독서당로') || existingAddress.includes('숙명여대')) {
+                newArea = 'sukmyung';
+            }
             const address = {
                 ko: existingAddress,
                 en: existingAddress,
                 zh: existingAddress,
                 ja: existingAddress
             };
-            updatedVenues.push({ ...venue, address });
+            updatedVenues.push({ ...venue, address, area: newArea });
         }
     }
     return updatedVenues;
@@ -155,11 +175,11 @@ async function seedInitialData() {
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플", "sinchon", "live_venue"));
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플 라이브 공연장", "sinchon", "live_venue"));
     // 숙명여대 근처 검색어 추가
-    newVenues.push(...await fetchPlacesData("숙명여대 라이브 공연장", "sookmyung", "live_venue"));
-    newVenues.push(...await fetchPlacesData("청파동 라이브 펍", "sookmyung", "pub"));
-    newVenues.push(...await fetchPlacesData("서계동 락바", "sookmyung", "rock_bar"));
-    newVenues.push(...await fetchPlacesData("용산구 숙명여대 근처 바", "sookmyung", "bar"));
-    newVenues.push(...await fetchPlacesData("숙명여대 앞 라이브하우스", "sookmyung", "live_venue"));
+    newVenues.push(...await fetchPlacesData("숙명여대 라이브 공연장", "sukmyung", "live_venue"));
+    newVenues.push(...await fetchPlacesData("청파동 라이브 펍", "sukmyung", "pub"));
+    newVenues.push(...await fetchPlacesData("서계동 락바", "sukmyung", "rock_bar"));
+    newVenues.push(...await fetchPlacesData("용산구 숙명여대 근처 바", "sukmyung", "bar"));
+    newVenues.push(...await fetchPlacesData("숙명여대 앞 라이브하우스", "sukmyung", "live_venue"));
 
     // 중복 제거 (기존에 같은 id가 있으면 건너뛰기)
     const existingIds = new Set(allVenues.map(v => v.id));
