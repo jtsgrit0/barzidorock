@@ -71,6 +71,7 @@
   height: 32px;
   border-radius: 50%;
   transition: background-color 0.2s;
+  color: #fff;
 }
 
 .search-button:hover {
