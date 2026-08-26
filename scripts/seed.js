@@ -192,6 +192,7 @@ async function seedInitialData() {
     newVenues.push(...await fetchPlacesData("신촌 락바", "sinchon", "rock_bar"));
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플", "sinchon", "live_venue"));
     newVenues.push(...await fetchPlacesData("신촌 딥퍼플 라이브 공연장", "sinchon", "live_venue"));
+    newVenues.push(...await fetchPlacesData("신촌 인피니티 클럽", "sinchon", "live_venue"));
     // 숙명여대 근처 검색어 추가
     newVenues.push(...await fetchPlacesData("숙명여대 라이브 공연장", "sukmyung", "live_venue"));
     newVenues.push(...await fetchPlacesData("청파동 라이브 펍", "sukmyung", "pub"));
