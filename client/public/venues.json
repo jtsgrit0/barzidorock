@@ -3930,5 +3930,25 @@
     "opening_hours": null,
     "area": "hongdae",
     "created_at": "2026-08-26T06:12:55.486Z"
+  },
+  {
+    "name": "바 틸트",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 서울특별시 서대문구 연세로7안길 34",
+      "en": "34, Yonsei-ro 7an-gil, Seodaemun-gu, Seoul, South Korea",
+      "zh": "34, Yonsei-ro 7an-gil, Seodaemun-gu, Seoul, South Korea",
+      "ja": "34, Yonsei-ro 7an-gil, Seodaemun-gu, Seoul, South Korea"
+    },
+    "latitude": 37.5564502,
+    "longitude": 126.9376758,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": "ChIJw6bZ3kWyDDRUqVqkfPz7ZJ8",
+    "description": null,
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "sinchon",
+    "created_at": "2026-08-29T00:00:00.000Z"
   }
 ]
