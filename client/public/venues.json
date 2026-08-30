@@ -1,6 +1,101 @@
 [
   {
     "id": null,
+    "name": "썬라이브",
+    "type": "live_venue",
+    "address": {
+      "ko": "수원시 장안구 정자동 878-10호 4층",
+      "en": "4F, 878-10 Jeongja-dong, Jangan-gu, Suwon-si, Gyeonggi-do, Republic of Korea"
+    },
+    "latitude": 37.299,
+    "longitude": 126.999,
+    "phoneNumber": "010-9090-8837",
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": "7080 테마 라이브 클럽, 단체 예약 가능",
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "suwon",
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": "블루스보이커피",
+    "type": "live_venue",
+    "address": {
+      "ko": "경기 수원시 팔달구 신풍로23번길 52 2층",
+      "en": "2F, 52 Sinpung-ro 23beon-gil, Paldal-gu, Suwon-si, Gyeonggi-do, Republic of Korea"
+    },
+    "latitude": 37.283,
+    "longitude": 127.015,
+    "phoneNumber": "0507-1330-9793",
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": "매주 토요일 라이브 공연",
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "suwon",
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": "GV 행궁동",
+    "type": "live_venue",
+    "address": {
+      "ko": "경기 수원시 팔달구 정조로 800-1",
+      "en": "800-1 Jeongjo-ro, Paldal-gu, Suwon-si, Gyeonggi-do, Republic of Korea"
+    },
+    "latitude": 37.284,
+    "longitude": 127.014,
+    "phoneNumber": "0507-1321-3037",
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "suwon",
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": "12인치 행궁동",
+    "type": "live_venue",
+    "address": {
+      "ko": "경기 수원시 팔달구 정조로 868 2층",
+      "en": "2F, 868 Jeongjo-ro, Paldal-gu, Suwon-si, Gyeonggi-do, Republic of Korea"
+    },
+    "latitude": 37.286,
+    "longitude": 127.016,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "suwon",
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": "헤르츠",
+    "type": "live_venue",
+    "address": {
+      "ko": "경기 수원시 영통구 대학로 60 리치프라자 3관 1층 101호, 102호, 103호",
+      "en": "101, 102, 103, 1st floor, Rich Plaza 3, 60 Daehak-ro, Yeongtong-gu, Suwon-si, Gyeonggi-do, Republic of Korea"
+    },
+    "latitude": 37.298,
+    "longitude": 127.042,
+    "phoneNumber": "0507-1352-2965",
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "suwon",
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": null,
     "name": "호사가",
     "type": "live_venue",
     "address": {
@@ -18,7 +113,6 @@
     "area": "yongsan",
     "created_at": "2026-08-30T00:00:00.000Z"
   },
-[
   {
     "id": null,
     "name": "생기",
