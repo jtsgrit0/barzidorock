@@ -46,10 +46,10 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     setMap(null);
   }, []);
 
-  const handleMarkerClick = async (venueId) => {
+  const handleMarkerClick = async (venueId, index) => {
     setOpenInfoWindowId(prevId => (prevId === venueId ? null : venueId));
     if (map) {
-      const venue = venues.find(v => v.id === venueId);
+      const venue = venues[index];
       if (venue) {
         map.setZoom(16);
         const offsetLat = -0.005;
@@ -78,7 +78,10 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
     }
   ];
 
-  const selectedVenue = venues.find(venue => venue.id === openInfoWindowId);
+  const selectedVenue = venues.find((venue, index) => {
+    const venueIdentifier = venue.id || `venue-${index}`;
+    return venueIdentifier === openInfoWindowId;
+  });
 
   return (
     <div style={{ height: '100%', minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -108,11 +111,11 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
           }
         }}
       >
-        {venues.map(venue => (
+        {venues.map((venue, index) => (
           <Marker
-            key={venue.id}
+            key={venue.id || `venue-${index}`}
             position={{ lat: venue.latitude, lng: venue.longitude }}
-            onClick={() => handleMarkerClick(venue.id)}
+            onClick={() => handleMarkerClick(venue.id || `venue-${index}`, index)}
             icon={{
               url: venue.type === 'live_venue' 
                 ? 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png' 
@@ -123,7 +126,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
 
         {selectedVenue && (
           <InfoWindow
-            key={selectedVenue.id}
+            key={selectedVenue.id || `venue-${venues.indexOf(selectedVenue)}`}
             position={{ lat: selectedVenue.latitude, lng: selectedVenue.longitude }}
             onCloseClick={handleInfoWindowClose}
           >
