@@ -20,6 +20,25 @@
   },
   {
     "id": null,
+    "name": "락클럽 피드백",
+    "type": "live_venue",
+    "address": {
+      "ko": "경상남도 창원시 성산구 상남로 67 지하 1층",
+      "en": "B1, 67, Sangnam-ro, Seongsan-gu, Changwon-si, Gyeongsangnam-do, Republic of Korea"
+    },
+    "latitude": 35.225,
+    "longitude": 128.683,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": "2012년부터 운영된 창원의 대표 락 클럽, 다양한 인디밴드 공연 개최",
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "changwon",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": null,
     "name": "썬라이브",
     "type": "live_venue",
     "address": {
