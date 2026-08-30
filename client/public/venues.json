@@ -1,6 +1,25 @@
 [
   {
     "id": null,
+    "name": "블레이홀",
+    "type": "live_venue",
+    "address": {
+      "ko": "경상남도 창원시 성산구 외동반림로130번길 45",
+      "en": "45, Oedongbanrim-ro 130beon-gil, Seongsan-gu, Changwon-si, Gyeongsangnam-do, Republic of Korea"
+    },
+    "latitude": 35.228,
+    "longitude": 128.688,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "googlePlaceId": null,
+    "description": "인디 뮤지션을 위한 라이브 공연장 (2024년 오픈)",
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "changwon",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": null,
     "name": "썬라이브",
     "type": "live_venue",
     "address": {

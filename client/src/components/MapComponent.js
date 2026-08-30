@@ -20,12 +20,10 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   venuesRef.current = venues;
 
   useEffect(() => {
-    if (activeVenueId && map) {
+    if (activeVenueId && map && searchVenueId) {
       const venue = venuesRef.current.find(v => v.id === activeVenueId);
       if (venue) {
-        if (!searchVenueId || activeVenueId !== searchVenueId) {
-          setOpenInfoWindowId(activeVenueId);
-        }
+        setOpenInfoWindowId(activeVenueId);
         map.setZoom(14);
         const offsetLat = -0.005;
         const newCenter = {
