@@ -1,5 +1,24 @@
 [
   {
+    "id": null,
+    "name": "생기",
+    "type": "live_venue",
+    "address": {
+      "ko": "서울특별시 마포구 와우산로 137 5층",
+      "en": "137, Wausan-ro, Mapo-gu, Seoul, Republic of Korea"
+    },
+    "latitude": 37.553339,
+    "longitude": 126.92155,
+    "phoneNumber": "+82 10-5354-0193",
+    "websiteUrl": "http://senggistudio.site/",
+    "googlePlaceId": null,
+    "description": null,
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "hongdae",
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
     "name": "Cafe Unplugged",
     "type": "live_venue",
