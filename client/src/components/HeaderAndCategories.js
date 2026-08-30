@@ -70,6 +70,7 @@ function HeaderAndCategories({ selectedCategory, onCategoryChange, language, set
     { key: 'itaewon', label: t('category_itaewon', '이태원') },
     { key: 'sukmyung', label: t('category_sukmyung', '숙명') },
     { key: 'sinchon', label: t('category_sinchon', '신촌') },
+    { key: 'suwon', label: t('category_suwon', '수원') },
   ];
 
   return (

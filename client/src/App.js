@@ -191,6 +191,9 @@ function AppContent() {
     } else if (category === 'sinchon') {
       newCenter = { lat: 37.555, lng: 126.936 };
       newZoom = 15;
+    } else if (category === 'suwon') {
+      newCenter = { lat: 37.288, lng: 127.018 };
+      newZoom = 13;
     } else { // 'all'
       newCenter = { lat: 37.5550354, lng: 126.929 };
       newZoom = 12;
