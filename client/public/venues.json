@@ -4207,7 +4207,7 @@
   },
   {
     "id": "ChIJc8b3dC8zA7zURhGfX7eG8x",
-    "name": "비닐 언더그라운드(Vinyl Underground)",
+    "name": "바이닐 언더그라운드(Vinyl Underground)",
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 남구 대연3동 58-2",
@@ -4220,7 +4220,7 @@
     "phoneNumber": "+82 51-628-0223",
     "websiteUrl": "https://www.instagram.com/vinylunderground_busan/",
     "googlePlaceId": "ChIJc8b3dC8zA7zURhGfX7eG8x",
-    "description": "부산 경성대 앞 클럽 거리에 위치한 라이브 클럽으로, 록, 재즈, 일렉트로닉 등 다양한 장르의 라이브 공연이 열리는 공간입니다.",
+    "description": "부산 경성대 앞 클럽 거리에 위치한 라이브 클럽으로, 록, 재즈, 일렉트로닉 등 다양한 장르의 바이닐 레코드와 라이브 공연이 열리는 공간입니다.",
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 8:00 PM – 2:00 AM\",\"Wednesday: 8:00 PM – 2:00 AM\",\"Thursday: 8:00 PM – 2:00 AM\",\"Friday: 8:00 PM – 2:00 AM\",\"Saturday: 8:00 PM – 2:00 AM\",\"Sunday: Closed\"]",
     "area": "busan",
