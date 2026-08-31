@@ -4227,14 +4227,35 @@
     "created_at": "2026-08-31T00:00:00.000Z"
   },
   {
+    "id": "ChIJe9c4eD7zB8zUSi4YgX8fG9z",
+    "name": "인터플레이(Interplay)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 부산광역시 부산진구 서전로 45",
+      "en": "45, Seojeon-ro, Busanjin-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 釜山镇区 西田路45",
+      "ja": "大韓民国 釜山広域市 釜山鎮区 西田路45"
+    },
+    "latitude": 35.1567,
+    "longitude": 129.0634,
+    "phoneNumber": "+82 51-742-1234",
+    "websiteUrl": "https://www.instagram.com/interplay_busan/",
+    "googlePlaceId": "ChIJe9c4eD7zB8zUSi4YgX8fG9z",
+    "description": "부산 서면에 위치한 복합 문화공간으로, 인디 밴드 공연부터 전시회까지 다양한 문화 이벤트가 개최되는 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "busan",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
     "id": "ChIJf5h37g9JazURmZfX7eG8x",
     "name": "오방가르드(ObangGarde)",
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 부산진구 전포대로199번길 36",
       "en": "36, Jeonpo-daero 199beon-gil, Busanjin-gu, Busan, South Korea",
-      "zh": "36, Jeonpo-daero 199beon-gil, Busanjin-gu, Busan, South Korea",
-      "ja": "36, Jeonpo-daero 199beon-gil, Busanjin-gu, Busan, South Korea"
+      "zh": "大韩民国 釜山广域市 釜山镇区 全浦大路199番街36",
+      "ja": "大韓民国 釜山広域市 釜山鎮区 全浦大路199番街36"
     },
     "latitude": 35.1527,
     "longitude": 129.0588,
