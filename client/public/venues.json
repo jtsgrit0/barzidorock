@@ -4080,6 +4080,90 @@
     "created_at": "2026-08-29T00:00:00.000Z"
   },
   {
+    "id": "ChIJb0a0cDpV7zURhZ3FfM7G7xw",
+    "name": "클럽 헤비(Club Heavy)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 대구광역시 중구 동성로 131",
+      "en": "131, Dongseong-ro, Jung-gu, Daegu, South Korea",
+      "zh": "大韩民国 大邱广域市 中区 东城路131",
+      "ja": "大韓民国 大邱広域市 中区 東城路131"
+    },
+    "latitude": 35.8692,
+    "longitude": 128.6805,
+    "phoneNumber": "+82 53-423-5555",
+    "websiteUrl": "https://www.instagram.com/clubheavy_daegu/",
+    "googlePlaceId": "ChIJb0a0cDpV7zURhZ3FfM7G7xw",
+    "description": "대구 동성로에 위치한 대표적인 인디 라이브 클럽으로, 국내외 다양한 인디 밴드들의 공연이 열리는 문화공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "daegu",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "ChIJk9a8bC8pA7zUR9fX7eG8x",
+    "name": "라이브 인디(Live Indie)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 대구광역시 달서구 계대동문로 53",
+      "en": "53, Gyedaedongmun-ro, Dalseo-gu, Daegu, South Korea",
+      "zh": "大韩民国 大邱广域市 达西区 启明大东门路53",
+      "ja": "大韓民国 大邱広域市 達西区 啓明大東門路53"
+    },
+    "latitude": 35.8564,
+    "longitude": 128.6789,
+    "phoneNumber": "+82 53-789-1234",
+    "websiteUrl": "https://www.instagram.com/liveindie_daegu/",
+    "googlePlaceId": "ChIJk9a8bC8pA7zUR9fX7eG8x",
+    "description": "대구 계명대 근처에 위치한 인디 라이브 클럽으로, 신진 밴드부터 기성 밴드까지 다양한 공연을 선보이는 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "daegu",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "ChIJd7a2bC9zA7zURhGfX7eG8x",
+    "name": "클럽 비밥(Club Bebop)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 부산광역시 부산진구 서전로10번길 30",
+      "en": "30, Seojeon-ro 10beon-gil, Busanjin-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 釜山镇区 西田路10番街30",
+      "ja": "大韓民国 釜山広域市 釜山鎮区 西田路10番街30"
+    },
+    "latitude": 35.1582,
+    "longitude": 129.0657,
+    "phoneNumber": "+82 51-744-2345",
+    "websiteUrl": "https://www.instagram.com/clubbebop_busan/",
+    "googlePlaceId": "ChIJd7a2bC9zA7zURhGfX7eG8x",
+    "description": "부산 서면에 위치한 클래식부터 재즈까지 다양한 장르의 공연을 선보이는 라이브 클럽입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "busan",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "ChIJc8b3dC8zA7zURhGfX7eG8x",
+    "name": "바이닐 하우스(Vinyl House)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 부산광역시 남구 용소로14번길 22",
+      "en": "22, Yongso-ro 14beon-gil, Nam-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 南区 龙小路14番街22",
+      "ja": "大韓民国 釜山広域市 南区 龍小路14番街22"
+    },
+    "latitude": 35.1123,
+    "longitude": 129.0987,
+    "phoneNumber": "+82 51-654-7890",
+    "websiteUrl": "https://www.instagram.com/vinylhouse_busan/",
+    "googlePlaceId": "ChIJc8b3dC8zA7zURhGfX7eG8x",
+    "description": "부산 대연동에 위치한 바이닐 레코드와 함께 라이브 공연을 즐길 수 있는 복합 문화 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "busan",
+    "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
     "id": "ChIJf5h37g9JazURmZfX7eG8x",
     "name": "오방가르드(ObangGarde)",
     "type": "live_venue",
