@@ -4185,6 +4185,48 @@
     "created_at": "2026-08-31T00:00:00.000Z"
   },
   {
+    "id": "ChIJm8b7cD8zB9zUSi4YgX8fG9a",
+    "name": "꼬뮨(COMMUNE)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 대구광역시 중구 동성로5길 85 지하1층",
+      "en": "Basement 1, 85, Dongseong-ro 5-gil, Jung-gu, Daegu, South Korea",
+      "zh": "大韩民国 大邱广域市 中区 东城路5街85 地下1层",
+      "ja": "大韓民国 大邱広域市 中区 東城路5街85 地下1階"
+    },
+    "latitude": 35.8678,
+    "longitude": 128.6005,
+    "phoneNumber": "",
+    "websiteUrl": "https://www.instagram.com/COMMUNESLIVE/",
+    "googlePlaceId": "ChIJm8b7cD8zB9zUSi4YgX8fG9a",
+    "description": "대구 동성로에 위치한 인디 라이브 공연과 파티가 열리는 라이브 펍 겸 공연장으로, 다양한 인디 아티스트와 밴드의 라이브 공연이 활발하게 개최되는 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: Closed\",\"Wednesday: 8:00 PM – 3:30 AM\",\"Thursday: 8:00 PM – 3:30 AM\",\"Friday: 8:00 PM – 3:30 AM\",\"Saturday: 8:00 PM – 3:30 AM\",\"Sunday: 8:00 PM – 3:30 AM\"]",
+    "area": "daegu",
+    "created_at": "2026-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "ChIJn9c8dE9aC0zVTj5ZhY9gH1b",
+    "name": "제임스레코드(Jamesrecord)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 대구광역시 중구 공평동 82-9",
+      "en": "82-9, Gongpyeong-dong, Jung-gu, Daegu, South Korea",
+      "zh": "大韩民国 大邱广域市 中区 公平洞82-9",
+      "ja": "大韓民国 大邱広域市 中区 公平洞82-9"
+    },
+    "latitude": 35.8683,
+    "longitude": 128.5990,
+    "phoneNumber": "",
+    "websiteUrl": "https://www.instagram.com/jamesrecord/",
+    "googlePlaceId": "ChIJn9c8dE9aC0zVTj5ZhY9gH1b",
+    "description": "대구 경상권 인디 음악 신의 중심지로, 인디 레이블이자 바이닐(LP) 제작소, 음악 펍으로 소규모 라이브 공연 기획 및 음반 제작을 도맡아 하고 있는 문화 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 2:00 AM\",\"Wednesday: 7:00 PM – 2:00 AM\",\"Thursday: 7:00 PM – 2:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "daegu",
+    "created_at": "2026-09-01T00:00:00.000Z"
+  },
+  {
     "id": "ChIJd7a2bC9zA7zURhGfX7eG8x",
     "name": "클럽 비밥(Club Bebop)",
     "type": "live_venue",
