@@ -91,13 +91,31 @@ function AppContent() {
 
   // Check for location consent on app load
   useEffect(() => {
+    const hasSeenPetition = localStorage.getItem('hasSeenPetition');
+    if (hasSeenPetition === null) {
+      setShowPetitionPopup(true);
+    } else {
+      const consent = localStorage.getItem('locationConsent');
+      if (consent === 'granted') {
+        setLocationAccessGranted(true);
+      } else if (consent === null) {
+        setShowLocationConsent(true);
+      }
+    }
+  }, []);
+
+  // Handle closing the petition popup and showing location consent
+  const handlePetitionClose = () => {
+    setShowPetitionPopup(false);
+    localStorage.setItem('hasSeenPetition', 'true');
+    // Show location consent after closing petition popup
     const consent = localStorage.getItem('locationConsent');
     if (consent === 'granted') {
       setLocationAccessGranted(true);
     } else if (consent === null) {
       setShowLocationConsent(true);
     }
-  }, []);
+  };
 
   // Start or stop watching location based on consent
   useEffect(() => {
