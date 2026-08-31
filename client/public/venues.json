@@ -4185,6 +4185,27 @@
     "created_at": "2026-08-31T00:00:00.000Z"
   },
   {
+    "id": "ChIJp0c2dE2cD1bXVk7BjZ1iJ2c",
+    "name": "라이브홀 락왕(Live Hall Rockwang)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 대구광역시 중구 명덕로 111",
+      "en": "111, Myeongdeok-ro, Jung-gu, Daegu, South Korea",
+      "zh": "大韩民国 大邱广域市 中区 明德路111",
+      "ja": "大韓民国 大邱広域市 中区 明徳路111"
+    },
+    "latitude": 35.8662,
+    "longitude": 128.6008,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJp0c2dE2cD1bXVk7BjZ1iJ2c",
+    "description": "대구 중구 명덕로에 위치한 락과 인디 라이브를 즐길 수 있는 공연장으로, 다양한 록 밴드의 공연이 열리는 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "area": "daegu",
+    "created_at": "2026-09-01T00:00:00.000Z"
+  },
+  {
     "id": "ChIJm8b7cD8zB9zUSi4YgX8fG9a",
     "name": "꼬뮨(COMMUNE)",
     "type": "live_venue",
