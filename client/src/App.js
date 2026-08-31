@@ -27,6 +27,7 @@ function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('hongdae');
   const [mapCenter, setMapCenter] = useState({ lat: 37.5576, lng: 126.921 });
   const [mapZoom, setMapZoom] = useState(15);
+  const [showPetitionPopup, setShowPetitionPopup] = useState(false);
   const [showLocationConsent, setShowLocationConsent] = useState(false);
   const [locationAccessGranted, setLocationAccessGranted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
@@ -307,6 +308,28 @@ function AppContent() {
           </div>
           <TabBar centerMapToUserLocation={centerMapToUserLocation} />
 
+          {showPetitionPopup && (
+            <div className="location-consent-popup-overlay">
+              <div className="location-consent-popup">
+                <h2>소규모 라이브클럽의 공연 활동 보장을 위한 「공연법」·「식품위생법」 등 관련 법령 및 제도 개선 촉구에 관한 청원</h2>
+                <p>
+                  소규모 라이브클럽의 공연 활동 보장을 위한 국회 청원에 참여해주세요.
+                  아래 링크를 클릭하시면 청원 페이지로 이동합니다.
+                </p>
+                <div className="popup-actions">
+                  <a 
+                    href="https://l.instagram.com/?u=https%3A%2F%2Fpetitions.assembly.go.kr%2Fproceed%2FonGoingAll%2F5861E6E322C77036E064B49691C6967B&e=AUD0UDmSvNTrU7_XUPJ8RXlvOBVSyq59hk4V1_1un-66SmfU2hYwgCP_l1fqf13YNJy25g-RWDPVMsUuYh1bBkzgOcfQbLDmeqzm5GgIRIBOv9KCgs3bgpTAQVIVAIP99sJ23GpHxKlC7bqDnA-c5LrREJc" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ color: '#4da6ff', textDecoration: 'underline', marginRight: '15px' }}
+                  >
+                    청원 참여하기
+                  </a>
+                  <button onClick={handlePetitionClose}>닫기</button>
+                </div>
+              </div>
+            </div>
+          )}
           {showLocationConsent && (
             <div className="location-consent-popup-overlay">
               <div className="location-consent-popup">

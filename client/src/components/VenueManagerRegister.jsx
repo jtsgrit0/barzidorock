@@ -13,7 +13,9 @@ const areaToKorean = {
   'itaewon': '이태원',
   'sukmyung': '숙명',
   'sinchon': '신촌',
-  'gangnam': '강남'
+  'gangnam': '강남',
+  'daegu': '대구',
+  'busan': '부산'
 };
 
 const VenueManagerRegister = () => {
