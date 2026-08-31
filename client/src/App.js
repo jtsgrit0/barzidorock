@@ -342,7 +342,7 @@ function AppContent() {
                 </p>
                 <div className="popup-actions">
                   <a 
-                    href="https://l.instagram.com/?u=https%3A%2F%2Fpetitions.assembly.go.kr%2Fproceed%2FonGoingAll%2F5861E6E322C77036E064B49691C6967B&e=AUD0UDmSvNTrU7_XUPJ8RXlvOBVSyq59hk4V1_1un-66SmfU2hYwgCP_l1fqf13YNJy25g-RWDPVMsUuYh1bBkzgOcfQbLDmeqzm5GgIRIBOv9KCgs3bgpTAQVIVAIP99sJ23GpHxKlC7bqDnA-c5LrREJc" 
+                    href="https://petitions.assembly.go.kr/proceed/onGoingAll/5861E6E322C77036E064B49691C6967B" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     style={{ color: '#4da6ff', textDecoration: 'underline', marginRight: '15px' }}
