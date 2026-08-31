@@ -4207,22 +4207,22 @@
   },
   {
     "id": "ChIJc8b3dC8zA7zURhGfX7eG8x",
-    "name": "바이닐 하우스(Vinyl House)",
+    "name": "비닐 언더그라운드(Vinyl Underground)",
     "type": "live_venue",
     "address": {
-      "ko": "대한민국 부산광역시 남구 용소로14번길 22",
-      "en": "22, Yongso-ro 14beon-gil, Nam-gu, Busan, South Korea",
-      "zh": "大韩民国 釜山广域市 南区 龙小路14番街22",
-      "ja": "大韓民国 釜山広域市 南区 龍小路14番街22"
+      "ko": "대한민국 부산광역시 남구 대연3동 58-2",
+      "en": "58-2, Daeyeon 3-dong, Nam-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 南区 大渊3洞58-2",
+      "ja": "大韓民国 釜山広域市 南区 大連3洞58-2"
     },
-    "latitude": 35.1123,
-    "longitude": 129.0987,
-    "phoneNumber": "+82 51-654-7890",
-    "websiteUrl": "https://www.instagram.com/vinylhouse_busan/",
+    "latitude": 35.1098,
+    "longitude": 129.1012,
+    "phoneNumber": "+82 51-628-0223",
+    "websiteUrl": "https://www.instagram.com/vinylunderground_busan/",
     "googlePlaceId": "ChIJc8b3dC8zA7zURhGfX7eG8x",
-    "description": "부산 대연동에 위치한 바이닐 레코드와 함께 라이브 공연을 즐길 수 있는 복합 문화 공간입니다.",
+    "description": "부산 경성대 앞 클럽 거리에 위치한 라이브 클럽으로, 록, 재즈, 일렉트로닉 등 다양한 장르의 라이브 공연이 열리는 공간입니다.",
     "image_urls": [],
-    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 8:00 PM – 2:00 AM\",\"Wednesday: 8:00 PM – 2:00 AM\",\"Thursday: 8:00 PM – 2:00 AM\",\"Friday: 8:00 PM – 2:00 AM\",\"Saturday: 8:00 PM – 2:00 AM\",\"Sunday: Closed\"]",
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
   },
