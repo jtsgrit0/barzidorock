@@ -4206,23 +4206,23 @@
     "created_at": "2026-08-31T00:00:00.000Z"
   },
   {
-    "id": "ChIJc8b3dC8zA7zURhGfX7eG8x",
-    "name": "바이닐 언더그라운드(Vinyl Underground)",
+    "id": "ChIJK7buffDsaDUR7jwyeDlGi9Y",
+    "name": "바이닐 언더그라운드(The Vinyl Underground Live Club)",
     "type": "live_venue",
     "address": {
-      "ko": "대한민국 부산광역시 남구 대연3동 58-2",
-      "en": "58-2, Daeyeon 3-dong, Nam-gu, Busan, South Korea",
-      "zh": "大韩民国 釜山广域市 南区 大渊3洞58-2",
-      "ja": "大韓民国 釜山広域市 南区 大連3洞58-2"
+      "ko": "대한민국 부산광역시 남구 수영로322번길 32",
+      "en": "32, Suyeong-ro 322beon-gil, Nam-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 南区 水营路322番街32",
+      "ja": "大韓民国 釜山広域市 南区 水泳ロ322番街32"
     },
-    "latitude": 35.1189,
-    "longitude": 129.0967,
+    "latitude": 35.1195,
+    "longitude": 129.0978,
     "phoneNumber": "+82 51-628-0223",
-    "websiteUrl": "https://www.instagram.com/vinylunderground_busan/",
-    "googlePlaceId": "ChIJc8b3dC8zA7zURhGfX7eG8x",
-    "description": "부산 경성대 앞 클럽 거리에 위치한 라이브 클럽으로, 록, 재즈, 일렉트로닉 등 다양한 장르의 바이닐 레코드와 라이브 공연이 열리는 공간입니다.",
+    "websiteUrl": "https://www.instagram.com/the_vinyl_underground/",
+    "googlePlaceId": "ChIJK7buffDsaDUR7jwyeDlGi9Y",
+    "description": "부산 경성대·부경대 앞 클럽 거리에 위치한 2002년 개장한 유서 깊은 라이브 클럽으로, 바나나 간판으로 '바나나 클럽'으로도 불리며 록, 재즈, 힙합, 일렉트로닉 등 다양한 장르의 라이브 공연이 열리는 공간입니다.",
     "image_urls": [],
-    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 8:00 PM – 2:00 AM\",\"Wednesday: 8:00 PM – 2:00 AM\",\"Thursday: 8:00 PM – 2:00 AM\",\"Friday: 8:00 PM – 2:00 AM\",\"Saturday: 8:00 PM – 2:00 AM\",\"Sunday: Closed\"]",
+    "opening_hours": "[\"Monday: 6:00 PM – 2:00 AM\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 2:00 AM\",\"Saturday: 6:00 PM – 2:00 AM\",\"Sunday: 6:00 PM – 12:00 AM\"]",
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
   },
