@@ -216,6 +216,12 @@ function AppContent() {
     } else if (category === 'changwon') {
       newCenter = { lat: 35.228, lng: 128.688 };
       newZoom = 13;
+    } else if (category === 'daegu') {
+      newCenter = { lat: 35.8714, lng: 128.6814 };
+      newZoom = 13;
+    } else if (category === 'busan') {
+      newCenter = { lat: 35.1796, lng: 129.0756 };
+      newZoom = 13;
     } else { // 'all'
       newCenter = { lat: 37.5550354, lng: 126.929 };
       newZoom = 12;
