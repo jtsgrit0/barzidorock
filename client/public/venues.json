@@ -4205,9 +4205,10 @@
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
   },
+
   {
     "id": "ChIJK7buffDsaDUR7jwyeDlGi9Y",
-    "name": "바이닐 언더그라운드(The Vinyl Underground Live Club)",
+    "name": "더바이널 언더그라운드라이브클럽",
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 남구 수영로322번길 32",
@@ -4215,8 +4216,8 @@
       "zh": "大韩民国 釜山广域市 南区 水营路322番街32",
       "ja": "大韓民国 釜山広域市 南区 水泳ロ322番街32"
     },
-    "latitude": 35.1195,
-    "longitude": 129.0978,
+    "latitude": 35.1185,
+    "longitude": 129.0968,
     "phoneNumber": "+82 51-628-0223",
     "websiteUrl": "https://www.instagram.com/the_vinyl_underground/",
     "googlePlaceId": "ChIJK7buffDsaDUR7jwyeDlGi9Y",
@@ -4226,6 +4227,7 @@
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
   },
+
   {
     "id": "ChIJe9c4eD7zB8zUSi4YgX8fG9z",
     "name": "인터플레이(Interplay)",
