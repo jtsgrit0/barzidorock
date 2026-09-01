@@ -883,6 +883,27 @@
     "created_at": "2026-09-02T00:00:00.000Z"
   },
   {
+    "id": "ChIJm2b5sX5efDURcYl3m1a2c6e",
+    "name": "스페이스 브릭(Space Brick)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 잔다리로6길 33 지하 1층",
+      "en": "B1, 33, Jandari-ro 6-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "大韩民国 首尔特别市 麻浦区 乍地里路6街33 地下1层",
+      "ja": "大韓民国 ソウル特別市 麻浦区 チャンダリロ6キル33 地下1階"
+    },
+    "latitude": 37.5545,
+    "longitude": 126.9212,
+    "phoneNumber": "",
+    "websiteUrl": "https://www.instagram.com/spacebrick_hongdae/",
+    "googlePlaceId": "ChIJm2b5sX5efDURcYl3m1a2c6e",
+    "description": "홍대에 위치한 소규모 라이브 클럽으로, 인디 밴드부터 언더그라운드 아티스트까지 다양한 공연이 열리는 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 2:00 AM\",\"Wednesday: 7:00 PM – 2:00 AM\",\"Thursday: 7:00 PM – 2:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 12:00 AM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-02T00:00:00.000Z"
+  },
+  {
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
     "name": "UNDERSTAGE",
     "type": "live_venue",
