@@ -4101,26 +4101,6 @@
     "created_at": "2026-08-26T06:12:55.486Z"
   },
   {
-    "name": "스트레인지 프룻",
-    "type": "live_venue",
-    "address": {
-      "ko": "대한민국 서울특별시 마포구 어울마당로 78",
-      "en": "78 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
-      "zh": "78 Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
-      "ja": "78 Eoulmadang-ro, Mapo-gu, Seoul, South Korea"
-    },
-    "latitude": 37.5519753,
-    "longitude": 126.9216842,
-    "phoneNumber": null,
-    "websiteUrl": null,
-    "googlePlaceId": "ChIJK50rHwCZfDURPV8cbH9oEOw",
-    "description": null,
-    "image_urls": [],
-    "opening_hours": null,
-    "area": "hongdae",
-    "created_at": "2026-08-26T06:12:55.486Z"
-  },
-  {
     "name": "바 틸트",
     "type": "live_venue",
     "address": {
