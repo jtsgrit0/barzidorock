@@ -887,13 +887,13 @@
     "name": "스페이스 브릭(Space Brick)",
     "type": "live_venue",
     "address": {
-      "ko": "대한민국 서울특별시 마포구 잔다리로6길 33 지하 1층",
-      "en": "B1, 33, Jandari-ro 6-gil, Mapo-gu, Seoul, South Korea",
-      "zh": "大韩民国 首尔特别市 麻浦区 乍地里路6街33 地下1层",
-      "ja": "大韓民国 ソウル特別市 麻浦区 チャンダリロ6キル33 地下1階"
+      "ko": "대한민국 서울특별시 마포구 잔다리로 31 지하 2층",
+      "en": "B2, 31, Jandari-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "大韩民国 首尔特别市 麻浦区 乍地里路31 地下2层",
+      "ja": "大韓民国 ソウル特別市 麻浦区 チャンダリロ31 地下2階"
     },
-    "latitude": 37.5545,
-    "longitude": 126.9212,
+    "latitude": 37.5549,
+    "longitude": 126.9217,
     "phoneNumber": "",
     "websiteUrl": "https://www.instagram.com/spacebrick_hongdae/",
     "googlePlaceId": "ChIJm2b5sX5efDURcYl3m1a2c6e",
