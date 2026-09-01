@@ -862,6 +862,27 @@
     "created_at": "2026-09-02T00:00:00.000Z"
   },
   {
+    "id": "ChIJw3e8rX7efDURaXl5n2b4e8k",
+    "name": "벨르(vel.r)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 와우산로29길 20 지하 1층",
+      "en": "B1, 20, Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
+      "zh": "大韩民国 首尔特别市 麻浦区 牛山路29街20 地下1层",
+      "ja": "大韓民国 ソウル特別市 麻浦区 ワウサンロ29キル20 地下1階"
+    },
+    "latitude": 37.5558,
+    "longitude": 126.9228,
+    "phoneNumber": "",
+    "websiteUrl": "https://www.instagram.com/vel.r_hongdae/",
+    "googlePlaceId": "ChIJw3e8rX7efDURaXl5n2b4e8k",
+    "description": "홍대에 위치한 인디·록 라이브 클럽으로, 다양한 장르의 밴드 공연이 열리는 소규모 공연장입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 2:00 AM\",\"Wednesday: 7:00 PM – 2:00 AM\",\"Thursday: 7:00 PM – 2:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 12:00 AM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-02T00:00:00.000Z"
+  },
+  {
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
     "name": "UNDERSTAGE",
     "type": "live_venue",
