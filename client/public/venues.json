@@ -866,13 +866,13 @@
     "name": "벨르(vel.r)",
     "type": "live_venue",
     "address": {
-      "ko": "대한민국 서울특별시 마포구 와우산로29길 20 지하 1층",
-      "en": "B1, 20, Wausan-ro 29-gil, Mapo-gu, Seoul, South Korea",
-      "zh": "大韩民国 首尔特别市 麻浦区 牛山路29街20 地下1层",
-      "ja": "大韓民国 ソウル特別市 麻浦区 ワウサンロ29キル20 地下1階"
+      "ko": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층",
+      "en": "B1, Seogyo Studio, 46, Jandari-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "大韩民国 首尔特别市 麻浦区 乍地里路46 西桥工作室地下1层",
+      "ja": "大韓民国 ソウル特別市 麻浦区 チャンダリロ46 ソギョスタジオ地下1階"
     },
-    "latitude": 37.5558,
-    "longitude": 126.9228,
+    "latitude": 37.5551,
+    "longitude": 126.9219,
     "phoneNumber": "",
     "websiteUrl": "https://www.instagram.com/vel.r_hongdae/",
     "googlePlaceId": "ChIJw3e8rX7efDURaXl5n2b4e8k",
