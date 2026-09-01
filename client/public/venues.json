@@ -841,6 +841,27 @@
     "created_at": "2026-08-25T07:59:42.128Z"
   },
   {
+    "id": "ChIJ9X7uVv3efDUR7yQl4m6Y6fM",
+    "name": "무신사 개러지(Musinsa Garage)",
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 서울특별시 마포구 어울마당로 72",
+      "en": "72, Eoulmadang-ro, Mapo-gu, Seoul, South Korea",
+      "zh": "大韩民国 首尔特别市 麻浦区 合井路72",
+      "ja": "大韓民国 ソウル特別市 麻浦区 オウルマダンロ72"
+    },
+    "latitude": 37.5563,
+    "longitude": 126.9235,
+    "phoneNumber": "",
+    "websiteUrl": "https://www.musinsa.com/garage",
+    "googlePlaceId": "ChIJ9X7uVv3efDUR7yQl4m6Y6fM",
+    "description": "홍대입구역 인근에 위치한 문화 복합 공간으로, 패션 전시부터 라이브 공연, 팝업 스토어 등 다양한 문화 이벤트를 개최하는 복합 문화 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: 11:00 AM – 9:00 PM\",\"Tuesday: 11:00 AM – 9:00 PM\",\"Wednesday: 11:00 AM – 9:00 PM\",\"Thursday: 11:00 AM – 9:00 PM\",\"Friday: 11:00 AM – 10:00 PM\",\"Saturday: 11:00 AM – 10:00 PM\",\"Sunday: 11:00 AM – 8:00 PM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-02T00:00:00.000Z"
+  },
+  {
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
     "name": "UNDERSTAGE",
     "type": "live_venue",
