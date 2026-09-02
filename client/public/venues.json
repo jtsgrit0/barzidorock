@@ -1,7 +1,12 @@
 [
   {
     "id": null,
-    "name": "블레이홀",
+    "name": {
+      "ko": "블레이홀",
+      "en": "Bleihall",
+      "zh": "布莱霍尔",
+      "ja": "ブレイホール"
+    },
     "type": "live_venue",
     "address": {
       "ko": "경상남도 창원시 성산구 외동반림로130번길 45",
@@ -20,7 +25,12 @@
   },
   {
     "id": null,
-    "name": "락클럽 피드백",
+    "name": {
+      "ko": "락클럽 피드백",
+      "en": "Rock Club Feedback",
+      "zh": "摇滚俱乐部反馈",
+      "ja": "ロッククラブフィードバック"
+    },
     "type": "live_venue",
     "address": {
       "ko": "경상남도 창원시 성산구 상남로 67 지하 1층",
@@ -39,7 +49,12 @@
   },
   {
     "id": null,
-    "name": "썬라이브",
+    "name": {
+      "ko": "썬라이브",
+      "en": "Sunlive",
+      "zh": "太阳现场",
+      "ja": "サンライブ"
+    },
     "type": "live_venue",
     "address": {
       "ko": "수원시 장안구 정자동 878-10호 4층",
@@ -58,7 +73,12 @@
   },
   {
     "id": null,
-    "name": "블루스보이커피",
+    "name": {
+      "ko": "블루스보이커피",
+      "en": "블루스보이커피",
+      "zh": "블루스보이커피",
+      "ja": "블루스보이커피"
+    },
     "type": "live_venue",
     "address": {
       "ko": "경기 수원시 팔달구 신풍로23번길 52 2층",
@@ -77,7 +97,12 @@
   },
   {
     "id": null,
-    "name": "GV 행궁동",
+    "name": {
+      "ko": "GV 행궁동",
+      "en": "GV 행궁동",
+      "zh": "GV 행궁동",
+      "ja": "GV 행궁동"
+    },
     "type": "live_venue",
     "address": {
       "ko": "경기 수원시 팔달구 정조로 800-1",
@@ -96,7 +121,12 @@
   },
   {
     "id": null,
-    "name": "12인치 행궁동",
+    "name": {
+      "ko": "12인치 행궁동",
+      "en": "12인치 행궁동",
+      "zh": "12인치 행궁동",
+      "ja": "12인치 행궁동"
+    },
     "type": "live_venue",
     "address": {
       "ko": "경기 수원시 팔달구 정조로 868 2층",
@@ -115,7 +145,12 @@
   },
   {
     "id": null,
-    "name": "헤르츠",
+    "name": {
+      "ko": "헤르츠",
+      "en": "헤르츠",
+      "zh": "헤르츠",
+      "ja": "헤르츠"
+    },
     "type": "live_venue",
     "address": {
       "ko": "경기 수원시 영통구 대학로 60 리치프라자 3관 1층 101호, 102호, 103호",
@@ -134,7 +169,12 @@
   },
   {
     "id": null,
-    "name": "호사가",
+    "name": {
+      "ko": "호사가",
+      "en": "호사가",
+      "zh": "호사가",
+      "ja": "호사가"
+    },
     "type": "live_venue",
     "address": {
       "ko": "서울특별시 용산구 새창로14길 22 지하층",
@@ -153,7 +193,12 @@
   },
   {
     "id": null,
-    "name": "생기",
+    "name": {
+      "ko": "생기",
+      "en": "생기",
+      "zh": "생기",
+      "ja": "생기"
+    },
     "type": "live_venue",
     "address": {
       "ko": "서울특별시 마포구 와우산로 137 5층",
@@ -172,7 +217,12 @@
   },
   {
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
-    "name": "Cafe Unplugged",
+    "name": {
+      "ko": "Cafe Unplugged",
+      "en": "Cafe Unplugged",
+      "zh": "Cafe Unplugged",
+      "ja": "Cafe Unplugged"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로33길 26",
@@ -204,7 +254,12 @@
   },
   {
     "id": "ChIJUVRrTNCYfDURTjrzSja3Tgs",
-    "name": "Rolling Hall",
+    "name": {
+      "ko": "Rolling Hall",
+      "en": "Rolling Hall",
+      "zh": "Rolling Hall",
+      "ja": "Rolling Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 어울마당로 35",
@@ -236,7 +291,12 @@
   },
   {
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
-    "name": "프리즘홀",
+    "name": {
+      "ko": "프리즘홀",
+      "en": "프리즘홀",
+      "zh": "프리즘홀",
+      "ja": "프리즘홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 양화로12길 6",
@@ -268,7 +328,12 @@
   },
   {
     "id": "ChIJQ0JZJdeYfDURSd6zc_ugmPI",
-    "name": "Dream Hall",
+    "name": {
+      "ko": "Dream Hall",
+      "en": "Dream Hall",
+      "zh": "Dream Hall",
+      "ja": "Dream Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 양화로 64",
@@ -300,7 +365,12 @@
   },
   {
     "id": "ChIJG417WOeZfDUR858nkAd-y_U",
-    "name": "홍대 우주정거장",
+    "name": {
+      "ko": "홍대 우주정거장",
+      "en": "홍대 우주정거장",
+      "zh": "홍대 우주정거장",
+      "ja": "홍대 우주정거장"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로29길 16 지하 1층",
@@ -332,7 +402,12 @@
   },
   {
     "id": "ChIJ6cYrXNqYfDURly0vyvWEHH0",
-    "name": "Veloso Hongdae",
+    "name": {
+      "ko": "Veloso Hongdae",
+      "en": "Veloso Hongdae",
+      "zh": "Veloso Hongdae",
+      "ja": "Veloso Hongdae"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층",
@@ -364,7 +439,12 @@
   },
   {
     "id": "ChIJk17byMKYfDURZjqOQVXjDL4",
-    "name": "클럽 라이브앤라우드",
+    "name": {
+      "ko": "클럽 라이브앤라우드",
+      "en": "클럽 라이브앤라우드",
+      "zh": "클럽 라이브앤라우드",
+      "ja": "클럽 라이브앤라우드"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
@@ -396,7 +476,12 @@
   },
   {
     "id": "ChIJrelcVdCYfDURiaHkye8F2Pg",
-    "name": "Alive Hall",
+    "name": {
+      "ko": "Alive Hall",
+      "en": "Alive Hall",
+      "zh": "Alive Hall",
+      "ja": "Alive Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 독막로7길 20 지하",
@@ -428,7 +513,12 @@
   },
   {
     "id": "ChIJrfP8jdqYfDUR68Wxa44PDXU",
-    "name": "MUV-Hall",
+    "name": {
+      "ko": "MUV-Hall",
+      "en": "MUV-Hall",
+      "zh": "MUV-Hall",
+      "ja": "MUV-Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 잔다리로 32",
@@ -460,7 +550,12 @@
   },
   {
     "id": "ChIJb7N7NMCYfDURUawPN2TKHWk",
-    "name": "CLUBAOR(ALL OF ROCK)",
+    "name": {
+      "ko": "CLUBAOR(ALL OF ROCK)",
+      "en": "CLUBAOR(ALL OF ROCK)",
+      "zh": "CLUBAOR(ALL OF ROCK)",
+      "ja": "CLUBAOR(ALL OF ROCK)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로 156 지하",
@@ -492,7 +587,12 @@
   },
   {
     "id": "ChIJz7WjUcWYfDURLQpMqR1EfhI",
-    "name": "Club FF",
+    "name": {
+      "ko": "Club FF",
+      "en": "Club FF",
+      "zh": "Club FF",
+      "ja": "Club FF"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 서교동 407-8",
@@ -524,7 +624,12 @@
   },
   {
     "id": "ChIJq-BtxCyZfDURacqRwCnbCDI",
-    "name": "Flex lounge",
+    "name": {
+      "ko": "Flex lounge",
+      "en": "Flex lounge",
+      "zh": "Flex lounge",
+      "ja": "Flex lounge"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 양화로 100-10",
@@ -555,7 +660,12 @@
   },
   {
     "id": "ChIJ5ZkPq8SYfDURUgbbNVkIe8c",
-    "name": "Hanatour V-Hall",
+    "name": {
+      "ko": "Hanatour V-Hall",
+      "en": "Hanatour V-Hall",
+      "zh": "Hanatour V-Hall",
+      "ja": "Hanatour V-Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 홍익로 25",
@@ -587,7 +697,12 @@
   },
   {
     "id": "ChIJ7x57usGYfDURVYMF-xdvxdo",
-    "name": "BBang",
+    "name": {
+      "ko": "BBang",
+      "en": "BBang",
+      "zh": "BBang",
+      "ja": "BBang"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로29길 12",
@@ -619,7 +734,12 @@
   },
   {
     "id": "ChIJD8JrWo6ZfDURQS1q52BpO30",
-    "name": "Watcha Hall",
+    "name": {
+      "ko": "Watcha Hall",
+      "en": "Watcha Hall",
+      "zh": "Watcha Hall",
+      "ja": "Watcha Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "B1, 32 잔다리로 마포구 서울특별시 대한민국",
@@ -650,7 +770,12 @@
   },
   {
     "id": "ChIJ3UcZNMCYfDUR16xwMCEknpw",
-    "name": "사운드카페소리",
+    "name": {
+      "ko": "사운드카페소리",
+      "en": "사운드카페소리",
+      "zh": "사운드카페소리",
+      "ja": "사운드카페소리"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로 159 2층",
@@ -682,7 +807,12 @@
   },
   {
     "id": "ChIJ3VeTqXKZfDURa84IUjrVGxU",
-    "name": "라이브홀 롤러코스터",
+    "name": {
+      "ko": "라이브홀 롤러코스터",
+      "en": "라이브홀 롤러코스터",
+      "zh": "라이브홀 롤러코스터",
+      "ja": "라이브홀 롤러코스터"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 동교로 147 청람빌딩 지하",
@@ -714,7 +844,12 @@
   },
   {
     "id": "ChIJzx9bUdCYfDURqBS39xf_2ow",
-    "name": "에반스라운지",
+    "name": {
+      "ko": "에반스라운지",
+      "en": "에반스라운지",
+      "zh": "에반스라운지",
+      "ja": "에반스라운지"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 서교동 401-3",
@@ -746,7 +881,12 @@
   },
   {
     "id": "ChIJq6yLN86YfDUR0xvMAxPYxVA",
-    "name": "Jebi Dabang",
+    "name": {
+      "ko": "Jebi Dabang",
+      "en": "Jebi Dabang",
+      "zh": "Jebi Dabang",
+      "ja": "Jebi Dabang"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로 24",
@@ -778,7 +918,12 @@
   },
   {
     "id": "ChIJdfv_OM6ZfDURUwSL4gD9o00",
-    "name": "Bendeo",
+    "name": {
+      "ko": "Bendeo",
+      "en": "Bendeo",
+      "zh": "Bendeo",
+      "ja": "Bendeo"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로14길 4 지하 1층",
@@ -810,7 +955,12 @@
   },
   {
     "id": "ChIJ1_GbzCmZfDURndpDpn--w44",
-    "name": "Haroo Music Bar",
+    "name": {
+      "ko": "Haroo Music Bar",
+      "en": "Haroo Music Bar",
+      "zh": "Haroo Music Bar",
+      "ja": "Haroo Music Bar"
+    },
     "type": "rock_bar",
     "address": {
       "ko": "대한민국 서울특별시 마포구 양화로 178-8",
@@ -842,7 +992,12 @@
   },
   {
     "id": "ChIJ9X7uVv3efDUR7yQl4m6Y6fM",
-    "name": "무신사 개러지(Musinsa Garage)",
+    "name": {
+      "ko": "무신사 개러지(Musinsa Garage)",
+      "en": "무신사 개러지(Musinsa Garage)",
+      "zh": "무신사 개러지(Musinsa Garage)",
+      "ja": "무신사 개러지(Musinsa Garage)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 어울마당로 72",
@@ -863,7 +1018,12 @@
   },
   {
     "id": "ChIJw3e8rX7efDURaXl5n2b4e8k",
-    "name": "벨르(vel.r)",
+    "name": {
+      "ko": "벨르(vel.r)",
+      "en": "벨르(vel.r)",
+      "zh": "벨르(vel.r)",
+      "ja": "벨르(vel.r)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 잔다리로 46 서교 스튜디오 지하 1층",
@@ -884,7 +1044,12 @@
   },
   {
     "id": "ChIJm2b5sX5efDURcYl3m1a2c6e",
-    "name": "스페이스 브릭(Space Brick)",
+    "name": {
+      "ko": "스페이스 브릭(Space Brick)",
+      "en": "스페이스 브릭(Space Brick)",
+      "zh": "스페이스 브릭(Space Brick)",
+      "ja": "스페이스 브릭(Space Brick)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 잔다리로 31 지하 2층",
@@ -905,7 +1070,12 @@
   },
   {
     "id": "ChIJzYi_u7OjfDURBHqmXIfshZk",
-    "name": "UNDERSTAGE",
+    "name": {
+      "ko": "UNDERSTAGE",
+      "en": "UNDERSTAGE",
+      "zh": "UNDERSTAGE",
+      "ja": "UNDERSTAGE"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로 246",
@@ -937,7 +1107,12 @@
   },
   {
     "id": "ChIJ_yDW1E6ifDURjtTAd-xUeOg",
-    "name": "Petsounds 펫사운즈",
+    "name": {
+      "ko": "Petsounds 펫사운즈",
+      "en": "Petsounds 펫사운즈",
+      "zh": "Petsounds 펫사운즈",
+      "ja": "Petsounds 펫사운즈"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원동 278-8",
@@ -969,7 +1144,12 @@
   },
   {
     "id": "ChIJu5zS90mifDURl1MmzCKDnhY",
-    "name": "All That Jazz",
+    "name": {
+      "ko": "All That Jazz",
+      "en": "All That Jazz",
+      "zh": "All That Jazz",
+      "ja": "All That Jazz"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로 216 2층",
@@ -1001,7 +1181,12 @@
   },
   {
     "id": "ChIJY4nZpr-ffDUR9x3jyF5DWqQ",
-    "name": "Boogie Woogie",
+    "name": {
+      "ko": "Boogie Woogie",
+      "en": "Boogie Woogie",
+      "zh": "Boogie Woogie",
+      "ja": "Boogie Woogie"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 회나무로 21",
@@ -1033,7 +1218,12 @@
   },
   {
     "id": "ChIJ62zAidOjfDURU8jK0RLRPV8",
-    "name": "카바나소셜클럽 Itaewon Club Korean pub | 梨泰院夜店 酒肆 | のクラブ",
+    "name": {
+      "ko": "카바나소셜클럽 Itaewon Club Korean pub | 梨泰院夜店 酒肆 | のクラブ",
+      "en": "카바나소셜클럽 Itaewon Club Korean pub | 梨泰院夜店 酒肆 | のクラブ",
+      "zh": "카바나소셜클럽 Itaewon Club Korean pub | 梨泰院夜店 酒肆 | のクラブ",
+      "ja": "카바나소셜클럽 Itaewon Club Korean pub | 梨泰院夜店 酒肆 | のクラブ"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로 173-7 B2층",
@@ -1065,7 +1255,12 @@
   },
   {
     "id": "ChIJZ_-M46SjfDURp0aitQyyjLI",
-    "name": "O Passage Jimmy's Bar",
+    "name": {
+      "ko": "O Passage Jimmy's Bar",
+      "en": "O Passage Jimmy's Bar",
+      "zh": "O Passage Jimmy's Bar",
+      "ja": "O Passage Jimmy's Bar"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로27가길 54-6",
@@ -1097,7 +1292,12 @@
   },
   {
     "id": "ChIJu2Z3JEqifDURp1fcG9iChRY",
-    "name": "THE SOUL",
+    "name": {
+      "ko": "THE SOUL",
+      "en": "THE SOUL",
+      "zh": "THE SOUL",
+      "ja": "THE SOUL"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한남동 지하1층 78-2",
@@ -1129,7 +1329,12 @@
   },
   {
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
-    "name": "프리즘홀",
+    "name": {
+      "ko": "프리즘홀",
+      "en": "프리즘홀",
+      "zh": "프리즘홀",
+      "ja": "프리즘홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 양화로12길 6",
@@ -1161,7 +1366,12 @@
   },
   {
     "id": "ChIJSQyz70qifDURXds2EiDQMgQ",
-    "name": "BBCB: Beton Brut + Concrete Bar",
+    "name": {
+      "ko": "BBCB: Beton Brut + Concrete Bar",
+      "en": "BBCB: Beton Brut + Concrete Bar",
+      "zh": "BBCB: Beton Brut + Concrete Bar",
+      "ja": "BBCB: Beton Brut + Concrete Bar"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 보광로60길 22",
@@ -1193,7 +1403,12 @@
   },
   {
     "id": "ChIJizYwvLGjfDUREfOx1W-s9Xs",
-    "name": "서브라이엇 해방촌",
+    "name": {
+      "ko": "서브라이엇 해방촌",
+      "en": "서브라이엇 해방촌",
+      "zh": "서브라이엇 해방촌",
+      "ja": "서브라이엇 해방촌"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 신흥로7길 1 지하 1층",
@@ -1225,7 +1440,12 @@
   },
   {
     "id": "ChIJC7LRVACjfDURvBApmPbjwng",
-    "name": "Sunday Salt",
+    "name": {
+      "ko": "Sunday Salt",
+      "en": "Sunday Salt",
+      "zh": "Sunday Salt",
+      "ja": "Sunday Salt"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 회나무로 33",
@@ -1252,7 +1472,12 @@
   },
   {
     "id": "ChIJK1JOih6jfDUR5TbCO_pe93M",
-    "name": "MZK Muzik Bar 뮤지크 바",
+    "name": {
+      "ko": "MZK Muzik Bar 뮤지크 바",
+      "en": "MZK Muzik Bar 뮤지크 바",
+      "zh": "MZK Muzik Bar 뮤지크 바",
+      "ja": "MZK Muzik Bar 뮤지크 바"
+    },
     "type": "live_venue",
     "address": {
       "ko": "1 Fl, 2-10 이태원로20길 용산구 서울특별시 대한민국",
@@ -1284,7 +1509,12 @@
   },
   {
     "id": "ChIJUVRrTNCYfDURTjrzSja3Tgs",
-    "name": "Rolling Hall",
+    "name": {
+      "ko": "Rolling Hall",
+      "en": "Rolling Hall",
+      "zh": "Rolling Hall",
+      "ja": "Rolling Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 어울마당로 35",
@@ -1316,7 +1546,12 @@
   },
   {
     "id": "ChIJZQZCNZmjfDURpXRZ1mv_ubM",
-    "name": "Idenhouse",
+    "name": {
+      "ko": "Idenhouse",
+      "en": "Idenhouse",
+      "zh": "Idenhouse",
+      "ja": "Idenhouse"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 독서당로 73 지하 1층",
@@ -1348,7 +1583,12 @@
   },
   {
     "id": "ChIJWc_5Iv2jfDURtLk0d9MYrKI",
-    "name": "BAR UNION",
+    "name": {
+      "ko": "BAR UNION",
+      "en": "BAR UNION",
+      "zh": "BAR UNION",
+      "ja": "BAR UNION"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 2f 이태원동 74-1 KR 서울특별시 용산구",
@@ -1380,7 +1620,12 @@
   },
   {
     "id": "ChIJOcccIq2jfDURnOnJgHsW-2o",
-    "name": "FREAX | 프릭스 이태원 바",
+    "name": {
+      "ko": "FREAX | 프릭스 이태원 바",
+      "en": "FREAX | 프릭스 이태원 바",
+      "zh": "FREAX | 프릭스 이태원 바",
+      "ja": "FREAX | 프릭스 이태원 바"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로 143-13 프릭스 (FREAX 1층",
@@ -1412,7 +1657,12 @@
   },
   {
     "id": "ChIJdUZXm4ejfDURt4uTvN2p9y8",
-    "name": "Flac Seoul",
+    "name": {
+      "ko": "Flac Seoul",
+      "en": "Flac Seoul",
+      "zh": "Flac Seoul",
+      "ja": "Flac Seoul"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 2F 이태원동 123-3 KR 서울특별시 용산구",
@@ -1435,7 +1685,12 @@
   },
   {
     "id": "ChIJfdZbMbCjfDURuafv8kKi8Ls",
-    "name": "공연장 일신홀",
+    "name": {
+      "ko": "공연장 일신홀",
+      "en": "공연장 일신홀",
+      "zh": "공연장 일신홀",
+      "ja": "공연장 일신홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한남대로 98",
@@ -1467,7 +1722,12 @@
   },
   {
     "id": "ChIJc6-1zDeifDUReiidmKAfVAc",
-    "name": "Club Volnost Seoul",
+    "name": {
+      "ko": "Club Volnost Seoul",
+      "en": "Club Volnost Seoul",
+      "zh": "Club Volnost Seoul",
+      "ja": "Club Volnost Seoul"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로 142",
@@ -1499,7 +1759,12 @@
   },
   {
     "id": "ChIJ_xHB_BajfDUR7Bx64XaiGg4",
-    "name": "대원콘텐츠라이브",
+    "name": {
+      "ko": "대원콘텐츠라이브",
+      "en": "대원콘텐츠라이브",
+      "zh": "대원콘텐츠라이브",
+      "ja": "대원콘텐츠라이브"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강로3가 한강대로23길 55 서울특별시 6층",
@@ -1531,7 +1796,12 @@
   },
   {
     "id": "ChIJUw8zwEiifDURaoU2HZwO8w0",
-    "name": "ROXY LP Pub",
+    "name": {
+      "ko": "ROXY LP Pub",
+      "en": "ROXY LP Pub",
+      "zh": "ROXY LP Pub",
+      "ja": "ROXY LP Pub"
+    },
     "type": "rock_bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 회나무로 9",
@@ -1563,7 +1833,12 @@
   },
   {
     "id": "ChIJC9tVWPKjfDURK2kzZuAXgSo",
-    "name": "크라운비2 뮤직바 (CROWNB2 MUSIC BAR)",
+    "name": {
+      "ko": "크라운비2 뮤직바 (CROWNB2 MUSIC BAR)",
+      "en": "크라운비2 뮤직바 (CROWNB2 MUSIC BAR)",
+      "zh": "크라운비2 뮤직바 (CROWNB2 MUSIC BAR)",
+      "ja": "크라운비2 뮤직바 (CROWNB2 MUSIC BAR)"
+    },
     "type": "rock_bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원동 66-2 2층",
@@ -1595,7 +1870,12 @@
   },
   {
     "id": "ChIJ3a7Vp-qYfDURpUCS_XPXQVE",
-    "name": "Geek Live House",
+    "name": {
+      "ko": "Geek Live House",
+      "en": "Geek Live House",
+      "zh": "Geek Live House",
+      "ja": "Geek Live House"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로5길 26-17 지하",
@@ -1627,7 +1907,12 @@
   },
   {
     "id": "ChIJSydnAZWYfDURs9ynB3h9u20",
-    "name": "Monghyang",
+    "name": {
+      "ko": "Monghyang",
+      "en": "Monghyang",
+      "zh": "Monghyang",
+      "ja": "Monghyang"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로5다길 10 지하 1층",
@@ -1656,7 +1941,12 @@
   },
   {
     "id": "ChIJ41i5SpWYfDUR21KdD9WpUnw",
-    "name": "롤링스톤즈",
+    "name": {
+      "ko": "롤링스톤즈",
+      "en": "롤링스톤즈",
+      "zh": "롤링스톤즈",
+      "ja": "롤링스톤즈"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 동교동 185-1",
@@ -1688,7 +1978,12 @@
   },
   {
     "id": "ChIJgUUfkZCYfDUR0oFqLHj37Jc",
-    "name": "퀸 라이브홀",
+    "name": {
+      "ko": "퀸 라이브홀",
+      "en": "퀸 라이브홀",
+      "zh": "퀸 라이브홀",
+      "ja": "퀸 라이브홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 대현동 104-1",
@@ -1715,7 +2010,12 @@
   },
   {
     "id": "ChIJ5TgqnXyZfDURzH-rh5Uzgq4",
-    "name": "Stim Punk Rock Live Pub",
+    "name": {
+      "ko": "Stim Punk Rock Live Pub",
+      "en": "Stim Punk Rock Live Pub",
+      "zh": "Stim Punk Rock Live Pub",
+      "ja": "Stim Punk Rock Live Pub"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로9길 13",
@@ -1738,7 +2038,12 @@
   },
   {
     "id": "ChIJZb0by36ZfDURfUJreig6KN0",
-    "name": "Baby Doll",
+    "name": {
+      "ko": "Baby Doll",
+      "en": "Baby Doll",
+      "zh": "Baby Doll",
+      "ja": "Baby Doll"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
@@ -1765,7 +2070,12 @@
   },
   {
     "id": "ChIJS1WFe-mYfDUR432v3EnBVQQ",
-    "name": "프리버드라이브홀",
+    "name": {
+      "ko": "프리버드라이브홀",
+      "en": "프리버드라이브홀",
+      "zh": "프리버드라이브홀",
+      "ja": "프리버드라이브홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 창천동 512-1번지 지층 서대문구 서울특별시 KR",
@@ -1792,7 +2102,12 @@
   },
   {
     "id": "ChIJOfD6_euYfDURNEx9FpjuPNs",
-    "name": "dip",
+    "name": {
+      "ko": "dip",
+      "en": "dip",
+      "zh": "dip",
+      "ja": "dip"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 창천동 448 지하",
@@ -1817,7 +2132,12 @@
   },
   {
     "id": "ChIJNU_iPSSZfDURXbVtzD5IY5w",
-    "name": "Lium",
+    "name": {
+      "ko": "Lium",
+      "en": "Lium",
+      "zh": "Lium",
+      "ja": "Lium"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 성산로 533",
@@ -1849,7 +2169,12 @@
   },
   {
     "id": "ChIJidofLgCZfDURWMnNaC1MHLs",
-    "name": "아지토 라이브 홀",
+    "name": {
+      "ko": "아지토 라이브 홀",
+      "en": "아지토 라이브 홀",
+      "zh": "아지토 라이브 홀",
+      "ja": "아지토 라이브 홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 신촌로 13 b1",
@@ -1870,7 +2195,12 @@
   },
   {
     "id": "ChIJ8fpuNnWjfDURtBYpCJ1AN7o",
-    "name": "프리즘홀",
+    "name": {
+      "ko": "프리즘홀",
+      "en": "프리즘홀",
+      "zh": "프리즘홀",
+      "ja": "프리즘홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 양화로12길 6",
@@ -1902,7 +2232,12 @@
   },
   {
     "id": "ChIJp1W8FZSYfDURGW0tbx6CGnY",
-    "name": "Star Square",
+    "name": {
+      "ko": "Star Square",
+      "en": "Star Square",
+      "zh": "Star Square",
+      "ja": "Star Square"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로 19",
@@ -1934,7 +2269,12 @@
   },
   {
     "id": "ChIJk17byMKYfDURZjqOQVXjDL4",
-    "name": "클럽 라이브앤라우드",
+    "name": {
+      "ko": "클럽 라이브앤라우드",
+      "en": "클럽 라이브앤라우드",
+      "zh": "클럽 라이브앤라우드",
+      "ja": "클럽 라이브앤라우드"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 동교로 191 디비엠빌딩 지하 2층",
@@ -1966,7 +2306,12 @@
   },
   {
     "id": "ChIJtasBvCKZfDURgQw8IiaQ1yc",
-    "name": "Sinchon Arisu Straw Performance Area",
+    "name": {
+      "ko": "Sinchon Arisu Straw Performance Area",
+      "en": "Sinchon Arisu Straw Performance Area",
+      "zh": "Sinchon Arisu Straw Performance Area",
+      "ja": "Sinchon Arisu Straw Performance Area"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 창천동 2-50",
@@ -1991,7 +2336,12 @@
   },
   {
     "id": "ChIJC2GlOACZfDUR5KlgBvKIeZg",
-    "name": "Setoli",
+    "name": {
+      "ko": "Setoli",
+      "en": "Setoli",
+      "zh": "Setoli",
+      "ja": "Setoli"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 신촌로2안길",
@@ -2015,7 +2365,12 @@
   },
   {
     "id": "ChIJqZ_FcACZfDUR5oW53gjRzbA",
-    "name": "YES24 Wanderloch Hall",
+    "name": {
+      "ko": "YES24 Wanderloch Hall",
+      "en": "YES24 Wanderloch Hall",
+      "zh": "YES24 Wanderloch Hall",
+      "ja": "YES24 Wanderloch Hall"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 신촌로 129",
@@ -2047,7 +2402,12 @@
   },
   {
     "id": "ChIJseRsY5WYfDURQQiagmKXR9E",
-    "name": "김포장위드엘피",
+    "name": {
+      "ko": "김포장위드엘피",
+      "en": "김포장위드엘피",
+      "zh": "김포장위드엘피",
+      "ja": "김포장위드엘피"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 노고산동 54-28",
@@ -2070,7 +2430,12 @@
   },
   {
     "id": "ChIJ15lQSQCZfDURGiSmzpYxVs4",
-    "name": "D&D 라이브하우스",
+    "name": {
+      "ko": "D&D 라이브하우스",
+      "en": "D&D 라이브하우스",
+      "zh": "D&D 라이브하우스",
+      "ja": "D&D 라이브하우스"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7안길 52",
@@ -2091,7 +2456,12 @@
   },
   {
     "id": "ChIJdS41nOqYfDURqMsS2rXI3x0",
-    "name": "바다비 (Salon Badabie)",
+    "name": {
+      "ko": "바다비 (Salon Badabie)",
+      "en": "바다비 (Salon Badabie)",
+      "zh": "바다비 (Salon Badabie)",
+      "ja": "바다비 (Salon Badabie)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로 169-1",
@@ -2112,7 +2482,12 @@
   },
   {
     "id": "ChIJb7N7NMCYfDURUawPN2TKHWk",
-    "name": "CLUBAOR(ALL OF ROCK)",
+    "name": {
+      "ko": "CLUBAOR(ALL OF ROCK)",
+      "en": "CLUBAOR(ALL OF ROCK)",
+      "zh": "CLUBAOR(ALL OF ROCK)",
+      "ja": "CLUBAOR(ALL OF ROCK)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로 156 지하",
@@ -2144,7 +2519,12 @@
   },
   {
     "id": "ChIJr-XiYZSYfDURcx-E4TYnVB4",
-    "name": "Woodstock Shinchon (since 1992)",
+    "name": {
+      "ko": "Woodstock Shinchon (since 1992)",
+      "en": "Woodstock Shinchon (since 1992)",
+      "zh": "Woodstock Shinchon (since 1992)",
+      "ja": "Woodstock Shinchon (since 1992)"
+    },
     "type": "rock_bar",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7길 28-8",
@@ -2176,7 +2556,12 @@
   },
   {
     "id": "ChIJ676QIgCZfDURXYAPeRtaEYo",
-    "name": "Deep Purple",
+    "name": {
+      "ko": "Deep Purple",
+      "en": "Deep Purple",
+      "zh": "Deep Purple",
+      "ja": "Deep Purple"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7안길 34-6",
@@ -2197,7 +2582,12 @@
   },
   {
     "id": "ChIJ92QLvJ-ZfDURKoucG2kni40",
-    "name": "클럽퍼플",
+    "name": {
+      "ko": "클럽퍼플",
+      "en": "클럽퍼플",
+      "zh": "클럽퍼플",
+      "ja": "클럽퍼플"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로17길 25",
@@ -2226,7 +2616,12 @@
   },
   {
     "id": "ChIJ4fTGKKiZfDURE8wLxDFHS4U",
-    "name": "팝퍼블 신촌점",
+    "name": {
+      "ko": "팝퍼블 신촌점",
+      "en": "팝퍼블 신촌점",
+      "zh": "팝퍼블 신촌점",
+      "ja": "팝퍼블 신촌점"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 신촌동",
@@ -2258,7 +2653,12 @@
   },
   {
     "id": "ChIJr-XiYZSYfDURcx-E4TYnVB4",
-    "name": "Woodstock Shinchon (since 1992)",
+    "name": {
+      "ko": "Woodstock Shinchon (since 1992)",
+      "en": "Woodstock Shinchon (since 1992)",
+      "zh": "Woodstock Shinchon (since 1992)",
+      "ja": "Woodstock Shinchon (since 1992)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7길 28-8",
@@ -2290,7 +2690,12 @@
   },
   {
     "id": "ChIJZb0by36ZfDURfUJreig6KN0",
-    "name": "Baby Doll",
+    "name": {
+      "ko": "Baby Doll",
+      "en": "Baby Doll",
+      "zh": "Baby Doll",
+      "ja": "Baby Doll"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7안길 26 지하 1층",
@@ -2316,7 +2721,12 @@
   },
   {
     "id": "ChIJyZ7gYJSYfDUR_6d6-Sn3n5g",
-    "name": "Suringneun Maeul",
+    "name": {
+      "ko": "Suringneun Maeul",
+      "en": "Suringneun Maeul",
+      "zh": "Suringneun Maeul",
+      "ja": "Suringneun Maeul"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 창천동 52-66",
@@ -2348,7 +2758,12 @@
   },
   {
     "id": "ChIJF7xOe5SYfDUR39Cx2jqmjHA",
-    "name": "마스터키프라임신촌퍼플릭",
+    "name": {
+      "ko": "마스터키프라임신촌퍼플릭",
+      "en": "마스터키프라임신촌퍼플릭",
+      "zh": "마스터키프라임신촌퍼플릭",
+      "ja": "마스터키프라임신촌퍼플릭"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 지하 번지 지하 52-130 중층전체 1층 KR 서울특별시 서대문구 창천동",
@@ -2369,7 +2784,12 @@
   },
   {
     "id": "ChIJgWSUWmujfDURvSoicHMinQw",
-    "name": "디거이즈디깅",
+    "name": {
+      "ko": "디거이즈디깅",
+      "en": "디거이즈디깅",
+      "zh": "디거이즈디깅",
+      "ja": "디거이즈디깅"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로87길 8",
@@ -2401,7 +2821,12 @@
   },
   {
     "id": "ChIJsbVgUmqifDURROSSslku-30",
-    "name": "허구한날",
+    "name": {
+      "ko": "허구한날",
+      "en": "허구한날",
+      "zh": "허구한날",
+      "ja": "허구한날"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 남영동 62-1",
@@ -2424,7 +2849,12 @@
   },
   {
     "id": "ChIJoeOL7MOYfDURP45LApbBuE0",
-    "name": "웨스트브릿지 라이브홀",
+    "name": {
+      "ko": "웨스트브릿지 라이브홀",
+      "en": "웨스트브릿지 라이브홀",
+      "zh": "웨스트브릿지 라이브홀",
+      "ja": "웨스트브릿지 라이브홀"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로25길 6 지하 3층",
@@ -2456,7 +2886,12 @@
   },
   {
     "id": "ChIJTW29XvChfDURPHLnYK8d8nQ",
-    "name": "노들섬 라이브하우스",
+    "name": {
+      "ko": "노들섬 라이브하우스",
+      "en": "노들섬 라이브하우스",
+      "zh": "노들섬 라이브하우스",
+      "ja": "노들섬 라이브하우스"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 양녕로 445",
@@ -2488,7 +2923,12 @@
   },
   {
     "id": "ChIJ84N-zN2ZfDURik0Ls-yU7cE",
-    "name": "BRST STUDIO & LIVE HOUSE",
+    "name": {
+      "ko": "BRST STUDIO & LIVE HOUSE",
+      "en": "BRST STUDIO & LIVE HOUSE",
+      "zh": "BRST STUDIO & LIVE HOUSE",
+      "ja": "BRST STUDIO & LIVE HOUSE"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로18길 30",
@@ -2519,7 +2959,12 @@
   },
   {
     "id": "ChIJ9arnSwCjfDURN1Z_bq2ken8",
-    "name": "서울재질",
+    "name": {
+      "ko": "서울재질",
+      "en": "서울재질",
+      "zh": "서울재질",
+      "ja": "서울재질"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 서계동 237-6",
@@ -2547,7 +2992,12 @@
   },
   {
     "id": "ChIJHznBRhqZfDURUvJflvqkfjY",
-    "name": "RFSC100",
+    "name": {
+      "ko": "RFSC100",
+      "en": "RFSC100",
+      "zh": "RFSC100",
+      "ja": "RFSC100"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 신수동 81-61 지하 1층",
@@ -2572,7 +3022,12 @@
   },
   {
     "id": "ChIJgT1x9WyifDURL0BTeK2QnxI",
-    "name": "BLUES SOCIETY KOREA 한국 블루스 소사이어티",
+    "name": {
+      "ko": "BLUES SOCIETY KOREA 한국 블루스 소사이어티",
+      "en": "BLUES SOCIETY KOREA 한국 블루스 소사이어티",
+      "zh": "BLUES SOCIETY KOREA 한국 블루스 소사이어티",
+      "ja": "BLUES SOCIETY KOREA 한국 블루스 소사이어티"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 청파동 청파로45길",
@@ -2604,7 +3059,12 @@
   },
   {
     "id": "ChIJ75bZbl2ifDURCmImYoeLrbY",
-    "name": "SoundDog Jazz Live Club Seoul",
+    "name": {
+      "ko": "SoundDog Jazz Live Club Seoul",
+      "en": "SoundDog Jazz Live Club Seoul",
+      "zh": "SoundDog Jazz Live Club Seoul",
+      "ja": "SoundDog Jazz Live Club Seoul"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로104길 77",
@@ -2636,7 +3096,12 @@
   },
   {
     "id": "ChIJZSM2v2uifDUR7QhesuVvkjM",
-    "name": "SoulBar",
+    "name": {
+      "ko": "SoulBar",
+      "en": "SoulBar",
+      "zh": "SoulBar",
+      "ja": "SoulBar"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 남영동 한강대로 293",
@@ -2668,7 +3133,12 @@
   },
   {
     "id": "ChIJX0shQgCjfDUR4MrIwEjhoOg",
-    "name": "1979 LP LIVE PUB 2호점",
+    "name": {
+      "ko": "1979 LP LIVE PUB 2호점",
+      "en": "1979 LP LIVE PUB 2호점",
+      "zh": "1979 LP LIVE PUB 2호점",
+      "ja": "1979 LP LIVE PUB 2호점"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강로2가 2-194",
@@ -2700,7 +3170,12 @@
   },
   {
     "id": "ChIJK8SQpyOjfDURqZWg6QBNAJA",
-    "name": "청파랑",
+    "name": {
+      "ko": "청파랑",
+      "en": "청파랑",
+      "zh": "청파랑",
+      "ja": "청파랑"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 청파로93길 46",
@@ -2732,7 +3207,12 @@
   },
   {
     "id": "ChIJ1dEffcejfDURgPA8JKx07h0",
-    "name": "더 비틀즈 라이브 펍",
+    "name": {
+      "ko": "더 비틀즈 라이브 펍",
+      "en": "더 비틀즈 라이브 펍",
+      "zh": "더 비틀즈 라이브 펍",
+      "ja": "더 비틀즈 라이브 펍"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이태원로 243 B1층",
@@ -2764,7 +3244,12 @@
   },
   {
     "id": "ChIJXVanvIajfDURrzue0Sq57x0",
-    "name": "바이브드블러바드",
+    "name": {
+      "ko": "바이브드블러바드",
+      "en": "바이브드블러바드",
+      "zh": "바이브드블러바드",
+      "ja": "바이브드블러바드"
+    },
     "type": "pub",
     "address": {
       "ko": "2F, 164 한강대로 한강로동 용산구 서울특별시 대한민국",
@@ -2796,7 +3281,12 @@
   },
   {
     "id": "ChIJrS9XewCZfDURlMogJST_rNk",
-    "name": "Aftermarket Pub in Hongdae",
+    "name": {
+      "ko": "Aftermarket Pub in Hongdae",
+      "en": "Aftermarket Pub in Hongdae",
+      "zh": "Aftermarket Pub in Hongdae",
+      "ja": "Aftermarket Pub in Hongdae"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 마포구 연남동 390-68",
@@ -2828,7 +3318,12 @@
   },
   {
     "id": "ChIJF6LtCgCjfDURHLkHgO0Zy8E",
-    "name": "매직라이브펍",
+    "name": {
+      "ko": "매직라이브펍",
+      "en": "매직라이브펍",
+      "zh": "매직라이브펍",
+      "ja": "매직라이브펍"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 종로구 창경궁로26길 41-3",
@@ -2851,7 +3346,12 @@
   },
   {
     "id": "ChIJT9SmYJqjfDURKuB9mc2JAkA",
-    "name": "락더후",
+    "name": {
+      "ko": "락더후",
+      "en": "락더후",
+      "zh": "락더후",
+      "ja": "락더후"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 종로구 삼일대로17길 43",
@@ -2883,7 +3383,12 @@
   },
   {
     "id": "ChIJo0TG1NqYfDURQZdK0zi6OYE",
-    "name": "클럽프리버드(Club Freebird)",
+    "name": {
+      "ko": "클럽프리버드(Club Freebird)",
+      "en": "클럽프리버드(Club Freebird)",
+      "zh": "클럽프리버드(Club Freebird)",
+      "ja": "클럽프리버드(Club Freebird)"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로17길 15",
@@ -2915,7 +3420,12 @@
   },
   {
     "id": "ChIJoVpeQoyjfDURApSmIuowGm4",
-    "name": "쇼텐 남영점 - Syoten Namyeong",
+    "name": {
+      "ko": "쇼텐 남영점 - Syoten Namyeong",
+      "en": "쇼텐 남영점 - Syoten Namyeong",
+      "zh": "쇼텐 남영점 - Syoten Namyeong",
+      "ja": "쇼텐 남영점 - Syoten Namyeong"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로80길 11-20",
@@ -2947,7 +3457,12 @@
   },
   {
     "id": "ChIJa8IAOGejfDURiwaSpMindyI",
-    "name": "청파비노",
+    "name": {
+      "ko": "청파비노",
+      "en": "청파비노",
+      "zh": "청파비노",
+      "ja": "청파비노"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 서계동 235-21 1층 KR 서울특별시 용산구 서울 용산구 청파로89길 60",
@@ -2979,7 +3494,12 @@
   },
   {
     "id": "ChIJpRy9fCyjfDURzwc8sm9S37M",
-    "name": "천년동안도 낙원",
+    "name": {
+      "ko": "천년동안도 낙원",
+      "en": "천년동안도 낙원",
+      "zh": "천년동안도 낙원",
+      "ja": "천년동안도 낙원"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 종로구 수표로 134 2층",
@@ -3011,7 +3531,12 @@
   },
   {
     "id": "ChIJgdO5Ee6jfDURgko1kaYY_qs",
-    "name": "Hosaga 호사가",
+    "name": {
+      "ko": "Hosaga 호사가",
+      "en": "Hosaga 호사가",
+      "zh": "Hosaga 호사가",
+      "ja": "Hosaga 호사가"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 지하 새창로14길 22",
@@ -3043,7 +3568,12 @@
   },
   {
     "id": "ChIJn80nMo2jfDURwPh4TVSaa3M",
-    "name": "오거리엘피바 (5 WAY LP BAR)",
+    "name": {
+      "ko": "오거리엘피바 (5 WAY LP BAR)",
+      "en": "오거리엘피바 (5 WAY LP BAR)",
+      "zh": "오거리엘피바 (5 WAY LP BAR)",
+      "ja": "오거리엘피바 (5 WAY LP BAR)"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 독서당로 67 B1",
@@ -3075,7 +3605,12 @@
   },
   {
     "id": "ChIJB2NVc9CYfDURbsP6z1I_-Us",
-    "name": "옥탑방 부엉이 (Owl’s Rooftop)",
+    "name": {
+      "ko": "옥탑방 부엉이 (Owl’s Rooftop)",
+      "en": "옥탑방 부엉이 (Owl’s Rooftop)",
+      "zh": "옥탑방 부엉이 (Owl’s Rooftop)",
+      "ja": "옥탑방 부엉이 (Owl’s Rooftop)"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 마포구 독막로9길 43",
@@ -3107,7 +3642,12 @@
   },
   {
     "id": "ChIJd3S7ZgChfDURj-5jWCkhRAw",
-    "name": "Coffee & Wine",
+    "name": {
+      "ko": "Coffee & Wine",
+      "en": "Coffee & Wine",
+      "zh": "Coffee & Wine",
+      "ja": "Coffee & Wine"
+    },
     "type": "rock_bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 이촌동 301-172",
@@ -3128,7 +3668,12 @@
   },
   {
     "id": "ChIJXS5MfGyifDURD9ASv4Wh1Oo",
-    "name": "3KM",
+    "name": {
+      "ko": "3KM",
+      "en": "3KM",
+      "zh": "3KM",
+      "ja": "3KM"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 청파동3가 26-15",
@@ -3160,7 +3705,12 @@
   },
   {
     "id": "ChIJZSM2v2uifDUR7QhesuVvkjM",
-    "name": "SoulBar",
+    "name": {
+      "ko": "SoulBar",
+      "en": "SoulBar",
+      "zh": "SoulBar",
+      "ja": "SoulBar"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 남영동 한강대로 293",
@@ -3192,7 +3742,12 @@
   },
   {
     "id": "ChIJ6R8KKD6jfDUR4bprLIHlRC0",
-    "name": "바 조이(BAR JOY)",
+    "name": {
+      "ko": "바 조이(BAR JOY)",
+      "en": "바 조이(BAR JOY)",
+      "zh": "바 조이(BAR JOY)",
+      "ja": "바 조이(BAR JOY)"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 101 후암동 두텁바위로 88 KR 서울특별시 용산구 서울특별시 용산구",
@@ -3224,7 +3779,12 @@
   },
   {
     "id": "ChIJocUXQT6jfDURjy1I_hj4XbM",
-    "name": "B421",
+    "name": {
+      "ko": "B421",
+      "en": "B421",
+      "zh": "B421",
+      "ja": "B421"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로 278-7 1층",
@@ -3256,7 +3816,12 @@
   },
   {
     "id": "ChIJ05UMP0GjfDURbYM6P1i5W3g",
-    "name": "Bar Thursdaydrinkclub",
+    "name": {
+      "ko": "Bar Thursdaydrinkclub",
+      "en": "Bar Thursdaydrinkclub",
+      "zh": "Bar Thursdaydrinkclub",
+      "ja": "Bar Thursdaydrinkclub"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로 260 2층",
@@ -3288,7 +3853,12 @@
   },
   {
     "id": "ChIJK8SQpyOjfDURqZWg6QBNAJA",
-    "name": "청파랑",
+    "name": {
+      "ko": "청파랑",
+      "en": "청파랑",
+      "zh": "청파랑",
+      "ja": "청파랑"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 청파로93길 46",
@@ -3320,7 +3890,12 @@
   },
   {
     "id": "ChIJAxRafJijfDUR-UO-O_oZqpI",
-    "name": "오오비 oob",
+    "name": {
+      "ko": "오오비 oob",
+      "en": "오오비 oob",
+      "zh": "오오비 oob",
+      "ja": "오오비 oob"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로 268-1 2층",
@@ -3352,7 +3927,12 @@
   },
   {
     "id": "ChIJDZeblmmifDUREIo93yhyAyk",
-    "name": "THE BLACK WHALE BAR",
+    "name": {
+      "ko": "THE BLACK WHALE BAR",
+      "en": "THE BLACK WHALE BAR",
+      "zh": "THE BLACK WHALE BAR",
+      "ja": "THE BLACK WHALE BAR"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 두텁바위로1길 29",
@@ -3384,7 +3964,12 @@
   },
   {
     "id": "ChIJsZ2AoyajfDURzwx8TmaFEfo",
-    "name": "Bar Hedonism",
+    "name": {
+      "ko": "Bar Hedonism",
+      "en": "Bar Hedonism",
+      "zh": "Bar Hedonism",
+      "ja": "Bar Hedonism"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 KR 서울특별시 용산구 남영동 94-1 (201호 hedonism",
@@ -3416,7 +4001,12 @@
   },
   {
     "id": "ChIJgWSUWmujfDURvSoicHMinQw",
-    "name": "디거이즈디깅",
+    "name": {
+      "ko": "디거이즈디깅",
+      "en": "디거이즈디깅",
+      "zh": "디거이즈디깅",
+      "ja": "디거이즈디깅"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로87길 8",
@@ -3448,7 +4038,12 @@
   },
   {
     "id": "ChIJMTx2qQyjfDURCnXF8RAcTAM",
-    "name": "퍼즈남영 PAUSE NAMYEONG",
+    "name": {
+      "ko": "퍼즈남영 PAUSE NAMYEONG",
+      "en": "퍼즈남영 PAUSE NAMYEONG",
+      "zh": "퍼즈남영 PAUSE NAMYEONG",
+      "ja": "퍼즈남영 PAUSE NAMYEONG"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 갈월동 90-15 2층",
@@ -3480,7 +4075,12 @@
   },
   {
     "id": "ChIJm2P2maSjfDURIAUGlzizYNc",
-    "name": "바 백룸",
+    "name": {
+      "ko": "바 백룸",
+      "en": "바 백룸",
+      "zh": "바 백룸",
+      "ja": "바 백룸"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 원효로1가 43-13",
@@ -3512,7 +4112,12 @@
   },
   {
     "id": "ChIJ8dRZeDmjfDURoys3VOvK-04",
-    "name": "모어댄위스키",
+    "name": {
+      "ko": "모어댄위스키",
+      "en": "모어댄위스키",
+      "zh": "모어댄위스키",
+      "ja": "모어댄위스키"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강로동 한강대로52길 25",
@@ -3544,7 +4149,12 @@
   },
   {
     "id": "ChIJ68kBzNqjfDURKWzkxG9vaAQ",
-    "name": "세올 커피 앤 바",
+    "name": {
+      "ko": "세올 커피 앤 바",
+      "en": "세올 커피 앤 바",
+      "zh": "세올 커피 앤 바",
+      "ja": "세올 커피 앤 바"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 KR 서울특별시 용산구 서울시 용산구 청파로89길 43 1층, SAOL",
@@ -3576,7 +4186,12 @@
   },
   {
     "id": "ChIJ7YS7742jfDURdJzrSiuKFSc",
-    "name": "밤피장(밤에 피는 장미)",
+    "name": {
+      "ko": "밤피장(밤에 피는 장미)",
+      "en": "밤피장(밤에 피는 장미)",
+      "zh": "밤피장(밤에 피는 장미)",
+      "ja": "밤피장(밤에 피는 장미)"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로80길 15",
@@ -3608,7 +4223,12 @@
   },
   {
     "id": "ChIJ_8tZHAGjfDURzhydQpybJW0",
-    "name": "Osiu",
+    "name": {
+      "ko": "Osiu",
+      "en": "Osiu",
+      "zh": "Osiu",
+      "ja": "Osiu"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로72길 11-22 1층",
@@ -3640,7 +4260,12 @@
   },
   {
     "id": "ChIJSXKXv0yjfDURpbwPXMSYb24",
-    "name": "몰티드",
+    "name": {
+      "ko": "몰티드",
+      "en": "몰티드",
+      "zh": "몰티드",
+      "ja": "몰티드"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강로동 73-3",
@@ -3672,7 +4297,12 @@
   },
   {
     "id": "ChIJS3rXRiijfDUR--MgBjMWLHM",
-    "name": "다이빙룸 Diving room",
+    "name": {
+      "ko": "다이빙룸 Diving room",
+      "en": "다이빙룸 Diving room",
+      "zh": "다이빙룸 Diving room",
+      "ja": "다이빙룸 Diving room"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강대로 259 104호",
@@ -3704,7 +4334,12 @@
   },
   {
     "id": "ChIJK9hP91ejfDURnsfXuoyu0eM",
-    "name": "BAR 피어(VIER)",
+    "name": {
+      "ko": "BAR 피어(VIER)",
+      "en": "BAR 피어(VIER)",
+      "zh": "BAR 피어(VIER)",
+      "ja": "BAR 피어(VIER)"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 한강로1가 지하1층 216-11",
@@ -3736,7 +4371,12 @@
   },
   {
     "id": "ChIJH1M_avSjfDURDngkR1PBPrI",
-    "name": "남영포차",
+    "name": {
+      "ko": "남영포차",
+      "en": "남영포차",
+      "zh": "남영포차",
+      "ja": "남영포차"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 갈월동 86-8",
@@ -3768,7 +4408,12 @@
   },
   {
     "id": "ChIJTW29XvChfDURPHLnYK8d8nQ",
-    "name": "노들섬 라이브하우스",
+    "name": {
+      "ko": "노들섬 라이브하우스",
+      "en": "노들섬 라이브하우스",
+      "zh": "노들섬 라이브하우스",
+      "ja": "노들섬 라이브하우스"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 양녕로 445",
@@ -3800,7 +4445,12 @@
   },
   {
     "id": "ChIJyxB_qeeifDURah4an84S-tQ",
-    "name": "서울레코드펍",
+    "name": {
+      "ko": "서울레코드펍",
+      "en": "서울레코드펍",
+      "zh": "서울레코드펍",
+      "ja": "서울레코드펍"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 종로구 삼일대로20길 17 2 층",
@@ -3832,7 +4482,12 @@
   },
   {
     "id": "ChIJV3ibOQCjfDURJvDhhzUJ7tc",
-    "name": "Asian whiskies 『 Barjaerae 』",
+    "name": {
+      "ko": "Asian whiskies 『 Barjaerae 』",
+      "en": "Asian whiskies 『 Barjaerae 』",
+      "zh": "Asian whiskies 『 Barjaerae 』",
+      "ja": "Asian whiskies 『 Barjaerae 』"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 동자동 2-5",
@@ -3864,7 +4519,12 @@
   },
   {
     "id": "ChIJ5eYaeg6jfDURbdgkZ9LYlUk",
-    "name": "하이워터 HIGH WATER",
+    "name": {
+      "ko": "하이워터 HIGH WATER",
+      "en": "하이워터 HIGH WATER",
+      "zh": "하이워터 HIGH WATER",
+      "ja": "하이워터 HIGH WATER"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 지하1 9 KR 서울특별시 용산구 만리재로36길",
@@ -3896,7 +4556,12 @@
   },
   {
     "id": "ChIJvbMpfgCZfDURxKw9Q6rstdI",
-    "name": "듈 스튜디오",
+    "name": {
+      "ko": "듈 스튜디오",
+      "en": "듈 스튜디오",
+      "zh": "듈 스튜디오",
+      "ja": "듈 스튜디오"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 잔다리로 20",
@@ -3964,7 +4629,12 @@
   },
   {
     "id": "ChIJe_DqKACZfDURmq9KReRt0cM",
-    "name": "인피니티 클럽",
+    "name": {
+      "ko": "인피니티 클럽",
+      "en": "인피니티 클럽",
+      "zh": "인피니티 클럽",
+      "ja": "인피니티 클럽"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7안길 34-3",
@@ -3990,7 +4660,12 @@
   },
   {
     "id": "ChIJR11mfgCjfDURxbsNpkBTy1E",
-    "name": "SeoulJaeJil",
+    "name": {
+      "ko": "SeoulJaeJil",
+      "en": "SeoulJaeJil",
+      "zh": "SeoulJaeJil",
+      "ja": "SeoulJaeJil"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 용산구 만리재로 164-1",
@@ -4022,7 +4697,12 @@
   },
   {
     "id": "ChIJm6jZb0-ifDURLaB-6WqbCGQ",
-    "name": "레빗홀",
+    "name": {
+      "ko": "레빗홀",
+      "en": "레빗홀",
+      "zh": "레빗홀",
+      "ja": "레빗홀"
+    },
     "type": "pub",
     "address": {
       "ko": "대한민국 서울특별시 용산구 신흥로 37 지하 1층",
@@ -4054,7 +4734,12 @@
   },
   {
     "id": "ChIJy7uennmjfDURzuv07QzT2G8",
-    "name": "역전할머니맥주 1982 숙대점",
+    "name": {
+      "ko": "역전할머니맥주 1982 숙대점",
+      "en": "역전할머니맥주 1982 숙대점",
+      "zh": "역전할머니맥주 1982 숙대점",
+      "ja": "역전할머니맥주 1982 숙대점"
+    },
     "type": "bar",
     "address": {
       "ko": "대한민국 서울특별시 용산구 남영동 한강대로87길 4",
@@ -4086,7 +4771,12 @@
   },
   {
     "id": "ChIJK50rHwCZfDURPV8cbH9oEOw",
-    "name": "언프레임 홍대레드로드점",
+    "name": {
+      "ko": "언프레임 홍대레드로드점",
+      "en": "언프레임 홍대레드로드점",
+      "zh": "언프레임 홍대레드로드점",
+      "ja": "언프레임 홍대레드로드점"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 어울마당로 78",
@@ -4106,7 +4796,12 @@
     "created_at": "2026-08-26T06:12:55.486Z"
   },
   {
-    "name": "바 틸트",
+    "name": {
+      "ko": "바 틸트",
+      "en": "바 틸트",
+      "zh": "바 틸트",
+      "ja": "바 틸트"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연세로7안길 34",
@@ -4181,7 +4876,12 @@
   },
   {
     "id": "ChIJb0a0cDpV7zURhZ3FfM7G7xw",
-    "name": "클럽 헤비(Club Heavy)",
+    "name": {
+      "ko": "클럽 헤비(Club Heavy)",
+      "en": "클럽 헤비(Club Heavy)",
+      "zh": "클럽 헤비(Club Heavy)",
+      "ja": "클럽 헤비(Club Heavy)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 동성로 131",
@@ -4202,7 +4902,12 @@
   },
   {
     "id": "ChIJf8b9cD9zB8zUSi4YgX8fG9y",
-    "name": "클럽 에이유(Club AU)",
+    "name": {
+      "ko": "클럽 에이유(Club AU)",
+      "en": "클럽 에이유(Club AU)",
+      "zh": "클럽 에이유(Club AU)",
+      "ja": "클럽 에이유(Club AU)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 동성로3길 15",
@@ -4223,7 +4928,12 @@
   },
   {
     "id": "ChIJg9c0dE0aC9zVTj5ZhY9gH0z",
-    "name": "디헬(D.HELL)",
+    "name": {
+      "ko": "디헬(D.HELL)",
+      "en": "디헬(D.HELL)",
+      "zh": "디헬(D.HELL)",
+      "ja": "디헬(D.HELL)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 동성로 145",
@@ -4244,7 +4954,12 @@
   },
   {
     "id": "ChIJh0d1eF1bD0aWUk6AiZ0hI1a",
-    "name": "벙커(BUNKER)",
+    "name": {
+      "ko": "벙커(BUNKER)",
+      "en": "벙커(BUNKER)",
+      "zh": "벙커(BUNKER)",
+      "ja": "벙커(BUNKER)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 동성로 155",
@@ -4253,7 +4968,7 @@
       "ja": "大韓民国 大邱広域市 中区 東城路155"
     },
     "latitude": 35.8682,
-    "longitude": 128.5980,
+    "longitude": 128.598,
     "phoneNumber": "+82 53-423-7890",
     "websiteUrl": "https://www.instagram.com/bunker_daegu/",
     "googlePlaceId": "ChIJh0d1eF1bD0aWUk6AiZ0hI1a",
@@ -4265,7 +4980,12 @@
   },
   {
     "id": "ChIJk9a8bC8pA7zUR9fX7eG8x",
-    "name": "라이브 인디(Live Indie)",
+    "name": {
+      "ko": "라이브 인디(Live Indie)",
+      "en": "라이브 인디(Live Indie)",
+      "zh": "라이브 인디(Live Indie)",
+      "ja": "라이브 인디(Live Indie)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 삼덕동 15-6",
@@ -4286,7 +5006,12 @@
   },
   {
     "id": "ChIJp0c2dE2cD1bXVk7BjZ1iJ2c",
-    "name": "라이브홀 락왕(Live Hall Rockwang)",
+    "name": {
+      "ko": "라이브홀 락왕(Live Hall Rockwang)",
+      "en": "라이브홀 락왕(Live Hall Rockwang)",
+      "zh": "라이브홀 락왕(Live Hall Rockwang)",
+      "ja": "라이브홀 락왕(Live Hall Rockwang)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 명덕로 111",
@@ -4307,7 +5032,12 @@
   },
   {
     "id": "ChIJm8b7cD8zB9zUSi4YgX8fG9a",
-    "name": "꼬뮨(COMMUNE)",
+    "name": {
+      "ko": "꼬뮨(COMMUNE)",
+      "en": "꼬뮨(COMMUNE)",
+      "zh": "꼬뮨(COMMUNE)",
+      "ja": "꼬뮨(COMMUNE)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 동성로5길 85 지하1층",
@@ -4328,7 +5058,12 @@
   },
   {
     "id": "ChIJn9c8dE9aC0zVTj5ZhY9gH1b",
-    "name": "제임스레코드(Jamesrecord)",
+    "name": {
+      "ko": "제임스레코드(Jamesrecord)",
+      "en": "제임스레코드(Jamesrecord)",
+      "zh": "제임스레코드(Jamesrecord)",
+      "ja": "제임스레코드(Jamesrecord)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 대구광역시 중구 공평동 82-9",
@@ -4337,7 +5072,7 @@
       "ja": "大韓民国 大邱広域市 中区 公平洞82-9"
     },
     "latitude": 35.8683,
-    "longitude": 128.5990,
+    "longitude": 128.599,
     "phoneNumber": "",
     "websiteUrl": "https://www.instagram.com/jamesrecord/",
     "googlePlaceId": "ChIJn9c8dE9aC0zVTj5ZhY9gH1b",
@@ -4349,7 +5084,12 @@
   },
   {
     "id": "ChIJd7a2bC9zA7zURhGfX7eG8x",
-    "name": "클럽 비밥(Club Bebop)",
+    "name": {
+      "ko": "클럽 비밥(Club Bebop)",
+      "en": "클럽 비밥(Club Bebop)",
+      "zh": "클럽 비밥(Club Bebop)",
+      "ja": "클럽 비밥(Club Bebop)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 부산진구 서전로10번길 30",
@@ -4368,10 +5108,14 @@
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
   },
-
   {
     "id": "ChIJK7buffDsaDUR7jwyeDlGi9Y",
-    "name": "더바이널 언더그라운드라이브클럽",
+    "name": {
+      "ko": "더바이널 언더그라운드라이브클럽",
+      "en": "더바이널 언더그라운드라이브클럽",
+      "zh": "더바이널 언더그라운드라이브클럽",
+      "ja": "더바이널 언더그라운드라이브클럽"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 남구 수영로322번길 32",
@@ -4390,10 +5134,14 @@
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
   },
-
   {
     "id": "ChIJe9c4eD7zB8zUSi4YgX8fG9z",
-    "name": "인터플레이(Interplay)",
+    "name": {
+      "ko": "인터플레이(Interplay)",
+      "en": "인터플레이(Interplay)",
+      "zh": "인터플레이(Interplay)",
+      "ja": "인터플레이(Interplay)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 부산진구 서전로 45",
@@ -4414,7 +5162,12 @@
   },
   {
     "id": "ChIJf5h37g9JazURmZfX7eG8x",
-    "name": "오방가르드(ObangGarde)",
+    "name": {
+      "ko": "오방가르드(ObangGarde)",
+      "en": "오방가르드(ObangGarde)",
+      "zh": "오방가르드(ObangGarde)",
+      "ja": "오방가르드(ObangGarde)"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 부산광역시 부산진구 전포대로199번길 36",
