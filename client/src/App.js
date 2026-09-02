@@ -239,8 +239,17 @@ function AppContent() {
         : venues.filter(v => v.area === selectedCategory);
 
       const matchingVenue = filteredForSearch.find(v => {
-        const name = typeof v.name === 'object' ? (v.name.ko || v.name.en || JSON.stringify(v.name)) : v.name;
-        return name.toLowerCase().includes(lowerQuery);
+        // 이름 + 모든 언어의 주소 + 설명을 합쳐서 검색
+        const name = v.name || '';
+        const addresses = v.address ? [
+          v.address.ko || '', 
+          v.address.en || '', 
+          v.address.zh || '', 
+          v.address.ja || ''
+        ].join(' ') : '';
+        const description = v.description || '';
+        const allSearchableText = `${name} ${addresses} ${description}`.toLowerCase();
+        return allSearchableText.includes(lowerQuery);
       });
 
       if (matchingVenue) {
@@ -266,8 +275,21 @@ function AppContent() {
   const searchFilteredVenues = searchQuery.trim() === ''
     ? filteredVenues
     : filteredVenues.filter(v => {
-        const name = typeof v.name === 'object' ? (v.name.ko || v.name.en || JSON.stringify(v.name)) : v.name;
-        return name.toLowerCase().includes(searchQuery.toLowerCase());
+        const lowerQuery = searchQuery.toLowerCase();
+        // 1. 베뉴 이름 (단일 문자열)
+        const name = v.name || '';
+        // 2. 모든 언어의 주소를 합쳐서 검색
+        const addresses = v.address ? [
+          v.address.ko || '', 
+          v.address.en || '', 
+          v.address.zh || '', 
+          v.address.ja || ''
+        ].join(' ') : '';
+        // 3. 베뉴 설명 (있는 경우)
+        const description = v.description || '';
+        // 4. 모든 텍스트를 합쳐서 검색어 포함 여부 확인
+        const allSearchableText = `${name} ${addresses} ${description}`.toLowerCase();
+        return allSearchableText.includes(lowerQuery);
       });
 
   return (
