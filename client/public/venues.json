@@ -3927,7 +3927,12 @@
     "created_at": "2026-08-25T12:15:21.518Z"
   },
   {
-    "name": "스트레인지 프룻",
+    "name": {
+      "ko": "스트레인지 프룻",
+      "en": "Strange Fruit",
+      "zh": "奇异水果",
+      "ja": "ストレンジフルーツ"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 와우산로29길 64",
@@ -4124,7 +4129,12 @@
   },
   {
     "id": "ChIJw7Z2X7aKfzURu8l4a8mT5cM",
-    "name": "디파트먼트 이엔(Department EN)",
+    "name": {
+      "ko": "디파트먼트 이엔",
+      "en": "Department EN",
+      "zh": "部门EN",
+      "ja": "デパートメントEN"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 서대문구 연희로 48-22 1층",
@@ -4145,7 +4155,12 @@
   },
   {
     "id": "ChIJd8f9cK9zB8zUSi4YgX8fG9z",
-    "name": "채널1969(Channel 1969)",
+    "name": {
+      "ko": "채널1969",
+      "en": "Channel 1969",
+      "zh": "频道1969",
+      "ja": "チャンネル1969"
+    },
     "type": "live_venue",
     "address": {
       "ko": "대한민국 서울특별시 마포구 연희로 35 지하 1층",
