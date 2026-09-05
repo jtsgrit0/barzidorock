@@ -238,9 +238,9 @@ function AppContent() {
         ? venues
         : venues.filter(v => v.area === selectedCategory);
 
+      // 검색어와 일치하는 베뉴 찾기 (모든 언어의 이름/주소/설명 포함)
       const matchingVenue = filteredForSearch.find(v => {
-        // 이름 + 모든 언어의 주소 + 설명을 합쳐서 검색
-        const name = v.name || '';
+        const name = typeof v.name === 'object' ? (v.name.ko || v.name.en || v.name.zh || v.name.ja || JSON.stringify(v.name)) : v.name;
         const addresses = v.address ? [
           v.address.ko || '', 
           v.address.en || '', 
@@ -259,6 +259,7 @@ function AppContent() {
         if (document.activeElement) {
           document.activeElement.blur();
         }
+        // id가 null이어도 지도 중심으로 이동하고, 마커를 클릭하면 팝업이 열리도록 함
       } else {
         alert(`"${query}"에 해당하는 공연장을 찾을 수 없습니다.`);
         setSearchVenueId(null);

@@ -20,10 +20,11 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
   venuesRef.current = venues;
 
   useEffect(() => {
-    if (activeVenueId && map && searchVenueId) {
+    if (activeVenueId && map) {
       const venue = venuesRef.current.find(v => v.id === activeVenueId);
       if (venue) {
-        setOpenInfoWindowId(activeVenueId);
+        const venueIdentifier = venue.id || `venue-${venuesRef.current.indexOf(venue)}`;
+        setOpenInfoWindowId(venueIdentifier);
         map.setZoom(14);
         const offsetLat = -0.005;
         const newCenter = {
@@ -36,7 +37,7 @@ function MapComponent({ venues, center, zoom, userLocation, centerMapToUserLocat
         }
       }
     }
-  }, [activeVenueId, map, fetchVenueImages, searchVenueId]);
+  }, [activeVenueId, map, fetchVenueImages]);
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
