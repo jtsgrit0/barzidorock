@@ -240,7 +240,10 @@ function AppContent() {
 
       // 검색어와 일치하는 베뉴 찾기 (모든 언어의 이름/주소/설명 포함)
       const matchingVenue = filteredForSearch.find(v => {
-        const name = typeof v.name === 'object' ? (v.name.ko || v.name.en || v.name.zh || v.name.ja || JSON.stringify(v.name)) : v.name;
+        // 모든 언어의 이름을 합쳐서 숫자도 포함한 모든 텍스트를 검색
+        const name = typeof v.name === 'object' ? 
+          `${v.name.ko || ''} ${v.name.en || ''} ${v.name.zh || ''} ${v.name.ja || ''}`.trim() : 
+          (v.name || '');
         const addresses = v.address ? [
           v.address.ko || '', 
           v.address.en || '', 
@@ -277,8 +280,10 @@ function AppContent() {
     ? filteredVenues
     : filteredVenues.filter(v => {
         const lowerQuery = searchQuery.toLowerCase();
-        // 1. 베뉴 이름 (단일 문자열)
-        const name = v.name || '';
+        // 1. 모든 언어의 이름을 합쳐서 숫자도 포함한 모든 텍스트를 검색
+        const name = typeof v.name === 'object' ? 
+          `${v.name.ko || ''} ${v.name.en || ''} ${v.name.zh || ''} ${v.name.ja || ''}`.trim() : 
+          (v.name || '');
         // 2. 모든 언어의 주소를 합쳐서 검색
         const addresses = v.address ? [
           v.address.ko || '', 
