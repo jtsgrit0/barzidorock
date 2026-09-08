@@ -1078,10 +1078,10 @@
     },
     "type": "live_venue",
     "address": {
-      "ko": "서울특별시 마포구 연남동",
-      "en": "Yeonnam-dong, Mapo-gu, Seoul, Republic of Korea",
-      "zh": "韩国首尔特别市麻浦区延南洞",
-      "ja": "ソウル特別市麻浦区延南洞"
+      "ko": "서울특별시 마포구 와우산로 137 5층",
+      "en": "5F, 137 Wausan-ro, Mapo-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市麻浦区牛山路137号5楼",
+      "ja": "ソウル特別市麻浦区ワウサンロ137 5F"
     },
     "latitude": 37.5539,
     "longitude": 126.9286,
