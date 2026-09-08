@@ -1071,6 +1071,110 @@
     "created_at": "2026-09-08T00:00:00.000Z"
   },
   {
+    "id": null,
+    "name": {
+      "ko": "얼라이브홀(Alive Hall)",
+      "en": "Alive Hall",
+      "zh": "活力堂",
+      "ja": "アライブホール"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울특별시 마포구 와우산로21길 32",
+      "en": "32, Wausan-ro 21-gil, Mapo-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市麻浦区牛山路21街32号",
+      "ja": "ソウル特別市麻浦区ワウサンロ21ギル32"
+    },
+    "latitude": 37.5502,
+    "longitude": 126.9215,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJm3x1bfHefDURh0xX7y8z9w0u",
+    "description": "홍대에 위치한 대형 라이브 클럽으로, 다양한 밴드와 아티스트의 공연이 열리는 홍대의 대표적인 음악 공연장입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": {
+      "ko": "락집(Rockzip)",
+      "en": "Rockzip",
+      "zh": "摇滚之家",
+      "ja": "ロックジップ"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울특별시 마포구 와우산로17길 25",
+      "en": "25, Wausan-ro 17-gil, Mapo-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市麻浦区牛山路17街25号",
+      "ja": "ソウル特別市麻浦区ワウサンロ17ギル25"
+    },
+    "latitude": 37.5485,
+    "longitude": 126.9199,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJk3x3bfHefDURg0xX7y8z9w0v",
+    "description": "홍대에 위치한 록 음악 전문 라이브 클럽으로, 다양한 록 밴드의 공연이 열리는 홍대의 대표적인 음악 공연장입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": {
+      "ko": "브라운(Brown)",
+      "en": "Brown",
+      "zh": "棕色",
+      "ja": "ブラウン"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울특별시 마포구 와우산로23길 20",
+      "en": "20, Wausan-ro 23-gil, Mapo-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市麻浦区牛山路23街20号",
+      "ja": "ソウル特別市麻浦区ワウサンロ23ギル20"
+    },
+    "latitude": 37.5493,
+    "longitude": 126.9155,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJm3x1bfHefDURh0xX7y8z9w0v",
+    "description": "홍대에 위치한 라이브 클럽으로, 다양한 인디 밴드와 록 밴드의 공연이 열리는 홍대의 음악 공연장입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": {
+      "ko": "재즈다(Jazzda)",
+      "en": "Jazzda",
+      "zh": "爵士达",
+      "ja": "ジャズダ"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울특별시 마포구 와우산로23길 18",
+      "en": "18, Wausan-ro 23-gil, Mapo-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市麻浦区牛山路23街18号",
+      "ja": "ソウル特別市麻浦区ワウサンロ23ギル18"
+    },
+    "latitude": 37.5493,
+    "longitude": 126.9153,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJm3x1bfHefDURh0xX7y8z9w1k",
+    "description": "홍대에 위치한 재즈 공연장으로, 다양한 재즈 뮤지션의 공연이 열리는 홍대의 재즈 클럽입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "hongdae",
+    "created_at": "2026-09-09T00:00:00.000Z"
+  },
+  {
     "id": "ChIJm2b5sX5efDURcYl3m1a2c6e",
     "name": {
       "ko": "스페이스 브릭(Space Brick)",
