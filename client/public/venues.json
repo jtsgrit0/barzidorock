@@ -192,30 +192,6 @@
     "created_at": "2026-08-30T00:00:00.000Z"
   },
   {
-    "id": null,
-    "name": {
-      "ko": "생기",
-      "en": "생기",
-      "zh": "생기",
-      "ja": "생기"
-    },
-    "type": "live_venue",
-    "address": {
-      "ko": "서울특별시 마포구 와우산로 137 5층",
-      "en": "137, Wausan-ro, Mapo-gu, Seoul, Republic of Korea"
-    },
-    "latitude": 37.553339,
-    "longitude": 126.92155,
-    "phoneNumber": "+82 10-5354-0193",
-    "websiteUrl": "http://senggistudio.site/",
-    "googlePlaceId": null,
-    "description": null,
-    "image_urls": [],
-    "opening_hours": null,
-    "area": "hongdae",
-    "created_at": "2026-08-30T00:00:00.000Z"
-  },
-  {
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
     "name": {
       "ko": "Cafe Unplugged",
@@ -1085,8 +1061,8 @@
     },
     "latitude": 37.5539,
     "longitude": 126.9286,
-    "phoneNumber": "",
-    "websiteUrl": "",
+    "phoneNumber": "+82 10-5354-0193",
+    "websiteUrl": "http://senggistudio.site/",
     "googlePlaceId": "ChIJy1Z0gXHefDURs4f3i4n7m0",
     "description": "홍대 연남동에 위치한 라이브 클럽입니다.",
     "image_urls": [],
