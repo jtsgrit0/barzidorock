@@ -1279,6 +1279,32 @@
     "created_at": "2026-09-10T00:00:00.000Z"
   },
   {
+    "id": null,
+    "name": {
+      "ko": "업리프트서울(UPLIFT SEOUL)",
+      "en": "UPLIFT SEOUL",
+      "zh": "提升首尔",
+      "ja": "アップリフトソウル"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울특별시 용산구 녹사평대로 238 2층",
+      "en": "2F, 238, Noksapyeong-daero, Yongsan-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市龙山区绿莎坪大路238号2楼",
+      "ja": "ソウル特別市龍山区ノクサピョンデロ238 2階"
+    },
+    "latitude": 37.5398,
+    "longitude": 126.9845,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJm6x1bfHefDURi0xX7y8z9w6k",
+    "description": "녹사평에 위치한 업리프트서울은 이태원의 복합문화공간으로, 다양한 라이브 공연과 문화 이벤트가 열리는 공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "itaewon",
+    "created_at": "2026-09-10T00:00:00.000Z"
+  },
+  {
     "id": "ChIJm2b5sX5efDURcYl3m1a2c6e",
     "name": {
       "ko": "스페이스 브릭(Space Brick)",
