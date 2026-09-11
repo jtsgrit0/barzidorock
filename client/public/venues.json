@@ -1236,10 +1236,10 @@
     },
     "type": "live_venue",
     "address": {
-      "ko": "서울특별시 용산구 신흥로 33",
-      "en": "33, Sinheung-ro, Yongsan-gu, Seoul, Republic of Korea",
-      "zh": "韩国首尔特别市龙山区新兴路33号",
-      "ja": "ソウル特別市龍山区シンフンロ33"
+      "ko": "서울특별시 용산구 용산2가동 44-8",
+      "en": "44-8, Yongsan2ga-dong, Yongsan-gu, Seoul, Republic of Korea",
+      "zh": "韩国首尔特别市龙山区龙山二街洞44-8",
+      "ja": "ソウル特別市龍山区龍山2ガ洞44-8"
     },
     "latitude": 37.5415001,
     "longitude": 126.9870958,
