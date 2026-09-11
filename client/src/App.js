@@ -91,11 +91,13 @@ function AppContent() {
 
   // Check for location consent on app load
   useEffect(() => {
-    const hasSeenPetition = localStorage.getItem('hasSeenPetition');
+    // sessionStorage를 사용하여 브라우저 세션 동안만 팝업 기록 유지
+    // 캐시 파일을 지우고 새로 접속하면 sessionStorage가 초기화되어 팝업이 다시 나타남
+    const hasSeenPetition = sessionStorage.getItem('hasSeenPetition');
     if (hasSeenPetition === null) {
       setShowPetitionPopup(true);
     } else {
-      const consent = localStorage.getItem('locationConsent');
+      const consent = sessionStorage.getItem('locationConsent');
       if (consent === 'granted') {
         setLocationAccessGranted(true);
       } else if (consent === null) {
@@ -107,9 +109,9 @@ function AppContent() {
   // Handle closing the petition popup and showing location consent
   const handlePetitionClose = () => {
     setShowPetitionPopup(false);
-    localStorage.setItem('hasSeenPetition', 'true');
+    sessionStorage.setItem('hasSeenPetition', 'true');
     // Show location consent after closing petition popup
-    const consent = localStorage.getItem('locationConsent');
+    const consent = sessionStorage.getItem('locationConsent');
     if (consent === 'granted') {
       setLocationAccessGranted(true);
     } else if (consent === null) {
@@ -132,7 +134,7 @@ function AppContent() {
             if (error.code === error.PERMISSION_DENIED) {
               alert("위치 정보 접근이 거부되었습니다. 설정을 확인해주세요.");
               setLocationAccessGranted(false); // This will trigger the effect to re-run and clean up
-              localStorage.setItem('locationConsent', 'denied');
+              sessionStorage.setItem('locationConsent', 'denied');
             }
           },
           { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -140,7 +142,7 @@ function AppContent() {
       } else {
         alert("이 브라우저에서는 위치 정보 기능을 지원하지 않습니다.");
         setLocationAccessGranted(false);
-        localStorage.setItem('locationConsent', 'denied');
+        sessionStorage.setItem('locationConsent', 'denied');
       }
     } else {
       // If consent is revoked or not granted, clear the location
@@ -167,7 +169,7 @@ function AppContent() {
   }, [selectedCategory, venues, fetchVenueImages]);
 
   const handleLocationConsent = (granted) => {
-    localStorage.setItem('locationConsent', granted ? 'granted' : 'denied');
+    sessionStorage.setItem('locationConsent', granted ? 'granted' : 'denied');
     setLocationAccessGranted(granted);
     setShowLocationConsent(false);
   };
