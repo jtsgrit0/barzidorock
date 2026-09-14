@@ -5629,5 +5629,31 @@
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
     "area": "busan",
     "created_at": "2026-09-14T00:00:00.000Z"
+  },
+  {
+    "id": "riellaze-gwangalli-busan-001",
+    "name": {
+      "ko": "리엘라이즈",
+      "en": "Riel Laze",
+      "zh": "里尔莱兹",
+      "ja": "リエルライズ"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 부산광역시 수영구 광안동",
+      "en": "Gwangalli-dong, Suyeong-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 水营区 广安洞",
+      "ja": "大韓民国 釜山広域市 水営区 広安洞"
+    },
+    "latitude": 35.1593821,
+    "longitude": 129.121501,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "0x356893868781f9a5:0xb7d218411cde9384",
+    "description": "부산 광안리에 위치한 리엘라이즈는 라이브 공연과 전시가 열리는 복합문화공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "busan",
+    "created_at": "2026-09-14T00:00:00.000Z"
   }
 ]
