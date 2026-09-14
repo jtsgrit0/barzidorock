@@ -5603,5 +5603,31 @@
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
     "area": "busan",
     "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "hq-gwangalli-busan-001",
+    "name": {
+      "ko": "HQ 광안",
+      "en": "HQ Gwangalli",
+      "zh": "HQ广安里",
+      "ja": "HQ広安里"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "대한민국 부산광역시 수영구 광안동",
+      "en": "Gwangalli-dong, Suyeong-gu, Busan, South Korea",
+      "zh": "大韩民国 釜山广域市 水营区 广安洞",
+      "ja": "大韓民国 釜山広域市 水営区 広安洞"
+    },
+    "latitude": 35.1547291,
+    "longitude": 129.1199445,
+    "phoneNumber": "",
+    "websiteUrl": "",
+    "googlePlaceId": "ChIJs4f8z9w8kChIJKw4e9TfyzTURv5X7xX7y8z9w0k",
+    "description": "부산 광안리에 위치한 HQ는 라이브 공연과 전시가 열리는 복합문화공간입니다.",
+    "image_urls": [],
+    "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
+    "area": "busan",
+    "created_at": "2026-09-14T00:00:00.000Z"
   }
 ]
