@@ -1253,12 +1253,12 @@
     "created_at": "2026-09-12T00:00:00.000Z"
   },
   {
-    "id": "department-in-hongdae-001",
+    "id": "department-en-hongdae-001",
     "name": {
       "ko": "디파트먼트 이엔",
-      "en": "Department IN",
-      "zh": "部门IN",
-      "ja": "デパートメントIN"
+      "en": "Department.en",
+      "zh": "部门.en",
+      "ja": "デパートメント.en"
     },
     "type": "live_venue",
     "address": {
@@ -1305,12 +1305,12 @@
     "created_at": "2026-09-14T00:00:00.000Z"
   },
   {
-    "id": "department-in-hongdae-001",
+    "id": "department-en-hongdae-002",
     "name": {
       "ko": "디파트먼트 이엔",
-      "en": "Department IN",
-      "zh": "部门IN",
-      "ja": "デパートメントIN"
+      "en": "Department.en",
+      "zh": "部门.en",
+      "ja": "デパートメント.en"
     },
     "type": "live_venue",
     "address": {
