@@ -5631,12 +5631,12 @@
     "created_at": "2026-09-14T00:00:00.000Z"
   },
   {
-    "id": "riellaze-gwangalli-busan-001",
+    "id": "clubrealize-gwangalli-busan-001",
     "name": {
-      "ko": "리엘라이즈",
-      "en": "Riel Laze",
-      "zh": "里尔莱兹",
-      "ja": "リエルライズ"
+      "ko": "리얼라이즈",
+      "en": "Club Realize",
+      "zh": "Realize俱乐部",
+      "ja": "クラブリアライズ"
     },
     "type": "live_venue",
     "address": {
@@ -5650,7 +5650,7 @@
     "phoneNumber": "",
     "websiteUrl": "",
     "googlePlaceId": "0x356893868781f9a5:0xb7d218411cde9384",
-    "description": "부산 광안리에 위치한 리엘라이즈는 라이브 공연과 전시가 열리는 복합문화공간입니다.",
+    "description": "부산 광안리에 위치한 리얼라이즈는 라이브 공연과 전시가 열리는 복합문화공간입니다.",
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
     "area": "busan",
