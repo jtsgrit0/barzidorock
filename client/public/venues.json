@@ -1383,12 +1383,12 @@
     "created_at": "2026-09-14T00:00:00.000Z"
   },
   {
-    "id": "woolmujji-hongdae-001",
+    "id": "woomuji-hongdae-001",
     "name": {
-      "ko": "우물무지",
-      "en": "Woolmujji",
-      "zh": "吾木齐",
-      "ja": "ウムムジ"
+      "ko": "우무지",
+      "en": "Woomuji",
+      "zh": "乌木枝",
+      "ja": "ウムジ"
     },
     "type": "live_venue",
     "address": {
@@ -1402,7 +1402,7 @@
     "phoneNumber": "",
     "websiteUrl": "",
     "googlePlaceId": "0x357c990061b66f77:0xdc14bd2d99371ed6",
-    "description": "홍대 연남동에 위치한 우물무지는 라이브 공연과 전시가 열리는 복합문화공간입니다.",
+    "description": "홍대 연남동에 위치한 우무지는 라이브 공연과 전시가 열리는 복합문화공간입니다.",
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 4:00 AM\",\"Saturday: 5:00 PM – 4:00 AM\",\"Sunday: 5:00 PM – 12:00 AM\"]",
     "area": "hongdae",
