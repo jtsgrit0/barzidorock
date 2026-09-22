@@ -20,15 +20,18 @@
     "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.3",
     "knex": "^3.2.10",
+    "mongodb": "^7.6.0",
     "multer": "^2.2.0",
     "node-fetch": "^2.6.1",
     "nodemailer": "^9.0.1",
     "pg": "^8.21.0",
-    "puppeteer": "10.4.0",
+    "puppeteer": "^10.4.0",
     "puppeteer-core": "10.4.0",
     "tesseract.js": "^7.0.0"
   },
   "scripts": {
-    "migrate": "node scripts/migrate.js"
+    "migrate": "node scripts/migrate.js",
+    "migrate:mongo": "node scripts/migrate-mongo.js",
+    "postinstall": "npm run migrate"
   }
 }

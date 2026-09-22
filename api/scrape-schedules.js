@@ -1,6 +1,6 @@
 const chrome = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
-const { MongoClient } = require('mongodb');
+const { sql } = require('@vercel/postgres');
 const fs = require('fs');
 const path = require('path');
 
@@ -55,8 +55,7 @@ const INSTAGRAM_VENUES = allVenues
   });
 console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
 
-// MongoDB 연결 설정
-const MONGODB_URI = process.env.MONGODB_URI;
+
 
 module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') {
@@ -74,7 +73,6 @@ module.exports = async (req, res) => {
   }
 
   let browser = null;
-  let client = null;
   
   try {
     // Puppeteer로 브라우저 실행
@@ -251,31 +249,32 @@ module.exports = async (req, res) => {
       console.log('⚠️ [Instagram] 스크래핑 스킵: 환경변수 또는 공연장 계정 정보 부족');
     }
 
-    // MongoDB에 모든 스케줄 저장
+    // Postgres에 모든 스케줄 저장
     console.log(`✅ [scrape-schedules] 총 ${allSchedules.length}개의 공연일정 스크래핑 완료`);
-    
-    if (MONGODB_URI) {
-      client = await MongoClient.connect(MONGODB_URI);
-      const db = client.db('barzidorock');
-      const schedulesCollection = db.collection('schedules');
-      
-      // 중복 방지를 위해 upsert로 저장
+
+    try {
       let savedCount = 0;
       for (const schedule of allSchedules) {
-        await schedulesCollection.updateOne(
-          { venue_id: schedule.venue_id, event_date: schedule.event_date },
-          { $set: schedule },
-          { upsert: true }
-        );
+        // ON CONFLICT를 사용하여 중복 데이터 방지 (UPSERT)
+        await sql`
+          INSERT INTO schedules (venue_id, event_name, description, event_date, poster_image_url, ticket_url, source)
+          VALUES (${schedule.venue_id}, ${schedule.event_name}, ${schedule.description}, ${schedule.event_date}, ${schedule.poster_image_url}, ${schedule.ticket_url}, ${schedule.source})
+          ON CONFLICT (venue_id, event_date) DO UPDATE SET
+            event_name = EXCLUDED.event_name,
+            description = EXCLUDED.description,
+            poster_image_url = EXCLUDED.poster_image_url,
+            ticket_url = EXCLUDED.ticket_url;
+        `;
         savedCount++;
       }
-      console.log(`✅ [MongoDB] ${savedCount}개의 공연일정 저장 완료`);
-    } else {
-      console.log('⚠️ [MongoDB] MONGODB_URI가 설정되지 않아 저장하지 않음');
+      console.log(`✅ [Postgres] ${savedCount}개의 공연일정 저장 완료`);
+    } catch (dbError) {
+      console.error('❌ [Postgres] 데이터베이스 저장 오류:', dbError);
+      // res.status(500) 등 에러 처리를 여기서 할 수 있습니다.
     }
 
-    res.status(200).json({ 
-      success: true, 
+    res.status(200).json({
+      success: true,
       count: allSchedules.length,
       schedules: allSchedules,
       instagram_count: allSchedules.filter(s => s.source === 'instagram').length
@@ -285,6 +284,6 @@ module.exports = async (req, res) => {
     res.status(500).json({ error: error.message, stack: error.stack });
   } finally {
     if (browser) await browser.close();
-    if (client) await client.close();
+
   }
 };
