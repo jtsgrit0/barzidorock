@@ -1,6 +1,8 @@
 const chrome = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
 const { MongoClient } = require('mongodb');
+const fs = require('fs');
+const path = require('path');
 
 // 인터파크 티켓, 예스24 티켓, 인스타그램에서 공연일정 스크래핑
 const TICKET_SITES = [
@@ -30,13 +32,28 @@ const TICKET_SITES = [
   }
 ];
 
-// 인스타그램 공연장 계정 목록 (venues.json의 instagram 필드에서 가져옴)
-const INSTAGRAM_VENUES = [
-  { username: 'club_aor_hongdae', venue_id: 'clubaor-hongdae-001' },
-  { username: 'woomuji.hongdae', venue_id: 'woomuji-hongdae-001' },
-  { username: 'clubrealize.gwangalli', venue_id: 'clubrealize-gwangalli-busan-001' },
-  { username: 'hq.gwangalli', venue_id: 'hq-gwangalli-busan-001' }
-];
+// venues.json에서 모든 공연장 동적으로 로드 (하드코딩 제거)
+const venuesPath = path.join(__dirname, '../client/public/venues.json');
+const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
+const allVenues = venuesData; // venues.json은 그냥 배열로 되어있음
+
+// 인스타그램 공연장 계정 목록 (venues.json의 instagram 필드에서 자동 추출)
+const INSTAGRAM_VENUES = allVenues
+  .filter(venue => venue?.instagram) // instagram 필드가 있는 공연장만 필터링
+  .map(venue => {
+    // URL에서 username만 추출 (예: https://www.instagram.com/club_aor_hongdae/ → club_aor_hongdae)
+    const username = venue.instagram
+      .replace('https://www.instagram.com/', '')
+      .replace('https://instagram.com/', '')
+      .replace(/\//g, '')
+      .trim();
+    return {
+      username,
+      venue_id: venue.id,
+      name_ko: venue.name.ko // venues.json은 name.ko로 되어있음
+    };
+  });
+console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
 
 // MongoDB 연결 설정
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -112,93 +129,162 @@ module.exports = async (req, res) => {
       await page.close();
     }
 
-    // 2. 인스타그램 공연장 계정에서 게시물 스크래핑 (추가된 기능)
+    // 2. 인스타그램 공연장 계정에서 게시물 스크래핑 (수정된 기능)
     const INSTAGRAM_USER = process.env.INSTAGRAM_USER;
     const INSTAGRAM_PASS = process.env.INSTAGRAM_PASS;
+    console.log('🔍 [Instagram] 환경변수 확인:', { hasUser: !!INSTAGRAM_USER, hasPass: !!INSTAGRAM_PASS });
     
-    if (INSTAGRAM_USER && INSTAGRAM_PASS) {
-      // 인스타그램 로그인
-      const loginPage = await browser.newPage();
-      await loginPage.goto('https://www.instagram.com/accounts/login/', { waitUntil: 'networkidle2' });
-      
-      // 로그인 정보 입력
-      await loginPage.waitForSelector('input[name="username"]');
-      await loginPage.type('input[name="username"]', INSTAGRAM_USER);
-      await loginPage.type('input[name="password"]', INSTAGRAM_PASS);
-      await loginPage.click('button[type="submit"]');
-      await loginPage.waitForNavigation({ waitUntil: 'networkidle2' });
-      console.log('✅ [Instagram] 로그인 완료');
+    if (INSTAGRAM_USER && INSTAGRAM_PASS && INSTAGRAM_VENUES.length > 0) {
+      try {
+        // 인스타그램 로그인
+        const loginPage = await browser.newPage();
+        await loginPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+        await loginPage.goto('https://www.instagram.com/accounts/login/', { waitUntil: 'networkidle2', timeout: 30000 });
+        console.log('✅ [Instagram] 로그인 페이지 로드 완료');
 
-      // 각 공연장 인스타그램 프로필에서 최신 게시물 스크래핑
-      for (const venue of INSTAGRAM_VENUES) {
-        const profilePage = await browser.newPage();
-        await profilePage.goto(`https://www.instagram.com/${venue.username}/`, { waitUntil: 'networkidle2' });
-        await profilePage.waitForSelector('article');
+        // 로그인 정보 입력
+        await loginPage.waitForSelector('input[name="username"]', { timeout: 10000 });
+        await loginPage.type('input[name="username"]', INSTAGRAM_USER, { delay: 100 });
+        await loginPage.type('input[name="password"]', INSTAGRAM_PASS, { delay: 100 });
+        
+        // 로그인 버튼 클릭 (최신 셀렉터로 업데이트)
+        const loginBtn = await loginPage.waitForSelector('button[type="submit"]', { timeout: 5000 });
+        await loginBtn.click();
+        await loginPage.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 }).catch(e => console.log('⚠️ [Instagram] 로그인 후 네비게이션 타임아웃, 계속 진행합니다:', e.message));
+        
+        // 2차 인증(보안 코드) 화면 감지
+        const hasChallenge = await loginPage.$('input[name="verificationCode"]').catch(() => null);
+        if (hasChallenge) {
+          console.log('❌ [Instagram] 2차 인증(보안 코드)이 필요합니다. 웹에서 직접 로그인해서 2차 인증을 완료한 후 다시 시도해주세요.');
+          await loginPage.close();
+        } else {
+          console.log('✅ [Instagram] 로그인 완료 (2차 인증 없음)');
+          
+          // 각 공연장 인스타그램 프로필에서 최신 게시물 스크래핑
+          for (const venue of INSTAGRAM_VENUES) {
+            console.log(`🔍 [Instagram] ${venue.name_ko}(${venue.username}) 프로필 스크래핑 시작`);
+            const profilePage = await browser.newPage();
+            await profilePage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+            
+            try {
+              await profilePage.goto(`https://www.instagram.com/${venue.username}/`, { waitUntil: 'networkidle2', timeout: 30000 });
+              await profilePage.waitForSelector('div[role="grid"]', { timeout: 15000 }); // 최신 프로필 게시물 그리드 셀렉터
+              console.log(`✅ [Instagram] ${venue.username} 프로필 페이지 로드 완료`);
 
-        // 최근 10개 게시물의 캡션과 이미지 추출
-        const instagramSchedules = await profilePage.evaluate((venue) => {
-          const posts = Array.from(document.querySelectorAll('article > div > div > a')).slice(0, 10);
-          return posts.map(post => {
-            const imageUrl = post.querySelector('img')?.src || '';
-            const postLink = post.href;
-            
-            // 게시물 상세 페이지에서 캡션 추출 (새 페이지에서 읽어오기)
-            // 간단히 캡션에서 공연일정 키워드 추출 (정규식)
-            const caption = post.querySelector('img')?.alt || '';
-            const dateMatch = caption.match(/(\d{4})[년.]?\s*(\d{1,2})[월.]?\s*(\d{1,2})[일]?/);
-            const eventTitle = caption.split('\n')[0] || `Instagram 게시물 - ${venue.username}`;
-            
-            let eventDate = new Date();
-            if (dateMatch) {
-              eventDate = new Date(`${dateMatch[1]}-${dateMatch[2].padStart(2, '0')}-${dateMatch[3].padStart(2, '0')}`);
+              // 최근 10개 게시물 링크 추출 (최신 셀렉터로 업데이트)
+              const postLinks = await profilePage.$$eval('div[role="grid"] a', links => 
+                links.map(l => l.href).slice(0, 10)
+              );
+              console.log(`✅ [Instagram] ${venue.username} 게시물 ${postLinks.length}개 발견`);
+
+              // 각 게시물 상세 페이지에서 캡션과 날짜 추출
+              for (const postUrl of postLinks) {
+                const postPage = await browser.newPage();
+                await postPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+                
+                try {
+                  await postPage.goto(postUrl, { waitUntil: 'networkidle2', timeout: 20000 });
+                  await postPage.waitForSelector('div[data-testid="post-caption"]', { timeout: 10000 }).catch(() => null);
+                  
+                  // 게시물 캡션 추출 (최신 셀렉터로 업데이트)
+                  const caption = await postPage.$eval('div[data-testid="post-caption"]', el => el?.textContent || '').catch(() => '');
+                  const imageUrl = await postPage.$eval('article img', el => el?.src || '').catch(() => '');
+                  console.log(`✅ [Instagram] 게시물 캡션 추출 완료 (길이: ${caption.length})`);
+
+                  // 다양한 날짜 형식 매칭 정규식 업데이트
+                  const datePatterns = [
+                    /(\d{4})\.(\d{1,2})\.(\d{1,2})/, // 2026.10.05
+                    /(\d{1,2})\/(\d{1,2})/, // 10/05
+                    /(\d{1,2})월\s*(\d{1,2})일/, // 10월 05일
+                    /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/ // 2026년 10월 05일
+                  ];
+                  
+                  let eventDate = new Date();
+                  for (const pattern of datePatterns) {
+                    const match = caption.match(pattern);
+                    if (match) {
+                      if (match.length === 4) { // 2026.10.05 형식
+                        eventDate = new Date(`${match[1]}-${match[2].padStart(2,'0')}-${match[3].padStart(2,'0')}T19:00:00.000Z`);
+                      } else if (match.length === 3) { // 10/05 또는 10월 05일 형식
+                        const year = new Date().getFullYear();
+                        eventDate = new Date(`${year}-${match[1].padStart(2,'0')}-${match[2].padStart(2,'0')}T19:00:00.000Z`);
+                      }
+                      console.log(`✅ [Instagram] 날짜 추출 성공: ${eventDate.toISOString()} (원본: ${match[0]})`);
+                      break;
+                    }
+                  }
+
+                  // 이벤트 제목 추출
+                  const eventName = caption.split('\n')[0]?.trim() || `${venue.name_ko} 공연`;
+                  
+                  // 스케줄 배열에 추가
+                  allSchedules.push({
+                    id: `instagram-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    venue_id: venue.venue_id,
+                    event_name: eventName,
+                    description: caption,
+                    event_date: eventDate.toISOString(),
+                    poster_image_url: imageUrl,
+                    ticket_url: postUrl,
+                    source: 'instagram'
+                  });
+                  console.log(`✅ [Instagram] 공연일정 추가됨: ${eventName} @${venue.name_ko}`);
+                  
+                  await postPage.close();
+                } catch (postError) {
+                  console.log(`⚠️ [Instagram] 게시물 스크래핑 오류: ${postError.message}`);
+                  await postPage.close();
+                }
+              }
+              await profilePage.close();
+            } catch (profileError) {
+              console.log(`⚠️ [Instagram] 프로필 스크래핑 오류 (${venue.username}): ${profileError.message}`);
+              await profilePage.close();
             }
-
-            return {
-              id: `instagram-${venue.username}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-              venue_id: venue.venue_id,
-              event_name: eventTitle,
-              description: `인스타그램 스크래핑: ${caption}`,
-              event_date: eventDate.toISOString(),
-              poster_image_url: imageUrl,
-              ticket_url: postLink,
-              source: 'instagram'
-            };
-          });
-        }, venue);
-
-        allSchedules.push(...instagramSchedules);
-        await profilePage.close();
+          }
+          await loginPage.close();
+        }
+      } catch (instagramError) {
+        console.log('❌ [Instagram] 전체 스크래핑 오류:', instagramError.message);
       }
-      await loginPage.close();
-      console.log('✅ [Instagram] 모든 공연장 게시물 스크래핑 완료');
     } else {
-      console.log('⚠️ [Instagram] 환경변수에 INSTAGRAM_USER/INSTAGRAM_PASS가 설정되지 않아 스크래핑을 건너뜁니다.');
+      console.log('⚠️ [Instagram] 스크래핑 스킵: 환경변수 또는 공연장 계정 정보 부족');
     }
 
-    // MongoDB에 저장
-    client = await MongoClient.connect(MONGODB_URI);
-    const db = client.db('barzidorock');
-    const schedulesCollection = db.collection('schedules');
-
-    // 기존 스크래핑 데이터 삭제 후 새 데이터 저장 (중복 방지)
-    await schedulesCollection.deleteMany({ source: { $in: ['interpark', 'yes24'] } });
-    if (allSchedules.length > 0) {
-      await schedulesCollection.insertMany(allSchedules);
+    // MongoDB에 모든 스케줄 저장
+    console.log(`✅ [scrape-schedules] 총 ${allSchedules.length}개의 공연일정 스크래핑 완료`);
+    
+    if (MONGODB_URI) {
+      client = await MongoClient.connect(MONGODB_URI);
+      const db = client.db('barzidorock');
+      const schedulesCollection = db.collection('schedules');
+      
+      // 중복 방지를 위해 upsert로 저장
+      let savedCount = 0;
+      for (const schedule of allSchedules) {
+        await schedulesCollection.updateOne(
+          { venue_id: schedule.venue_id, event_date: schedule.event_date },
+          { $set: schedule },
+          { upsert: true }
+        );
+        savedCount++;
+      }
+      console.log(`✅ [MongoDB] ${savedCount}개의 공연일정 저장 완료`);
+    } else {
+      console.log('⚠️ [MongoDB] MONGODB_URI가 설정되지 않아 저장하지 않음');
     }
-
-    await browser.close();
-    await client.close();
 
     res.status(200).json({ 
       success: true, 
-      scrapedCount: allSchedules.length,
-      schedules: allSchedules 
+      count: allSchedules.length,
+      schedules: allSchedules,
+      instagram_count: allSchedules.filter(s => s.source === 'instagram').length
     });
-
   } catch (error) {
-    console.error('Error scraping schedules:', error);
+    console.error('❌ [scrape-schedules] 스크래핑 중 오류 발생:', error);
+    res.status(500).json({ error: error.message, stack: error.stack });
+  } finally {
     if (browser) await browser.close();
     if (client) await client.close();
-    res.status(500).json({ error: 'Failed to scrape schedules', details: error.message });
   }
 };
