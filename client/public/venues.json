@@ -189,7 +189,8 @@
     "image_urls": [],
     "opening_hours": null,
     "area": "yongsan",
-    "created_at": "2026-08-30T00:00:00.000Z"
+    "created_at": "2026-08-30T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/bar_hosaga"
   },
   {
     "id": "ChIJLQfFx8GYfDURrqu0gnSQG9I",
@@ -3467,7 +3468,8 @@
     ],
     "opening_hours": "[\"월요일: 오전 10:00 ~ 오후 5:00\",\"화요일: 오전 10:00 ~ 오후 5:00\",\"수요일: 오전 10:00 ~ 오후 5:00\",\"목요일: 오전 10:00 ~ 오후 5:00\",\"금요일: 오전 10:00 ~ 오후 5:00\",\"토요일: 오전 10:00 ~ 오후 5:00\",\"일요일: 휴무일\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:31.331Z"
+    "created_at": "2026-08-25T09:31:31.331Z",
+    "instagram": "http://instagram.com/brst_studio"
   },
   {
     "id": "ChIJ9arnSwCjfDURN1Z_bq2ken8",
@@ -3604,7 +3606,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 7:30~10:30\",\"화요일: 오후 7:30~10:30\",\"수요일: 오후 7:30~10:30\",\"목요일: 오후 7:30~10:30\",\"금요일: 오후 7:30~10:30\",\"토요일: 오후 7:30~10:30\",\"일요일: 오후 7:30~10:30\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:32.509Z"
+    "created_at": "2026-08-25T09:31:32.509Z",
+    "instagram": "https://www.instagram.com/sounddog_jazz"
   },
   {
     "id": "ChIJZSM2v2uifDUR7QhesuVvkjM",
@@ -3715,7 +3718,8 @@
     ],
     "opening_hours": "[\"월요일: 휴무일\",\"화요일: 오후 7:00 ~ 오전 2:00\",\"수요일: 오후 7:00 ~ 오전 2:00\",\"목요일: 오후 7:00 ~ 오전 2:00\",\"금요일: 오후 7:00 ~ 오전 2:00\",\"토요일: 오후 7:00 ~ 오전 2:00\",\"일요일: 휴무일\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:32.990Z"
+    "created_at": "2026-08-25T09:31:32.990Z",
+    "instagram": "https://www.instagram.com/cheongparang_seoul/"
   },
   {
     "id": "ChIJ1dEffcejfDURgPA8JKx07h0",
@@ -3789,7 +3793,8 @@
     ],
     "opening_hours": "[\"월요일: 휴무일\",\"화요일: 오후 8:30 ~ 오전 1:30\",\"수요일: 오후 8:30 ~ 오전 1:30\",\"목요일: 오후 8:30 ~ 오전 1:30\",\"금요일: 오후 8:30 ~ 오전 1:30\",\"토요일: 오후 8:30 ~ 오전 1:30\",\"일요일: 오후 8:30 ~ 오전 1:30\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:33.158Z"
+    "created_at": "2026-08-25T09:31:33.158Z",
+    "instagram": "http://instagram.com/vibdblvd"
   },
   {
     "id": "ChIJrS9XewCZfDURlMogJST_rNk",
@@ -4002,7 +4007,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 5:30 ~ 오전 12:00\",\"화요일: 오후 5:30 ~ 오전 12:00\",\"수요일: 오후 5:30 ~ 오전 12:00\",\"목요일: 오후 5:30 ~ 오전 12:00\",\"금요일: 오후 5:30 ~ 오전 12:00\",\"토요일: 오후 5:30 ~ 오전 12:00\",\"일요일: 휴무일\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:33.916Z"
+    "created_at": "2026-08-25T09:31:33.916Z",
+    "instagram": "https://www.instagram.com/cheongpa_vino/"
   },
   {
     "id": "ChIJpRy9fCyjfDURzwc8sm9S37M",
@@ -4288,7 +4294,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 6:00 ~ 오전 1:30\",\"화요일: 오후 6:00 ~ 오전 1:30\",\"수요일: 오후 6:00 ~ 오전 1:30\",\"목요일: 오후 6:00 ~ 오전 1:30\",\"금요일: 오후 6:00 ~ 오전 2:00\",\"토요일: 오후 6:00 ~ 오전 2:00\",\"일요일: 휴무일\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:35.227Z"
+    "created_at": "2026-08-25T09:31:35.227Z",
+    "instagram": "https://www.instagram.com/barjoy_huam/"
   },
   {
     "id": "ChIJocUXQT6jfDURjy1I_hj4XbM",
@@ -4325,7 +4332,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 5:00 ~ 오전 1:00\",\"화요일: 오후 5:00 ~ 오전 1:00\",\"수요일: 오후 5:00 ~ 오전 1:00\",\"목요일: 오후 5:00 ~ 오전 1:00\",\"금요일: 오후 5:00 ~ 오전 1:00\",\"토요일: 오후 5:00 ~ 오전 1:00\",\"일요일: 오후 5:00~11:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:35.335Z"
+    "created_at": "2026-08-25T09:31:35.335Z",
+    "instagram": "http://www.instagram.com/b421ny"
   },
   {
     "id": "ChIJ05UMP0GjfDURbYM6P1i5W3g",
@@ -4362,7 +4370,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 7:00 ~ 오전 1:00\",\"화요일: 오후 7:00 ~ 오전 1:00\",\"수요일: 오후 7:00 ~ 오전 1:00\",\"목요일: 오후 7:00 ~ 오전 1:00\",\"금요일: 오후 7:00 ~ 오전 1:00\",\"토요일: 오후 7:00 ~ 오전 1:00\",\"일요일: 오후 7:00 ~ 오전 1:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:35.429Z"
+    "created_at": "2026-08-25T09:31:35.429Z",
+    "instagram": "https://instagram.com/thursdaydrinkclub?igshid=MmIzYWVlNDQ5Yg=="
   },
   {
     "id": "ChIJK8SQpyOjfDURqZWg6QBNAJA",
@@ -4399,7 +4408,8 @@
     ],
     "opening_hours": "[\"월요일: 휴무일\",\"화요일: 오후 7:00 ~ 오전 2:00\",\"수요일: 오후 7:00 ~ 오전 2:00\",\"목요일: 오후 7:00 ~ 오전 2:00\",\"금요일: 오후 7:00 ~ 오전 2:00\",\"토요일: 오후 7:00 ~ 오전 2:00\",\"일요일: 휴무일\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:35.486Z"
+    "created_at": "2026-08-25T09:31:35.486Z",
+    "instagram": "https://www.instagram.com/cheongparang_seoul/"
   },
   {
     "id": "ChIJAxRafJijfDUR-UO-O_oZqpI",
@@ -4436,7 +4446,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 12:00 ~ 오전 12:00\",\"화요일: 오후 12:00 ~ 오전 12:00\",\"수요일: 오후 12:00 ~ 오전 12:00\",\"목요일: 오후 12:00 ~ 오전 12:00\",\"금요일: 오후 12:00 ~ 오전 1:00\",\"토요일: 오후 12:00 ~ 오전 1:00\",\"일요일: 오후 12:00 ~ 오전 12:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:35.584Z"
+    "created_at": "2026-08-25T09:31:35.584Z",
+    "instagram": "https://instagram.com/oob_official?utm_medium=copy_link"
   },
   {
     "id": "ChIJDZeblmmifDUREIo93yhyAyk",
@@ -4473,7 +4484,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 5:00 ~ 오전 2:00\",\"화요일: 오후 5:00 ~ 오전 2:00\",\"수요일: 오후 5:00 ~ 오전 2:00\",\"목요일: 오후 5:00 ~ 오전 2:00\",\"금요일: 오후 5:00 ~ 오전 2:00\",\"토요일: 오후 5:00 ~ 오전 2:00\",\"일요일: 오후 5:00 ~ 오전 2:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:35.699Z"
+    "created_at": "2026-08-25T09:31:35.699Z",
+    "instagram": "http://www.instagram.com/theblackwhalebar"
   },
   {
     "id": "ChIJsZ2AoyajfDURzwx8TmaFEfo",
@@ -4696,7 +4708,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 12:00 ~ 오전 12:00\",\"화요일: 휴무일\",\"수요일: 오후 12:00 ~ 오전 12:00\",\"목요일: 오후 12:00 ~ 오전 12:00\",\"금요일: 오후 12:00 ~ 오전 12:00\",\"토요일: 오후 12:00 ~ 오전 12:00\",\"일요일: 오후 7:00 ~ 오전 12:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:36.243Z"
+    "created_at": "2026-08-25T09:31:36.243Z",
+    "instagram": "https://www.instagram.com/bar_saol"
   },
   {
     "id": "ChIJ7YS7742jfDURdJzrSiuKFSc",
@@ -4733,7 +4746,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 5:00 ~ 오전 2:00\",\"화요일: 오후 5:00 ~ 오전 2:00\",\"수요일: 오후 5:00 ~ 오전 2:00\",\"목요일: 오후 5:00 ~ 오전 2:00\",\"금요일: 오후 5:00 ~ 오전 2:00\",\"토요일: 오후 5:00 ~ 오전 2:00\",\"일요일: 오후 5:00 ~ 오전 1:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:36.347Z"
+    "created_at": "2026-08-25T09:31:36.347Z",
+    "instagram": "https://instagram.com/bampijangwine?igshid=7hxljltibrm2"
   },
   {
     "id": "ChIJ_8tZHAGjfDURzhydQpybJW0",
@@ -4770,7 +4784,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 5:30 ~ 오전 12:00\",\"화요일: 오후 5:30 ~ 오전 12:00\",\"수요일: 오후 5:30 ~ 오전 12:00\",\"목요일: 오후 5:30 ~ 오전 12:00\",\"금요일: 오후 5:00 ~ 오전 12:00\",\"토요일: 오후 5:00 ~ 오전 12:00\",\"일요일: 오후 5:00~11:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:36.440Z"
+    "created_at": "2026-08-25T09:31:36.440Z",
+    "instagram": "https://www.instagram.com/osiu.come/"
   },
   {
     "id": "ChIJSXKXv0yjfDURpbwPXMSYb24",
@@ -4881,7 +4896,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 6:00 ~ 오전 1:00\",\"화요일: 오후 6:00 ~ 오전 1:00\",\"수요일: 오후 6:00 ~ 오전 1:00\",\"목요일: 오후 6:00 ~ 오전 1:00\",\"금요일: 오후 6:00 ~ 오전 2:00\",\"토요일: 오후 6:00 ~ 오전 2:00\",\"일요일: 오후 6:00 ~ 오전 1:00\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T09:31:36.706Z"
+    "created_at": "2026-08-25T09:31:36.706Z",
+    "instagram": "https://www.instagram.com/bar_vier/"
   },
   {
     "id": "ChIJH1M_avSjfDURDngkR1PBPrI",
@@ -5029,7 +5045,8 @@
     ],
     "opening_hours": "[\"월요일: 오후 7:00 ~ 오전 1:00\",\"화요일: 오후 7:00 ~ 오전 1:00\",\"수요일: 오후 7:00 ~ 오전 1:00\",\"목요일: 오후 7:00 ~ 오전 1:00\",\"금요일: 오후 7:00 ~ 오전 1:00\",\"토요일: 오후 7:00 ~ 오전 1:00\",\"일요일: 휴무일\"]",
     "area": "sukmyung",
-    "created_at": "2026-08-25T12:15:20.009Z"
+    "created_at": "2026-08-25T12:15:20.009Z",
+    "instagram": "https://www.instagram.com/bar_jaerae/"
   },
   {
     "id": "ChIJ5eYaeg6jfDURbdgkZ9LYlUk",
@@ -5470,7 +5487,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 10:00 PM – 5:00 AM\",\"Wednesday: 10:00 PM – 5:00 AM\",\"Thursday: 10:00 PM – 5:00 AM\",\"Friday: 10:00 PM – 5:00 AM\",\"Saturday: 10:00 PM – 5:00 AM\",\"Sunday: Closed\"]",
     "area": "daegu",
-    "created_at": "2026-08-31T00:00:00.000Z"
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/dhell_daegu/"
   },
   {
     "id": "ChIJh0d1eF1bD0aWUk6AiZ0hI1a",
@@ -5496,7 +5514,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
     "area": "daegu",
-    "created_at": "2026-08-31T00:00:00.000Z"
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/bunker_daegu/"
   },
   {
     "id": "ChIJk9a8bC8pA7zUR9fX7eG8x",
@@ -5574,7 +5593,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: Closed\",\"Wednesday: 8:00 PM – 3:30 AM\",\"Thursday: 8:00 PM – 3:30 AM\",\"Friday: 8:00 PM – 3:30 AM\",\"Saturday: 8:00 PM – 3:30 AM\",\"Sunday: 8:00 PM – 3:30 AM\"]",
     "area": "daegu",
-    "created_at": "2026-09-01T00:00:00.000Z"
+    "created_at": "2026-09-01T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/COMMUNESLIVE/"
   },
   {
     "id": "ChIJn9c8dE9aC0zVTj5ZhY9gH1b",
@@ -5600,7 +5620,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 2:00 AM\",\"Wednesday: 7:00 PM – 2:00 AM\",\"Thursday: 7:00 PM – 2:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
     "area": "daegu",
-    "created_at": "2026-09-01T00:00:00.000Z"
+    "created_at": "2026-09-01T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/jamesrecord/"
   },
   {
     "id": "ChIJd7a2bC9zA7zURhGfX7eG8x",
@@ -5626,7 +5647,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
     "area": "busan",
-    "created_at": "2026-08-31T00:00:00.000Z"
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/clubbebop_busan/"
   },
   {
     "id": "ChIJK7buffDsaDUR7jwyeDlGi9Y",
@@ -5652,7 +5674,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: 6:00 PM – 2:00 AM\",\"Tuesday: 6:00 PM – 2:00 AM\",\"Wednesday: 6:00 PM – 2:00 AM\",\"Thursday: 6:00 PM – 2:00 AM\",\"Friday: 6:00 PM – 2:00 AM\",\"Saturday: 6:00 PM – 2:00 AM\",\"Sunday: 6:00 PM – 12:00 AM\"]",
     "area": "busan",
-    "created_at": "2026-08-31T00:00:00.000Z"
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/the_vinyl_underground/"
   },
   {
     "id": "ChIJe9c4eD7zB8zUSi4YgX8fG9z",
@@ -5678,7 +5701,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
     "area": "busan",
-    "created_at": "2026-08-31T00:00:00.000Z"
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/interplay_busan/"
   },
   {
     "id": "ChIJf5h37g9JazURmZfX7eG8x",
@@ -5704,7 +5728,8 @@
     "image_urls": [],
     "opening_hours": "[\"Monday: Closed\",\"Tuesday: 7:00 PM – 3:00 AM\",\"Wednesday: 7:00 PM – 3:00 AM\",\"Thursday: 7:00 PM – 3:00 AM\",\"Friday: 7:00 PM – 4:00 AM\",\"Saturday: 6:00 PM – 4:00 AM\",\"Sunday: 6:00 PM – 2:00 AM\"]",
     "area": "busan",
-    "created_at": "2026-08-31T00:00:00.000Z"
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "instagram": "https://www.instagram.com/obanggarde_busan/"
   },
   {
     "id": "hq-gwangalli-busan-001",
