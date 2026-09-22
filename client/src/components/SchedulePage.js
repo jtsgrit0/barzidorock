@@ -178,42 +178,58 @@ const SchedulePage = ({ language }) => {
     sessionStorage.removeItem('schedules');
     console.log('🗑️ [fetchSchedules] Removed old cached schedules');
 
+    // 캐시된 스케줄이 있으면 먼저 사용
+    const cachedSchedules = sessionStorage.getItem('schedules');
+    if (cachedSchedules) {
+      try {
+        const parsed = JSON.parse(cachedSchedules);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setSchedules(parsed);
+          setLoading(false);
+          console.log('✅ [fetchSchedules] Loaded cached schedules:', parsed.length);
+          return;
+        }
+      } catch (e) {
+        console.log('⚠️ [fetchSchedules] Failed to parse cached schedules');
+      }
+    }
+
     try {
-      // 자동 스크래핑 트리거 먼저 실행
-      await triggerAutoScrape();
+      // 스크래핑 트리거는 비동기로 실행하되, API 호출을 기다리지 않음 (실패해도 fallback 보여주기)
+      triggerAutoScrape().catch(e => console.log('⚠️ [Auto Scrape] Non-critical error:', e));
 
       console.log('🔍 [fetchSchedules] Fetching from API:', `${API_BASE_URL}/api/schedules`);
-      const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
-      console.log('🔍 [fetchSchedules] Response status:', response.status);
-
-      let fetchedData;
-      if (response.ok) {
-        fetchedData = await response.json();
-        console.log('✅ [fetchSchedules] Fetched data from API:', fetchedData);
-      } else {
-        const errorText = await response.text();
-        console.error(`❌ [fetchSchedules] API responded with status ${response.status}:`, errorText);
-        fetchedData = fallbackSchedules; // API 오류 시 fallback 사용
-        console.log('⚠️ [fetchSchedules] Using fallback schedules due to API error.');
+      let fetchedData = null;
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
+        console.log('🔍 [fetchSchedules] Response status:', response.status);
+        
+        if (response.ok) {
+          fetchedData = await response.json();
+          console.log('✅ [fetchSchedules] Fetched data from API:', fetchedData);
+        }
+      } catch (apiError) {
+        console.log('⚠️ [fetchSchedules] API fetch failed, using fallback:', apiError);
       }
 
-      const scheduleData = Array.isArray(fetchedData) && fetchedData.length > 0 ? fetchedData : fallbackSchedules;
-      console.log('🔍 [fetchSchedules] Final scheduleData source:', scheduleData === fallbackSchedules ? 'fallback' : 'API');
+      // API 데이터가 없거나 비어있으면 무조건 fallback 사용
+      const scheduleData = (Array.isArray(fetchedData) && fetchedData.length > 0) ? fetchedData : fallbackSchedules;
+      console.log('🔍 [fetchSchedules] Final scheduleData source:', scheduleData === fallbackSchedules ? 'fallback (data empty or API failed)' : 'API');
       
       const formattedSchedules = formatScheduleRows(scheduleData);
       setSchedules(formattedSchedules);
       sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
       console.log('✅ [fetchSchedules] Schedules set successfully:', formattedSchedules.length);
     } catch (error) {
-      console.error('❌ [fetchSchedules] Error during fetch operation, using fallback:', error);
+      console.error('❌ [fetchSchedules] Critical error, forcing fallback:', error);
       const formattedSchedules = formatScheduleRows(fallbackSchedules);
       setSchedules(formattedSchedules);
       sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
-      console.log('✅ [fetchSchedules] Fallback schedules set due to fetch error:', formattedSchedules.length);
+      console.log('✅ [fetchSchedules] Forced fallback schedules set:', formattedSchedules.length);
     } finally {
-      setLoading(false); // API 호출 완료 또는 실패 시 로딩 상태 해제
+      setLoading(false);
     }
-  }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape]); // setLoading, triggerAutoScrape을 의존성 배열에 추가
+  }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape, fallbackSchedules]); // fallbackSchedules 추가
 
   // venues가 로드된 후에 스케줄을 포맷팅해서 venue_name이 정상적으로 표시되도록 함
   useEffect(() => {

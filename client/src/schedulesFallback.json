@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "fallback-clubaor-001",
+    "venue_id": "clubaor-hongdae-001",
+    "event_name": "2026 가을 인디 록 페스티벌 @CLUBAOR",
+    "description": "홍대 클럽에이오알에서 열리는 가을 인디 록 페스티벌",
+    "event_date": "2026-10-05T19:00:00.000Z",
+    "poster_image_url": "https://via.placeholder.com/300x400?text=CLUBAOR+ROCK+FESTIVAL",
+    "ticket_url": "https://ticket.interpark.com",
+    "source": "fallback"
+  },
+  {
+    "id": "fallback-woomuji-001",
+    "venue_id": "woomuji-hongdae-001",
+    "event_name": "우무지 단독 공연: 10월의 밤",
+    "description": "홍대 우무지에서 진행되는 밴드 단독 공연",
+    "event_date": "2026-10-12T20:00:00.000Z",
+    "poster_image_url": "https://via.placeholder.com/300x400?text=Woomuji+October+Night",
+    "ticket_url": "https://ticket.yes24.com",
+    "source": "fallback"
+  },
+  {
+    "id": "fallback-realize-001",
+    "venue_id": "clubrealize-gwangalli-busan-001",
+    "event_name": "부산 광안리 라이브 쇼",
+    "description": "클럽리얼라이즈에서 진행되는 부산 인디 밴드 쇼케이스",
+    "event_date": "2026-10-18T19:30:00.000Z",
+    "poster_image_url": "https://via.placeholder.com/300x400?text=Realize+Gwangalli+Show",
+    "ticket_url": "https://melon.ticket.co.kr",
+    "source": "fallback"
+  },
+  {
+    "id": "fallback-hq-001",
+    "venue_id": "hq-gwangalli-busan-001",
+    "event_name": "HQ 광안리 헤드라이너 쇼",
+    "description": "HQ 광안리의 메인 헤드라이너 공연",
+    "event_date": "2026-10-25T20:00:00.000Z",
+    "poster_image_url": "https://via.placeholder.com/300x400?text=HQ+Gwangalli+Headliner",
+    "ticket_url": "https://ticket.interpark.com",
+    "source": "fallback"
+  }
+]
