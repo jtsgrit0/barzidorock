@@ -229,7 +229,7 @@ const SchedulePage = ({ language }) => {
     } finally {
       setLoading(false);
     }
-  }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape, fallbackSchedules]); // fallbackSchedules 추가
+  }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape]);
 
   // venues가 로드된 후에 스케줄을 포맷팅해서 venue_name이 정상적으로 표시되도록 함
   useEffect(() => {
