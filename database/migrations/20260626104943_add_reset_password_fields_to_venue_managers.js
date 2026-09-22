@@ -2,7 +2,10 @@ module.exports = {
   up: async (sql) => {
     await sql`
       ALTER TABLE venue_managers
-      ADD COLUMN IF NOT EXISTS reset_password_token TEXT,
+      ADD COLUMN IF NOT EXISTS reset_password_token TEXT;
+    `;
+    await sql`
+      ALTER TABLE venue_managers
       ADD COLUMN IF NOT EXISTS reset_password_expires TIMESTAMP WITH TIME ZONE;
     `;
   },
