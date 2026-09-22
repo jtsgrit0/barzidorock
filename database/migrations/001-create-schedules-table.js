@@ -1,7 +1,8 @@
 
 const { sql } = require('@vercel/postgres');
 
-async function up(sql) {
+async function up() {
+  // Create the table if it doesn't exist
   await sql`
     CREATE TABLE IF NOT EXISTS schedules (
       id SERIAL PRIMARY KEY,
@@ -15,15 +16,28 @@ async function up(sql) {
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
   `;
-  // Add a unique constraint to prevent duplicate entries
-  await sql`
-    ALTER TABLE schedules
-    ADD CONSTRAINT unique_schedule_per_venue_date UNIQUE (venue_id, event_date);
+
+  // Check if the unique constraint already exists before trying to add it
+  const { rows: constraints } = await sql`
+    SELECT constraint_name
+    FROM information_schema.table_constraints
+    WHERE table_name = 'schedules' AND constraint_name = 'unique_schedule_per_venue_date';
   `;
-  console.log('Created "schedules" table and added unique constraint.');
+
+  if (constraints.length === 0) {
+    await sql`
+      ALTER TABLE schedules
+      ADD CONSTRAINT unique_schedule_per_venue_date UNIQUE (venue_id, event_date);
+    `;
+    console.log('Added unique constraint to "schedules" table.');
+  } else {
+    console.log('Unique constraint "unique_schedule_per_venue_date" already exists.');
+  }
+
+  console.log('Migration for "schedules" table completed.');
 }
 
-async function down(sql) {
+async function down() {
   await sql`DROP TABLE IF EXISTS schedules;`;
   console.log('Dropped "schedules" table.');
 }
