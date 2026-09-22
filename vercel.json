@@ -12,6 +12,10 @@
   ],
   "routes": [
     {
+      "src": "/venues.json",
+      "dest": "/venues.json"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/index.js"
     },
