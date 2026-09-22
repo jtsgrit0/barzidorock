@@ -145,6 +145,33 @@ const SchedulePage = ({ language }) => {
     }
   }, []);
 
+  // 주기적으로 공연일정 자동 스크래핑 트리거 (티켓탭처럼 6시간마다 자동 갱신)
+  const triggerAutoScrape = useCallback(async () => {
+    try {
+      const lastScrapeTime = sessionStorage.getItem('lastScheduleScrape');
+      const now = Date.now();
+      const SIX_HOURS = 6 * 60 * 60 * 1000; // 6시간 밀리초
+
+      // 마지막 스크래핑 이후 6시간이 지났거나, 처음 실행하는 경우에만 스크래핑 트리거
+      if (!lastScrapeTime || (now - parseInt(lastScrapeTime)) > SIX_HOURS) {
+        console.log('🔄 [Auto Scrape] Triggering schedule scraping...');
+        const adminToken = localStorage.getItem('adminToken');
+        await fetch(`${API_BASE_URL}/api/scrape-schedules`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken || process.env.REACT_APP_DEFAULT_SCRAPE_TOKEN}`
+          },
+          body: JSON.stringify({})
+        });
+        sessionStorage.setItem('lastScheduleScrape', now.toString());
+        console.log('✅ [Auto Scrape] Scrape completed successfully');
+      }
+    } catch (error) {
+      console.error('❌ [Auto Scrape] Failed to trigger scraping:', error);
+    }
+  }, [API_BASE_URL]);
+
   const fetchSchedules = useCallback(async () => {
     console.log('🔍 [fetchSchedules] Starting to fetch schedules...');
     // 기존 캐시 삭제해서 새로 불러오도록 함
@@ -152,6 +179,9 @@ const SchedulePage = ({ language }) => {
     console.log('🗑️ [fetchSchedules] Removed old cached schedules');
 
     try {
+      // 자동 스크래핑 트리거 먼저 실행
+      await triggerAutoScrape();
+
       console.log('🔍 [fetchSchedules] Fetching from API:', `${API_BASE_URL}/api/schedules`);
       const response = await fetch(`${API_BASE_URL}/api/schedules`, { cache: 'no-cache' });
       console.log('🔍 [fetchSchedules] Response status:', response.status);
@@ -183,7 +213,7 @@ const SchedulePage = ({ language }) => {
     } finally {
       setLoading(false); // API 호출 완료 또는 실패 시 로딩 상태 해제
     }
-  }, [API_BASE_URL, formatScheduleRows, setLoading]); // setLoading을 의존성 배열에 추가
+  }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape]); // setLoading, triggerAutoScrape을 의존성 배열에 추가
 
   // venues가 로드된 후에 스케줄을 포맷팅해서 venue_name이 정상적으로 표시되도록 함
   useEffect(() => {
