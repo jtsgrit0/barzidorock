@@ -61,13 +61,13 @@ app.use(cookieParser());
 const apiRouter = express.Router();
 
 
-app.get('/venues.json', cors(), (req, res) => {
+apiRouter.get('/venues', cors(), (req, res) => {
   try {
     const venuesData = require('./venues.json');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.status(200).json(venuesData);
   } catch (error) {
-    console.error('Error in /venues.json endpoint:', error);
+    console.error('Error in /api/venues endpoint:', error);
     res.status(500).json({ venues: [], error: 'Failed to fetch venues.' });
   }
 });

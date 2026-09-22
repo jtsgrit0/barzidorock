@@ -10,15 +10,15 @@ const getVenueUrls = () => {
 
   // GitHub Pages에서 항상 Vercel에서 venues.json 불러오기
   if (isGitHubPagesHost()) {
-    urls.push(`${API_FALLBACK}/venues.json`);
+    urls.push(`${API_FALLBACK}/api/venues`);
     return urls;
   }
 
   if (publicUrl) {
-    urls.push(`${publicUrl}/venues.json`);
+    urls.push(`${publicUrl}/api/venues`);
   }
-  urls.push('/venues.json');
-  urls.push(`${API_FALLBACK}/venues.json`);
+  urls.push('/api/venues');
+  urls.push(`${API_FALLBACK}/api/venues`);
 
   return [...new Set(urls)];
 };
