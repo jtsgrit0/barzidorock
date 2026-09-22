@@ -3108,6 +3108,7 @@
     "longitude": 126.9214171,
     "phoneNumber": null,
     "websiteUrl": "https://www.instagram.com/clubpurple_hongdae",
+    "instagram": "https://www.instagram.com/clubpurple_hongdae/",
     "googlePlaceId": "ChIJ92QLvJ-ZfDURKoucG2kni40",
     "description": null,
     "image_urls": [
@@ -3311,6 +3312,7 @@
     "longitude": 126.9715228,
     "phoneNumber": "+82 50-71309-7685",
     "websiteUrl": "https://www.instagram.com/diggerisdigging",
+    "instagram": "https://www.instagram.com/diggerisdigging/",
     "googlePlaceId": "ChIJgWSUWmujfDURvSoicHMinQw",
     "description": null,
     "image_urls": [
@@ -4529,6 +4531,7 @@
     "longitude": 126.9715228,
     "phoneNumber": "+82 50-71309-7685",
     "websiteUrl": "https://www.instagram.com/diggerisdigging",
+    "instagram": "https://www.instagram.com/diggerisdigging/",
     "googlePlaceId": "ChIJgWSUWmujfDURvSoicHMinQw",
     "description": null,
     "image_urls": [
@@ -5226,6 +5229,7 @@
     "longitude": 126.9872033,
     "phoneNumber": null,
     "websiteUrl": "https://www.instagram.com/rabbithole_hbc/",
+    "instagram": "https://www.instagram.com/rabbithole_hbc/",
     "googlePlaceId": "ChIJm6jZb0-ifDURLaB-6WqbCGQ",
     "description": null,
     "image_urls": [
@@ -5353,6 +5357,7 @@
     "longitude": 126.9285,
     "phoneNumber": "",
     "websiteUrl": "https://www.instagram.com/department_en/",
+    "instagram": "https://www.instagram.com/department_en/",
     "googlePlaceId": "ChIJw7Z2X7aKfzURu8l4a8mT5cM",
     "description": "서울 서대문구 연희동에 위치한 문화공간으로, 다양한 전시와 공연이 열리는 복합문화공간입니다.",
     "image_urls": [],
@@ -5406,6 +5411,7 @@
     "longitude": 128.5978,
     "phoneNumber": "+82 53-423-5555",
     "websiteUrl": "https://www.instagram.com/clubheavy_daegu/",
+    "instagram": "https://www.instagram.com/clubheavy_daegu/",
     "googlePlaceId": "ChIJb0a0cDpV7zURhZ3FfM7G7xw",
     "description": "대구 동성로에 위치한 대표적인 인디 라이브 클럽으로, 국내외 다양한 인디 밴드들의 공연이 열리는 문화공간입니다.",
     "image_urls": [],
@@ -5432,6 +5438,7 @@
     "longitude": 128.5992,
     "phoneNumber": "+82 53-421-5678",
     "websiteUrl": "https://www.instagram.com/clubau_daegu/",
+    "instagram": "https://www.instagram.com/clubau_daegu/",
     "googlePlaceId": "ChIJf8b9cD9zB8zUSi4YgX8fG9y",
     "description": "대구 동성로 클럽골목에 위치한 대형 클럽으로, 힙합부터 일렉트로니카까지 다양한 장르의 공연과 DJing 파티가 개최되는 복합 문화공간입니다.",
     "image_urls": [],
