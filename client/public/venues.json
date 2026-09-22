@@ -583,7 +583,8 @@
     "latitude": 37.5502152,
     "longitude": 126.9222892,
     "phoneNumber": "+82 10-9025-3407",
-    "websiteUrl": "https://www.instagram.com/hongdaeff?igsh=NjExNTRvOTAyNGJz",
+    "websiteUrl": null,
+    "instagram": "https://www.instagram.com/hongdaeff/",
     "googlePlaceId": "ChIJz7WjUcWYfDURLQpMqR1EfhI",
     "description": null,
     "image_urls": [
