@@ -16,25 +16,25 @@ async function up() {
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
   `;
+  console.log('Ensured "schedules" table exists.');
 
-  // Check if the unique constraint already exists before trying to add it
-  const { rows: constraints } = await sql`
-    SELECT conname
-    FROM pg_constraint
-    WHERE conname = 'unique_schedule_per_venue_date';
-  `;
-
-  if (constraints.length === 0) {
+  // Add the unique constraint in a way that is safe to re-run
+  try {
     await sql`
       ALTER TABLE schedules
       ADD CONSTRAINT unique_schedule_per_venue_date UNIQUE (venue_id, event_date);
     `;
     console.log('Added unique constraint to "schedules" table.');
-  } else {
-    console.log('Unique constraint "unique_schedule_per_venue_date" already exists.');
+  } catch (error) {
+    if (error.code === '42P07') { // 42P07 is the error code for "duplicate_object"
+      console.log('Unique constraint "unique_schedule_per_venue_date" already exists, skipping.');
+    } else {
+      // If it's a different error, we should not ignore it
+      throw error;
+    }
   }
 
-  console.log('Migration for "schedules" table completed.');
+  console.log('Migration for "schedules" table completed successfully.');
 }
 
 async function down() {
