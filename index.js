@@ -18,6 +18,26 @@ const PORT = process.env.PORT || 5000;
 
 const path = require('path');
 
+const corsOptionsCredentials = {
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://jtsgrit0.github.io',
+      'https://barzidorock.vercel.app',
+    ];
+    if (!origin || allowedOrigins.includes(origin) || /barzidorock.*\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptionsCredentials));
+
 // Serve client build statically (fallback for root and SPA routes)
 const clientBuildPath = path.join(__dirname, 'client', 'build');
 if (require('fs').existsSync(clientBuildPath)) {
@@ -37,24 +57,6 @@ if (require('fs').existsSync(clientBuildPath)) {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
-
-const corsOptionsCredentials = {
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'https://jtsgrit0.github.io',
-      'https://barzidorock.vercel.app',
-    ];
-    if (!origin || allowedOrigins.includes(origin) || /barzidorock.*\.vercel\.app$/.test(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-};
 
 const apiRouter = express.Router();
 
