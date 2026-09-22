@@ -19,9 +19,9 @@ async function up() {
 
   // Check if the unique constraint already exists before trying to add it
   const { rows: constraints } = await sql`
-    SELECT constraint_name
-    FROM information_schema.table_constraints
-    WHERE table_name = 'schedules' AND constraint_name = 'unique_schedule_per_venue_date';
+    SELECT conname
+    FROM pg_constraint
+    WHERE conname = 'unique_schedule_per_venue_date';
   `;
 
   if (constraints.length === 0) {
