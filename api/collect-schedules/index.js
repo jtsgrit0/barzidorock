@@ -39,18 +39,14 @@ const allVenues = venuesData; // venues.json은 그냥 배열로 되어있음
 
 // 인스타그램 공연장 계정 목록 (venues.json의 instagram 필드에서 자동 추출)
 const INSTAGRAM_VENUES = allVenues
-  .filter(venue => venue?.instagram) // instagram 필드가 있는 공연장만 필터링
+  .filter(venue => venue.websiteUrl && venue.websiteUrl.includes('instagram.com')) // websiteUrl에서 인스타그램 주소만 필터링
   .map(venue => {
-    // URL에서 username만 추출 (예: https://www.instagram.com/club_aor_hongdae/ → club_aor_hongdae)
-    const username = venue.instagram
-      .replace('https://www.instagram.com/', '')
-      .replace('https://instagram.com/', '')
-      .replace(/\//g, '')
-      .trim();
+    // URL에서 username만 추출
+    const username = new URL(venue.websiteUrl).pathname.replace(/\//g, '').trim();
     return {
       username,
       venue_id: venue.id,
-      name_ko: venue.name.ko // venues.json은 name.ko로 되어있음
+      name_ko: venue.name.ko
     };
   });
 console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
