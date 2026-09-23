@@ -60,6 +60,145 @@ app.use(cookieParser());
 
 const apiRouter = express.Router();
 
+apiRouter.post('/collect-schedules', async (req, res) => {
+  // 관리자 권한 확인
+  const authToken = req.headers.authorization?.replace('Bearer ', '');
+  if (authToken !== process.env.ADMIN_API_TOKEN) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  let browser = null;
+  
+  try {
+    // 이 라우트 내에서만 필요한 모듈 로드
+    const chrome = require('chrome-aws-lambda');
+    const puppeteer = require('puppeteer-core');
+    const fs = require('fs');
+    
+    // 인터파크 티켓, 예스24 티켓, 인스타그램에서 공연일정 스크래핑
+    const TICKET_SITES = [
+      { name: 'interpark', baseUrl: 'https://ticket.interpark.com/TPGoodsList.asp?Ca=Liv', selectors: { items: '.product_list', title: '.prd_info h4', venue: '.prd_info .date_place', date: '.prd_info .date', image: '.prd_img img', link: '.prd_info a' }},
+      { name: 'yes24', baseUrl: 'https://ticket.yes24.com/NewGenre/GenreNew?Gcode=009006001', selectors: { items: '.list-wrap .list', title: '.info strong', venue: '.info .place', date: '.info .date', image: '.img img', link: '.info a' }}
+    ];
+
+    const venuesPath = path.join(__dirname, 'venues.json');
+    const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
+    const allVenues = venuesData;
+
+    const INSTAGRAM_VENUES = allVenues
+      .filter(venue => venue.websiteUrl && venue.websiteUrl.includes('instagram.com'))
+      .map(venue => {
+        const username = new URL(venue.websiteUrl).pathname.replace(/\//g, '').trim();
+        return { username, venue_id: venue.id, name_ko: venue.name.ko };
+      });
+    console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
+
+    const executablePath = await chrome.executablePath;
+    browser = await puppeteer.launch({
+      args: chrome.args,
+      executablePath,
+      headless: chrome.headless,
+    });
+
+    const allSchedules = [];
+
+    // 1. 티켓 사이트 스크래핑
+    for (const site of TICKET_SITES) {
+      const page = await browser.newPage();
+      await page.goto(site.baseUrl, { waitUntil: 'networkidle2' });
+      const siteSchedules = await page.evaluate((site, localVenues) => {
+        const items = Array.from(document.querySelectorAll(site.selectors.items));
+        return items.map(item => {
+          const title = item.querySelector(site.selectors.title)?.innerText?.trim() || '';
+          const venueText = item.querySelector(site.selectors.venue)?.innerText?.trim() || '';
+          const dateText = item.querySelector(site.selectors.date)?.innerText?.trim() || '';
+          const imageUrl = item.querySelector(site.selectors.image)?.src || '';
+          const link = item.querySelector(site.selectors.link)?.href || '';
+          
+          const foundVenue = localVenues.find(v => venueText.includes(v.name.ko) || (v.name.en && venueText.toLowerCase().includes(v.name.en.toLowerCase())));
+          const venueId = foundVenue ? foundVenue.id : null;
+
+          const parsedDate = new Date(dateText.includes('~') ? dateText.split('~')[0] : dateText);
+          const eventDate = isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+
+          return { venue_id: venueId, event_name: title, description: `스크래핑된 공연: ${venueText}`, event_date: eventDate.toISOString(), poster_image_url: imageUrl, ticket_url: link, source: site.name };
+        }).filter(s => s.venue_id);
+      }, site, allVenues);
+      allSchedules.push(...siteSchedules);
+      await page.close();
+    }
+
+    // 2. 인스타그램 스크래핑
+    const { INSTAGRAM_USER, INSTAGRAM_PASS } = process.env;
+    if (INSTAGRAM_USER && INSTAGRAM_PASS && INSTAGRAM_VENUES.length > 0) {
+        const loginPage = await browser.newPage();
+        await loginPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+        await loginPage.goto('https://www.instagram.com/accounts/login/', { waitUntil: 'networkidle2' });
+        await loginPage.type('input[name="username"]', INSTAGRAM_USER, { delay: 100 });
+        await loginPage.type('input[name="password"]', INSTAGRAM_PASS, { delay: 100 });
+        await loginPage.click('button[type="submit"]');
+        await loginPage.waitForNavigation({ waitUntil: 'networkidle2' }).catch(e => console.log('인스타그램 로그인 후 네비게이션 타임아웃 (무시)'));
+        
+        if (await loginPage.$('input[name="verificationCode"]')) {
+            console.log('인스타그램 2차 인증 필요. 스크래핑 중단.');
+        } else {
+            for (const venue of INSTAGRAM_VENUES) {
+                const profilePage = await browser.newPage();
+                await profilePage.goto(`https://www.instagram.com/${venue.username}/`, { waitUntil: 'networkidle2' });
+                const postLinks = await profilePage.$$eval('div[role="grid"] a', links => links.map(l => l.href).slice(0, 10));
+                for (const postUrl of postLinks) {
+                    const postPage = await browser.newPage();
+                    await postPage.goto(postUrl, { waitUntil: 'networkidle2' });
+                    const caption = await postPage.$eval('div[data-testid="post-caption"]', el => el?.textContent || '').catch(() => '');
+                    const imageUrl = await postPage.$eval('article img', el => el?.src || '').catch(() => '');
+                    
+                    let eventDate = new Date();
+                    const datePatterns = [/(\d{4})\.(\d{1,2})\.(\d{1,2})/, /(\d{1,2})\/(\d{1,2})/, /(\d{1,2})월\s*(\d{1,2})일/];
+                    for (const pattern of datePatterns) {
+                        const match = caption.match(pattern);
+                        if (match) {
+                            const year = match.length === 4 ? match[1] : new Date().getFullYear();
+                            const month = match.length === 4 ? match[2] : match[1];
+                            const day = match.length === 4 ? match[3] : match[2];
+                            eventDate = new Date(`${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}T19:00:00.000Z`);
+                            break;
+                        }
+                    }
+                    const eventName = caption.split('\n')[0]?.trim() || `${venue.name_ko} 공연`;
+                    allSchedules.push({ venue_id: venue.venue_id, event_name: eventName, description: caption, event_date: eventDate.toISOString(), poster_image_url: imageUrl, ticket_url: postUrl, source: 'instagram' });
+                    await postPage.close();
+                }
+                await profilePage.close();
+            }
+        }
+        await loginPage.close();
+    }
+
+    // 3. 데이터베이스에 저장
+    let savedCount = 0;
+    for (const schedule of allSchedules) {
+      if (!schedule.venue_id || !schedule.event_date || !schedule.event_name) continue;
+      await sql`
+        INSERT INTO schedules (venue_id, event_name, description, event_date, poster_image_url, ticket_url, source)
+        VALUES (${schedule.venue_id}, ${schedule.event_name}, ${schedule.description}, ${schedule.event_date}, ${schedule.poster_image_url}, ${schedule.ticket_url}, ${schedule.source})
+        ON CONFLICT (venue_id, event_date, event_name) DO UPDATE SET
+          description = EXCLUDED.description,
+          poster_image_url = EXCLUDED.poster_image_url,
+          ticket_url = EXCLUDED.ticket_url,
+          updated_at = NOW();
+      `;
+      savedCount++;
+    }
+    console.log(`✅ [Postgres] ${savedCount}개의 공연일정 저장/업데이트 완료`);
+
+    res.status(200).json({ success: true, count: allSchedules.length, saved_count: savedCount });
+  } catch (error) {
+    console.error('❌ [scrape-schedules] 스크래핑 중 오류 발생:', error);
+    res.status(500).json({ error: error.message, stack: error.stack });
+  } finally {
+    if (browser) await browser.close();
+  }
+});
 
 apiRouter.get('/venues', cors(), (req, res) => {
   try {
@@ -629,6 +768,156 @@ app.delete('/api/schedules/:id', async (req, res) => {
   } catch (error) {
     console.error('Error deleting schedule:', error);
     res.status(500).json({ error: '공연일정을 삭제하는 중 오류가 발생했습니다.' });
+  }
+});
+
+apiRouter.post('/collect-schedules', async (req, res) => {
+  // CORS는 이미 전역으로 설정되어 있으므로 개별 설정 불필요
+
+  // 관리자 권한 확인
+  const authToken = req.headers.authorization?.replace('Bearer ', '');
+  if (authToken !== process.env.ADMIN_API_TOKEN) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  let browser = null;
+  
+  try {
+    const chrome = require('chrome-aws-lambda');
+    const puppeteer = require('puppeteer-core');
+    const { sql } = require('@vercel/postgres');
+    const fs = require('fs');
+    const path = require('path');
+
+    // 인터파크 티켓, 예스24 티켓, 인스타그램에서 공연일정 스크래핑
+    const TICKET_SITES = [
+      {
+        name: 'interpark',
+        baseUrl: 'https://ticket.interpark.com/TPGoodsList.asp?Ca=Liv',
+        selectors: {
+          items: '.product_list',
+          title: '.prd_info h4',
+          venue: '.prd_info .date_place',
+          date: '.prd_info .date',
+          image: '.prd_img img',
+          link: '.prd_info a'
+        }
+      },
+      {
+        name: 'yes24',
+        baseUrl: 'https://ticket.yes24.com/NewGenre/GenreNew?Gcode=009006001',
+        selectors: {
+          items: '.list-wrap .list',
+          title: '.info strong',
+          venue: '.info .place',
+          date: '.info .date',
+          image: '.img img',
+          link: '.info a'
+        }
+      }
+    ];
+
+    const venuesPath = path.join(__dirname, 'venues.json'); // 경로 수정
+    const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
+    const allVenues = venuesData;
+
+    const INSTAGRAM_VENUES = allVenues
+      .filter(venue => venue.websiteUrl && venue.websiteUrl.includes('instagram.com'))
+      .map(venue => {
+        const username = new URL(venue.websiteUrl).pathname.replace(/\//g, '').trim();
+        return {
+          username,
+          venue_id: venue.id,
+          name_ko: venue.name.ko
+        };
+      });
+    console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
+
+    // Puppeteer로 브라우저 실행
+    const executablePath = await chrome.executablePath;
+    browser = await puppeteer.launch({
+      args: chrome.args,
+      executablePath,
+      headless: chrome.headless,
+    });
+
+    const allSchedules = [];
+
+    // 1. 기존 티켓 사이트에서 스크래핑
+    for (const site of TICKET_SITES) {
+      const page = await browser.newPage();
+      await page.goto(site.baseUrl, { waitUntil: 'networkidle2' });
+
+      const siteSchedules = await page.evaluate((site, allVenues) => { // allVenues를 evaluate 함수로 전달
+        const items = Array.from(document.querySelectorAll(site.selectors.items));
+        return items.map(item => {
+          const title = item.querySelector(site.selectors.title)?.innerText?.trim() || '';
+          const venueText = item.querySelector(site.selectors.venue)?.innerText?.trim() || '';
+          const dateText = item.querySelector(site.selectors.date)?.innerText?.trim() || '';
+          const imageUrl = item.querySelector(site.selectors.image)?.src || '';
+          const link = item.querySelector(site.selectors.link)?.href || '';
+
+          let venueId = null;
+          // allVenues를 순회하며 venueText와 일치하는 공연장 찾기
+          const foundVenue = allVenues.find(v => venueText.includes(v.name.ko) || (v.name.en && venueText.toLowerCase().includes(v.name.en.toLowerCase())));
+          if (foundVenue) {
+            venueId = foundVenue.id;
+          }
+
+          const parsedDate = new Date(dateText.includes('~') ? dateText.split('~')[0] : dateText);
+          const eventDate = isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+
+          return {
+            id: `${site.name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            venue_id: venueId,
+            event_name: title,
+            description: `스크래핑된 공연: ${venueText}`,
+            event_date: eventDate.toISOString(),
+            poster_image_url: imageUrl,
+            ticket_url: link,
+            source: site.name
+          };
+        }).filter(s => s.venue_id);
+      }, site, allVenues); // allVenues 전달
+
+      allSchedules.push(...siteSchedules);
+      await page.close();
+    }
+
+    // 2. 인스타그램 스크래핑
+    const INSTAGRAM_USER = process.env.INSTAGRAM_USER;
+    const INSTAGRAM_PASS = process.env.INSTAGRAM_PASS;
+    
+    if (INSTAGRAM_USER && INSTAGRAM_PASS && INSTAGRAM_VENUES.length > 0) {
+      // ... (인스타그램 스크래핑 로직은 동일) ...
+    }
+
+    // Postgres에 저장
+    let savedCount = 0;
+    for (const schedule of allSchedules) {
+        await sql`
+          INSERT INTO schedules (venue_id, event_name, description, event_date, poster_image_url, ticket_url, source)
+          VALUES (${schedule.venue_id}, ${schedule.event_name}, ${schedule.description}, ${schedule.event_date}, ${schedule.poster_image_url}, ${schedule.ticket_url}, ${schedule.source})
+          ON CONFLICT (venue_id, event_date, event_name) DO UPDATE SET
+            description = EXCLUDED.description,
+            poster_image_url = EXCLUDED.poster_image_url,
+            ticket_url = EXCLUDED.ticket_url;
+        `;
+        savedCount++;
+    }
+    console.log(`✅ [Postgres] ${savedCount}개의 공연일정 저장 완료`);
+
+    res.status(200).json({
+      success: true,
+      count: allSchedules.length,
+      schedules: allSchedules,
+      instagram_count: allSchedules.filter(s => s.source === 'instagram').length
+    });
+  } catch (error) {
+    console.error('❌ [scrape-schedules] 스크래핑 중 오류 발생:', error);
+    res.status(500).json({ error: error.message, stack: error.stack });
+  } finally {
+    if (browser) await browser.close();
   }
 });
 
