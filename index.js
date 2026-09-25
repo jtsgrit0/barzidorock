@@ -84,14 +84,18 @@ const handleScrapeSchedules = async (req, res) => {
       { name: 'yes24', baseUrl: 'https://ticket.yes24.com/NewGenre/GenreNew?Gcode=009006001', selectors: { items: '.list-wrap .list', title: '.info strong', venue: '.info .place', date: '.info .date', image: '.img img', link: '.info a' }}
     ];
 
-    const venuesPath = path.join(__dirname, 'venues.json');
+    const venuesPath = path.join(__dirname, 'client', 'public', 'venues.json');
     const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
     const allVenues = venuesData;
 
     const INSTAGRAM_VENUES = allVenues
-      .filter(venue => venue.websiteUrl && venue.websiteUrl.includes('instagram.com'))
+      .filter(venue => {
+        const instagramUrl = venue.websiteUrl || venue.instagram;
+        return instagramUrl && instagramUrl.includes('instagram.com');
+      })
       .map(venue => {
-        const username = new URL(venue.websiteUrl).pathname.replace(/\//g, '').trim();
+        const instagramUrl = venue.websiteUrl || venue.instagram;
+        const username = new URL(instagramUrl).pathname.replace(/\//g, '').trim();
         return { username, venue_id: venue.id, name_ko: venue.name.ko };
       });
     console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
