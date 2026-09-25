@@ -781,10 +781,12 @@ app.delete('/api/schedules/:id', async (req, res) => {
 apiRouter.post('/collect-schedules', async (req, res) => {
   // CORS는 이미 전역으로 설정되어 있으므로 개별 설정 불필요
 
-  // 관리자 권한 확인
-  const authToken = req.headers.authorization?.replace('Bearer ', '');
-  if (authToken !== process.env.ADMIN_API_TOKEN) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  // ADMIN_API_TOKEN이 설정된 경우에만 관리자 권한 확인 (설정되지 않은 경우 누구나 호출 가능)
+  if (process.env.ADMIN_API_TOKEN) {
+    const authToken = req.headers.authorization?.replace('Bearer ', '');
+    if (authToken !== process.env.ADMIN_API_TOKEN) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
   }
 
   let browser = null;
