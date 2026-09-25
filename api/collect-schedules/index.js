@@ -42,12 +42,16 @@ const venuesPath = path.join(__dirname, '../venues.json');
 const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
 const allVenues = venuesData; // venues.json은 그냥 배열로 되어있음
 
-// 인스타그램 공연장 계정 목록 (venues.json의 instagram 필드에서 자동 추출)
+// 인스타그램 공연장 계정 목록 (venues.json의 websiteUrl이나 instagram 필드에서 자동 추출)
 const INSTAGRAM_VENUES = allVenues
-  .filter(venue => venue.websiteUrl && venue.websiteUrl.includes('instagram.com')) // websiteUrl에서 인스타그램 주소만 필터링
+  .filter(venue => {
+    const instagramUrl = venue.websiteUrl || venue.instagram;
+    return instagramUrl && instagramUrl.includes('instagram.com');
+  }) // websiteUrl이나 instagram 필드에서 인스타그램 주소만 필터링
   .map(venue => {
     // URL에서 username만 추출
-    const username = new URL(venue.websiteUrl).pathname.replace(/\//g, '').trim();
+    const instagramUrl = venue.websiteUrl || venue.instagram;
+    const username = new URL(instagramUrl).pathname.replace(/\//g, '').trim();
     return {
       username,
       venue_id: venue.id,
