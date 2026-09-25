@@ -60,7 +60,8 @@ app.use(cookieParser());
 
 const apiRouter = express.Router();
 
-apiRouter.post('/collect-schedules', async (req, res) => {
+// 공연일정 스크래핑 핸들러 함수
+const handleScrapeSchedules = async (req, res) => {
   // 관리자 권한 확인
   const authToken = req.headers.authorization?.replace('Bearer ', '');
   if (authToken !== process.env.ADMIN_API_TOKEN) {
@@ -198,7 +199,11 @@ apiRouter.post('/collect-schedules', async (req, res) => {
   } finally {
     if (browser) await browser.close();
   }
-});
+};
+
+// 스크래핑 API 두 경로 모두 지원 (기존 collect-schedules + 프론트엔드가 요청하는 scrape-schedules)
+apiRouter.post('/collect-schedules', handleScrapeSchedules);
+apiRouter.post('/scrape-schedules', handleScrapeSchedules);
 
 apiRouter.get('/venues', cors(), (req, res) => {
   try {
