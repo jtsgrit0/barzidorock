@@ -62,10 +62,12 @@ const apiRouter = express.Router();
 
 // 공연일정 스크래핑 핸들러 함수
 const handleScrapeSchedules = async (req, res) => {
-  // 관리자 권한 확인
-  const authToken = req.headers.authorization?.replace('Bearer ', '');
-  if (authToken !== process.env.ADMIN_API_TOKEN) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  // ADMIN_API_TOKEN이 설정된 경우에만 관리자 권한 확인
+  if (process.env.ADMIN_API_TOKEN) {
+    const authToken = req.headers.authorization?.replace('Bearer ', '');
+    if (authToken !== process.env.ADMIN_API_TOKEN) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
   }
 
   let browser = null;
