@@ -1,8 +1,13 @@
+require('dotenv').config();
 const chrome = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
 const { sql } = require('@vercel/postgres');
 const fs = require('fs');
 const path = require('path');
+
+// .env에서 인스타그램 로그인 정보 불러오기
+const INSTAGRAM_USER = process.env.INSTAGRAM_USER;
+const INSTAGRAM_PASS = process.env.INSTAGRAM_PASS;
 
 // 인터파크 티켓, 예스24 티켓, 인스타그램에서 공연일정 스크래핑
 const TICKET_SITES = [
@@ -32,8 +37,8 @@ const TICKET_SITES = [
   }
 ];
 
-// venues.json에서 모든 공연장 동적으로 로드 (하드코딩 제거)
-const venuesPath = path.join(__dirname, '../client/public/venues.json');
+// venues.json에서 모든 공연장 동적으로 로드 (루트에 있는 venues.json 사용)
+const venuesPath = path.join(__dirname, '../venues.json');
 const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
 const allVenues = venuesData; // venues.json은 그냥 배열로 되어있음
 
