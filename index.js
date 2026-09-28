@@ -954,6 +954,46 @@ apiRouter.post('/collect-schedules', async (req, res) => {
   }
 });
 
+// ✅ 이미지 프록시 API: 인스타그램 CDN 이미지를 서버에서 프록시해서 CORS 문제 해결
+apiRouter.get('/proxy-image', async (req, res) => {
+  try {
+    const imageUrl = req.query.url;
+    if (!imageUrl) {
+      return res.status(400).json({ error: 'url 파라미터가 필요합니다.' });
+    }
+
+    // 인스타그램 이미지만 허용 (보안 제한)
+    if (!imageUrl.includes('cdninstagram.com') && !imageUrl.includes('instagram.com')) {
+      return res.status(403).json({ error: '인스타그램 이미지만 프록시할 수 있습니다.' });
+    }
+
+    // node-fetch로 이미지 가져오기
+    const fetch = (await import('node-fetch')).default;
+    const imageResponse = await fetch(imageUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': 'https://www.instagram.com/',
+        'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8'
+      }
+    });
+
+    if (!imageResponse.ok) {
+      return res.status(imageResponse.status).json({ error: '이미지를 가져오지 못했습니다.' });
+    }
+
+    // 이미지 헤더 설정 및 전달
+    res.setHeader('Content-Type', imageResponse.headers.get('content-type') || 'image/jpeg');
+    res.setHeader('Cache-Control', 'public, max-age=86400'); // 1일 캐싱
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    
+    // 이미지 스트림 전달
+    imageResponse.body.pipe(res);
+  } catch (error) {
+    console.error('❌ [proxy-image] 오류 발생:', error);
+    res.status(500).json({ error: '이미지 프록시 중 오류가 발생했습니다.' });
+  }
+});
+
 // ✅ 라우터 마운트: apiRouter는 /api로, secureRouter도 /api로 등록 (모든 API 엔드포인트 정상 작동)
 app.use('/api', apiRouter);
 app.use('/api', secureRouter);

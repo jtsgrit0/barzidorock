@@ -187,25 +187,51 @@ module.exports = async (req, res) => {
               await profilePage.waitForSelector('div[role="grid"]', { timeout: 15000 }); // 최신 프로필 게시물 그리드 셀렉터
               console.log(`✅ [Instagram] ${venue.username} 프로필 페이지 로드 완료`);
 
-              // 최근 10개 게시물 링크 추출 (최신 셀렉터로 업데이트)
-              const postLinks = await profilePage.$$eval('div[role="grid"] a', links => 
-                links.map(l => l.href).slice(0, 10)
+              // 인스타그램 최신 DOM 구조에 맞춘 셀렉터 업데이트 (2024년 변경사항 반영)
+              // 새 셀렉터: article 안의 div.x1lliihq.x1n2onr6.xh8yej3 a 요소로 게시물 링크 추출
+              const postLinks = await profilePage.$$eval('article a', links => 
+                links.filter(l => l.href.includes('/p/') || l.href.includes('/reel/')).slice(0, 10)
               );
-              console.log(`✅ [Instagram] ${venue.username} 게시물 ${postLinks.length}개 발견`);
+              console.log(`✅ [Instagram] ${venue.username} 게시물/릴스 ${postLinks.length}개 발견`);
+
+              // 이미지 프록시 함수: 인스타그램 CDN 이미지를 우리 서버에서 프록시해서 CORS 문제 해결
+              const getProxiedImageUrl = (originalUrl) => {
+                if (!originalUrl) return '';
+                // Vercel Functions에서 프록시할 수 있도록 우리 API 경로로 변환
+                return `${process.env.NEXT_PUBLIC_API_URL || 'https://barzidorock.vercel.app'}/api/proxy-image?url=${encodeURIComponent(originalUrl)}`;
+              };
 
               // 각 게시물 상세 페이지에서 캡션과 날짜 추출
               for (const postUrl of postLinks) {
                 const postPage = await browser.newPage();
-                await postPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+                await postPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36');
+                await postPage.setExtraHTTPHeaders({
+                  'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+                  'Referer': 'https://www.instagram.com/'
+                });
                 
                 try {
-                  await postPage.goto(postUrl, { waitUntil: 'networkidle2', timeout: 20000 });
-                  await postPage.waitForSelector('div[data-testid="post-caption"]', { timeout: 10000 }).catch(() => null);
+                  await postPage.goto(postUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+                  // 2024년 최신 캡션 셀렉터: span[data-testid="post-caption"] 또는 ._a9zs 클래스
+                  await postPage.waitForSelector('span[data-testid="post-caption"], ._a9zs', { timeout: 15000 }).catch(() => null);
                   
                   // 게시물 캡션 추출 (최신 셀렉터로 업데이트)
-                  const caption = await postPage.$eval('div[data-testid="post-caption"]', el => el?.textContent || '').catch(() => '');
-                  const imageUrl = await postPage.$eval('article img', el => el?.src || '').catch(() => '');
-                  console.log(`✅ [Instagram] 게시물 캡션 추출 완료 (길이: ${caption.length})`);
+                  const caption = await postPage.$eval('span[data-testid="post-caption"], ._a9zs', el => el?.textContent || '').catch(() => '');
+                  // 이미지 URL 추출: article 내의 img 요소 중 가장 큰 이미지 선택
+                  const imageUrl = await postPage.$eval('article img[srcset], article img', el => {
+                    if (el.srcset) {
+                      const sources = el.srcset.split(',').map(s => {
+                        const [url, size] = s.trim().split(' ');
+                        return { url, width: parseInt(size) };
+                      }).sort((a, b) => b.width - a.width);
+                      return sources[0]?.url || el.src;
+                    }
+                    return el.src || '';
+                  }).catch(() => '');
+                  
+                  // CORS 문제 해결을 위해 이미지 URL 프록시 처리
+                  const proxiedImageUrl = getProxiedImageUrl(imageUrl);
+                  console.log(`✅ [Instagram] 게시물 캡션 추출 완료 (길이: ${caption.length}), 이미지 프록시 적용됨`);
 
                   // 다양한 날짜 형식 매칭 정규식 업데이트
                   const datePatterns = [
@@ -233,14 +259,14 @@ module.exports = async (req, res) => {
                   // 이벤트 제목 추출
                   const eventName = caption.split('\n')[0]?.trim() || `${venue.name_ko} 공연`;
                   
-                  // 스케줄 배열에 추가
+                  // 스케줄 배열에 추가 (프록시 처리된 이미지 URL 사용)
                   allSchedules.push({
                     id: `instagram-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
                     venue_id: venue.venue_id,
                     event_name: eventName,
                     description: caption,
                     event_date: eventDate.toISOString(),
-                    poster_image_url: imageUrl,
+                    poster_image_url: proxiedImageUrl, // 프록시 처리된 URL 저장
                     ticket_url: postUrl,
                     source: 'instagram'
                   });
