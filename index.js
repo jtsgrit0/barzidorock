@@ -104,24 +104,12 @@ const handleScrapeSchedules = async (req, res) => {
       });
     console.log('✅ [Instagram] 스크래핑 대상 공연장:', INSTAGRAM_VENUES.map(v => v.username));
 
-    // Vercel 프로덕션 환경과 로컬 개발 환경을 구분해서 실행 경로 설정
-    const isVercel = process.env.VERCEL === '1';
-    let browserOptions = {};
-    
-    if (isVercel) {
-      // Vercel 환경: chrome-aws-lambda 사용
-      browserOptions = {
-        args: chrome.args,
-        executablePath: await chrome.executablePath,
-        headless: chrome.headless,
-      };
-    } else {
-      // 로컬 개발 환경: 로컬에 설치된 Chrome 사용
-      browserOptions = {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-    }
+    // Vercel 환경에서 항상 chrome-aws-lambda 사용 (환경변수 감지 문제 해결)
+    const browserOptions = {
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    };
     
     browser = await puppeteer.launch(browserOptions);
 
