@@ -92,12 +92,26 @@ module.exports = async (req, res) => {
   
   try {
     // Puppeteer로 브라우저 실행
-    const executablePath = await chrome.executablePath;
-    browser = await puppeteer.launch({
-      args: chrome.args,
-      executablePath,
-      headless: chrome.headless,
-    });
+    // Vercel 프로덕션 환경과 로컬 개발 환경을 구분해서 실행 경로 설정
+    const isVercel = process.env.VERCEL === '1';
+    let browserOptions = {};
+    
+    if (isVercel) {
+      // Vercel 환경: chrome-aws-lambda 사용
+      browserOptions = {
+        args: chrome.args,
+        executablePath: await chrome.executablePath,
+        headless: chrome.headless,
+      };
+    } else {
+      // 로컬 개발 환경: 로컬에 설치된 Chrome 사용
+      browserOptions = {
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      };
+    }
+    
+    browser = await puppeteer.launch(browserOptions);
 
     const allSchedules = [];
 
