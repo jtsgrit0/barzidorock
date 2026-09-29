@@ -78,7 +78,7 @@ const handleScrapeSchedules = async (req, res) => {
   
   try {
     // 이 라우트 내에서만 필요한 모듈 로드
-    const chromium = require('@sparticuz/chromium');
+    const chrome = require('chrome-aws-lambda');
     const puppeteer = require('puppeteer-core');
     const fs = require('fs');
     
@@ -858,23 +858,12 @@ apiRouter.post('/collect-schedules', async (req, res) => {
     const isVercel = process.env.VERCEL === '1';
     let browserOptions = {};
     
-    if (isVercel) {
-      // Vercel 환경: @sparticuz/chromium 사용 (공식 권장)
-      const chromium = require('@sparticuz/chromium');
-      browserOptions = {
-        args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
-        defaultViewport: chromium.defaultViewport,
-      };
-    } else {
-      // 로컬 개발 환경: 로컬에 설치된 Chrome 사용
-      const puppeteerLocal = require('puppeteer');
-      browserOptions = {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-    }
+    // Vercel 환경에서 항상 chrome-aws-lambda 사용 (환경변수 감지 문제 해결)
+    const browserOptions = {
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    };
     
     browser = await puppeteer.launch(browserOptions);
 

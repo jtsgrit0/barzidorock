@@ -1,5 +1,5 @@
 require('dotenv').config();
-const chromium = require('@sparticuz/chromium');
+const chrome = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
 const { sql } = require('@vercel/postgres');
 const fs = require('fs');
@@ -91,25 +91,15 @@ module.exports = async (req, res) => {
   let browser = null;
   
   try {
-    // Puppeteer로 브라우저 실행 - Vercel 공식 권장 방식 (@sparticuz/chromium 사용)
-    if (process.env.VERCEL_ENV) {
-      // Vercel 환경: @sparticuz/chromium 사용 (공식 권장)
-      const browserOptions = {
-        args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
-        defaultViewport: chromium.defaultViewport,
-      };
-      browser = await puppeteer.launch(browserOptions);
-    } else {
-      // 로컬 개발 환경: 로컬 puppeteer 사용
-      const puppeteerLocal = require('puppeteer');
-      const browserOptions = {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-      browser = await puppeteerLocal.launch(browserOptions);
-    }
+    // Puppeteer로 브라우저 실행
+    // Vercel 환경에서 항상 chrome-aws-lambda 사용 (환경변수 감지 문제 해결)
+    const browserOptions = {
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    };
+    
+    browser = await puppeteer.launch(browserOptions);
 
     const allSchedules = [];
 
