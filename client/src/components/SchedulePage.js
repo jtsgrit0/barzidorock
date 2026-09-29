@@ -156,7 +156,7 @@ const SchedulePage = ({ language }) => {
       if (!lastScrapeTime || (now - parseInt(lastScrapeTime)) > SIX_HOURS) {
         console.log('🔄 [Auto Scrape] Triggering schedule scraping...');
         const adminToken = localStorage.getItem('adminToken');
-        await fetch(`${API_BASE_URL}/api/scrape-schedules`, {
+        await fetch(`${API_BASE_URL}/api/collect-schedules`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
