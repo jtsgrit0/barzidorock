@@ -39,7 +39,16 @@ L = instaloader.Instaloader(
 instagram_user = os.getenv('INSTAGRAM_USER')
 instagram_pass = os.getenv('INSTAGRAM_PASS')
 
-print("⚠️ 비로그인 모드로 실행합니다. (공개 프로필만 접근 가능)")
+if instagram_user and instagram_pass:
+    print(f"🔑 {instagram_user} 계정으로 인스타그램 로그인 시도...")
+    try:
+        L.login(instagram_user, instagram_pass)
+        print("✅ 인스타그램 로그인 성공!")
+    except Exception as e:
+        print(f"❌ 인스타그램 로그인 실패: {e}")
+        print("⚠️ 비로그인 모드로 전환하여 실행합니다.")
+else:
+    print("⚠️ 로그인 정보가 없어 비로그인 모드로 실행합니다. (공개 프로필만 접근 가능)")
 
 # 결과를 저장할 디렉토리 생성
 output_dir = 'scraped_schedules'
