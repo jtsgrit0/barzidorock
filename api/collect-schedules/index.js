@@ -102,15 +102,17 @@ module.exports = async (req, res) => {
       };
     } else {
       // 로컬 개발 환경: 로컬 puppeteer 사용
-      const puppeteer = require('puppeteer');
+      const puppeteerLocal = require('puppeteer');
       browserOptions = {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
       };
-      browser = await puppeteer.launch(browserOptions);
+      browser = await puppeteerLocal.launch(browserOptions);
     }
     
-    browser = await puppeteer.launch(browserOptions);
+    if (process.env.VERCEL_ENV) {
+      browser = await puppeteer.launch(browserOptions);
+    }
 
     const allSchedules = [];
 
