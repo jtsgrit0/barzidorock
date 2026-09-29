@@ -91,13 +91,24 @@ module.exports = async (req, res) => {
   let browser = null;
   
   try {
-    // Puppeteer로 브라우저 실행
-    // Vercel 환경에서 항상 chrome-aws-lambda 사용 (환경변수 감지 문제 해결)
-    const browserOptions = {
-      args: chrome.args,
-      executablePath: await chrome.executablePath,
-      headless: chrome.headless,
-    };
+    // Puppeteer로 브라우저 실행 - Vercel 환경 최적화
+    let browserOptions;
+    if (process.env.VERCEL_ENV) {
+      // Vercel 환경: chrome-aws-lambda 사용
+      browserOptions = {
+        args: chrome.args,
+        executablePath: await chrome.executablePath,
+        headless: chrome.headless,
+      };
+    } else {
+      // 로컬 개발 환경: 로컬 puppeteer 사용
+      const puppeteer = require('puppeteer');
+      browserOptions = {
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      };
+      browser = await puppeteer.launch(browserOptions);
+    }
     
     browser = await puppeteer.launch(browserOptions);
 
