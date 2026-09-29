@@ -1,5 +1,5 @@
 require('dotenv').config();
-const chrome = require('chrome-aws-lambda');
+const chromium = require('@sparticuz/chromium');
 const puppeteer = require('puppeteer-core');
 const { sql } = require('@vercel/postgres');
 const fs = require('fs');
@@ -91,13 +91,14 @@ module.exports = async (req, res) => {
   let browser = null;
   
   try {
-    // Puppeteer로 브라우저 실행 - 환경에 맞춰 자동 실행
+    // Puppeteer로 브라우저 실행 - Vercel 공식 권장 방식 (@sparticuz/chromium 사용)
     if (process.env.VERCEL_ENV) {
-      // Vercel 환경: chrome-aws-lambda 사용
+      // Vercel 환경: @sparticuz/chromium 사용 (공식 권장)
       const browserOptions = {
-        args: chrome.args,
-        executablePath: await chrome.executablePath,
-        headless: chrome.headless,
+        args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+        defaultViewport: chromium.defaultViewport,
       };
       browser = await puppeteer.launch(browserOptions);
     } else {
