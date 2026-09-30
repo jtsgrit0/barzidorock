@@ -879,12 +879,20 @@ const SchedulePage = ({ language }) => {
         <h2>등록된 공연일정</h2>
         <ul className="schedule-list">
           {schedules.length > 0 ? (
-            schedules.map((schedule) => (
+            // 클라이언트에서 한번 더 중복 제거: venue_id + event_date + event_name으로 유니크 키 생성
+            [...new Map(
+              schedules.map(schedule => {
+                const uniqueKey = `${schedule.venue_id}-${schedule.event_date}-${schedule.event_name?.normalize('NFC')}`;
+                return [uniqueKey, schedule];
+              })
+            ).values()].map((schedule) => (
               <li key={schedule.id} className="schedule-item">
-                {/* 카드 전체를 클릭하면 공연장 홈페이지로 새창에서 이동 */}
-                {schedule.venue_website ? (
+                {/* 예매 링크나 공연장 홈페이지로 연결: ticketUrl 우선 적용 */}
+                {(() => {
+                  const linkUrl = schedule.ticketUrl || schedule.ticket_url || schedule.venue_website;
+                  return linkUrl ? (
                   <a 
-                    href={schedule.venue_website} 
+                    href={linkUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="schedule-item-content"
@@ -892,28 +900,23 @@ const SchedulePage = ({ language }) => {
                   >
                     <div className="schedule-item-header">
 {(() => {
-                        // ✅ 항상 venues 배열에서 직접 공연장 이름을 가져와서 노란색으로 먼저 표시! 문자열 일치 보장
+                        // 항상 venues 배열에서 직접 공연장 이름을 가져와서 노란색으로 먼저 표시! 한글 유니코드 정규화(NFC)로 문자열 일치 보장
                         const venue = venues.find(v => String(v.id) === String(schedule.venue_id));
-                        // ✅ name이 문자열일 때도, 객체일 때도 모두 지원하도록 수정! pet-sounds-001처럼 name이 문자열로 저장된 경우도 처리
                         const venueName = venue ? (
                           typeof venue.name === 'string' 
-                            ? venue.name 
-                            : (venue.name?.ko || venue.name?.en || 'Unknown Venue')
+                            ? venue.name.normalize('NFC') 
+                            : (venue.name?.ko?.normalize('NFC') || venue.name?.en || 'Unknown Venue')
                         ) : 'Unknown Venue';
-                        console.log('공연장찾기:', schedule.venue_id, '→', venueName, 'venue객체:', venue, 'typeof name:', typeof venue?.name);
+                        console.log('공연장찾기:', schedule.venue_id, '→', venueName, 'venue객체:', venue);
                         return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
-                      {/* ✅ 사용자 요청: 아티스트 이름/시간/공연내용 화면에서 숨김 (데이터는 유지) */}
-                      <span className="schedule-event-name" style={{display: 'none'}}>{schedule.event_name}</span>
+                      <span className="schedule-event-name" style={{display: 'none'}}>{schedule.event_name?.normalize('NFC')}</span>
                     </div>
                     <div className="schedule-item-body">
-                      {/* ✅ 사용자 요청: 화면에 날짜 표시 완전 삭제! 날짜는 내부적으로만 사용하고 화면에는 노출하지 않음 */}
-                      {/* 공연내용 화면에서 숨김 (데이터는 유지) */}
                       {schedule.description && <p className="schedule-description" style={{display: 'none'}}>{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                      {/* 모든 가능한 이미지 키 지원: poster_image_url, poster_image, poster_url, image_url, image */}
+                      {/* 모든 가능한 이미지 키 지원 */}
                       {(() => {
                         const imageSrc = schedule.poster_image_url || schedule.poster_image || schedule.poster_url || schedule.image_url || schedule.image;
-                        console.log('이미지소스 확인:', imageSrc, 'schedule객체:', schedule);
                         return imageSrc ? (
                           <div className="schedule-item-poster">
                             <img src={imageSrc} alt="Poster" crossorigin="anonymous" loading="lazy" onError={(e) => console.error('이미지로딩오류:', e, imageSrc)} />
@@ -922,21 +925,22 @@ const SchedulePage = ({ language }) => {
                       })()}
                     </div>
                   </a>
-                ) : (
-                  <div className="schedule-item-content">
+            ) : (
+              <div className="schedule-item-content">
                     <div className="schedule-item-header">
 {(() => {
-                        // ✅ 항상 venues 배열에서 직접 공연장 이름을 가져와서 노란색으로 먼저 표시! 문자열 일치 보장
                         const venue = venues.find(v => String(v.id) === String(schedule.venue_id));
-                        const venueName = venue ? (venue.name?.ko || venue.name?.en || 'Unknown Venue') : 'Unknown Venue';
-                        console.log('공연장찾기(두번째카드):', schedule.venue_id, '→', venueName, 'venue.id?', venue?.id);
+                        const venueName = venue ? (
+                          typeof venue.name === 'string' 
+                            ? venue.name.normalize('NFC') 
+                            : (venue.name?.ko?.normalize('NFC') || venue.name?.en || 'Unknown Venue')
+                        ) : 'Unknown Venue';
+                        console.log('공연장찾기(링크없음):', schedule.venue_id, '→', venueName);
                         return <><strong style={{color:'yellow',textShadow:'0 0 5px rgba(255,255,0,0.5)'}}>{venueName}</strong> - </>;
                       })()}
-                      {/* ✅ 사용자 요청: 아티스트 이름/시간/공연내용 화면에서 숨김 (데이터는 유지) */}
-                      <span className="schedule-event-name" style={{display: 'none'}}>{schedule.event_name}</span>
+                      <span className="schedule-event-name" style={{display: 'none'}}>{schedule.event_name?.normalize('NFC')}</span>
                     </div>
                     <div className="schedule-item-body">
-                      {/* 공연일자/시간 화면에서 숨김 (데이터는 유지) */}
                       <span className="schedule-date" style={{display: 'none'}}>
                         {language === 'ko' 
                           ? new Date(schedule.event_date).toLocaleString('ko-KR', { 
@@ -957,12 +961,9 @@ const SchedulePage = ({ language }) => {
                             })
                         }
                       </span>
-                      {/* 공연내용 화면에서 숨김 (데이터는 유지) */}
                       {schedule.description && <p className="schedule-description" style={{display: 'none'}}>{schedule.description.substring(0, 100)}{schedule.description.length > 100 ? '...' : ''}</p>}
-                      {/* 모든 가능한 이미지 키 지원: poster_image_url, poster_image, poster_url, image_url, image */}
                       {(() => {
                         const imageSrc = schedule.poster_image_url || schedule.poster_image || schedule.poster_url || schedule.image_url || schedule.image;
-                        console.log('이미지소스 확인:', imageSrc, 'schedule객체:', schedule);
                         return imageSrc ? (
                           <div className="schedule-item-poster">
                             <img src={imageSrc} alt="Poster" crossorigin="anonymous" loading="lazy" onError={(e) => console.error('이미지로딩오류:', e, imageSrc)} />
@@ -971,7 +972,7 @@ const SchedulePage = ({ language }) => {
                       })()}
                     </div>
                   </div>
-                )}
+                )})()}
                 {isLoggedIn && (
                   <div className="schedule-item-actions">
                     <button onClick={() => handleEditClick(schedule)} className="edit-button">수정</button>
