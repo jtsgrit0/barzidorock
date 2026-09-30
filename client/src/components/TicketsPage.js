@@ -78,6 +78,8 @@ const TicketsPage = () => {
   useEffect(() => {
     let isActive = true;
     setLoading(true);
+    const startTime = Date.now();
+    const MIN_LOADING_TIME = 1500; // 최소 1.5초 동안 스플래시 노출
 
     const loadEvents = async () => {
       const cachedEvents = sessionStorage.getItem(CACHE_KEY);
@@ -96,9 +98,15 @@ const TicketsPage = () => {
           }
       }
       
-      if (isActive) {
-        setLoading(false);
-      }
+      // 최소 로딩 시간을 보장하도록 지연 후 로딩 종료
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime);
+      
+      setTimeout(() => {
+        if (isActive) {
+          setLoading(false);
+        }
+      }, remainingTime);
     };
 
     loadEvents();
