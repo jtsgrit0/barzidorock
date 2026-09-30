@@ -24,7 +24,17 @@ module.exports = async (req, res) => {
       const { rows: schedules } = await sql`
         SELECT * FROM schedules ORDER BY event_date DESC;
       `;
-      res.status(200).json(schedules);
+      
+      // 서버에서도 중복 제거! venue_id + event_date + event_name으로 유니크 키 생성, NFC 정규화로 한글 일치
+      const dedupedSchedules = [...new Map(
+        schedules.map(schedule => {
+          const normalizedName = (schedule.event_name || '').normalize('NFC');
+          const uniqueKey = `${schedule.venue_id}-${schedule.event_date}-${normalizedName.slice(0, 30)}`;
+          return [uniqueKey, schedule];
+        })
+      ).values()];
+      
+      res.status(200).json(dedupedSchedules);
     } else if (req.method === 'POST') {
       const { venue_id, event_name, description, event_date, poster_image_url, ticket_url, source } = req.body;
       await sql`
