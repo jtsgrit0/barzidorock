@@ -16,7 +16,7 @@ const path = require('path');
 
 const app = express();
 const apiRouter = express.Router();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 // 롤링홀 이벤트 스크래핑 함수 (티켓탭 필수) - 원래 이미지 스크래핑 로직 완전 복구
 async function fetchRollingHallEvents() {
@@ -70,16 +70,21 @@ async function fetchRollingHallEvents() {
           title = textInRow.replace(dateMatch[0], '').trim();
         }
       }
+      // 빈 제목이나 날짜가 있는 유효하지 않은 이벤트 필터링
+      if (!title || !date) continue;
 
       const fullLink = detailPageLink.startsWith('http') ? detailPageLink : `${baseHost}/${detailPageLink}`;
-      
-      preliminaryEvents.push({
-        title,
-        date,
-        link: fullLink,
-        image: imageSrc,
-        rawText: textInRow
-      });
+      // 중복 이벤트 방지: 제목+날짜로 유니크하게 저장
+      if (!preliminaryEvents.some(e => e.title === title && e.date === date)) {
+        preliminaryEvents.push({
+          title,
+          date,
+          detailLink: fullLink,
+          ticketUrl: null, // 초기값 null
+          image: imageSrc,
+          rawText: textInRow
+        });
+      }
     }
 
     // 상세 페이지에서 고해상도 이미지 추가 스크래핑
@@ -91,7 +96,7 @@ async function fetchRollingHallEvents() {
       // 이미지가 없거나 리스트 썸네일이 작은 경우 상세페이지에서 메인 이미지 추출
       if (!finalImage || finalImage.includes('thumb')) {
         try {
-          const detailRes = await fetch(event.link, {
+          const detailRes = await fetch(event.detailLink, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
           });
           if (detailRes.ok) {
@@ -106,19 +111,23 @@ async function fetchRollingHallEvents() {
                 finalImage = firstImage.startsWith('http') ? firstImage : `${baseHost}/${firstImage.replace(/^\//, '')}`;
               }
             }
-            // ✅ 실제 예매 링크 추출! 인터파크, 예스24 등 외부 예매 링크 찾기
-            const ticketLink = detail$('a[href*="ticketlink.interpark.com"], a[href*="yes24.com"], a[href*="ticket.interpark.com"], a[target="_blank"]');
+            // ✅ 실제 예매 링크 추출! 인터파크, 예스24, 멜론, 야놀자 등 외부 예매 링크 찾기
+            const ticketLink = detail$('a[href*="ticketlink.interpark.com"], a[href*="yes24.com"], a[href*="ticket.interpark.com"], a[href*="ticket.melon.com"], a[href*="nol.yanolja.com"], a[target="_blank"]');
             if (ticketLink.length > 0) {
               const firstTicketLink = ticketLink.first().attr('href');
               if (firstTicketLink) {
-                event.link = firstTicketLink.startsWith('http') ? firstTicketLink : `https://${firstTicketLink.replace(/^\//, '')}`;
-                debugMessages.push(`✅ [event ${i}] 예매 링크 찾음: ${event.link}`);
+                event.ticketUrl = firstTicketLink.startsWith('http') ? firstTicketLink : `https://${firstTicketLink.replace(/^\//, '')}`;
+                debugMessages.push(`✅ [event ${i}] 예매 링크 찾음: ${event.ticketUrl}`);
               }
             }
           }
         } catch (imgError) {
           debugMessages.push(`Failed to fetch detail image for event ${i}: ${imgError.message}`);
         }
+      }
+      // 만약 예매 링크를 못찾았으면 기본 상세 링크로 대체
+      if (!event.ticketUrl) {
+        event.ticketUrl = event.detailLink;
       }
 
       let normalizedDate = event.date;
@@ -130,7 +139,7 @@ async function fetchRollingHallEvents() {
         id: `rh-${String(i).padStart(3, '0')}`,
         title: event.title,
         date: normalizedDate,
-        ticketUrl: event.link, // 이제 실제 인터파크/예스24 예매 링크가 들어감!
+        ticketUrl: event.ticketUrl, // 실제 외부 예매 링크만 들어감!
         image: finalImage
       });
     }
