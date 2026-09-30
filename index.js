@@ -18,7 +18,7 @@ const app = express();
 const apiRouter = express.Router();
 const PORT = process.env.PORT || 5000;
 
-// 롤링홀 이벤트 스크래핑 함수 (티켓탭 필수)
+// 롤링홀 이벤트 스크래핑 함수 (티켓탭 필수) - 원래 이미지 스크래핑 로직 완전 복구
 async function fetchRollingHallEvents() {
   const baseHost = 'https://www.rollinghall.co.kr';
   const listUrl = `${baseHost}/default/mp3/mp3_sub2.php?sub=02`;
@@ -43,19 +43,21 @@ async function fetchRollingHallEvents() {
     debugMessages.push(`Found ${allRows.length} total table rows.`);
 
     const preliminaryEvents = [];
-    allRows.each((i, row) => {
-      const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
-      if (linkInRow.length === 0) return;
+    for (const row of allRows) {
+      const $row = $(row);
+      const linkInRow = $row.find('a[href*="com_board_basic=read_form"]');
+      if (linkInRow.length === 0) continue;
 
-      const imgInRow = $(row).find('img');
-      const listImageSrc = imgInRow.attr('src');
-      
-      const textInRow = $(row).text().trim().replace(/\s+/g, ' ');
+      const textInRow = $row.text().trim().replace(/\s+/g, ' ');
       const detailPageLink = $(linkInRow).attr('href');
-      if (!detailPageLink) return;
+      if (!detailPageLink) continue;
+
+      // 리스트 페이지에서 썸네일 이미지 추출
+      const imgInRow = $row.find('img');
+      const listImageSrc = imgInRow.attr('src');
+      let imageSrc = listImageSrc ? (listImageSrc.startsWith('http') ? listImageSrc : `${baseHost}/${listImageSrc.replace(/^\//, '')}`) : '';
 
       const titleMatch = textInRow.match(/(.*?)\s*\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
-      
       let title = textInRow;
       let date = '';
       if (titleMatch) {
@@ -70,27 +72,25 @@ async function fetchRollingHallEvents() {
       }
 
       const fullLink = detailPageLink.startsWith('http') ? detailPageLink : `${baseHost}/${detailPageLink}`;
-      let fullImageSrc = listImageSrc ? (listImageSrc.startsWith('http') ? listImageSrc : `${baseHost}/${listImageSrc.replace(/^\//, '')}`) : '';
       
       preliminaryEvents.push({
         title,
         date,
         link: fullLink,
-        image: fullImageSrc,
+        image: imageSrc,
         rawText: textInRow
       });
-    });
+    }
 
-    debugMessages.push(`Parsed ${preliminaryEvents.length} valid events, fetching details...`);
-
-    // 상세페이지에서 고해상도 이미지 추가 스크래핑 (원래 로직 유지)
+    // 상세 페이지에서 고해상도 이미지 추가 스크래핑
     const processedEvents = [];
     for (let i = 0; i < preliminaryEvents.length; i++) {
       const event = preliminaryEvents[i];
-      let detailImage = event.image;
+      let finalImage = event.image;
       
-      try {
-        if (event.link) {
+      // 이미지가 없거나 리스트 썸네일이 작은 경우 상세페이지에서 메인 이미지 추출
+      if (!finalImage || finalImage.includes('thumb')) {
+        try {
           const detailRes = await fetch(event.link, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
           });
@@ -98,34 +98,35 @@ async function fetchRollingHallEvents() {
             const detailBuffer = await detailRes.arrayBuffer();
             const detailHtml = iconv.decode(Buffer.from(detailBuffer), 'EUC-KR');
             const detail$ = cheerio.load(detailHtml);
+            // /data/ 경로의 게시판 본문 이미지 찾기
             const contentImages = detail$('img[src*="/data/"]');
             if (contentImages.length > 0) {
               const firstImage = contentImages.first().attr('src');
               if (firstImage) {
-                detailImage = firstImage.startsWith('http') ? firstImage : `${baseHost}/${firstImage.replace(/^\//, '')}`;
+                finalImage = firstImage.startsWith('http') ? firstImage : `${baseHost}/${firstImage.replace(/^\//, '')}`;
               }
             }
           }
+        } catch (imgError) {
+          debugMessages.push(`Failed to fetch detail image for event ${i}: ${imgError.message}`);
         }
-      } catch (e) {
-        debugMessages.push(`Failed to fetch details for ${event.title}: ${e.message}`);
       }
-      
+
       let normalizedDate = event.date;
       if (event.date.includes('년') && event.date.includes('월') && event.date.includes('일')) {
         normalizedDate = event.date.replace(/년|월/g, '.').replace('일', '').trim();
       }
-      
+
       processedEvents.push({
         id: `rh-${String(i).padStart(3, '0')}`,
         title: event.title,
         date: normalizedDate,
         ticketUrl: event.link,
-        image: detailImage
+        image: finalImage
       });
     }
 
-    debugMessages.push(`Completed processing ${processedEvents.length} events.`);
+    debugMessages.push(`Successfully processed ${processedEvents.length} events with images.`);
     return { events: processedEvents, debug: debugMessages.join('\n') };
   } catch (error) {
     debugMessages.push(`Exception in fetchRollingHallEvents: ${error.message}`);
