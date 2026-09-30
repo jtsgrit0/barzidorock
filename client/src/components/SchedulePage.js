@@ -216,10 +216,17 @@ const SchedulePage = ({ language }) => {
       const scheduleData = (Array.isArray(fetchedData) && fetchedData.length > 0) ? fetchedData : fallbackSchedules;
       console.log('🔍 [fetchSchedules] Final scheduleData source:', scheduleData === fallbackSchedules ? 'fallback (data empty or API failed)' : 'API');
       
-      const formattedSchedules = formatScheduleRows(scheduleData);
-      setSchedules(formattedSchedules);
-      sessionStorage.setItem('schedules', JSON.stringify(formattedSchedules));
-      console.log('✅ [fetchSchedules] Schedules set successfully:', formattedSchedules.length);
+      // 프론트엔드에서 최종 중복 제거 (서버 중복 제거와 이중으로 안전성 확보)
+      const rawFormatted = formatScheduleRows(scheduleData);
+      const dedupedSchedules = rawFormatted.filter((schedule, index, self) => {
+        // venue_id, event_date, event_name으로 중복 식별
+        const key = `${schedule.venue_id}-${schedule.event_date}-${schedule.event_name.slice(0, 20)}`;
+        return index === self.findIndex(s => `${s.venue_id}-${s.event_date}-${s.event_name.slice(0, 20)}` === key);
+      });
+      
+      setSchedules(dedupedSchedules);
+      sessionStorage.setItem('schedules', JSON.stringify(dedupedSchedules));
+      console.log('✅ [fetchSchedules] 중복 제거 후 스케줄 설정 완료: 원본', rawFormatted.length, '-> 최종', dedupedSchedules.length);
     } catch (error) {
       console.error('❌ [fetchSchedules] Critical error, forcing fallback:', error);
       const formattedSchedules = formatScheduleRows(fallbackSchedules);
@@ -231,22 +238,16 @@ const SchedulePage = ({ language }) => {
     }
   }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape]);
 
-  // venues가 로드된 후에 스케줄을 포맷팅해서 venue_name이 정상적으로 표시되도록 함
+  // 최초 마운트시 한번만 스케줄 불러오기 (중복 호출 방지)
   useEffect(() => {
     if (venues.length > 0) {
-      console.log('🔍 [venues loaded] venues.length:', venues.length, 'reprocessing schedules...');
-      // venues가 로드되면 기존 스케줄을 다시 포맷팅
-      // API 호출이 실패했거나 스케줄이 없는 경우에만 fetchSchedules를 호출
-      if (schedules.length === 0) { // 또는 API 호출이 실패한 경우를 더 명확히 판단할 수 있는 상태 추가
+      console.log('🔍 [venues loaded] venues.length:', venues.length, 'starting fetch schedules...');
+      // 스케줄이 없을 때만 한번 호출
+      if (schedules.length === 0) {
         fetchSchedules();
-      } else {
-        // 기존 raw 데이터로 다시 포맷팅 (이 부분은 API가 정상 작동할 때만 의미 있음)
-        // 현재 API 500 오류 상황에서는 이 로직이 실행되지 않도록 하거나,
-        // fallbackSchedules를 사용하여 재포맷팅하는 것이 더 안전함.
-        // 여기서는 API 오류 시 fallback이 사용되므로 이대로 진행.
       }
     }
-  }, [venues, fetchSchedules, formatScheduleRows, schedules.length]);
+  }, [venues.length]); // venues.length만 의존성으로 유지해서 중복 호출 방지
 
   // 공연장 데이터를 한번만 처리하도록 useMemo 사용
   const processedVenues = React.useMemo(() => venues, [venues]);

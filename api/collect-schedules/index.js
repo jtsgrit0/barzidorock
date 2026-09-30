@@ -293,12 +293,40 @@ module.exports = async (req, res) => {
       console.log('⚠️ [Instagram] 스크래핑 스킵: 환경변수 또는 공연장 계정 정보 부족');
     }
 
-    // Postgres에 모든 스케줄 저장
-    console.log(`✅ [scrape-schedules] 총 ${allSchedules.length}개의 공연일정 스크래핑 완료`);
+    // 3. 메모리 레벨에서 중복 스케줄 제거 + 텍스트 정규화 (한글 깨짐, 공백 정리)
+    const uniqueSchedules = [];
+    const dedupKeys = new Set();
+
+    for (const schedule of allSchedules) {
+      // 텍스트 정규화: 공백 여러개를 하나로, 유니코드 정규화 (한글 깨짐 방지)
+      const normalizedEventName = schedule.event_name
+        .replace(/\s+/g, ' ') // 여러 공백을 하나로
+        .normalize('NFC') // 유니코드 정규화 (조합형 한글 -> 완성형 한글로 변환)
+        .trim();
+      
+      const normalizedDescription = schedule.description
+        .replace(/\s+/g, ' ')
+        .normalize('NFC')
+        .trim();
+
+      // 중복 체크 키: venue_id + 날짜 + 이벤트 이름 일부 (중복 식별용)
+      const dedupKey = `${schedule.venue_id}-${schedule.event_date}-${normalizedEventName.slice(0, 20)}`;
+      
+      if (!dedupKeys.has(dedupKey)) {
+        dedupKeys.add(dedupKey);
+        uniqueSchedules.push({
+          ...schedule,
+          event_name: normalizedEventName,
+          description: normalizedDescription
+        });
+      }
+    }
+
+    console.log(`✅ [scrape-schedules] 중복 제거 후 ${uniqueSchedules.length}개의 공연일정 저장 대기 (총 스크래핑: ${allSchedules.length})`);
 
     try {
       let savedCount = 0;
-      for (const schedule of allSchedules) {
+      for (const schedule of uniqueSchedules) {
         // ON CONFLICT를 사용하여 중복 데이터 방지 (UPSERT)
         await sql`
           INSERT INTO schedules (venue_id, event_name, description, event_date, poster_image_url, ticket_url, source)
