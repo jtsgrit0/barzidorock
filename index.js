@@ -104,8 +104,6 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
 
-const apiRouter = express.Router();
-
 // 공연일정 스크래핑 핸들러 함수
 const handleScrapeSchedules = async (req, res) => {
   // 임시로 인증 로직 비활성화 (개발 환경용)
