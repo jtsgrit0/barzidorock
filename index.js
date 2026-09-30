@@ -15,7 +15,42 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+const apiRouter = express.Router();
 const PORT = process.env.PORT || 5000;
+
+// 롤링홀 이벤트 데이터를 반환하는 엔드포인트 (티켓탭 필수)
+apiRouter.get('/rollinghall-events', (req, res) => {
+  try {
+    // 기본 롤링홀 이벤트 데이터 - 실제 스크래핑 로직으로 대체 가능
+    const events = [
+      {
+        id: "rh-001",
+        title: "밴드 인디 라이브 2026",
+        date: "2026.10.15 (수) ~ 2026.10.16 (목)",
+        image: "https://picsum.photos/400/300?random=1",
+        ticketUrl: "https://www.rollinghall.co.kr"
+      },
+      {
+        id: "rh-002",
+        title: "인디 페스티벌 @ 롤링홀",
+        date: "2026.10.20 (월) 18:00",
+        image: "https://picsum.photos/400/300?random=2",
+        ticketUrl: "https://www.rollinghall.co.kr"
+      },
+      {
+        id: "rh-003",
+        title: "록 음악 밤",
+        date: "2026.10.27 (월) 20:00",
+        image: "https://picsum.photos/400/300?random=3",
+        ticketUrl: "https://www.rollinghall.co.kr"
+      }
+    ];
+    res.json({ events });
+  } catch (error) {
+    console.error('❌ [rollinghall-events] 롤링홀 이벤트 로드 오류:', error);
+    res.status(500).json({ error: 'Failed to load rollinghall events', details: error.message });
+  }
+});
 
 // Vercel 환경에서도 안정적으로 동작하도록 요청마다 파일을 직접 읽습니다.
 apiRouter.get('/venues', (req, res) => {
@@ -231,6 +266,17 @@ apiRouter.use(cors(corsOptionsCredentials));
 apiRouter.post('/collect-schedules', handleScrapeSchedules);
 apiRouter.post('/scrape-schedules', handleScrapeSchedules);
 
-// venues 라우트는 파일 상단에서 정의되었으므로, 여기서 삭제합니다.
+// API 라우터를 /api 경로에 마운트 (모든 API 엔드포인트가 /api/...로 작동)
+app.use('/api', apiRouter);
 
-// ... (the rest of the file remains the same)
+// React 클라이언트 정적 파일 서빙
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+// 모든 기타 요청을 React 앱으로 리다이렉트 (SPA 지원)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
