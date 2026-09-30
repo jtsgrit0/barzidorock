@@ -214,14 +214,14 @@ const handleScrapeSchedules = async (req, res) => {
   }
 };
 
-// 모든 API 라우트에 CORS 설정 적용
+// 모든 API 라우트에 CORS 설정 적용 (라우트 정의보다 먼저 선언 필수)
 apiRouter.use(cors(corsOptionsCredentials));
 
 // 스크래핑 API 두 경로 모두 지원 (기존 collect-schedules + 프론트엔드가 요청하는 scrape-schedules)
 apiRouter.post('/collect-schedules', handleScrapeSchedules);
 apiRouter.post('/scrape-schedules', handleScrapeSchedules);
 
-apiRouter.get('/venues', cors(corsOptionsCredentials), (req, res) => {
+apiRouter.get('/venues', (req, res) => {
   try {
     const venuesData = require('./venues.json');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -232,7 +232,7 @@ apiRouter.get('/venues', cors(corsOptionsCredentials), (req, res) => {
   }
 });
 
-apiRouter.get('/rollinghall-events', cors(corsOptionsCredentials), async (req, res) => {
+apiRouter.get('/rollinghall-events', async (req, res) => {
   try {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.setHeader('Pragma', 'no-cache');
