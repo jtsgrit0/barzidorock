@@ -106,6 +106,15 @@ async function fetchRollingHallEvents() {
                 finalImage = firstImage.startsWith('http') ? firstImage : `${baseHost}/${firstImage.replace(/^\//, '')}`;
               }
             }
+            // ✅ 실제 예매 링크 추출! 인터파크, 예스24 등 외부 예매 링크 찾기
+            const ticketLink = detail$('a[href*="ticketlink.interpark.com"], a[href*="yes24.com"], a[href*="ticket.interpark.com"], a[target="_blank"]');
+            if (ticketLink.length > 0) {
+              const firstTicketLink = ticketLink.first().attr('href');
+              if (firstTicketLink) {
+                event.link = firstTicketLink.startsWith('http') ? firstTicketLink : `https://${firstTicketLink.replace(/^\//, '')}`;
+                debugMessages.push(`✅ [event ${i}] 예매 링크 찾음: ${event.link}`);
+              }
+            }
           }
         } catch (imgError) {
           debugMessages.push(`Failed to fetch detail image for event ${i}: ${imgError.message}`);
@@ -121,7 +130,7 @@ async function fetchRollingHallEvents() {
         id: `rh-${String(i).padStart(3, '0')}`,
         title: event.title,
         date: normalizedDate,
-        ticketUrl: event.link,
+        ticketUrl: event.link, // 이제 실제 인터파크/예스24 예매 링크가 들어감!
         image: finalImage
       });
     }

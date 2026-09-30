@@ -216,12 +216,19 @@ const SchedulePage = ({ language }) => {
       const scheduleData = (Array.isArray(fetchedData) && fetchedData.length > 0) ? fetchedData : fallbackSchedules;
       console.log('🔍 [fetchSchedules] Final scheduleData source:', scheduleData === fallbackSchedules ? 'fallback (data empty or API failed)' : 'API');
       
-      // 프론트엔드에서 최종 중복 제거 (서버 중복 제거와 이중으로 안전성 확보)
+      // 프론트엔드에서 최종 중복 제거 (서버 중복 제거와 이중으로 안전성 확보, NFC 정규화로 한글 일치 보장)
       const rawFormatted = formatScheduleRows(scheduleData);
-      const dedupedSchedules = rawFormatted.filter((schedule, index, self) => {
-        // venue_id, event_date, event_name으로 중복 식별
-        const key = `${schedule.venue_id}-${schedule.event_date}-${schedule.event_name.slice(0, 20)}`;
-        return index === self.findIndex(s => `${s.venue_id}-${s.event_date}-${s.event_name.slice(0, 20)}` === key);
+      // 1차: Map으로 NFC 정규화 적용한 유니크 키로 중복 제거
+      const dedupedOnce = [...new Map(
+        rawFormatted.map(schedule => {
+          const uniqueKey = `${schedule.venue_id}-${schedule.event_date}-${(schedule.event_name || '').normalize('NFC').slice(0, 30)}`;
+          return [uniqueKey, schedule];
+        })
+      ).values()];
+      // 2차: 추가 필터로 한번 더 안전성 확보
+      const dedupedSchedules = dedupedOnce.filter((schedule, index, self) => {
+        const key = `${schedule.venue_id}-${schedule.event_date}-${(schedule.event_name || '').normalize('NFC').slice(0, 30)}`;
+        return index === self.findIndex(s => `${s.venue_id}-${s.event_date}-${(s.event_name || '').normalize('NFC').slice(0, 30)}` === key);
       });
       
       setSchedules(dedupedSchedules);
