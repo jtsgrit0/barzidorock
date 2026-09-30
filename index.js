@@ -18,37 +18,98 @@ const app = express();
 const apiRouter = express.Router();
 const PORT = process.env.PORT || 5000;
 
-// 롤링홀 이벤트 데이터를 반환하는 엔드포인트 (티켓탭 필수)
-apiRouter.get('/rollinghall-events', (req, res) => {
+// 롤링홀 이벤트 스크래핑 함수 (티켓탭 필수)
+async function fetchRollingHallEvents() {
+  const url = 'https://www.rollinghall.co.kr/default/mp3/mp3_sub2.php?sub=02';
+  const debugMessages = [];
+
   try {
-    // 기본 롤링홀 이벤트 데이터 - 실제 스크래핑 로직으로 대체 가능
-    const events = [
-      {
-        id: "rh-001",
-        title: "밴드 인디 라이브 2026",
-        date: "2026.10.15 (수) ~ 2026.10.16 (목)",
-        image: "https://picsum.photos/400/300?random=1",
-        ticketUrl: "https://www.rollinghall.co.kr"
-      },
-      {
-        id: "rh-002",
-        title: "인디 페스티벌 @ 롤링홀",
-        date: "2026.10.20 (월) 18:00",
-        image: "https://picsum.photos/400/300?random=2",
-        ticketUrl: "https://www.rollinghall.co.kr"
-      },
-      {
-        id: "rh-003",
-        title: "록 음악 밤",
-        date: "2026.10.27 (월) 20:00",
-        image: "https://picsum.photos/400/300?random=3",
-        ticketUrl: "https://www.rollinghall.co.kr"
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
-    ];
-    res.json({ events });
+    });
+    if (!response.ok) {
+      const errorMsg = `Failed to fetch main page: ${response.status} ${response.statusText}`;
+      debugMessages.push(errorMsg);
+      return { events: [], error: errorMsg, debug: debugMessages.join('\n') };
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const html = iconv.decode(Buffer.from(arrayBuffer), 'EUC-KR');
+    const $ = cheerio.load(html);
+
+    const allRows = $('tr');
+    debugMessages.push(`Found ${allRows.length} total table rows.`);
+
+    const preliminaryEvents = [];
+    allRows.each((i, row) => {
+      const linkInRow = $(row).find('a[href*="com_board_basic=read_form"]');
+      if (linkInRow.length === 0) return;
+
+      const textInRow = $(row).text().trim().replace(/\s+/g, ' ');
+
+      const detailPageLink = $(linkInRow).attr('href');
+      if (!detailPageLink) return;
+
+      const titleMatch = textInRow.match(/(.*?)\s*\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
+      
+      let title = textInRow;
+      let date = '';
+      if (titleMatch) {
+        title = titleMatch[1].trim();
+        date = titleMatch[2].trim();
+      } else {
+        const dateMatch = textInRow.match(/\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
+        if (dateMatch) {
+          date = dateMatch[1].trim();
+          title = textInRow.replace(dateMatch[0], '').trim();
+        }
+      }
+
+      const fullLink = detailPageLink.startsWith('http') ? detailPageLink : `https://www.rollinghall.co.kr/${detailPageLink}`;
+      
+      preliminaryEvents.push({
+        title,
+        date,
+        link: fullLink,
+        rawText: textInRow
+      });
+    });
+
+    debugMessages.push(`Parsed ${preliminaryEvents.length} valid events.`);
+
+    const processedEvents = preliminaryEvents.map((event, index) => {
+      let normalizedDate = event.date;
+      if (event.date.includes('년') && event.date.includes('월') && event.date.includes('일')) {
+        normalizedDate = event.date.replace(/년|월/g, '.').replace('일', '').trim();
+      }
+      return {
+        id: `rh-${String(index).padStart(3, '0')}`,
+        title: event.title,
+        date: normalizedDate,
+        ticketUrl: event.link,
+        image: "https://picsum.photos/400/300?random=" + index
+      };
+    });
+
+    return { events: processedEvents, debug: debugMessages.join('\n') };
+  } catch (error) {
+    debugMessages.push(`Exception in fetchRollingHallEvents: ${error.message}`);
+    return { events: [], error: error.message, debug: debugMessages.join('\n') };
+  }
+}
+
+// 롤링홀 이벤트 데이터를 반환하는 엔드포인트 (티켓탭 필수)
+apiRouter.get('/rollinghall-events', cors(), async (req, res) => {
+  try {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    const result = await fetchRollingHallEvents();
+    res.status(200).json(result);
   } catch (error) {
     console.error('❌ [rollinghall-events] 롤링홀 이벤트 로드 오류:', error);
-    res.status(500).json({ error: 'Failed to load rollinghall events', details: error.message });
+    res.status(500).json({ events: [], error: 'Failed to fetch Rolling Hall events.', debug: `Caught error in endpoint: ${error.message}` });
   }
 });
 
