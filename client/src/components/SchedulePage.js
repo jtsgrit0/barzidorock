@@ -170,7 +170,7 @@ const SchedulePage = ({ language }) => {
     } catch (error) {
       console.error('❌ [Auto Scrape] Failed to trigger scraping:', error);
     }
-  }, []); // API_BASE_URL이 외부 상수라 의존성에서 제거 가능
+  }, [API_BASE_URL]);
   
   const fetchSchedules = useCallback(async () => {
     console.log('🔍 [fetchSchedules] Starting to fetch schedules...');
@@ -236,7 +236,7 @@ const SchedulePage = ({ language }) => {
     } finally {
       setLoading(false);
     }
-  }, [formatScheduleRows, setLoading, triggerAutoScrape]);
+  }, [formatScheduleRows, setLoading, triggerAutoScrape, API_BASE_URL]);
 
   // 최초 마운트시 한번만 스케줄 불러오기 (중복 호출 방지)
   useEffect(() => {
