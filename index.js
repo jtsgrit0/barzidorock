@@ -93,38 +93,39 @@ async function fetchRollingHallEvents() {
       const event = preliminaryEvents[i];
       let finalImage = event.image;
       
-      // 이미지가 없거나 리스트 썸네일이 작은 경우 상세페이지에서 메인 이미지 추출
-      if (!finalImage || finalImage.includes('thumb')) {
-        try {
-          const detailRes = await fetch(event.detailLink, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
-          });
-          if (detailRes.ok) {
-            const detailBuffer = await detailRes.arrayBuffer();
-            const detailHtml = iconv.decode(Buffer.from(detailBuffer), 'EUC-KR');
-            const detail$ = cheerio.load(detailHtml);
-            // /data/ 경로의 게시판 본문 이미지 찾기
-            const contentImages = detail$('img[src*="/data/"]');
-            if (contentImages.length > 0) {
-              const firstImage = contentImages.first().attr('src');
-              if (firstImage) {
-                finalImage = firstImage.startsWith('http') ? firstImage : `${baseHost}/${firstImage.replace(/^\//, '')}`;
-              }
-            }
-            // ✅ 실제 예매 링크 추출! 인터파크, 예스24, 멜론, 야놀자 등 외부 예매 링크 찾기
-            const ticketLink = detail$('a[href*="ticketlink.interpark.com"], a[href*="yes24.com"], a[href*="ticket.interpark.com"], a[href*="ticket.melon.com"], a[href*="nol.yanolja.com"], a[target="_blank"]');
-            if (ticketLink.length > 0) {
-              const firstTicketLink = ticketLink.first().attr('href');
-              if (firstTicketLink) {
-                event.ticketUrl = firstTicketLink.startsWith('http') ? firstTicketLink : `https://${firstTicketLink.replace(/^\//, '')}`;
-                debugMessages.push(`✅ [event ${i}] 예매 링크 찾음: ${event.ticketUrl}`);
-              }
+      // 모든 이벤트에 대해 상세 페이지에서 이미지와 예매 링크 추출 (항상 실행!)
+      try {
+        const detailRes = await fetch(event.detailLink, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
+        });
+        if (detailRes.ok) {
+          const detailBuffer = await detailRes.arrayBuffer();
+          const detailHtml = iconv.decode(Buffer.from(detailBuffer), 'EUC-KR');
+          const detail$ = cheerio.load(detailHtml);
+          
+          // /data/ 경로의 게시판 본문 이미지 찾기 (이미지 업데이트)
+          const contentImages = detail$('img[src*="/data/"]');
+          if (contentImages.length > 0) {
+            const firstImage = contentImages.first().attr('src');
+            if (firstImage) {
+              finalImage = firstImage.startsWith('http') ? firstImage : `${baseHost}/${firstImage.replace(/^\//, '')}`;
             }
           }
-        } catch (imgError) {
-          debugMessages.push(`Failed to fetch detail image for event ${i}: ${imgError.message}`);
+          
+          // ✅ 실제 예매 링크 추출! 인터파크, 예스24, 멜론, 야놀자 등 모든 외부 예매 링크 찾기
+          const ticketLink = detail$('a[href*="ticketlink.interpark.com"], a[href*="yes24.com"], a[href*="ticket.interpark.com"], a[href*="ticket.melon.com"], a[href*="nol.yanolja.com"], a[target="_blank"]');
+          if (ticketLink.length > 0) {
+            const firstTicketLink = ticketLink.first().attr('href');
+            if (firstTicketLink) {
+              event.ticketUrl = firstTicketLink.startsWith('http') ? firstTicketLink : `https://${firstTicketLink.replace(/^\//, '')}`;
+              debugMessages.push(`✅ [event ${i}] 예매 링크 찾음: ${event.ticketUrl}`);
+            }
+          }
         }
+      } catch (error) {
+        debugMessages.push(`Failed to fetch detail page for event ${i}: ${error.message}`);
       }
+      
       // 만약 예매 링크를 못찾았으면 기본 상세 링크로 대체
       if (!event.ticketUrl) {
         event.ticketUrl = event.detailLink;
