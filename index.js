@@ -17,8 +17,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const venuesPath = path.join(__dirname, 'client', 'public', 'venues.json');
-const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
+const venuesData = require(path.join(__dirname, 'client', 'public', 'venues.json'));
 
 const corsOptionsCredentials = {
   origin: (origin, callback) => {
