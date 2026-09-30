@@ -170,8 +170,8 @@ const SchedulePage = ({ language }) => {
     } catch (error) {
       console.error('❌ [Auto Scrape] Failed to trigger scraping:', error);
     }
-  }, [API_BASE_URL]);
-
+  }, []); // API_BASE_URL이 외부 상수라 의존성에서 제거 가능
+  
   const fetchSchedules = useCallback(async () => {
     console.log('🔍 [fetchSchedules] Starting to fetch schedules...');
     // 기존 캐시 삭제해서 새로 불러오도록 함
@@ -236,18 +236,15 @@ const SchedulePage = ({ language }) => {
     } finally {
       setLoading(false);
     }
-  }, [API_BASE_URL, formatScheduleRows, setLoading, triggerAutoScrape]);
+  }, [formatScheduleRows, setLoading, triggerAutoScrape]);
 
   // 최초 마운트시 한번만 스케줄 불러오기 (중복 호출 방지)
   useEffect(() => {
-    if (venues.length > 0) {
+    if (venues.length > 0 && schedules.length === 0) {
       console.log('🔍 [venues loaded] venues.length:', venues.length, 'starting fetch schedules...');
-      // 스케줄이 없을 때만 한번 호출
-      if (schedules.length === 0) {
-        fetchSchedules();
-      }
+      fetchSchedules();
     }
-  }, [venues.length]); // venues.length만 의존성으로 유지해서 중복 호출 방지
+  }, [venues.length, schedules.length, fetchSchedules]); // ESLint 규칙 준수: 필요한 의존성 모두 추가
 
   // 공연장 데이터를 한번만 처리하도록 useMemo 사용
   const processedVenues = React.useMemo(() => venues, [venues]);
