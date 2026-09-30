@@ -25,67 +25,84 @@ async function fetchRollingHallEvents() {
   const debugMessages = [];
 
   try {
-    const response = await fetch(listUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    });
-    if (!response.ok) {
-      const errorMsg = `Failed to fetch list page: ${response.status} ${response.statusText}`;
-      debugMessages.push(errorMsg);
-      return { events: [], error: errorMsg, debug: debugMessages.join('\n') };
-    }
-    const arrayBuffer = await response.arrayBuffer();
-    const html = iconv.decode(Buffer.from(arrayBuffer), 'EUC-KR');
-    const $ = cheerio.load(html);
-
-    const allRows = $('tr');
-    debugMessages.push(`Found ${allRows.length} total table rows.`);
-
+    // 1페이지와 2페이지 URL 모두 준비
+    const pageUrls = [
+      `${baseHost}/default/mp3/mp3_sub2.php?sub=02&com_board_id=12`, // 1페이지
+      `${baseHost}/default/mp3/mp3_sub2.php?sub=02&com_board_id=12&com_board_page=2` // 2페이지
+    ];
+    
     const preliminaryEvents = [];
-    for (const row of allRows) {
-      const $row = $(row);
-      const linkInRow = $row.find('a[href*="com_board_basic=read_form"]');
-      if (linkInRow.length === 0) continue;
+    
+    // 두 페이지 모두 순차적으로 스크래핑
+    for (const pageUrl of pageUrls) {
+      console.log(`🔍 스크래핑 페이지: ${pageUrl}`);
+      debugMessages.push(`Scraping page: ${pageUrl}`);
+      
+      const response = await fetch(pageUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+      });
+      if (!response.ok) {
+        debugMessages.push(`Failed to fetch page ${pageUrl}: ${response.status} ${response.statusText}`);
+        continue; // 실패한 페이지는 건너뛰기
+      }
+      const arrayBuffer = await response.arrayBuffer();
+      const html = iconv.decode(Buffer.from(arrayBuffer), 'EUC-KR');
+      const $ = cheerio.load(html);
 
-      const textInRow = $row.text().trim().replace(/\s+/g, ' ');
-      const detailPageLink = $(linkInRow).attr('href');
-      if (!detailPageLink) continue;
+      const allRows = $('tr');
+      debugMessages.push(`Found ${allRows.length} total table rows on page ${pageUrl}`);
 
-      // 리스트 페이지에서 썸네일 이미지 추출
-      const imgInRow = $row.find('img');
-      const listImageSrc = imgInRow.attr('src');
-      let imageSrc = listImageSrc ? (listImageSrc.startsWith('http') ? listImageSrc : `${baseHost}/${listImageSrc.replace(/^\//, '')}`) : '';
+      for (const row of allRows) {
+        const $row = $(row);
+        const linkInRow = $row.find('a[href*="com_board_basic=read_form"]');
+        if (linkInRow.length === 0) continue;
 
-      const titleMatch = textInRow.match(/(.*?)\s*\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
-      let title = textInRow;
-      let date = '';
-      if (titleMatch) {
-        title = titleMatch[1].trim();
-        date = titleMatch[2].trim();
-      } else {
-        const dateMatch = textInRow.match(/\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
-        if (dateMatch) {
-          date = dateMatch[1].trim();
-          title = textInRow.replace(dateMatch[0], '').trim();
+        const textInRow = $row.text().trim().replace(/\s+/g, ' ');
+        const detailPageLink = $(linkInRow).attr('href');
+        if (!detailPageLink) continue;
+
+        // 리스트 페이지에서 썸네일 이미지 추출
+        const imgInRow = $row.find('img');
+        const listImageSrc = imgInRow.attr('src');
+        let imageSrc = listImageSrc ? (listImageSrc.startsWith('http') ? listImageSrc : `${baseHost}/${listImageSrc.replace(/^\//, '')}`) : '';
+
+        const titleMatch = textInRow.match(/(.*?)\s*\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
+        let title = textInRow;
+        let date = '';
+        if (titleMatch) {
+          title = titleMatch[1].trim();
+          date = titleMatch[2].trim();
+        } else {
+          const dateMatch = textInRow.match(/\[공연일\s*:\s*(\d{4}년\s*\d{2}월\s*\d{2}일)\]/);
+          if (dateMatch) {
+            date = dateMatch[1].trim();
+            title = textInRow.replace(dateMatch[0], '').trim();
+          }
+        }
+        // 빈 제목이나 날짜가 있는 유효하지 않은 이벤트 필터링
+        if (!title || !date) continue;
+
+        const fullLink = detailPageLink.startsWith('http') ? detailPageLink : `${baseHost}/${detailPageLink}`;
+        // 중복 이벤트 방지: 제목+날짜로 유니크하게 저장
+        if (!preliminaryEvents.some(e => e.title === title && e.date === date)) {
+          preliminaryEvents.push({
+            title,
+            date,
+            detailLink: fullLink,
+            ticketUrl: null, // 초기값 null
+            image: imageSrc,
+            rawText: textInRow
+          });
+          debugMessages.push(`Added event: ${title} (${date})`);
+        } else {
+          debugMessages.push(`Skipped duplicate event: ${title} (${date})`);
         }
       }
-      // 빈 제목이나 날짜가 있는 유효하지 않은 이벤트 필터링
-      if (!title || !date) continue;
-
-      const fullLink = detailPageLink.startsWith('http') ? detailPageLink : `${baseHost}/${detailPageLink}`;
-      // 중복 이벤트 방지: 제목+날짜로 유니크하게 저장
-      if (!preliminaryEvents.some(e => e.title === title && e.date === date)) {
-        preliminaryEvents.push({
-          title,
-          date,
-          detailLink: fullLink,
-          ticketUrl: null, // 초기값 null
-          image: imageSrc,
-          rawText: textInRow
-        });
-      }
     }
+    
+    debugMessages.push(`Total unique events collected from all pages: ${preliminaryEvents.length}`);
 
     // 상세 페이지에서 고해상도 이미지 추가 스크래핑
     const processedEvents = [];
