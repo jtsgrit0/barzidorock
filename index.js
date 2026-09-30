@@ -17,7 +17,17 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const venuesData = require(path.join(__dirname, 'client', 'public', 'venues.json'));
+// Vercel 환경에서도 안정적으로 동작하도록 요청마다 파일을 직접 읽습니다.
+apiRouter.get('/venues', (req, res) => {
+  try {
+    const venuesPath = path.join(process.cwd(), 'client', 'public', 'venues.json');
+    const venuesData = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
+    res.json(venuesData);
+  } catch (error) {
+    console.error('❌ [venues] 공연장 데이터 로드 오류:', error);
+    res.status(500).json({ error: 'Failed to load venues data', details: error.message });
+  }
+});
 
 const corsOptionsCredentials = {
   origin: (origin, callback) => {
@@ -88,7 +98,9 @@ const handleScrapeSchedules = async (req, res) => {
       { name: 'yes24', baseUrl: 'https://ticket.yes24.com/NewGenre/GenreNew?Gcode=009006001', selectors: { items: '.list-wrap .list', title: '.info strong', venue: '.info .place', date: '.info .date', image: '.img img', link: '.info a' }}
     ];
 
-    const allVenues = venuesData;
+    // 스크래핑 요청 시에도 안정적으로 최신 공연장 데이터를 읽어옵니다.
+    const venuesPath = path.join(process.cwd(), 'client', 'public', 'venues.json');
+    const allVenues = JSON.parse(fs.readFileSync(venuesPath, 'utf8'));
 
     const INSTAGRAM_VENUES = allVenues
       .filter(venue => {
@@ -219,8 +231,6 @@ apiRouter.use(cors(corsOptionsCredentials));
 apiRouter.post('/collect-schedules', handleScrapeSchedules);
 apiRouter.post('/scrape-schedules', handleScrapeSchedules);
 
-apiRouter.get('/venues', (req, res) => {
-  res.json(venuesData);
-});
+// venues 라우트는 파일 상단에서 정의되었으므로, 여기서 삭제합니다.
 
 // ... (the rest of the file remains the same)
