@@ -4,8 +4,11 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 const CACHE_KEY = 'rollinghall_events_cache';
+// 모바일 기기에서도 정상적으로 API 요청이 가능하도록, 현재 창의 호스트에 맞춰 API 기본 URL 자동 설정
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const API_BASE_URLS = [
-  process.env.REACT_APP_API_URL,
+  // 로컬 개발 환경일 경우에만 로컬 서버 사용, 그 외에는 프로덕션 서버만 사용
+  ...(isLocalhost ? [process.env.REACT_APP_API_URL || 'http://localhost:3001'] : []),
   'https://barzidorock.vercel.app',
 ].filter(Boolean);
 
