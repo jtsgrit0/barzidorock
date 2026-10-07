@@ -16,7 +16,9 @@ const normalizeEvent = (event, index = 0) => {
     ? event.image.trim()
     : `https://picsum.photos/400/300?random=${index + 1}`;
   const rawTicketUrl = typeof event?.ticketUrl === 'string' ? event.ticketUrl.trim() : '';
-  const ticketUrl = rawTicketUrl.replace(/^`(.*)`$/, '$1').trim() || 'https://www.rollinghall.co.kr';
+  // 문자열에 포함된 모든 백틱 제거 (모바일 호환성)
+  const cleanTicketUrl = rawTicketUrl.replace(/`/g, '').trim();
+  const ticketUrl = cleanTicketUrl || 'https://www.rollinghall.co.kr';
 
   return {
     ...event,
@@ -49,8 +51,10 @@ const fetchRollingHallEvents = async () => {
 
   for (const baseUrl of API_BASE_URLS) {
     try {
-      const fullUrl = `${baseUrl}/api/rollinghall-events`;
-      console.log('🚀 API 요청 시도:', fullUrl);
+      // baseUrl에서 백틱 제거 (모바일 호환성)
+          const cleanBaseUrl = baseUrl.replace(/`/g, '');
+          const fullUrl = `${cleanBaseUrl}/api/rollinghall-events`;
+          console.log('🚀 API 요청 시도:', fullUrl);
       const response = await fetch(fullUrl, {
         method: 'GET',
         mode: 'cors',
