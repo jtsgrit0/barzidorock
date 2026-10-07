@@ -145,23 +145,19 @@ const TicketsPage = () => {
     };
   }, [setLoading]);
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // 모든 이벤트를 그대로 보여주도록 수정 (날짜 필터링 제거 - 모바일 호환성)
+  const allEvents = (Array.isArray(events) ? events : [])
+    .map((event, index) => normalizeEvent(event, index));
   
-  const upcomingEvents = (Array.isArray(events) ? events : [])
-    .map((event, index) => normalizeEvent(event, index))
-    .filter(event => {
-      const eventDate = parseEventDate(event.date);
-      return eventDate && eventDate >= today;
-    });
+  console.log('🎯 최종 렌더링할 이벤트:', allEvents.length, '개');
 
   return (
     <div className="tickets-page-container">
       <div className="event-list">
-        {upcomingEvents.length > 0 ? (
-          upcomingEvents.map(event => (
+        {allEvents.length > 0 ? (
+          allEvents.map(event => (
             <div className="event-card" key={event.id}>
-              <img src={event.image} alt={event.title} className="event-image" />
+              <img src={event.image} alt={event.title} className="event-image" crossorigin="anonymous" loading="lazy" onError={(e) => console.error('이미지 로드 오류:', e, event.image)} />
               <div className="event-info">
                 <h2 className="event-title">{event.title}</h2>
                 <p className="event-date">{event.date}</p>
