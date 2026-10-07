@@ -76,8 +76,8 @@ const FavoritesPage = ({ venues, favorites, language, toggleFavorite, translatio
                   <FontAwesomeIcon icon={faMapMarkerAlt} size="2x" />
                   <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations?.directions || '길찾기'}</p>
                 </a>
-                {venue.websiteUrl && (
-                  <a href={venue.websiteUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#eee', textAlign: 'center' }}>
+                {(venue.websiteUrl || venue.instagram) && (
+                  <a href={venue.websiteUrl || venue.instagram} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#eee', textAlign: 'center' }}>
                     <FontAwesomeIcon icon={faHome} size="2x" />
                     <p style={{ margin: '5px 0', fontSize: '0.9em' }}>{translations?.website || '홈페이지'}</p>
                   </a>
