@@ -16,12 +16,63 @@
     "longitude": 128.688,
     "phoneNumber": null,
     "websiteUrl": null,
+    "instagram": null,
     "googlePlaceId": null,
     "description": "인디 뮤지션을 위한 라이브 공연장 (2024년 오픈)",
     "image_urls": [],
     "opening_hours": null,
     "area": "changwon",
     "created_at": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": {
+      "ko": "모데시",
+      "en": "Modeci",
+      "zh": "莫德西",
+      "ja": "モデシ"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 용산구 이태원로 164-1 3층",
+      "en": "3F, 164-1 Itaewon-ro, Yongsan-gu, Seoul, Republic of Korea"
+    },
+    "latitude": 37.534,
+    "longitude": 126.995,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "instagram": "https://www.instagram.com/modeci_seoul/",
+    "googlePlaceId": null,
+    "description": "이태원에 위치한 클럽으로, 다양한 장르의 DJ와 라이브 공연이 열립니다.",
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "itaewon",
+    "created_at": "2026-10-07T00:00:00.000Z"
+  },
+  {
+    "id": null,
+    "name": {
+      "ko": "더 스튜디오",
+      "en": "The Studio",
+      "zh": "工作室",
+      "ja": "ザ・スタジオ"
+    },
+    "type": "live_venue",
+    "address": {
+      "ko": "서울 용산구 신흥로 20 2층",
+      "en": "2F, 20 Sinheung-ro, Yongsan-gu, Seoul, Republic of Korea"
+    },
+    "latitude": 37.543,
+    "longitude": 126.987,
+    "phoneNumber": null,
+    "websiteUrl": null,
+    "instagram": "https://instagram.com/thestudiohbc",
+    "googlePlaceId": null,
+    "description": "해방촌에 위치한 공연장으로, 다양한 인디 뮤지션들의 공연이 열립니다.",
+    "image_urls": [],
+    "opening_hours": null,
+    "area": "itaewon",
+    "created_at": "2026-10-07T00:00:00.000Z"
   },
   {
     "id": null,
@@ -647,43 +698,7 @@
     "area": "hongdae",
     "created_at": "2026-08-25T07:59:41.166Z"
   },
-  {
-    "id": "ChIJ5ZkPq8SYfDURUgbbNVkIe8c",
-    "name": {
-      "ko": "Hanatour V-Hall",
-      "en": "Hanatour V-Hall",
-      "zh": "Hanatour V-Hall",
-      "ja": "Hanatour V-Hall"
-    },
-    "type": "live_venue",
-    "address": {
-      "ko": "대한민국 서울특별시 마포구 홍익로 25",
-      "en": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
-      "zh": "25 Hongik-ro, Mapo-gu, Seoul, South Korea",
-      "ja": "25 Hongik-ro, Mapo-gu, Seoul, South Korea"
-    },
-    "latitude": 37.5543874,
-    "longitude": 126.9219519,
-    "phoneNumber": "+82 2-338-0958",
-    "websiteUrl": "http://www.vhall.co.kr/main/",
-    "googlePlaceId": "ChIJ5ZkPq8SYfDURUgbbNVkIe8c",
-    "description": null,
-    "image_urls": [
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSq_Kg8unVv_tEYIRBhrB7Y_Iy2gLYSeyQfC0W_UagYqgZK3i08RvdZvP0lMGmcSTfHjQFKaCGn6ntYEJ9hmFXlR41kJcTABi9zgn8h2JeF2zfvD7cq5uEyjcshP95BO6BCzFAo5PF3yA-8FQD30YD6si-rSFBTB5PEaQ0iNhVOUzFN7wYR8LF67e2iRxMrRu9XUbSA9XfmnyyuVP_Epu-94uRQEulxMhZ2vB6cTxFO8drD8BoEYbXMH5CbKZqf23FFowtgXfBHJqNaobhd24Y0P6gYFCarWw3Rwft2hDy0zluXioyOysbC4bfc8BrhYTA3PmpgS3x_-qlx5ri4mezeqrbQkbebp25f9VPB924F-rnTTe_BcvWm-dYymIVwIT4oRx8pY72xGcVOnYWuIfnkz8NJxMuzcvKmjJi2Ysw&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXTUfrjitkLPxZzImsAk3K2nkMO4-RBGvQ6IfpOwFUkvGL57tYetcjmvdh8mrfgZ_peMpLaJYJFT9szBiHNg2Kb8P66ieLLm8s2xzDeNU_RXJGYCbY5dfsVGwrl9qfod8t_D-RBl746pkz3mRudFDrSrrSNaeGbed9jslUHhme88GXhKfBjzUizwlb4lZiQpH_GFzlCDu4MDzZdhfmQiycojGjZELK6urDX0Jr53SkaT_1Moq-YGrdu37Tofhjp7vgs9cDSxUj7NhU0lMqeNnG7LFNgtJZfrWuSXEqWsv8vkaY0FvVKUNO0k208TH0vvZwh4TcRZApMV4bE7N1G4KSUY8Xpe7zD6oxmmWCGBiSdb028eXTJj7L-3JqltHh0Cukzqy8O_P9ccTDFBYRkb_upLHU7dfRtOSJWaPxRqc4jLzV4&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXT1i1o-dniKrQoe66ZpE3BY3_JGI2btdWB6MX78reTHdSGACuYYhxBEK-dJYJL5O8YFjD27RSfodN52oQW5aLtS47iuMIleZ8D2ZfjV1aC7emutkorDT66gVjl9WdvBuw25uzWu08rBwEewufOO7OgoMZJShMVqJZ9f1Z44vwV0AnYGI_e4Dznx7XXA5kqFhkTDOBDcwHW5oftNsASybSFm1DPbWTsFfealFN2hYRQItrbgzceaA3HUS1h8xH5J8TPSbnZiEu3c02M5dB0S_kEbzuhIw0COVBMf9nOqlZE_BP0_j1a8wbt372-DQING5hX7sIqZgt1ieWhzBXtDE42z642u4nwdYpcCBT0_ve23aeTY9iZmJ40bvBPcuIVIe1MwJ4MWbdYbYDsv-JobwnOhrwosQrXhRA9y_2uqrgU&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXQSm7OycP3bfHQwPDFO96l4cnX_ElRr-IRYB_cPesFAzniBiMnhbM6PQT45nu9g4pIlhtPLfyzpaypXl3nLlSQjEQ7a68t7nXSwAxWmju7W-2CsevD0bf1z_EQ7zz8kGlwN2vlzpi60komQOVtsJzS0l8nEXLUIcPcxiDvtRzNTN1z65UoR0zDuFSTJoUYjpIFwTD4bTRvZcjGBe4aNrwDZRl5mVNJeql-lNdURBej0n8EkkiJ96qGYEAIR6K2ylEbBYfju0cm-odrIWu1Br5scSP4cm6Ug3zVQwvW91AE8649Lmu6R00nJ4LHJaBHk5zhWUJAoMNqoMzYiKsvQYwTSe6WHkekUdMUJxrSaQwpNilJFMoY9Vo3FV8dRcp6EZ7A35psnvTvW7TJWApQgV1GkwfRv4i9uFxvcYXfVi8le4A&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXQkcxILrDNyPv7jtYsyXipibpbPLm1ld6RH2teYqt3Q9RL4mR3Vl0Y6rOPUdQOggc7XsUMHAkWMgqWJWA-jMmM-d8D8Wi9zYioBn1_9aaLGvWp90o9V9t5bdHlOMgtKnNaAG5Yqd9yCFxtTNPlHEHz4BoDjpx7HO_kvCePZvozFIzsjRpKuE-mei-V6RP7UL0YB_k2-pOUjAmLuRyzhG2OtG20l7IpxkEEf_aTnX_nY7jWfT8GhTu8d-H5PMCX-XZJdksnyNpKPivTnCFHhSJs7hpUKbDWy5SDly9WcOQdqu-GFohb4QoCgzMj97FFfIspSjBnhR8UAjRFQ9RUyQXBO-7DbJshL_Kxmvz0tF2dXJ_v3vlKnIFp_Cg2klyKx-XQhtdBncF5I0p2ET-j7nABn6XwMUf0mZvuRfTxP0vjAVQ&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXRDRwbSg2Hu3Dfo5rlgo7tQY2-IeqREHAeAU9gBXMnJe-VUkVQjaNaN5QEU63EaMvLKK-7XwESk5s3SOdSG-ExvvENkMk3SD2YIiC_mGbd5Rfo7ZFUExmoX7Gu4N_FGwK_0co4WRjXBU2yn-WdT3nKvkLWvJysRIgAiNdLU3blworLkFXJKeUx0T9iLIpGMhi6oivoW02IvaVETYRJoJyYDt3PG3LWyeFRh494tIkEemCHqgQELbignD9vv6laFLs4gjpEMswh8d5ecqDV_AyK1fKN3fIfxQ5TcfRF66r6DA68uifX_OicKnkLFyH1n2AS-Flkpj4M20a20w0AEQnth48juQaC2PgGOaQdzl1gA4HTBZDMvoG2xqViP8aMmjEWpggZktNkyQYVr36LZuk3boKfuN6qA3za2A5Vf0w-atw&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSC4LfHFUFPJ5HLGwSbVJF6QwU0TngWAFndGrwzZDDNl8l9SytmGr-Q5jTq685OY0jvQGr-gli2XqDVJOE44BZiAbG9N5smemXauK1bbtSZOp6bOqoX8Fqhr2hnu8PqmDgvzOPe-i_o-z4cbRIMdSgRZ-T4Tsk_tUpPIVENYNsOvfX9c5r4JrsFzKOG4mop-rwZrXBp6dIMBeOwB1OVPxi11CKvmTqU7xW7eXHbAvYZJtz1NWOI-VFBSf-w_ZtCyTvxm--rgnmFMPakJgyqLLIs1tCHMyumir8MLLOALLY1yXoNEn5wLUfQiOK1upJuKHZPDXE-7VqWeLZ7rHC05XGeU03zdmxm-6_NmkKN7m_ZpS-JiCijLLwUaK6yGSYQsGu-XAI4vUAky2iNfcCNb-Bl-DPQwx3hWdy360nROml3YQ&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXRWhrFdMql9sugnCEz9zKgLWNws_U37Ww6MZFh36pVfsml-DGGOm3Zl6djZ17Gk8EJ6m8TXYAxV7UP7OjTHitJRQ1tUMJT3emO6f9EWIhQzWsfB0bxWZjmz4SHCCCG33pk31HW583nl9iokU_7UTfDJhqPQ3WEzAic_cs5L3G9dh5NOXnqjbzlOyrikxyHg8M9D4XmknR4Y_cymEhdb2spDBq24Kb0_YepYTENBJR66cMcZR_kedrdIANW6mVP-31Rw_2tovxzEp7d_C1lixm4MGzDUpn2EolHIkw0s7lsF_r7Judkdy7QSmBNPaX99YskMlLiafVuhYxAOxLdzAWCHguRVBPnjeqTDZrFBCOuY_L2onrYt5nBctssMrp5ROwfwKenbcOljIJhVaIFDYlKHKLRPMd3f21Z_cV-XUIO4QQ&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSal57blLIGjy6dMZ_iJWF1ma45aP3o-ITV9QYE-1mSdVKpzX4hMuaUbigxcFUrBHw1j9nHPu5UdKcViPIQfVszkm5MCVRmYMtQZpsYtQUI1CrJATf1TCWxcDP5Xf4PCEA85mSeHcBDgNhHZfWoZ4oulbIdGcytlrnTzQTpOQblR8SFGQk9HU13O1pXPwBi0E9BZKeas7oaZCIkwc2x1XUAFRfVL7g8IcWyOsuQlOfAy3muWSkK-B1CDAXMUxp-BLmSV5o5GDu8EcfVBL2k8mdKNBoTHKIli4BoW5LL7NJd8ejJiDio1bW_KB01Ge29HYHJMhFwq-ain8wtt-mr4o2DEJlIMlPbEwDeQ4KXhEq7XnZY3fJ7gQtXoqsO1pO_Cx_MbmjMNJs8lhe-CO9OQkM0xNHgn2JZIknz7iyE5ssMTpM&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXRyve1FMDdR8Hym-irUCB97CL0cM7Jmrxt5Fznj23Nd5GPJv-7Ch-FQvMdMopzsBMyHmrjUNqNDosuh-_Ae3A2K0wNAhKowmLgF7jAjA9MLXckmEOAYPZeaG2PjbE5tdF1t_Poeka5WUh2PEip6byOT5V9WXoD2wH4fc7NS8TjKrzlxqzvmyoAVylynm-S_4Ua9gC0QSYjm4pv9UoWAJfDPk6hDETHTk1EUzrI3o5liIKEdSNcArT3gLnZ0Kwz4UH977We52tV7F8ilkJOhtA4Y_sPDmSdJMSe7H_QN78466ZMhu4Px29EAYEGOF1M6vXW2VcDqjZp7AoRfmyJ8mxVKAy42XpmNlRxeO_TMnzYfMp3GzjqBP_3ccwef_0RMpw375RkDBP2QdgU-VI67pUq3anuEfpaaI0RW-P3_YgRCxGkc&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
-    ],
-    "opening_hours": null,
-    "area": "hongdae",
-    "created_at": "2026-08-25T07:59:41.269Z"
-  },
+
   {
     "id": "ChIJ7x57usGYfDURVYMF-xdvxdo",
     "name": {
@@ -833,43 +848,6 @@
     "opening_hours": null,
     "area": "hongdae",
     "created_at": "2026-08-25T07:59:41.668Z"
-  },
-  {
-    "id": "ChIJzx9bUdCYfDURqBS39xf_2ow",
-    "name": {
-      "ko": "에반스라운지",
-      "en": "에반스라운지",
-      "zh": "에반스라운지",
-      "ja": "에반스라운지"
-    },
-    "type": "live_venue",
-    "address": {
-      "ko": "대한민국 서울특별시 마포구 서교동 401-3",
-      "en": "401-3 Seogyo-dong, Mapo-gu, Seoul, South Korea",
-      "zh": "401-3 Seogyo-dong, Mapo-gu, Seoul, South Korea",
-      "ja": "401-3 Seogyo-dong, Mapo-gu, Seoul, South Korea"
-    },
-    "latitude": 37.548793,
-    "longitude": 126.9195083,
-    "phoneNumber": "+82 2-3144-1112",
-    "websiteUrl": null,
-    "googlePlaceId": "ChIJzx9bUdCYfDURqBS39xf_2ow",
-    "description": null,
-    "image_urls": [
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXTRDFtSeJIgn3hQxEF9p-o9rkFRfheQQfZWVgIC4_Q2F78_9pKA5fGqZKeRKwCAWDpcFa9mIXJ3GsW40wimnGyYuQm3tW80bKjwLfc5GLAXTw-V8_U4Gymg7sppFBck6977oFyw4PK7TYINhzoMjJPkzjtNAfGRH4MUapHI9aTMK7ugQMb2zgbIG6FcBRJH_58OuxE60EQPSJXfnw1bJQZctThKOM2dbJW2aT5tXmY9VIqeWikjG9Skec0TwVj8PimLygb6XoMh5il86kd3ic3-ILJr-7QLeyw5He49bx1sTNVWYge74erRBt2o9NTlcnG5pGotRSz4W2yDrlfOoA19MtAf1NrPZkzmxk0qSQAV2zAK64TYLWodK0CNRhu39fzSEUhjK5LLRbtf_HyKHmV1yqHmvXYJmgmUVeLWquy9zg&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSvb9B6VDTB0bHACKmVx6269UxYQD0tDpJnf-xsHWGFSX5S0KXZGzScYv0qEiVGAfSdSaV5gaoSC8OHMj17wfaGUm3pn9nsb7k0zeoSWT6TAs6x-fkRr4QWkKBfu3VpscidVSsoF_C1jlu-pRBhWhcjfTDoP2JFiomdgz1dhOIjyiliH8GuHVNWDhfLOZwo9ksH0hTjG3-B2tyd5hYK8Gb3PFp7mIML64xRkNSEo2005N9T2tukON5xnCp_5V_h-LKQY6b6-wZ97oi_KOemmw0fe67wm5WNevUgYJ4uxl3XbTB1aRISqmQdj7F64_CUxNC5iC3ht-ieKVa_IKU5WQot3zRVqqGPKaWaRuttIoJQHD2df4cfJ9bec8KwB9DlU2EqKYvi85amuRJ36sWzKcD7F-ebv75JgRRe_mttp6TN-X0&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXRHyBIz-3-UNgQI58GAo7h3QUxvos0tyBA8KmRBiyW9l9ZM1K1sUdmUV6QmibyqHAA-DCOfy1D4Na07fkQbPekgZav9aY8guDEZahWT64CGiEwvcNYoaxT9P4V6ceJc8AidC6mjfEaf7PFcfRDuzMoANV-ZNY6YByNFROR5BqVDAERIzqvjMQiotlX-Q9LyaALfyY7g6a0a6uaXIWf-g_8ZCT2gA9FaHQ-NLvPfl44BbuYadxOsg1v2jciIj03B0ihRcVY7BBFZBeaIM7ypeXt-rMt1FRZtUw2Sa6sL0HvzhZWP-vz0lmHAJ-GScofF-7nin0nABX6T_jCsRfVJ-KjgK2Fz62d1k-kSAIVOqtRQD6WuyAQDdYe-VY4wOMBihgRxeLpY1CnKF3JgIFN8cnhWx_gRq1rvLFuuQaby_20Cg3dE&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXTa9gvmV_WgQ8VTx93WIHn6dSaCg5IK31ytzPxNeQPjk4YIjAHiga29hHifPUvNDk95hiW6EVQXJvdkyZfAcQ5mnxIVV9-3ASC6h_QFA5YIQf69IW_zeCyZyO3rSNEZCQcyR9gf-He8X4S-7jXNW4DpCwZmMCP5eTl-wZbiOmhuZ8tGOLC6Izi5J8lZAJ8UN-XeIC1TtmOQK8sO4wq_6tephJsL-WgcWCOvxJ1P_MDovN3BcKhAkARshCiPt8EXcj14nw_I7FaO10kPUFuf0W9Nm390KESfjYB6CkPyB15JrZlcsDj7QNYTkddvhoyf5eFHcTHCndVXXI0FEit7obqQjWyovVdJ_YojSdWyaRZAeZRon4eg7PszgmN08Q01SsdhVFoJv4ldSELY2IblMplp2Y7-UkVCvWqpkOp-bSSnn2o&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXS805c3Gcr5DFkuv553e1rk0CjcxUd8Du_DYQ-111H5klq8BHzZCeuaJviSQSv4iyh6sYGiUznWKPJ9M-NYFk-vmat4WbGc2Kg1zmH98IIAOKlOc0SP8sZPBB5yFyjG-aZ2q2P2oqG6qWZ6B54GWCoQYeF4--aXYrQQg3rUrDKFjgZiOGZjzVdSqAU2MW4AZM250Bt9oIOdKT6WYFy5_xAAoWyWn4_5lnnzqnCHuMhg0iSB3KUlvr3-tKruV2_gGU_fas2QAu54mZaGYsLinwj48HjYhU4Qt8TrG0TNFvwkmk0K_p2PexhS30XbeoD5LgVd3pYo1cx_fEZebMWah0DDyCnGzH3MNcGHpjazjaa5G8gTa6sgtpgALqxJfOIHikpzEZsNslOJDCMVuUoaaCquoOxMh8w-i4IygRlZfYceXA&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSEQFPwUmyBzZJsa_SuRC6Ae_WxtAVxJOzmayQRBhdglJrGES9XDxi1k-IrbIxX8Ns9_GkVN5wP-gW7FBDtWFdqV45V2jS08Vmvh8hqQ3cOH0TM6rAkA5yA_z5WO91AoaakX8hxdK0bRB9J6fB5SdJ6ONIxkNZuIGkfB2QYmB0kLpsu3WX1-31Sawadlr7dUEVdHXEoyUhK_vbrtAMDXg9lqogUObNkFt9Ngby6UcCpdsc2Czf14IpyLzhRHKlpjkRuC0NQjdrz-xxfg-loIbeOAkUY0IID1_OY4yHJjA-AVTm4ElqEYPxtgYX5_GVINE3uKBfW27dBask5Us-quExtu4G43mJ10Ph5oH5oREQNGW_YeCluE0WKoJW1v5W7P-LbGf42whSjuwe26jZEYdCOp4SqyxUrE9jNKrXtikLXrlA&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXRQh-g--mjwr57zcCJUugoJnnbf_a_7WU5cyIOMYKhXmOSIlyBGSZLjAQCLtgDVC_qVTtcy6ekAwv6lrn9S-LIoEq504VzX8zTytIr93Ce9D3_mHz7YhPTYFgdypyCSJ1vyFjVxAUZo9OGNXrAz2OJ-442LJdISZsrF-0aWfKd9vfvzsBnrvH94_1X11TOcoamCQUYnaLJPR9ikZ-OvCwliIZyYuy-J1a4zeIbtE45HqSHwuLjvwh7iVV4swFIdkzgnUcKMsyuPxdSuvDJKFGCmsu054aowEFovaPUBSPjP8m2oQnhu9B2zgmrpjxVB-9H7R9MAbtO86NRES5aB6CcmAFIh7eTiPSLdtd7UvhRrvXYg9fgzJniioxyALF45XPFzykrp5EOhy9KIygZ0ay9C6m2kxAQ5jkmlxc_19YYSsQ&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSDAaR6Bvc8VEQaLAflcw4dZr547-gRB1i01_K8j8faX__CokhR_l9DUE4IcWgePCE-WpST9UIQaFcDCnq8yMWOV8psa5KxiKAlZDmidBjH95GXb3Dbw9igAo8XOU6iHGt3qyueJl7xlkzu1oa1K7F2Vc2OR1oV_u2pnHBNj5W82SQamwkTZjtdo-QNFxAA-FC-SX8PWNFb1OvlKdjH0Za8aGTT9NRlXK5fvGSGwMGvd1YYlBd3eY2IyJbN0kO-R15KvoHwTFvgVeqyJzs1Eah-Q2Z0udY7JAzYGFAKva58tdQ_2nqyNHuH6qf42TVwdGooOV0DgkfRpK5YVmPBoNWc5k8fmqe_p8_Glvm0k6WNNXH-InuYA0aiG9wHqZtX0Vgw6FwVXKIgoZLwph3xmDVMdkMnonDkFhLznpcxO-lb9Q&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXRkGDISjoWJrVFdgobRkoWziN7DZ01AL5zQg9_l2KGbQCNeme_syeDQJb2k7RVQJY2RUWpDVGwwoKlfHJakDReMM8a9w53brIqXx4qhCQVEho0Zpbf-Xj47pZLpb9CsrFQd4T_q1eapqZakUDFt-sF477-uVLWultpFS0R5Ipr7uP_kY5_X-yPnO2rU6XhEQV_mz1s1_v91hfDPDM2-HU2uJMteO_sIDTu8lGQwMurKe1cytMBQ-I1DqwTKL5VR-NYuEN6x0MNaXZvLUVQtDnA3AnDql8Zhlj2mabwcwkrwlGY4B21PoPwpqANM9RMFvzTtySREcDzLtPJ9QF5GFl--BPuzfUO8jnqImeV0iBjM5lXVb01ojiKSGJRybro-X2bQ9qWDLBJdbtF61DZGwv9aaklYAKQyptPrsUD2KzQ3zw&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0",
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AVoNoXSyphnKTqdNTrM7rYbjjHvq-88jtBkXK1E4RQr_3eUIrcvh5BfOkUUu-H35rX510OMy23WwZYWEGZ6hr_HOVhxdFOlV1X8daCEK1MfQWNmFjFHSK_fQeWA2iXIpmySZZuFi8ANp-a1UXqg9_WTTCFdlcWguFnmMGaOhcK6Ol-CniqbOsE1u094TkZF_2xCtASZxhetocX7h3_SirjgRqCAou2FHxG_JvkqUwCORzhGEpmcoNy9XTMxcaNELNgCPY1SomTEcG8-jIyGzZtPc8ryEFqhSgCJmQUDLYrTllA3iEtr3a1NVZGyuMkhsANiO9IOc-bA2sNJVC6sYND5trib0RG1GiXWaBaxUlC-FtViHQi3tDTCX5Z8jwaCWZlwTwVaYMAhpH3OJOyLwcB2q6yQoBDMDwI46O7oXFCTCCXmvb3Z2&key=AIzaSyCPId3GB0P1xwt4hiSJlu-rV41pPOCOLG0"
-    ],
-    "opening_hours": null,
-    "area": "hongdae",
-    "created_at": "2026-08-25T07:59:41.762Z"
   },
   {
     "id": "ChIJq6yLN86YfDUR0xvMAxPYxVA",
@@ -1164,6 +1142,7 @@
     "longitude": 126.9155,
     "phoneNumber": "",
     "websiteUrl": "",
+    "instagram": "https://www.instagram.com/brownsoulseoul/",
     "googlePlaceId": "ChIJm3x1bfHefDURh0xX7y8z9w0v",
     "description": "홍대에 위치한 라이브 클럽으로, 다양한 인디 밴드와 록 밴드의 공연이 열리는 홍대의 음악 공연장입니다.",
     "image_urls": [],
@@ -1319,7 +1298,7 @@
     "latitude": 37.55386,
     "longitude": 126.914136,
     "phoneNumber": "",
-    "websiteUrl": "",
+    "websiteUrl": "https://001club.co.kr/",
     "googlePlaceId": "ChIJKw4e9TfyzTURv5X7xX7y8z9w9k",
     "description": "홍대 연남동에 위치한 공공일클럽은 라이브 공연과 전시가 열리는 복합문화공간입니다.",
     "image_urls": [],
@@ -5322,6 +5301,7 @@
     "longitude": 126.9216842,
     "phoneNumber": null,
     "websiteUrl": null,
+    "instagram": "https://www.instagram.com/un.frame_official/",
     "googlePlaceId": "ChIJK50rHwCZfDURPV8cbH9oEOw",
     "description": null,
     "image_urls": [],
