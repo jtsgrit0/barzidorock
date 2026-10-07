@@ -4,13 +4,11 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 const CACHE_KEY = 'rollinghall_events_cache';
-// 모바일 기기에서도 정상적으로 API 요청이 가능하도록, 현재 창의 호스트에 맞춰 API 기본 URL 자동 설정
+// 모바일/프로덕션 환경에서는 항상 vercel 서버만 사용, 로컬에서만 localhost:3001 사용
 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URLS = [
-  // 로컬 개발 환경일 경우에만 로컬 서버 사용, 그 외에는 프로덕션 서버만 사용
-  ...(isLocalhost ? [process.env.REACT_APP_API_URL || 'http://localhost:3001'] : []),
-  'https://barzidorock.vercel.app',
-].filter(Boolean);
+const API_BASE_URLS = isLocalhost 
+  ? [process.env.REACT_APP_API_URL || 'http://localhost:3001', 'https://barzidorock.vercel.app']
+  : ['https://barzidorock.vercel.app'];
 
 const normalizeEvent = (event, index = 0) => {
   const title = typeof event?.title === 'string' && event.title.trim()
@@ -49,15 +47,22 @@ const parseEventDate = (dateText) => {
 
 const fetchRollingHallEvents = async () => {
   let lastError = null;
+  console.log('🔍 API_BASE_URLS:', API_BASE_URLS);
+  console.log('🔍 현재 호스트:', window.location.hostname);
 
   for (const baseUrl of API_BASE_URLS) {
     try {
-      const response = await fetch(`${baseUrl}/api/rollinghall-events`);
+      const fullUrl = `${baseUrl}/api/rollinghall-events`;
+      console.log('🚀 API 요청 시도:', fullUrl);
+      const response = await fetch(fullUrl);
+      console.log('✅ API 응답 받음:', fullUrl, '상태코드:', response.status);
+      
       if (!response.ok) {
         throw new Error(`HTTP ${response.status} from ${baseUrl}`);
       }
 
       const data = await response.json();
+      console.log('📦 API 데이터:', data);
       const rawEvents = Array.isArray(data?.events)
         ? data.events
         : Array.isArray(data)
@@ -66,6 +71,7 @@ const fetchRollingHallEvents = async () => {
 
       return rawEvents.map(normalizeEvent).filter(event => event.date);
     } catch (error) {
+      console.error('❌ API 요청 실패:', baseUrl, error.message);
       lastError = error;
     }
   }
@@ -85,21 +91,24 @@ const TicketsPage = () => {
     const MIN_LOADING_TIME = 1500; // 최소 1.5초 동안 스플래시 노출
 
     const loadEvents = async () => {
-      const cachedEvents = sessionStorage.getItem(CACHE_KEY);
-      if (cachedEvents) {
-        setEvents(JSON.parse(cachedEvents));
-      } else {
-          try {
-            const freshEvents = await fetchRollingHallEvents();
-            if (isActive) {
-              console.log('✅ Fetched fresh events from API:', freshEvents);
-              setEvents(freshEvents);
-              sessionStorage.setItem(CACHE_KEY, JSON.stringify(freshEvents));
+            // 캐시된 이벤트가 있더라도 일단 보여주고, 새 데이터 가져오기
+            const cachedEvents = sessionStorage.getItem(CACHE_KEY);
+            if (cachedEvents) {
+              console.log('📦 캐시된 이벤트 사용:', JSON.parse(cachedEvents));
+              setEvents(JSON.parse(cachedEvents));
             }
-          } catch (err) {
-            console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
-          }
-      }
+            
+            // 항상 새로운 데이터 가져오기
+            try {
+              const freshEvents = await fetchRollingHallEvents();
+              if (isActive) {
+                console.log('✅ 새로운 이벤트 불러옴:', freshEvents);
+                setEvents(freshEvents);
+                sessionStorage.setItem(CACHE_KEY, JSON.stringify(freshEvents));
+              }
+            } catch (err) {
+              console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
+            }
       
       // 최소 로딩 시간을 보장하도록 지연 후 로딩 종료
       const elapsedTime = Date.now() - startTime;
