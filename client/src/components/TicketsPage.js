@@ -14,7 +14,7 @@ const normalizeEvent = (event, index = 0) => {
   const date = typeof event?.date === 'string' ? event.date.trim() : '';
   const rawImage = typeof event?.image === 'string' && event.image.trim()
     ? event.image.trim()
-    : `https://picsum.photos/400/300?random=${index + 1}`;
+    : 'https://picsum.photos/400/300?random=' + (index + 1);
   const cleanImage = rawImage.replace(/`/g, '').trim();
   const rawTicketUrl = typeof event?.ticketUrl === 'string' ? event.ticketUrl.trim() : '';
   // 문자열에 포함된 모든 백틱 제거 (모바일 호환성)
@@ -23,7 +23,7 @@ const normalizeEvent = (event, index = 0) => {
 
   return {
     ...event,
-    id: event?.id ?? `rh-${index + 1}`,
+    id: event?.id ?? 'rh-' + (index + 1),
     title,
     date,
     image: cleanImage,
@@ -42,7 +42,7 @@ const fetchRollingHallEvents = async () => {
     try {
       // baseUrl에서 백틱 제거 (모바일 호환성)
           const cleanBaseUrl = baseUrl.replace(/`/g, '');
-          const fullUrl = `${cleanBaseUrl}/api/rollinghall-events`;
+          const fullUrl = cleanBaseUrl + '/api/rollinghall-events';
           console.log('🚀 API 요청 시도:', fullUrl);
       const response = await fetch(fullUrl, {
         method: 'GET',
@@ -55,7 +55,7 @@ const fetchRollingHallEvents = async () => {
       console.log('✅ API 응답 받음:', fullUrl, '상태코드:', response.status);
       
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status} from ${baseUrl}`);
+        throw new Error('HTTP ' + response.status + ' from ' + baseUrl);
       }
 
       const data = await response.json();
@@ -142,7 +142,7 @@ const TicketsPage = () => {
   const parseEventDate = (dateStr) => {
     if (!dateStr || typeof dateStr !== 'string') return null;
     
-    // 다양한 한글 날짜 형식 파싱: "2026년 10월 15일", "2026.10.15", "2026-10-15" 등
+    // 다양한 한글 날짜 형식 파싱: "2026년 10월 15일", "2026.10.15", "2026. 09. 05", "2026-10-15" 등
     const koreanMatch = dateStr.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
     if (koreanMatch) {
       const year = parseInt(koreanMatch[1], 10);
@@ -151,8 +151,8 @@ const TicketsPage = () => {
       return new Date(year, month, day);
     }
     
-    // 점으로 구분된 형식: "2026.10.15"
-    const dotMatch = dateStr.match(/(\d{4})\.(\d{1,2})\.(\d{1,2})/);
+    // 점으로 구분된 형식: "2026.10.15" 또는 "2026. 09. 05"
+    const dotMatch = dateStr.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
     if (dotMatch) {
       const year = parseInt(dotMatch[1], 10);
       const month = parseInt(dotMatch[2], 10) - 1;
@@ -161,7 +161,7 @@ const TicketsPage = () => {
     }
     
     // 대시로 구분된 형식: "2026-10-15"
-    const dashMatch = dateStr.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+    const dashMatch = dateStr.match(/(\d{4})-\s*(\d{1,2})-\s*(\d{1,2})/);
     if (dashMatch) {
       const year = parseInt(dashMatch[1], 10);
       const month = parseInt(dashMatch[2], 10) - 1;
