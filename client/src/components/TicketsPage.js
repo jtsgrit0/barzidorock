@@ -199,10 +199,10 @@ const TicketsPage = () => {
     .sort((a, b) => {
       const dateA = parseEventDate(a.date);
       const dateB = parseEventDate(b.date);
-      // 날짜를 파싱할 수 없는 이벤트는 뒤로 보내고, 파싱된 이벤트는 내림차순 정렬 (최신 날짜가 위에 오도록)
+      // 오름차순: 가장 빠른 날짜가 위에 오도록 (빠른 날짜 → 늦은 날짜 순)
       if (!dateA) return 1;
       if (!dateB) return -1;
-      return dateB - dateA;
+      return dateA - dateB;
     });
   
   console.log('🎯 최종 렌더링할 이벤트:', allEvents.length, '개');
@@ -214,11 +214,6 @@ const TicketsPage = () => {
 
   return (
     <div className="tickets-page-container">
-      <div className="tickets-page-header">
-        <h1>{t('tickets.title', '공연 예매')}</h1>
-        <p className="tickets-subtitle">{t('tickets.subtitle', '현재 예매 가능한 롤링홀 공연들을 확인하세요')}</p>
-      </div>
-      
       <div className="events-grid">
         {allEvents.map((event) => (
           <div key={event.id} className="event-card">
