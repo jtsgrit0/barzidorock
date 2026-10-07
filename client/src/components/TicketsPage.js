@@ -12,9 +12,10 @@ const normalizeEvent = (event, index = 0) => {
     ? event.title.trim()
     : 'Rolling Hall';
   const date = typeof event?.date === 'string' ? event.date.trim() : '';
-  const image = typeof event?.image === 'string' && event.image.trim()
+  const rawImage = typeof event?.image === 'string' && event.image.trim()
     ? event.image.trim()
     : `https://picsum.photos/400/300?random=${index + 1}`;
+  const cleanImage = rawImage.replace(/`/g, '').trim();
   const rawTicketUrl = typeof event?.ticketUrl === 'string' ? event.ticketUrl.trim() : '';
   // 문자열에 포함된 모든 백틱 제거 (모바일 호환성)
   const cleanTicketUrl = rawTicketUrl.replace(/`/g, '').trim();
@@ -25,7 +26,7 @@ const normalizeEvent = (event, index = 0) => {
     id: event?.id ?? `rh-${index + 1}`,
     title,
     date,
-    image,
+    image: cleanImage,
     ticketUrl,
   };
 };

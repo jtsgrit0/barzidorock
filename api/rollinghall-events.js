@@ -118,13 +118,18 @@ module.exports = async (req, res) => {
           debugMessages.push(`Failed to fetch detail page for event ${i}: ${error.message}`);
         }
 
+        // 모든 URL에서 백틱 제거 (클라이언트 호환성)
+        const cleanImage = (finalImage || `https://picsum.photos/400/300?random=${allEvents.length + 1}`).replace(/`/g, '');
+        const cleanTicketUrl = (ticketUrl || 'https://www.rollinghall.co.kr').replace(/`/g, '');
+        const cleanDetailLink = fullDetailLink.replace(/`/g, '');
+        
         allEvents.push({
           id: `rh-${allEvents.length + 1}`,
           title,
           date,
-          image: finalImage || `https://picsum.photos/400/300?random=${allEvents.length + 1}`,
-          ticketUrl: ticketUrl || 'https://www.rollinghall.co.kr',
-          detailLink: fullDetailLink
+          image: cleanImage,
+          ticketUrl: cleanTicketUrl,
+          detailLink: cleanDetailLink
         });
       }
     }
