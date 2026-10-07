@@ -4,11 +4,8 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 const CACHE_KEY = 'rollinghall_events_cache';
-// 모바일/프로덕션 환경에서는 항상 vercel 서버만 사용, 로컬에서만 localhost:3001 사용
-const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URLS = isLocalhost 
-  ? [process.env.REACT_APP_API_URL || 'http://localhost:3001', 'https://barzidorock.vercel.app']
-  : ['https://barzidorock.vercel.app'];
+// 어느 환경에서든 항상 프로덕션 API 서버만 사용 (모바일 호환성 위해)
+const API_BASE_URLS = ['https://barzidorock.vercel.app'];
 
 const normalizeEvent = (event, index = 0) => {
   const title = typeof event?.title === 'string' && event.title.trim()
@@ -54,7 +51,14 @@ const fetchRollingHallEvents = async () => {
     try {
       const fullUrl = `${baseUrl}/api/rollinghall-events`;
       console.log('🚀 API 요청 시도:', fullUrl);
-      const response = await fetch(fullUrl);
+      const response = await fetch(fullUrl, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
       console.log('✅ API 응답 받음:', fullUrl, '상태코드:', response.status);
       
       if (!response.ok) {
@@ -108,6 +112,19 @@ const TicketsPage = () => {
               }
             } catch (err) {
               console.error('❌ 티켓 정보를 불러오지 못했습니다:', err);
+              // API 요청 실패시 기본 더미 이벤트라도 보여주기
+              const fallbackEvents = [
+                {
+                  id: 'fallback-1',
+                  title: '롤링홀 공연 정보',
+                  date: '2026년 10월 공연 준비중',
+                  image: 'https://picsum.photos/400/300?random=99',
+                  ticketUrl: 'https://www.rollinghall.co.kr'
+                }
+              ];
+              if (isActive) {
+                setEvents(fallbackEvents);
+              }
             }
       
       // 최소 로딩 시간을 보장하도록 지연 후 로딩 종료
