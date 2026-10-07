@@ -138,9 +138,61 @@ const TicketsPage = () => {
     };
   }, [setLoading]);
 
-  // 모든 이벤트를 그대로 보여주도록 수정 (날짜 필터링 제거 - 모바일 호환성)
+  // 날짜 문자열을 Date 객체로 파싱하는 함수 (다양한 한글 날짜 형식 지원)
+  const parseEventDate = (dateStr) => {
+    if (!dateStr || typeof dateStr !== 'string') return null;
+    
+    // 다양한 한글 날짜 형식 파싱: "2026년 10월 15일", "2026.10.15", "2026-10-15" 등
+    const koreanMatch = dateStr.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
+    if (koreanMatch) {
+      const year = parseInt(koreanMatch[1], 10);
+      const month = parseInt(koreanMatch[2], 10) - 1; // JavaScript Date는 0부터 시작
+      const day = parseInt(koreanMatch[3], 10);
+      return new Date(year, month, day);
+    }
+    
+    // 점으로 구분된 형식: "2026.10.15"
+    const dotMatch = dateStr.match(/(\d{4})\.(\d{1,2})\.(\d{1,2})/);
+    if (dotMatch) {
+      const year = parseInt(dotMatch[1], 10);
+      const month = parseInt(dotMatch[2], 10) - 1;
+      const day = parseInt(dotMatch[3], 10);
+      return new Date(year, month, day);
+    }
+    
+    // 대시로 구분된 형식: "2026-10-15"
+    const dashMatch = dateStr.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if (dashMatch) {
+      const year = parseInt(dashMatch[1], 10);
+      const month = parseInt(dashMatch[2], 10) - 1;
+      const day = parseInt(dashMatch[3], 10);
+      return new Date(year, month, day);
+    }
+    
+    return null;
+  };
+
+  // 오늘 날짜 (시간을 00:00으로 설정해서 당일 공연도 포함)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // 모든 이벤트를 정규화한 후, 오늘 이후의 공연만 필터링
   const allEvents = (Array.isArray(events) ? events : [])
-    .map((event, index) => normalizeEvent(event, index));
+    .map((event, index) => normalizeEvent(event, index))
+    .filter(event => {
+      const eventDate = parseEventDate(event.date);
+      // 날짜를 파싱할 수 없는 경우도 일단 보여주기 (안전장치)
+      if (!eventDate) {
+        console.log('⚠️ 날짜 파싱 실패, 표시함:', event.title, event.date);
+        return true;
+      }
+      // 오늘 이후의 공연만 표시
+      const isFutureOrToday = eventDate >= today;
+      if (!isFutureOrToday) {
+        console.log('⏮️ 지난 공연 제외:', event.title, event.date);
+      }
+      return isFutureOrToday;
+    });
   
   console.log('🎯 최종 렌더링할 이벤트:', allEvents.length, '개');
 
