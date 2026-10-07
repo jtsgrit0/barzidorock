@@ -195,6 +195,14 @@ const TicketsPage = () => {
         console.log('⏮️ 지난 공연 제외:', event.title, event.date);
       }
       return isFutureOrToday;
+    })
+    .sort((a, b) => {
+      const dateA = parseEventDate(a.date);
+      const dateB = parseEventDate(b.date);
+      // 날짜를 파싱할 수 없는 이벤트는 뒤로 보내고, 파싱된 이벤트는 내림차순 정렬 (최신 날짜가 위에 오도록)
+      if (!dateA) return 1;
+      if (!dateB) return -1;
+      return dateB - dateA;
     });
   
   console.log('🎯 최종 렌더링할 이벤트:', allEvents.length, '개');
