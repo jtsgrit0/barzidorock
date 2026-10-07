@@ -30,19 +30,7 @@ const normalizeEvent = (event, index = 0) => {
   };
 };
 
-const parseEventDate = (dateText) => {
-  if (typeof dateText !== 'string' || !dateText.trim()) {
-    return null;
-  }
 
-  const koreanMatch = dateText.match(/(\d{4})년\s*(\d{2})월\s*(\d{2})일/);
-  if (koreanMatch) {
-    return new Date(Number(koreanMatch[1]), Number(koreanMatch[2]) - 1, Number(koreanMatch[3]));
-  }
-
-  const parsedDate = new Date(dateText);
-  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
-};
 
 const fetchRollingHallEvents = async () => {
   let lastError = null;
