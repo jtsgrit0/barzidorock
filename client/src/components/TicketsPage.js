@@ -4,21 +4,24 @@ import './TicketsPage.css';
 import { useTranslation } from 'react-i18next';
 
 const CACHE_KEY = 'rollinghall_events_cache';
-// 어느 환경에서든 항상 프로덕션 API 서버만 사용 (모바일 호환성 위해)
-const API_BASE_URLS = ['https://barzidorock.vercel.app'];
+// 어느 환경에서든 항상 프로덕션 API 서버만 사용 (모바일 호환성 위해) - 절대 백틱 없음!
+const API_BASE_URLS = ["https://barzidorock.vercel.app"];
+
+// 모든 문자열 필드에서 백틱을 철저히 제거하는 전역 유틸리티 함수
+const cleanStr = (str) => {
+  if (typeof str !== 'string') return str;
+  // 백틱을 두 번 제거해서 어떤 경우에도 남지 않도록
+  return str.replace(/`/g, '').replace(/`/g, '').trim();
+};
 
 const normalizeEvent = (event, index = 0) => {
-  const title = typeof event?.title === 'string' && event.title.trim()
-    ? event.title.trim()
-    : 'Rolling Hall';
-  const date = typeof event?.date === 'string' ? event.date.trim() : '';
-  const rawImage = typeof event?.image === 'string' && event.image.trim()
-    ? event.image.trim()
-    : 'https://picsum.photos/400/300?random=' + (index + 1);
-  const cleanImage = rawImage.replace(/`/g, '').trim();
-  const rawTicketUrl = typeof event?.ticketUrl === 'string' ? event.ticketUrl.trim() : '';
-  // 문자열에 포함된 모든 백틱 제거 (모바일 호환성)
-  const cleanTicketUrl = rawTicketUrl.replace(/`/g, '').trim();
+
+  const title = cleanStr(event?.title) || 'Rolling Hall';
+  const date = cleanStr(event?.date) || '';
+  const rawImage = cleanStr(event?.image) || 'https://picsum.photos/400/300?random=' + (index + 1);
+  const cleanImage = cleanStr(rawImage); // 한번 더 제거
+  const rawTicketUrl = cleanStr(event?.ticketUrl) || '';
+  const cleanTicketUrl = cleanStr(rawTicketUrl);
   const ticketUrl = cleanTicketUrl || 'https://www.rollinghall.co.kr';
 
   return {
@@ -31,19 +34,19 @@ const normalizeEvent = (event, index = 0) => {
   };
 };
 
-
-
 const fetchRollingHallEvents = async () => {
   let lastError = null;
-  console.log('🔍 API_BASE_URLS:', API_BASE_URLS);
+  // API_BASE_URLS를 완전히 클린하게 만들어서 사용 (어떤 불순물도 제거)
+  const cleanApiUrls = API_BASE_URLS.map(url => cleanStr(url));
+  console.log('🔍 API_BASE_URLS:', cleanApiUrls);
   console.log('🔍 현재 호스트:', window.location.hostname);
 
-  for (const baseUrl of API_BASE_URLS) {
+  for (const baseUrl of cleanApiUrls) {
     try {
-      // baseUrl에서 백틱 제거 (모바일 호환성)
-          const cleanBaseUrl = baseUrl.replace(/`/g, '');
-          const fullUrl = cleanBaseUrl + '/api/rollinghall-events';
-          console.log('🚀 API 요청 시도:', fullUrl);
+      // baseUrl에서 절대 백틱이 남지 않도록 마지막으로 클리닝
+      const finalBaseUrl = cleanStr(baseUrl);
+      const fullUrl = finalBaseUrl + '/api/rollinghall-events';
+      console.log('🚀 API 요청 시도:', fullUrl);
       const response = await fetch(fullUrl, {
         method: 'GET',
         mode: 'cors',
@@ -160,7 +163,7 @@ const TicketsPage = () => {
       return new Date(year, month, day);
     }
     
-    // 대시로 구분된 형식: "2026-10-15"
+    // 대시로 구분된 형식: "2026-10-15" 또는 "2026- 10- 15"
     const dashMatch = dateStr.match(/(\d{4})-\s*(\d{1,2})-\s*(\d{1,2})/);
     if (dashMatch) {
       const year = parseInt(dashMatch[1], 10);
@@ -196,26 +199,50 @@ const TicketsPage = () => {
   
   console.log('🎯 최종 렌더링할 이벤트:', allEvents.length, '개');
 
+  const handleImageError = (e, imageUrl) => {
+    console.error('이미지 로드 오류:', e, imageUrl);
+    e.target.src = 'https://picsum.photos/400/300?random=' + Math.random();
+  };
+
   return (
     <div className="tickets-page-container">
-      <div className="event-list">
-        {allEvents.length > 0 ? (
-          allEvents.map(event => (
-            <div className="event-card" key={event.id}>
-              <img src={event.image} alt={event.title} className="event-image" crossorigin="anonymous" loading="lazy" onError={(e) => console.error('이미지 로드 오류:', e, event.image)} />
-              <div className="event-info">
-                <h2 className="event-title">{event.title}</h2>
-                <p className="event-date">{event.date}</p>
-                <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer" className="ticket-button">
-                  {t('ticketsPage.buyTickets', '예매하기')}
-                </a>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>{t('ticketsPage.noTicketsAvailable', '현재 예매 가능한 공연이 없습니다.')}</p>
-        )}
+      <div className="tickets-page-header">
+        <h1>{t('tickets.title', '공연 예매')}</h1>
+        <p className="tickets-subtitle">{t('tickets.subtitle', '현재 예매 가능한 롤링홀 공연들을 확인하세요')}</p>
       </div>
+      
+      <div className="events-grid">
+        {allEvents.map((event) => (
+          <div key={event.id} className="event-card">
+            <div className="event-image-container">
+              <img 
+                src={event.image} 
+                alt={event.title}
+                className="event-image"
+                onError={(e) => handleImageError(e, event.image)}
+              />
+            </div>
+            <div className="event-info">
+              <h3 className="event-title">{event.title}</h3>
+              <p className="event-date">{event.date}</p>
+              <a 
+                href={event.ticketUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="ticket-button"
+              >
+                {t('tickets.bookNow', '예매하기')}
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {allEvents.length === 0 && (
+        <div className="no-events-container">
+          <p className="no-events-text">{t('tickets.noEvents', '현재 예매 가능한 공연이 없습니다')}</p>
+        </div>
+      )}
     </div>
   );
 };
